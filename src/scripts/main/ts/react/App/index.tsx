@@ -6,11 +6,13 @@ import Sidebar from '../components/Sidebar';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <Header />
-      <Sidebar />
-      <Main />
-      <Footer />
+    <div className='timer'>
+      <div className="timer__wrapper">
+        <Header />
+        <Sidebar />
+        <Main />
+        <Footer />
+      </div>
     </div>
   );
 };

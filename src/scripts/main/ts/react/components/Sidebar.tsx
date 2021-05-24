@@ -2,7 +2,7 @@ import React from 'react';
 
 const Sidebar: React.FC = () => {
   return (
-    <aside>
+    <aside className="sidebar">
       <p>Left menu</p>
       <ul>
         <li>One</li>

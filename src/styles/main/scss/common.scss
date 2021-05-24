@@ -1,0 +1,19 @@
+.main {
+  grid-area: main;
+  border: 1px solid salmon;
+}
+
+.header {
+  grid-area: header;
+  border: 1px solid salmon;
+}
+
+.sidebar {
+  grid-area: aside;
+  border: 1px solid salmon;
+}
+
+.footer {
+  grid-area: footer;
+  border: 1px solid salmon;
+}

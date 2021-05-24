@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header: React.FC = () => {
   return (
-    <header>
+  <header className="header">
       <input type='text' placeholder='name' value='Проект номер 1' />
 
       <div>

@@ -1,0 +1,12 @@
+.timer {
+  &__wrapper {
+    display: grid;
+    grid-template-areas: 
+    "aside header"
+    "aside main"
+    "footer footer";
+    grid-template-columns: 180px 1fr;
+    grid-template-rows: 65px 1fr 30px;
+    min-height: 100vh;
+  }
+}

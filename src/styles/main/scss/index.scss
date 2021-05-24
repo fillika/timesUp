@@ -1,14 +1,15 @@
-// @import './variables';
-// @import './mixins';
-// @import './common';
+@import './variables';
+@import './mixins';
+@import './common';
+@import './blocks/timer';
 
-// * {
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: border-box;
-// }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-// img,
-// svg {
-//   width: 100%;
-// }
+img,
+svg {
+  width: 100%;
+}
