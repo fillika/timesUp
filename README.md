@@ -1,2 +1,2 @@
 # timesUp
-App for time tracking. React, Typescript, Node JS, mongodb
+App for time tracking. React, Typescript.
