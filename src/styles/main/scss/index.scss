@@ -1,15 +1,22 @@
 @import './variables';
 @import './mixins';
 @import './common';
-@import './blocks/timer';
+@import './blocks/index';
+
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 img,
 svg {
   width: 100%;
+}
+
+
+li {
+    list-style-type: none;
 }

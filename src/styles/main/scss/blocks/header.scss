@@ -1,0 +1,45 @@
+.header {
+  grid-area: header;
+  position: relative;
+  border: 2px solid $color-main-dark;
+
+  &__input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding-left: 20px;
+  }
+
+  &__input-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__panel {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__button {
+    background-color: none;
+    border: none;
+    cursor: pointer;
+    transition: 300ms ease-in background-color;
+
+    &--play {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+    }
+
+    &:hover {
+        background-color: slateblue;
+        transition: 125ms ease-in background-color;
+    }
+  }
+}

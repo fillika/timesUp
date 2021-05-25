@@ -2,11 +2,15 @@ import React from 'react';
 
 const Header: React.FC = () => {
   return (
-  <header className="header">
-      <input type='text' placeholder='name' value='Проект номер 1' />
+    <header className='header'>
+      <div className='header__input-wrapper'>
+        <input className='header__input' type='text' placeholder='Введите название проекта' />
+      </div>
 
-      <div>
-        <button>Start/Stop</button>
+      <div className="header__panel">
+        <div className='header__button-wrapper'>
+          <button className="header__button header__button--play">Start/Stop</button>
+        </div>
       </div>
     </header>
   );
