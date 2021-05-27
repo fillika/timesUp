@@ -1,13 +1,21 @@
 .header {
   grid-area: header;
   position: relative;
-  border: 2px solid $color-main-dark;
+  border-bottom: 1px solid $color-main-dark;
 
   &__input {
     width: 100%;
     height: 100%;
     border: none;
     padding-left: 20px;
+    font-size: 20px;
+    transition: 250ms ease box-shadow;
+
+    &:focus {
+        outline: none;
+        box-shadow: inset 0 0 7px 1px #2c1338;
+        transition: 110ms ease box-shadow;
+    }
   }
 
   &__input-wrapper {

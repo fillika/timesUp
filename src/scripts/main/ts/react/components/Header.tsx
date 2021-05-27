@@ -4,7 +4,7 @@ const Header: React.FC = () => {
   return (
     <header className='header'>
       <div className='header__input-wrapper'>
-        <input className='header__input' type='text' placeholder='Введите название проекта' />
+        <input className='header__input' type='text' placeholder='Напишите задачу' />
       </div>
 
       <div className="header__panel">
