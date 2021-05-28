@@ -7,8 +7,8 @@ const Main: React.FC = () => {
   return (
     <main className='main'>
       <ul className='task-list'>
-        {data.map(tasks => (
-          <Task tasks={tasks} />
+        {data.map((tasks, index) => (
+          <Task tasks={tasks} key={index} />
         ))}
       </ul>
     </main>
