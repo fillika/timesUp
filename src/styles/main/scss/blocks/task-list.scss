@@ -1,17 +1,5 @@
 .task-list {
   &__task  {
-      display: flex;
-      align-items: center;
-      height: 50px;
-      padding-left: 20px;
       border-bottom: 1px solid $color-main-dark;
-      transition: 350ms ease-in background-color;
-
-      &:hover {
-          color: #fff;
-          background-color: $color-main-dark;
-          transition: 125ms ease-in background-color;
-          cursor: pointer;
-      }
   }  
 }
