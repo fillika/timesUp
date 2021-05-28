@@ -1,15 +1,18 @@
 import React, { useState, ChangeEvent } from 'react';
 import SubTasks from './SubtTasks';
 
-const Task: React.FC = () => {
-  const [isActive, setActive] = useState(false);
-  const [value, setValue] = useState('Таск родитель (заголовок)');
+type TaskType = {
+  tasks: string[];
+};
 
-  // TODO: Получить список задач как child
-  const childrens = ['Привет Андрей', 'Привет Андрей', 'Привет Андрей', 'Привет Андрей', 'Привет Андрей'];
-  const $counter = childrens.length !== 0 && (
+const Task: React.FC<TaskType> = ({ tasks }) => {
+  const [initName] = tasks;
+  const [isActive, setActive] = useState(false);
+  const [value, setValue] = useState(initName);
+
+  const $counter = tasks.length > 1 && (
     <div className='task__counter' onClick={() => setActive(!isActive)}>
-      {childrens.length}
+      {tasks.length}
     </div>
   );
 
@@ -26,7 +29,7 @@ const Task: React.FC = () => {
         </div>
       </div>
 
-      {isActive && <SubTasks subTasks={childrens} />}
+      {isActive && <SubTasks subTasks={tasks} />}
     </li>
   );
 };
