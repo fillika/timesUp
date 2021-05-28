@@ -1,28 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
+import SubTasks from './SubtTasks';
 
 const Task: React.FC = () => {
   const [isActive, setActive] = useState(false);
-  const childs = ['Привет Андрей', 'Привет Андрей', 'Привет Андрей', 'Привет Андрей', 'Привет Андрей'];
+  const [value, setValue] = useState('Таск родитель (заголовок)');
+
+  // TODO: Получить список задач как child
+  const childrens = ['Привет Андрей', 'Привет Андрей', 'Привет Андрей', 'Привет Андрей', 'Привет Андрей'];
+  const $counter = childrens.length !== 0 && (
+    <div className='task__counter' onClick={() => setActive(!isActive)}>
+      {childrens.length}
+    </div>
+  );
 
   return (
     <li className='task-list__task'>
       <div className='task task--parent'>
-        {childs.length !== 0 && (
-          <div className='task__counter' onClick={() => setActive(!isActive)}>
-            {childs.length}
-          </div>
-        )}
-        Имя таска (родитель)
+        {$counter}
+        <div>
+          <input
+            onChange={(event: ChangeEvent<HTMLInputElement>) => setValue(event?.target.value)}
+            type='text'
+            value={value}
+          />
+        </div>
       </div>
 
-      {isActive ? (
-        <div>
-          <div className='task task--child'>Имя таска (ребенок)</div>
-          <div className='task task--child'>Имя таска (ребенок)</div>
-          <div className='task task--child'>Имя таска (ребенок)</div>
-          <div className='task task--child'>Имя таска (ребенок)</div>
-        </div>
-      ) : null}
+      {isActive && <SubTasks subTasks={childrens} />}
     </li>
   );
 };

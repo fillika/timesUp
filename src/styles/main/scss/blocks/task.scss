@@ -35,6 +35,7 @@
     margin-right: var(--counter-margin-r);
     will-change: border-color;
     transition: 150ms border-color;
+    cursor: pointer;
 
     &:hover {
       border-color: lighten(purple, 0%);
@@ -50,7 +51,14 @@
     color: #fff;
     background-color: $color-main-dark;
     transition: 125ms ease-in background-color;
-    cursor: pointer;
+  }
+  
+  input {
+      background-color: transparent;
+      width: auto;
+      border: none;
+      outline: none;
+      color: inherit;
   }
 }
 

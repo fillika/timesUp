@@ -6,16 +6,9 @@ const Main: React.FC = () => {
     <main className='main'>
       <ul className='task-list'>
         <Task />
-
-        <li className='task-list__task'>
-          <div className='task task--parent'>Имя таска (родитель)</div>
-        </li>
-        <li className='task-list__task'>
-          <div className='task task--parent'>Имя таска (родитель)</div>
-        </li>
-        <li className='task-list__task'>
-          <div className='task task--parent'>Имя таска (родитель)</div>
-        </li>
+        <Task />
+        <Task />
+        <Task />
       </ul>
     </main>
   );
