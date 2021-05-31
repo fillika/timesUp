@@ -7,22 +7,48 @@ type TimeType = {
 
 type TaskType = {
   name: string;
+  time: TimeType;
 };
 
 type SubTasksType = {
-  name: string,
+  name: string;
   time: TimeType[];
+};
+
+type TimeComponent = {
+  from: number;
+  to: number;
 };
 
 /**
  * Локально в файле создал. Изолировал рендер внутри функции, чтобы не было проблем с оптимизацией
  */
-const Task: React.FC<TaskType> = ({ name }) => {
+
+const Time: React.FC<TimeComponent> = ({ from, to }) => {
+  return (
+    <div>
+      <span>{getTime(from)}</span>-<span>{getTime(to)}</span>
+    </div>
+  );
+
+  function getTime(num: number): string {
+    const hours = new Date(num).getHours();
+    const minutes = new Date(num).getMinutes();
+    const hoursResult = hours < 10 ? `0${hours}` : hours;
+    const minutesResult = minutes < 10 ? `0${minutes}` : minutes;
+    
+    return `${hoursResult}:${minutesResult}`;
+  }
+};
+
+const Task: React.FC<TaskType> = ({ name, time }) => {
   const [value, setValue] = useState(name);
+  const { from, to } = time;
 
   return (
     <div className='task task--child'>
       <input onChange={onChange} type='text' value={value} />
+      <Time from={from} to={to} />
     </div>
   );
 
@@ -34,8 +60,8 @@ const Task: React.FC<TaskType> = ({ name }) => {
 const SubTasks: React.FC<SubTasksType> = ({ name, time }) => {
   return (
     <>
-      {time.map((_, index) => (
-        <Task name={name} key={index} />
+      {time.map((time, index) => (
+        <Task name={name} key={index} time={time} />
       ))}
     </>
   );

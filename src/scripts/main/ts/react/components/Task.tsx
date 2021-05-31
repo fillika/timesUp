@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import SubTasks from './SubtTasks';
+import SubTasks from './SubTasks';
 
 type TimeType = {
   from: number;
