@@ -1,18 +1,24 @@
 import React, { ChangeEvent, useState } from 'react';
 
+type TimeType = {
+  from: number;
+  to: number;
+};
+
 type TaskType = {
-  text: string;
+  name: string;
 };
 
 type SubTasksType = {
-  subTasks: string[];
+  name: string,
+  time: TimeType[];
 };
 
 /**
  * Локально в файле создал. Изолировал рендер внутри функции, чтобы не было проблем с оптимизацией
  */
-const Task: React.FC<TaskType> = ({ text }) => {
-  const [value, setValue] = useState(text);
+const Task: React.FC<TaskType> = ({ name }) => {
+  const [value, setValue] = useState(name);
 
   return (
     <div className='task task--child'>
@@ -25,11 +31,11 @@ const Task: React.FC<TaskType> = ({ text }) => {
   }
 };
 
-const SubTasks: React.FC<SubTasksType> = ({ subTasks }) => {
+const SubTasks: React.FC<SubTasksType> = ({ name, time }) => {
   return (
     <>
-      {subTasks.map((text, index) => (
-        <Task text={text} key={index} />
+      {time.map((_, index) => (
+        <Task name={name} key={index} />
       ))}
     </>
   );
