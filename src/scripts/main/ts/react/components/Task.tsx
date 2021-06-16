@@ -3,8 +3,8 @@ import { TaskType } from '../../types/tasks';
 import SubTasks from './SubTasks';
 
 type TaskData = {
-  data: TaskType
-}
+  data: TaskType;
+};
 
 const Task: React.FC<TaskData> = ({ data }) => {
   const { name, time, _id } = data;
@@ -17,13 +17,19 @@ const Task: React.FC<TaskData> = ({ data }) => {
     </div>
   );
 
+  function onBlur(event: React.FocusEvent<HTMLInputElement>) {
+    console.log(event.target.value);
+    console.log("Task _id:", _id);
+  }
+
   return (
-    <li className='task-list__task' data-task-id={_id}>
+    <li className='task-list__task'>
       <div className='task task--parent'>
         {$counter}
         <div className='task__input-wrapper'>
           <input
             onChange={(event: ChangeEvent<HTMLInputElement>) => setValue(event?.target.value)}
+            onBlur={onBlur}
             type='text'
             value={value}
           />

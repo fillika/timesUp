@@ -1,16 +1,19 @@
 import React, { ChangeEvent, FocusEvent, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { TaskType } from '../../types/tasks';
+import { RootState } from './../../store/index';
 
 type TimeType = {
   from: number;
   to: number;
 };
 
-type TaskType = {
+type Task = {
   name: string;
   time: TimeType;
 };
 
-type SubTasksType = {
+type SubTask = {
   name: string;
   time: TimeType[];
 };
@@ -27,7 +30,7 @@ type TimeComponent = {
 const Time: React.FC<TimeComponent> = ({ from, to }) => {
   return (
     <div>
-      <span>{getTime(from)}</span>-<span>{getTime(to)}</span>
+      <span>{getTime(from)}</span>&nbsp;-&nbsp;<span>{getTime(to)}</span>
     </div>
   );
 
@@ -41,7 +44,11 @@ const Time: React.FC<TimeComponent> = ({ from, to }) => {
   }
 };
 
-const Task: React.FC<TaskType> = ({ name, time }) => {
+const Task: React.FC<Task> = ({ name, time }) => {
+  // TODO понять, с каким таском мы работаем, возможно хранить его где-то в локальном стейте или редаксе
+  // TODO или передавать сюда
+  const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
+  const dispatch = useDispatch();
   const [value, setValue] = useState(name);
   const { from, to } = time;
 
@@ -57,11 +64,27 @@ const Task: React.FC<TaskType> = ({ name, time }) => {
   }
 
   function onBlur(event: FocusEvent<HTMLInputElement>) {
-    console.log(event.target.value);
+    const val = event.target.value;
+    const taskArrCopy: TaskType[] = [...taskArr];
+    // SORT task arr
+    const currentTask = taskArrCopy.find(task => task.name === name);
+    setValue(val);
+
+    if (currentTask) {
+      const timeArr = currentTask.time; // Нашел текущий таск, в котором работаю
+
+      if (val !== name) {
+        const filteredTime = timeArr.filter(timeObj => timeObj.from !== from); // Убрал из массива со временем таск
+
+        currentTask.time = filteredTime;
+        console.log('filteredTime', taskArrCopy);
+        dispatch({ type: 'UPDATE_TASK', payload: taskArrCopy }); // Меняю state
+      }
+    }
   }
 };
 
-const SubTasks: React.FC<SubTasksType> = ({ name, time }) => {
+const SubTasks: React.FC<SubTask> = ({ name, time }) => {
   return (
     <>
       {time.map((time, index) => (

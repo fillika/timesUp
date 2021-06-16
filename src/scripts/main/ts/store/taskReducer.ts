@@ -16,10 +16,17 @@ const initialState: TaskState = {
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
     case 'ADD_TASKS':
-      return (state = {
+      return {
         ...state,
         taskArr: action.payload,
-      });
+      };
+
+    case 'UPDATE_TASK': {
+      return {
+        ...state,
+        taskArr: action.payload,
+      };
+    }
     default:
       return state;
   }
