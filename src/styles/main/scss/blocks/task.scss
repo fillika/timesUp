@@ -6,6 +6,7 @@
   align-items: center;
   height: 50px;
   padding-left: var(--padding-left);
+  padding-right: var(--padding-left);
   transition: 350ms ease-in background-color;
 
   &--parent {

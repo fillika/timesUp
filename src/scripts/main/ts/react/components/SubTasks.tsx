@@ -88,7 +88,7 @@ const SubTasks: React.FC<SubTask> = ({ name, time }) => {
   return (
     <>
       {time.map((time, index) => (
-        <Task name={name} key={index} time={time} />
+        <Task name={name} key={index + time.from} time={time} />
       ))}
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './../../store/index';
-import Task from './Task';
+import Task from './Task/Task';
 
 const Main: React.FC = () => {
   const dispatch = useDispatch();

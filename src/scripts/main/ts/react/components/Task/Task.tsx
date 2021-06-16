@@ -1,25 +1,25 @@
-import React, { useState, ChangeEvent } from 'react';
-import { TaskType } from '../../types/tasks';
-import SubTasks from './SubTasks';
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { TaskType } from '../../../types/tasks';
+import SubTasks from '../SubTasks';
+import { countTotalTime } from './../../../utils/tasks/index';
 
 type TaskData = {
   data: TaskType;
 };
 
 const Task: React.FC<TaskData> = ({ data }) => {
-  const { name, time, _id } = data;
   const [isActive, setActive] = useState(false);
-  const [value, setValue] = useState(name);
+  const [task, setTask] = useState(data);
+  const [value, setValue] = useState(task.name);
 
-  const $counter = time.length > 1 && (
+  const $counter = task.time.length > 1 && (
     <div className='task__counter' onClick={() => setActive(!isActive)}>
-      {time.length}
+      {task.time.length}
     </div>
   );
 
   function onBlur(event: React.FocusEvent<HTMLInputElement>) {
     console.log(event.target.value);
-    console.log("Task _id:", _id);
   }
 
   return (
@@ -34,9 +34,12 @@ const Task: React.FC<TaskData> = ({ data }) => {
             value={value}
           />
         </div>
+        <div>
+          <span>{countTotalTime(task.time)}</span>
+        </div>
       </div>
 
-      {isActive && <SubTasks name={name} time={time} />}
+      {isActive && task.time.length > 1 && <SubTasks name={task.name} time={task.time} />}
     </li>
   );
 };
