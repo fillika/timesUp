@@ -1,20 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
+import { TaskType } from '../../types/tasks';
 import SubTasks from './SubTasks';
 
-type TimeType = {
-  from: number;
-  to: number;
-};
+type TaskData = {
+  data: TaskType
+}
 
-type TaskType = {
-  tasks: {
-    name: string;
-    time: TimeType[];
-  };
-};
-
-const Task: React.FC<TaskType> = ({ tasks }) => {
-  const { name, time } = tasks;
+const Task: React.FC<TaskData> = ({ data }) => {
+  const { name, time, _id } = data;
   const [isActive, setActive] = useState(false);
   const [value, setValue] = useState(name);
 
@@ -25,10 +18,10 @@ const Task: React.FC<TaskType> = ({ tasks }) => {
   );
 
   return (
-    <li className='task-list__task'>
+    <li className='task-list__task' data-task-id={_id}>
       <div className='task task--parent'>
         {$counter}
-        <div className="task__input-wrapper">
+        <div className='task__input-wrapper'>
           <input
             onChange={(event: ChangeEvent<HTMLInputElement>) => setValue(event?.target.value)}
             type='text'

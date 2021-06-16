@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './../../store/index';
 import Task from './Task';
 
 const Main: React.FC = () => {
-  const [taskArr, setTasks] = useState([]);
+  const dispatch = useDispatch();
+  const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
+
   const url = 'http://localhost:22222/api/v1/tasks';
 
   useEffect(() => {
     const result = async () => {
       try {
         const response = await getData(url);
-        setTasks(response.data.tasks);
+        dispatch({ type: 'ADD_TASKS', payload: response.data.tasks });
       } catch (error) {
         console.error(error);
       }
@@ -21,8 +25,8 @@ const Main: React.FC = () => {
   return (
     <main className='main'>
       <ul className='task-list'>
-        {taskArr.map((tasks, index) => (
-          <Task tasks={tasks} key={index} />
+        {taskArr.map((task, index) => (
+          <Task data={task} key={index} />
         ))}
       </ul>
     </main>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, useState } from 'react';
 
 type TimeType = {
   from: number;
@@ -36,7 +36,7 @@ const Time: React.FC<TimeComponent> = ({ from, to }) => {
     const minutes = new Date(num).getMinutes();
     const hoursResult = hours < 10 ? `0${hours}` : hours;
     const minutesResult = minutes < 10 ? `0${minutes}` : minutes;
-    
+
     return `${hoursResult}:${minutesResult}`;
   }
 };
@@ -47,13 +47,17 @@ const Task: React.FC<TaskType> = ({ name, time }) => {
 
   return (
     <div className='task task--child'>
-      <input onChange={onChange} type='text' value={value} />
+      <input onChange={onChange} onBlur={onBlur} type='text' value={value} />
       <Time from={from} to={to} />
     </div>
   );
 
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
+  }
+
+  function onBlur(event: FocusEvent<HTMLInputElement>) {
+    console.log(event.target.value);
   }
 };
 

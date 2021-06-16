@@ -1,37 +1,16 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { taskReducer, TaskState } from './taskReducer';
+import thunk from 'redux-thunk';
 
-export type TState = {
-  count: number
+export interface RootState {
+  tasks: TaskState
 }
 
-type TAction = {
-  type: string,
-  value?: number
-}
+const rootReducer = combineReducers({
+  tasks: taskReducer,
+});
 
-const initialState: TState = {
-  count: 0,
-};
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
-function reducer(state: TState = initialState, action:TAction): any {
-  switch (action.type) {
-    case 'PLUS':
-      return state = {
-        ...state,
-        count: state.count + 1
-      };
-    case 'MINUS':
-      return state = {
-        ...state,
-        count: state.count - 1
-      };
-    default:
-      return state;
-  }
-}
-
-const store = createStore(
-  reducer,
-  (<any>window).__REDUX_DEVTOOLS_EXTENSION__ && (<any>window).__REDUX_DEVTOOLS_EXTENSION__());
-
-export default store;
+export { store };
