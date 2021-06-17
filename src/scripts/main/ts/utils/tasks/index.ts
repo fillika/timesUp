@@ -8,24 +8,29 @@ type Time = {
 
 export function countTotalTime(timeArr: TimeType[]): string {
   let result = 0;
+
+  timeArr.forEach(timeObj => {
+    result += new Date(timeObj.to).getTime() - new Date(timeObj.from).getTime();
+  });
+
+  return convertToStringFormat(createTimeObj(result));
+}
+
+export function createTimeObj(result: number): Time {
   const time: Time = {
     hours: 0,
     minutes: 0,
     seconds: 0,
   };
 
-  timeArr.forEach(timeObj => {
-    result += new Date(timeObj.to).getTime() - new Date(timeObj.from).getTime();
-  });
-
   time.seconds = Math.floor(result / 1000) % 60;
   time.minutes = Math.floor(result / 1000 / 60) % 60;
   time.hours = Math.floor(result / 1000 / 60 / 60);
 
-  return convertToStringFormat(time);
+  return time;
 }
 
-function convertToStringFormat(time: Time): string {
+export function convertToStringFormat(time: Time): string {
   if (time.seconds.toString().length === 1) {
     time.seconds = `0${time.seconds}`;
   }
