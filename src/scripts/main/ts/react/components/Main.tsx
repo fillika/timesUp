@@ -26,7 +26,7 @@ const Main: React.FC = () => {
     <main className='main'>
       <ul className='task-list'>
         {taskArr.map((task, index) => (
-          <Task data={task} key={index} />
+          <Task data={task} key={task._id} />
         ))}
       </ul>
     </main>

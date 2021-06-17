@@ -1,4 +1,6 @@
 .header-panel {
-  display: flex;
+  display: grid;
   align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 15px;
 }
