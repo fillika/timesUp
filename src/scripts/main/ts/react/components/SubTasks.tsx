@@ -1,12 +1,7 @@
 import React, { ChangeEvent, FocusEvent, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TaskType } from '../../types/tasks';
+import { TaskType, TimeType } from '../../types/tasks';
 import { RootState } from './../../store/index';
-
-type TimeType = {
-  from: number;
-  to: number;
-};
 
 type Task = {
   name: string;
@@ -50,12 +45,12 @@ const Task: React.FC<Task> = ({ name, time }) => {
   const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
   const dispatch = useDispatch();
   const [value, setValue] = useState(name);
-  const { from, to } = time;
+  const { start, end } = time;
 
   return (
     <div className='task task--child'>
       <input onChange={onChange} onBlur={onBlur} type='text' value={value} />
-      <Time from={from} to={to} />
+      <Time from={start} to={end} />
     </div>
   );
 
@@ -74,7 +69,7 @@ const Task: React.FC<Task> = ({ name, time }) => {
       const timeArr = currentTask.time; // Нашел текущий таск, в котором работаю
 
       if (val !== name) {
-        const filteredTime = timeArr.filter(timeObj => timeObj.from !== from); // Убрал из массива со временем таск
+        const filteredTime = timeArr.filter(timeObj => timeObj.start !== start); // Убрал из массива со временем таск
 
         currentTask.time = filteredTime;
         console.log('filteredTime', taskArrCopy);
@@ -87,8 +82,8 @@ const Task: React.FC<Task> = ({ name, time }) => {
 const SubTasks: React.FC<SubTask> = ({ name, time }) => {
   return (
     <>
-      {time.map((time, index) => (
-        <Task name={name} key={index + time.from} time={time} />
+      {time.map(time => (
+        <Task name={name} key={time._id} time={time} />
       ))}
     </>
   );

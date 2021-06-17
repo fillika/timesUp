@@ -5,6 +5,7 @@ export type TaskType = {
 };
 
 export type TimeType = {
-  from: number;
-  to: number;
+  _id: string;
+  start: number;
+  end: number;
 };

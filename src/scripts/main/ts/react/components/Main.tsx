@@ -20,12 +20,12 @@ const Main: React.FC = () => {
     };
 
     result();
-  }, []);
+  }, [taskArr]);
 
   return (
     <main className='main'>
       <ul className='task-list'>
-        {taskArr.map((task, index) => (
+        {taskArr.map(task => (
           <Task data={task} key={task._id} />
         ))}
       </ul>
@@ -35,14 +35,7 @@ const Main: React.FC = () => {
 
 export default Main;
 
-async function getData(url: string, data = {}): Promise<any> {
-  // const headers: RequestInit = {
-  //   method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(data), // body data type must match "Content-Type" header
-  // };
+async function getData(url: string): Promise<any> {
   const response = await fetch(url);
   return response.json();
 }

@@ -10,7 +10,7 @@ export function countTotalTime(timeArr: TimeType[]): string {
   let result = 0;
 
   timeArr.forEach(timeObj => {
-    result += new Date(timeObj.to).getTime() - new Date(timeObj.from).getTime();
+    result += new Date(timeObj.end).getTime() - new Date(timeObj.start).getTime();
   });
 
   return convertToStringFormat(createTimeObj(result));

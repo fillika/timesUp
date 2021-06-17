@@ -2,25 +2,32 @@ import React, { useEffect, useState, ChangeEvent } from 'react';
 import playBtn from 'Images/icons/play.svg';
 import stopBtn from 'Images/icons/stop-button.svg';
 import { convertToStringFormat, createTimeObj } from '../../utils/tasks';
+import { useDispatch, useSelector } from 'react-redux';
 
 type activeTask = {
   userID: string;
   name: string;
-  time: {
-    start: number;
-    end: number;
-  };
+  time: [
+    {
+      start: number;
+      end: number;
+    }
+  ];
 };
 
 const Header: React.FC = () => {
   const defaultTask: activeTask = {
     userID: '60c8be578a7a1e9f8c8edecb',
     name: '',
-    time: {
-      start: 0,
-      end: 0,
-    },
+    time: [
+      {
+        start: 0,
+        end: 0,
+      },
+    ],
   };
+
+  const dispatch = useDispatch();
 
   const [taskName, setTaskName] = useState('');
   const [isTimeStarted, setTimeStarted] = useState(false);
@@ -71,7 +78,7 @@ const Header: React.FC = () => {
       if (isTimeStarted) {
         return task;
       } else {
-        task.time.start = start;
+        task.time[0].start = start;
         task.name = taskName;
         return task;
       }
@@ -88,7 +95,26 @@ const Header: React.FC = () => {
     // Установка даты конца
     setTask(prev => {
       if (isTimeStarted) {
-        prev.time.end = endTime;
+        prev.time[0].end = endTime;
+
+        // TODO Отправка запроса в базу
+        const create = async () => {
+          try {
+            const result = await createTask('http://localhost:22222/api/v1/tasks', task);
+
+            if (result.status === 'success') {
+              console.log('Успех');
+              console.log(result.data.task);
+
+              dispatch({ type: 'UPDATE_TASK', payload: result.data.task });
+            } else {
+              // TODO обработать ошибку
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        create();
         return prev;
       }
       return prev;
@@ -102,16 +128,27 @@ const Header: React.FC = () => {
       }
     });
 
-    // TODO Отправка запроса в базу и очистка таска для новой задачи
+    setTaskName(prev => {
+      if (isTimeStarted) {
+        return '';
+      } else {
+        return prev;
+      }
+    });
+
+    // TODO Добавление таска в список тасков (dispatch)
+    // TODO Очистка таска для будущей задачи
   };
 
-  function onInput() {}
+  function onInput(event: ChangeEvent<HTMLInputElement>) {
+    setTaskName(event.target.value);
+  }
 
   return (
     <header className='header'>
       <div className='header__input-wrapper'>
         <input
-          onInput={(event: ChangeEvent<HTMLInputElement>) => setTaskName(event.target.value)}
+          onInput={onInput}
           value={taskName}
           className='header__input'
           placeholder='Create your task'
@@ -135,3 +172,17 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
+async function createTask(url: string, data = {}) {
+  // http://localhost:22222/api/v1/tasks
+  const headers: RequestInit = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  };
+
+  const response = await fetch(url, headers);
+  return response.json();
+}
