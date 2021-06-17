@@ -20,7 +20,7 @@ const Main: React.FC = () => {
     };
 
     result();
-  }, [taskArr]);
+  }, []);
 
   return (
     <main className='main'>
@@ -36,6 +36,10 @@ const Main: React.FC = () => {
 export default Main;
 
 async function getData(url: string): Promise<any> {
-  const response = await fetch(url);
-  return response.json();
+  try {
+    const response = await fetch(url);
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
 }

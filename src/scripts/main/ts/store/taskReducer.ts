@@ -22,12 +22,16 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
 
     case 'UPDATE_TASK': {
-      const newTaskArr = state.taskArr;
-      newTaskArr.push(action.payload);
-      
       return {
         ...state,
-        taskArr: newTaskArr,
+        taskArr: [...state.taskArr, action.payload],
+      };
+    }
+
+    case 'REPLACE_TASK': {
+      return {
+        ...state,
+        taskArr: action.payload,
       };
     }
     default:

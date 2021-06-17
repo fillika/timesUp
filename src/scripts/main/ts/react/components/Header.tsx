@@ -3,6 +3,7 @@ import playBtn from 'Images/icons/play.svg';
 import stopBtn from 'Images/icons/stop-button.svg';
 import { convertToStringFormat, createTimeObj } from '../../utils/tasks';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './../../store/index';
 
 type activeTask = {
   userID: string;
@@ -28,6 +29,7 @@ const Header: React.FC = () => {
   };
 
   const dispatch = useDispatch();
+  const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
 
   const [taskName, setTaskName] = useState('');
   const [isTimeStarted, setTimeStarted] = useState(false);
@@ -103,10 +105,22 @@ const Header: React.FC = () => {
             const result = await createTask('http://localhost:22222/api/v1/tasks', task);
 
             if (result.status === 'success') {
-              console.log('Успех');
-              console.log(result.data.task);
+              // TODO проверка на UPDATE
+              const isTaskExist = taskArr.find(el => result.data.task._id === el._id);
 
-              dispatch({ type: 'UPDATE_TASK', payload: result.data.task });
+              if (isTaskExist !== undefined) {
+                // Таск существует
+                const index = taskArr.indexOf(isTaskExist);
+                const newArr = taskArr.filter(el => el !== taskArr[index]);
+                newArr.push(result.data.task);
+
+
+                // * NOTE метод работает, но не срабатывает новый рендер. Скорее всего, потому что сам массив тасков не меняется
+                // TODO переписать рендер подтасков и в этом месте обновлять их, чтобы был ререндер 
+                dispatch({ type: 'REPLACE_TASK', payload: newArr });
+              } else {
+                dispatch({ type: 'UPDATE_TASK', payload: result.data.task });
+              }
             } else {
               // TODO обработать ошибку
             }
@@ -183,6 +197,10 @@ async function createTask(url: string, data = {}) {
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   };
 
-  const response = await fetch(url, headers);
-  return response.json();
+  try {
+    const response = await fetch(url, headers);
+    return response.json();
+  } catch (error) {
+    console.error(error);
+  }
 }

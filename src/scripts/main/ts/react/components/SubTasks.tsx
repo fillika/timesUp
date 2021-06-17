@@ -61,21 +61,11 @@ const Task: React.FC<Task> = ({ name, time }) => {
   function onBlur(event: FocusEvent<HTMLInputElement>) {
     const val = event.target.value;
     const taskArrCopy: TaskType[] = [...taskArr];
-    // SORT task arr
-    const currentTask = taskArrCopy.find(task => task.name === name);
     setValue(val);
 
-    if (currentTask) {
-      const timeArr = currentTask.time; // Нашел текущий таск, в котором работаю
 
-      if (val !== name) {
-        const filteredTime = timeArr.filter(timeObj => timeObj.start !== start); // Убрал из массива со временем таск
-
-        currentTask.time = filteredTime;
-        console.log('filteredTime', taskArrCopy);
-        dispatch({ type: 'UPDATE_TASK', payload: taskArrCopy }); // Меняю state
-      }
-    }
+    // TODO Фильтровать и обновлять таску если отличается name
+    // dispatch({ type: 'UPDATE_TASK', payload: taskArrCopy }); // Меняю state
   }
 };
 
