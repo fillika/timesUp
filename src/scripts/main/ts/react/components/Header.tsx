@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import playBtn from 'Images/icons/play.svg';
 import stopBtn from 'Images/icons/stop-button.svg';
 import { convertToStringFormat, createTimeObj } from '../../utils/tasks';
 
 type activeTask = {
+  userID: string;
+  name: string;
   time: {
     start: number;
     end: number;
@@ -12,12 +14,15 @@ type activeTask = {
 
 const Header: React.FC = () => {
   const defaultTask: activeTask = {
+    userID: '60c8be578a7a1e9f8c8edecb',
+    name: '',
     time: {
       start: 0,
       end: 0,
     },
   };
 
+  const [taskName, setTaskName] = useState('');
   const [isTimeStarted, setTimeStarted] = useState(false);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
@@ -33,6 +38,7 @@ const Header: React.FC = () => {
           return prev;
         }
       });
+
       setTotalTime(prev => {
         if (isTimeStarted) {
           return convertToStringFormat(createTimeObj(endTime - startTime));
@@ -49,35 +55,43 @@ const Header: React.FC = () => {
 
   const onClick = () => {
     setTimeStarted(!isTimeStarted);
+    const start = new Date().getTime();
+    const endTime = new Date().getTime();
 
+    // Установка даты начала
     setStartTime(() => {
       if (isTimeStarted) {
         return 0;
       } else {
-        const start = new Date().getTime();
-        const newTask = {
-          time: {
-            start: start,
-            end: task.time.end,
-          },
-        };
-
-        setTask(newTask);
         return start;
+      }
+    });
+
+    setTask(task => {
+      if (isTimeStarted) {
+        return task;
+      } else {
+        task.time.start = start;
+        task.name = taskName;
+        return task;
       }
     });
 
     setEndTime(prev => {
       if (isTimeStarted) {
-        setTask(prev => {
-          prev.time.end = endTime;
-          return prev;
-        });
-
         return 0;
       } else {
         return new Date().getTime();
       }
+    });
+
+    // Установка даты конца
+    setTask(prev => {
+      if (isTimeStarted) {
+        prev.time.end = endTime;
+        return prev;
+      }
+      return prev;
     });
 
     setTotalTime(prev => {
@@ -87,12 +101,23 @@ const Header: React.FC = () => {
         return prev;
       }
     });
+
+    // TODO Отправка запроса в базу и очистка таска для новой задачи
   };
+
+  function onInput() {}
 
   return (
     <header className='header'>
       <div className='header__input-wrapper'>
-        <input className='header__input' type='text' placeholder='Напишите задачу' />
+        <input
+          onInput={(event: ChangeEvent<HTMLInputElement>) => setTaskName(event.target.value)}
+          value={taskName}
+          className='header__input'
+          placeholder='Create your task'
+          type='text'
+          disabled={isTimeStarted}
+        />
       </div>
 
       <div className='header__panel header-panel'>
