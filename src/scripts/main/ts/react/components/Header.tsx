@@ -104,6 +104,7 @@ const Header: React.FC = () => {
           try {
             const result = await createTask('http://localhost:22222/api/v1/tasks', task);
 
+            // TODO Проверку на UPDATE проверять с помощью ответа от сервера, который будет присылать DELETE, UPDATE, CREATE etc
             if (result.status === 'success') {
               // TODO проверка на UPDATE
               const isTaskExist = taskArr.find(el => result.data.task._id === el._id);
