@@ -9,12 +9,11 @@ type TaskData = {
 
 const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
-  const [task, setTask] = useState(data);
-  const [value, setValue] = useState(task.name);
+  const [value, setValue] = useState(data.name);
 
-  const $counter = task.time.length > 1 && (
+  const $counter = data.time.length > 1 && (
     <div className='task__counter' onClick={() => setActive(!isActive)}>
-      {task.time.length}
+      {data.time.length}
     </div>
   );
 
@@ -35,11 +34,11 @@ const Task: React.FC<TaskData> = ({ data }) => {
           />
         </div>
         <div>
-          <span>{countTotalTime(task.time)}</span>
+          <span>{countTotalTime(data.time)}</span>
         </div>
       </div>
 
-      {isActive && task.time.length > 1 && <SubTasks name={task.name} time={task.time} />}
+      {isActive && data.time.length > 1 && <SubTasks name={data.name} time={data.time} />}
     </li>
   );
 };

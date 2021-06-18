@@ -110,13 +110,11 @@ const Header: React.FC = () => {
 
               if (isTaskExist !== undefined) {
                 // Таск существует
+                // TODO: возможно имеет смысл сначала сделать фильтр на фронте и если таск есть, узнать его ID и отправить PATCH метод
                 const index = taskArr.indexOf(isTaskExist);
                 const newArr = taskArr.filter(el => el !== taskArr[index]);
                 newArr.push(result.data.task);
 
-
-                // * NOTE метод работает, но не срабатывает новый рендер. Скорее всего, потому что сам массив тасков не меняется
-                // TODO переписать рендер подтасков и в этом месте обновлять их, чтобы был ререндер 
                 dispatch({ type: 'REPLACE_TASK', payload: newArr });
               } else {
                 dispatch({ type: 'UPDATE_TASK', payload: result.data.task });

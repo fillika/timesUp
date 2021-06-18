@@ -45,12 +45,11 @@ const Task: React.FC<Task> = ({ name, time }) => {
   const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
   const dispatch = useDispatch();
   const [value, setValue] = useState(name);
-  const { start, end } = time;
 
   return (
     <div className='task task--child'>
       <input onChange={onChange} onBlur={onBlur} type='text' value={value} />
-      <Time from={start} to={end} />
+      <Time from={time.start} to={time.end} />
     </div>
   );
 
@@ -60,7 +59,6 @@ const Task: React.FC<Task> = ({ name, time }) => {
 
   function onBlur(event: FocusEvent<HTMLInputElement>) {
     const val = event.target.value;
-    const taskArrCopy: TaskType[] = [...taskArr];
     setValue(val);
 
 
