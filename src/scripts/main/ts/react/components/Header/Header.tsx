@@ -1,9 +1,11 @@
 import React, { useEffect, useState, ChangeEvent } from 'react';
 import playBtn from 'Images/icons/play.svg';
 import stopBtn from 'Images/icons/stop-button.svg';
-import { convertToStringFormat, createTimeObj } from '../../utils/tasks';
+import { convertToStringFormat, createTimeObj } from '../../../utils/tasks';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './../../store/index';
+import { RootState } from '../../../store/index';
+import api from './../../../api/index';
+import _ from 'lodash';
 
 type activeTask = {
   userID: string;
@@ -99,26 +101,25 @@ const Header: React.FC = () => {
       if (isTimeStarted) {
         prev.time[0].end = endTime;
 
-        // TODO Отправка запроса в базу
         const create = async () => {
           try {
-            const result = await createTask('http://localhost:22222/api/v1/tasks', task);
+            const result = await api.createTask('http://localhost:22222/api/v1/tasks', task);
 
-            // TODO Проверку на UPDATE проверять с помощью ответа от сервера, который будет присылать DELETE, UPDATE, CREATE etc
             if (result.status === 'success') {
-              // TODO проверка на UPDATE
-              const isTaskExist = taskArr.find(el => result.data.task._id === el._id);
+              switch (result.action) {
+                case 'CREATE':
+                  dispatch({ type: 'CREATE_TASK', payload: result.data.task });
+                  break;
 
-              if (isTaskExist !== undefined) {
-                // Таск существует
-                // TODO: возможно имеет смысл сначала сделать фильтр на фронте и если таск есть, узнать его ID и отправить PATCH метод
-                const index = taskArr.indexOf(isTaskExist);
-                const newArr = taskArr.filter(el => el !== taskArr[index]);
-                newArr.push(result.data.task);
+                case 'UPDATE':
+                  const index = _.findIndex(taskArr, el => result.data.task._id === el._id);
+                  const newArr = taskArr.filter(el => el !== taskArr[index]);
+                  newArr.unshift(result.data.task);
+                  dispatch({ type: 'UPDATE_TASK', payload: newArr });
+                  break;
 
-                dispatch({ type: 'REPLACE_TASK', payload: newArr });
-              } else {
-                dispatch({ type: 'UPDATE_TASK', payload: result.data.task });
+                default:
+                  break;
               }
             } else {
               // TODO обработать ошибку
@@ -185,21 +186,3 @@ const Header: React.FC = () => {
 };
 
 export default Header;
-
-async function createTask(url: string, data = {}) {
-  // http://localhost:22222/api/v1/tasks
-  const headers: RequestInit = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
-  };
-
-  try {
-    const response = await fetch(url, headers);
-    return response.json();
-  } catch (error) {
-    console.error(error);
-  }
-}
