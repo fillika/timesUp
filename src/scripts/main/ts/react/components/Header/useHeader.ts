@@ -126,13 +126,6 @@ function useHeader() {
                 case 'CREATE':
                   dispatch({ type: 'CREATE_TASK', payload: result.data.task });
                   break;
-
-                case 'UPDATE':
-                  const index = _.findIndex(taskArr, el => result.data.task._id === el._id);
-                  const newArr = taskArr.filter(el => el !== taskArr[index]);
-
-                  dispatch({ type: 'UPDATE_TASK', payload: [result.data.task, ...newArr] });
-                  break;
                 default:
                   break;
               }
