@@ -24,11 +24,11 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
     case 'CREATE_TASK': {
       return {
         ...state,
-        taskArr: [...state.taskArr, action.payload],
+        taskArr: [action.payload, ...state.taskArr],
       };
     }
 
-    case 'UPDATE_TASK': {
+    case 'REPLACE_TASK': {
       return {
         ...state,
         taskArr: action.payload,

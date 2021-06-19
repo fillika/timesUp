@@ -6,8 +6,12 @@ import api from './../../../api/index';
 import _ from 'lodash';
 
 type activeTask = {
+  at: number;
   userID: string;
   name: string;
+  start: number;
+  stop: number;
+  duration: number;
   time: [
     {
       start: number;
@@ -18,8 +22,12 @@ type activeTask = {
 
 function useHeader() {
   const defaultTask: activeTask = {
+    at: 0,
     userID: '60c8be578a7a1e9f8c8edecb',
     name: '',
+    start: 0,
+    stop: 0,
+    duration: 0,
     time: [
       {
         start: 0,
@@ -63,6 +71,12 @@ function useHeader() {
   }, [startTime, endTime]);
 
   const onClick = () => {
+    if (taskName.trim() === '') {
+      // TODO создать модалку с оповещалкой
+      console.log('Напишите имя задачи');
+      return;
+    }
+
     setTimeStarted(!isTimeStarted);
     const start = new Date().getTime();
     const endTime = new Date().getTime();
@@ -80,7 +94,8 @@ function useHeader() {
       if (isTimeStarted) {
         return task;
       } else {
-        task.time[0].start = start;
+        task.time[0].start = start; // ! Потом удалить
+        task.start = start;
         task.name = taskName;
         return task;
       }
@@ -97,7 +112,10 @@ function useHeader() {
     // Установка даты конца
     setTask(prev => {
       if (isTimeStarted) {
-        prev.time[0].end = endTime;
+        prev.time[0].end = endTime; // ! Потом удалить
+        prev.stop = endTime;
+        prev.duration = endTime - prev.start;
+        prev.at = endTime + 1000;
 
         const create = async () => {
           try {
@@ -112,10 +130,9 @@ function useHeader() {
                 case 'UPDATE':
                   const index = _.findIndex(taskArr, el => result.data.task._id === el._id);
                   const newArr = taskArr.filter(el => el !== taskArr[index]);
-                  newArr.unshift(result.data.task);
-                  dispatch({ type: 'UPDATE_TASK', payload: newArr });
-                  break;
 
+                  dispatch({ type: 'UPDATE_TASK', payload: [result.data.task, ...newArr] });
+                  break;
                 default:
                   break;
               }

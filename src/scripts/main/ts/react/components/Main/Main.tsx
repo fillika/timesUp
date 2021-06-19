@@ -8,11 +8,13 @@ const Main: React.FC = () => {
 
   return (
     <main className='main'>
-      <ul className='task-list'>
-        {taskArr.map(task => (
-          <Task data={task} key={task._id} />
-        ))}
-      </ul>
+      <div>
+        <ul className='task-list'>
+          {taskArr.map(task => (
+            <Task data={task} key={task._id} />
+          ))}
+        </ul>
+      </div>
     </main>
   );
 };
