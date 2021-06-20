@@ -1,7 +1,12 @@
 export type TaskType = {
-    _id?: string;
-    name: string;
-    time: TimeType[];
+  _id: string;
+  name: string;
+  at: string;
+  duration: number;
+  start: string;
+  stop: string;
+  userID: string;
+  time: TimeType[];
 };
 
 export type TimeType = {
@@ -9,3 +14,8 @@ export type TimeType = {
   start: number;
   end: number;
 };
+
+export type SortedTaskList = {
+  date: string,
+  tasks: TaskType[]
+}
