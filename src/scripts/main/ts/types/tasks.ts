@@ -15,7 +15,8 @@ export type TimeType = {
   end: number;
 };
 
-export type SortedTaskList = {
+export type SortedTask = {
   date: string,
+  dateISO: string,
   tasks: TaskType[]
 }

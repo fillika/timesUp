@@ -1,0 +1,11 @@
+.task-section {
+  &__wrapper {
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    justify-content: space-between;
+    font-weight: bold;
+    color: $color-slateblue;
+  }
+}

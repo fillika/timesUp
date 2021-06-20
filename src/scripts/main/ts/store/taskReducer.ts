@@ -1,7 +1,7 @@
-import { TaskType } from '../types/tasks';
+import { SortedTask, TaskType } from '../types/tasks';
 
 export type TaskState = {
-  taskArr: TaskType[];
+  taskArr: SortedTask[];
 };
 
 type TAction = {

@@ -1,4 +1,4 @@
-import { SortedTaskList, TimeType } from '../../types/tasks';
+import { SortedTask, TimeType } from '../../types/tasks';
 import { TaskType } from 'Scripts/main/ts/types/tasks';
 import _ from 'lodash';
 
@@ -48,19 +48,19 @@ export function convertToStringFormat(time: Time): string {
  * Функция сортировки полученных с сервера данных. Мы принимаем данные в "сыром" виде
  * сортированный список тасков по убыванию. В этой функции мы создаем массив объектов, которые объеденены по дате
  */
-export function sortData(taskArr: TaskType[]): SortedTaskList[] {
-  const tasks: SortedTaskList[] = [];
-
+export function sortData(taskArr: TaskType[]): SortedTask[] {
+  const tasks: SortedTask[] = [];
+  
   taskArr.forEach((el: TaskType) => {
     const date = new Date(el.at).toLocaleDateString();
 
     if (!tasks.length) {
-      createFirstSortedTask(tasks, date, el);
+      createFirstSortedTask(tasks, el);
     } else {
       const index = _.findIndex(tasks, ['date', date]);
 
       if (index === -1) {
-        createFirstSortedTask(tasks, date, el);
+        createFirstSortedTask(tasks, el);
       } else {
         tasks[index].tasks.push(el);
       }
@@ -70,13 +70,17 @@ export function sortData(taskArr: TaskType[]): SortedTaskList[] {
   return tasks;
 }
 
-function createFirstSortedTask(tasks: SortedTaskList[], date: string, el: TaskType): void {
-  const tempObj: SortedTaskList = {
+function createFirstSortedTask(tasks: SortedTask[], el: TaskType): void {
+  const date = new Date(el.at).toLocaleDateString();
+
+  const tempObj: SortedTask = {
     date: '',
+    dateISO: '',
     tasks: [],
   };
 
   tempObj.date = date;
+  tempObj.dateISO = el.at;
   tempObj.tasks.push(el);
   tasks.push(tempObj);
 }

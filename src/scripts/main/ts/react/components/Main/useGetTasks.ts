@@ -13,9 +13,7 @@ function useGetTasks(url: string) {
       try {
         const response = await api.getAllTask(url);
         const tasks = sortData(response.data.tasks);
-        console.log(tasks);
-
-        dispatch({ type: 'ADD_TASKS', payload: response.data.tasks });
+        dispatch({ type: 'ADD_TASKS', payload: tasks });
       } catch (error) {
         // Todo обработать ошибки
         console.error(error);

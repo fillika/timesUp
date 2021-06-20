@@ -8,13 +8,24 @@ const Main: React.FC = () => {
 
   return (
     <main className='main'>
-      <div>
-        <ul className='task-list'>
-          {taskArr.map(task => (
-            <Task data={task} key={task._id} />
-          ))}
-        </ul>
-      </div>
+      {taskArr.map(({ date, dateISO, tasks }) => {
+        const dateString = new Date(dateISO).toUTCString().slice(0, 12);
+
+        return (
+          <div className='task-section' key={date}>
+            <div className='task-section__wrapper'>
+              <div>{dateString}</div>
+              <div>...</div>
+            </div>
+
+            <ul className='task-list'>
+              {tasks.map(task => (
+                <Task data={task} key={task._id} />
+              ))}
+            </ul>
+          </div>
+        );
+      })}
     </main>
   );
 };
