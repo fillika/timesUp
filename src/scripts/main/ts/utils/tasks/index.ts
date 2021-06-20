@@ -44,7 +44,9 @@ export function convertToStringFormat(time: Time): string {
  */
 export function sortData(taskArr: TaskType[]): SortedTask[] {
   const tasks: SortedTask[] = [];
-  
+
+  // todo где то здесь надо дополнительно объединять таски
+
   taskArr.forEach((el: TaskType) => {
     const date = new Date(el.at).toLocaleDateString();
 
@@ -56,7 +58,8 @@ export function sortData(taskArr: TaskType[]): SortedTask[] {
       if (index === -1) {
         createFirstSortedTask(tasks, el);
       } else {
-        tasks[index].tasks.push(el);
+        // todo сравнить имена?
+        findDuplicates(tasks[index].tasks, el);
       }
     }
   });
@@ -76,5 +79,42 @@ function createFirstSortedTask(tasks: SortedTask[], el: TaskType): void {
   tempObj.date = date;
   tempObj.dateISO = el.at;
   tempObj.tasks.push(el);
+
   tasks.push(tempObj);
+}
+
+/**
+ * Логика функции в том, что когда мы формирует массив объектов с уникальными ключами в виде даты
+ * мы можем встретить одинаковые таски внутри одной даты (например пользователь приступал к одной
+ * и той же задаче в течении дня несколько раз)
+ * поэтому, мы добавляем поле time, в котором перечисляем все время для тасков с одинаковыми именами и суммируем
+ * duration, чтобы меньше вычислений делать при рендере
+ */
+function findDuplicates(taskArr: TaskType[], el: TaskType) {
+  const index = _.findIndex(taskArr, ['name', el.name]);
+
+  if (index !== -1) {
+    if (taskArr[index].time === undefined) {
+      taskArr[index].time = [];
+
+      taskArr[index].time!.push({
+        start: taskArr[index].start,
+        stop: taskArr[index].stop,
+      });
+      taskArr[index].time!.push({
+        start: el.start,
+        stop: el.stop,
+      });
+
+      taskArr[index].duration += el.duration;
+    } else {
+      taskArr[index].time!.push({
+        start: el.start,
+        stop: el.stop,
+      });
+      taskArr[index].duration += el.duration;
+    }
+  } else {
+    taskArr.push(el);
+  }
 }

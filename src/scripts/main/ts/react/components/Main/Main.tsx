@@ -6,6 +6,8 @@ const Main: React.FC = () => {
   const url = 'http://localhost:22222/api/v1/tasks';
   const taskArr = useGetTasks(url);
 
+  console.log(taskArr);
+
   return (
     <main className='main'>
       {taskArr.map(({ date, dateISO, tasks }) => {
