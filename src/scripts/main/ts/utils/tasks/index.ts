@@ -1,4 +1,4 @@
-import { SortedTask, TimeType } from '../../types/tasks';
+import { SortedTask } from '../../types/tasks';
 import { TaskType } from 'Scripts/main/ts/types/tasks';
 import _ from 'lodash';
 
@@ -8,13 +8,7 @@ type Time = {
   seconds: number | string;
 };
 
-export function countTotalTime(timeArr: TimeType[]): string {
-  let result = 0;
-
-  timeArr.forEach(timeObj => {
-    result += new Date(timeObj.end).getTime() - new Date(timeObj.start).getTime();
-  });
-
+export function countTotalTime(result: number): string {
   return convertToStringFormat(createTimeObj(result));
 }
 

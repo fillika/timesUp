@@ -12,12 +12,6 @@ type activeTask = {
   start: number;
   stop: number;
   duration: number;
-  time: [
-    {
-      start: number;
-      end: number;
-    }
-  ];
 };
 
 function useHeader() {
@@ -28,12 +22,6 @@ function useHeader() {
     start: 0,
     stop: 0,
     duration: 0,
-    time: [
-      {
-        start: 0,
-        end: 0,
-      },
-    ],
   };
 
   const dispatch = useDispatch();
@@ -94,7 +82,6 @@ function useHeader() {
       if (isTimeStarted) {
         return task;
       } else {
-        task.time[0].start = start; // ! Потом удалить
         task.start = start;
         task.name = taskName;
         return task;
@@ -112,7 +99,6 @@ function useHeader() {
     // Установка даты конца
     setTask(prev => {
       if (isTimeStarted) {
-        prev.time[0].end = endTime; // ! Потом удалить
         prev.stop = endTime;
         prev.duration = endTime - prev.start;
         prev.at = endTime + 1000;

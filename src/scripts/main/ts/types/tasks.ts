@@ -6,13 +6,6 @@ export type TaskType = {
   start: string;
   stop: string;
   userID: string;
-  time: TimeType[];
-};
-
-export type TimeType = {
-  _id: string;
-  start: number;
-  end: number;
 };
 
 export type SortedTask = {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { TaskType } from '../../../types/tasks';
 import SubTasks from '../SubTasks';
 import { countTotalTime } from './../../../utils/tasks/index';
@@ -11,9 +11,10 @@ const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
   const [value, setValue] = useState(data.name);
 
-  const $counter = data.time.length > 1 && (
+  // Todo заменить data.time на массив?
+  const $counter = 0 > 1 && (
     <div className='task__counter' onClick={() => setActive(!isActive)}>
-      {data.time.length}
+      2
     </div>
   );
 
@@ -34,11 +35,11 @@ const Task: React.FC<TaskData> = ({ data }) => {
           />
         </div>
         <div>
-          <span>{countTotalTime(data.time)}</span>
+          <span>{countTotalTime(data.duration)}</span>
         </div>
       </div>
 
-      {isActive && data.time.length > 1 && <SubTasks name={data.name} time={data.time} />}
+      {isActive && [].length > 1 && <SubTasks name={data.name} start={data.start} stop={data.start} />}
     </li>
   );
 };
