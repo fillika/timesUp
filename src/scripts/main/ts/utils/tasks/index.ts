@@ -58,7 +58,7 @@ export function sortData(taskArr: TaskType[]): SortedTask[] {
       if (index === -1) {
         createFirstSortedTask(tasks, el);
       } else {
-        findDuplicates(tasks[index].tasks, el);
+        findDuplicatesPush(tasks[index].tasks, el);
       }
     }
   });
@@ -89,7 +89,7 @@ function createFirstSortedTask(tasks: SortedTask[], el: TaskType): void {
  * поэтому, мы добавляем поле time, в котором перечисляем все время для тасков с одинаковыми именами и суммируем
  * duration, чтобы меньше вычислений делать при рендере
  */
-function findDuplicates(taskArr: TaskType[], el: TaskType) {
+export function findDuplicatesPush(taskArr: TaskType[], el: TaskType) {
   const index = _.findIndex(taskArr, ['name', el.name]);
 
   if (index !== -1) {
@@ -115,5 +115,34 @@ function findDuplicates(taskArr: TaskType[], el: TaskType) {
     }
   } else {
     taskArr.push(el);
+  }
+}
+
+export function findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
+  const index = _.findIndex(taskArr, ['name', el.name]);
+
+  if (index !== -1) {
+    if (taskArr[index].time === undefined) {
+      taskArr[index].time = [];
+
+      taskArr[index].time!.unshift({
+        start: taskArr[index].start,
+        stop: taskArr[index].stop,
+      });
+      taskArr[index].time!.unshift({
+        start: el.start,
+        stop: el.stop,
+      });
+
+      taskArr[index].duration += el.duration;
+    } else {
+      taskArr[index].time!.unshift({
+        start: el.start,
+        stop: el.stop,
+      });
+      taskArr[index].duration += el.duration;
+    }
+  } else {
+    taskArr.unshift(el);
   }
 }

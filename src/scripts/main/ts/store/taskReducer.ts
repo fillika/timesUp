@@ -1,5 +1,6 @@
 import { SortedTask } from '../types/tasks';
 import _ from 'lodash';
+import { findDuplicatesUnshift } from '../utils/tasks';
 
 export type TaskState = {
   taskArr: SortedTask[];
@@ -24,11 +25,11 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
     case 'CREATE_TASK': {
       const date = new Date(action.payload.at).toLocaleDateString();
-      const index = _.findIndex(state.taskArr, ['date', date]);
+      const indexOfDate = _.findIndex(state.taskArr, ['date', date]);
       const newArr = [...state.taskArr];
 
-      if (index !== -1) {
-        newArr[index].tasks.unshift(action.payload);
+      if (indexOfDate !== -1) {
+        findDuplicatesUnshift(newArr[indexOfDate].tasks, action.payload);
       }
 
       return {
