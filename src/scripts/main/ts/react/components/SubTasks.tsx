@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FocusEvent, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { TimeType } from '../../types/tasks';
 import { RootState } from './../../store/index';
 
 type Task = {
@@ -10,8 +11,7 @@ type Task = {
 
 type SubTask = {
   name: string;
-  start: string;
-  stop: string;
+  data: TimeType[];
 };
 
 type TimeComponent = {
@@ -65,8 +65,14 @@ const Task: React.FC<Task> = ({ name, start, stop }) => {
   }
 };
 
-const SubTasks: React.FC<SubTask> = ({ name, start, stop }) => {
-  return <Task name={name} start={start} stop={stop} />;
+const SubTasks: React.FC<SubTask> = ({ data, name }) => {
+  return (
+    <>
+      {data.map(({ start, stop }) => (
+        <Task key={start + stop} name={name} start={start} stop={stop} />
+      ))}
+    </>
+  );
 };
 
 export default SubTasks;

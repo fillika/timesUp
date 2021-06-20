@@ -58,7 +58,6 @@ export function sortData(taskArr: TaskType[]): SortedTask[] {
       if (index === -1) {
         createFirstSortedTask(tasks, el);
       } else {
-        // todo сравнить имена?
         findDuplicates(tasks[index].tasks, el);
       }
     }
