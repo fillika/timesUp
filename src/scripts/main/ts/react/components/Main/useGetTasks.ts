@@ -4,14 +4,14 @@ import { RootState } from './../../../store/index';
 import api from './../../../api/index';
 import { sortData } from 'Scripts/main/ts/utils/tasks';
 
-function useGetTasks(url: string) {
+function useGetTasks() {
   const dispatch = useDispatch();
   const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
 
   useEffect(() => {
     const result = async () => {
       try {
-        const response = await api.getAllTask(url);
+        const response = await api.getAllTask();
         const tasks = sortData(response.data.tasks);
         dispatch({ type: 'ADD_TASKS', payload: tasks });
       } catch (error) {

@@ -3,8 +3,7 @@ import Task from '../Task/Task';
 import { useGetTasks } from './useGetTasks';
 
 const Main: React.FC = () => {
-  const url = 'http://localhost:22222/api/v1/tasks';
-  const taskArr = useGetTasks(url);
+  const taskArr = useGetTasks();
 
   console.log(taskArr);
 

@@ -1,14 +1,18 @@
-interface CustomError extends Error  {
-  response?: Response,
-  status?: number
+interface CustomError extends Error {
+  response?: Response;
+  status?: number;
 }
 
 class API {
-  constructor() {}
+  url: string;
 
-  async getAllTask(url: string): Promise<any> {
+  constructor() {
+    this.url = 'http://localhost:22222/api/v1/tasks';
+  }
+
+  async getAllTask(): Promise<any> {
     try {
-      const response = await fetch(url).then(response => {
+      const response = await fetch(this.url).then(response => {
         if (!response.ok) {
           const err: CustomError = new Error('HTTP status code: ' + response.status);
           err.response = response;
@@ -52,6 +56,35 @@ class API {
     try {
       const response = await fetch(url, headers);
       return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async deleteTaskByID(id: string) {
+    const headers: RequestInit = {
+      method: 'DELETE',
+    };
+
+    const urlWithID = `${this.url}/${id}`;
+
+    try {
+      const response = await fetch(urlWithID, headers).then(response => {
+        if (!response.ok) {
+          const err: CustomError = new Error('HTTP status code: ' + response.status);
+          err.response = response;
+          err.status = response.status;
+          throw err;
+        }
+
+        return {
+          status: response.ok,
+          message: 'Task has been deleted',
+          response,
+        };
+      });
+
+      return response;
     } catch (error) {
       console.error(error);
     }

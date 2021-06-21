@@ -1,8 +1,9 @@
-import React, { ChangeEvent, FocusEvent, useState, MouseEvent  } from 'react';
+import React, { ChangeEvent, FocusEvent, useState, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TimeType } from '../../types/tasks';
 import { RootState } from './../../store/index';
 import trashIcon from 'Images/icons/trash.svg';
+import api from 'Scripts/main/ts/api/index';
 
 type Task = {
   _id: string;
@@ -49,11 +50,19 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const dispatch = useDispatch();
   const [value, setValue] = useState(name);
 
+  async function deleteTaskByID(_id: string) {
+    const response = await api.deleteTaskByID(_id);
+
+    if (response?.status) {
+      console.log(response.message); // Todo выводить в всплывашки
+    }
+  }
+
   return (
     <div className='task task--child'>
       <input onChange={onChange} onBlur={onBlur} type='text' value={value} />
       <div className='task-panel'>
-        <div onClick={(event: MouseEvent<HTMLDivElement>) => console.log('Del:', _id)} className="task-panel__icon task-panel__icon--delete">
+        <div onClick={() => deleteTaskByID(_id)} className='task-panel__icon task-panel__icon--delete'>
           <img src={trashIcon} alt='Удалить таск' />
         </div>
         <Time start={start} stop={stop} />
