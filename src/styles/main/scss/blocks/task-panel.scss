@@ -1,0 +1,21 @@
+.task-panel {
+    display: flex;
+    align-items: center;
+
+    &__icon {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &--delete {
+            width: 20px;
+            height: auto;
+            margin-right: 10px;
+
+            &:hover {
+                transition: 125ms ease-in box-shadow;
+            }
+        }
+    }
+}

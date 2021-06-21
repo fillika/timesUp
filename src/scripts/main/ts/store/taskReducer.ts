@@ -30,6 +30,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
       if (indexOfDate !== -1) {
         findDuplicatesUnshift(newArr[indexOfDate].tasks, action.payload);
+      } else {
+        // Todo если массив совсем новый и нужно добавить новый день
       }
 
       return {

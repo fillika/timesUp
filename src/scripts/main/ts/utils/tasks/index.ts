@@ -97,10 +97,12 @@ export function findDuplicatesPush(taskArr: TaskType[], el: TaskType) {
       taskArr[index].time = [];
 
       taskArr[index].time!.push({
+        _id:  taskArr[index]._id,
         start: taskArr[index].start,
         stop: taskArr[index].stop,
       });
       taskArr[index].time!.push({
+        _id:  el._id,
         start: el.start,
         stop: el.stop,
       });
@@ -108,6 +110,7 @@ export function findDuplicatesPush(taskArr: TaskType[], el: TaskType) {
       taskArr[index].duration += el.duration;
     } else {
       taskArr[index].time!.push({
+        _id:  el._id,
         start: el.start,
         stop: el.stop,
       });
@@ -126,10 +129,12 @@ export function findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
       taskArr[index].time = [];
 
       taskArr[index].time!.unshift({
+        _id:  taskArr[index]._id,
         start: taskArr[index].start,
         stop: taskArr[index].stop,
       });
       taskArr[index].time!.unshift({
+        _id:  el._id,
         start: el.start,
         stop: el.stop,
       });
@@ -137,6 +142,7 @@ export function findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
       taskArr[index].duration += el.duration;
     } else {
       taskArr[index].time!.unshift({
+        _id:  el._id,
         start: el.start,
         stop: el.stop,
       });

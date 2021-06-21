@@ -1,9 +1,11 @@
-import React, { ChangeEvent, FocusEvent, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, useState, MouseEvent  } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TimeType } from '../../types/tasks';
 import { RootState } from './../../store/index';
+import trashIcon from 'Images/icons/trash.svg';
 
 type Task = {
+  _id: string;
   name: string;
   start: string;
   stop: string;
@@ -40,7 +42,7 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
   }
 };
 
-const Task: React.FC<Task> = ({ name, start, stop }) => {
+const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   // TODO понять, с каким таском мы работаем, возможно хранить его где-то в локальном стейте или редаксе
   // TODO или передавать сюда
   const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
@@ -50,7 +52,12 @@ const Task: React.FC<Task> = ({ name, start, stop }) => {
   return (
     <div className='task task--child'>
       <input onChange={onChange} onBlur={onBlur} type='text' value={value} />
-      <Time start={start} stop={stop} />
+      <div className='task-panel'>
+        <div onClick={(event: MouseEvent<HTMLDivElement>) => console.log('Del:', _id)} className="task-panel__icon task-panel__icon--delete">
+          <img src={trashIcon} alt='Удалить таск' />
+        </div>
+        <Time start={start} stop={stop} />
+      </div>
     </div>
   );
 
@@ -68,8 +75,8 @@ const Task: React.FC<Task> = ({ name, start, stop }) => {
 const SubTasks: React.FC<SubTask> = ({ data, name }) => {
   return (
     <>
-      {data.map(({ start, stop }) => (
-        <Task key={start + stop} name={name} start={start} stop={stop} />
+      {data.map(({ start, stop, _id }) => (
+        <Task key={_id} name={name} start={start} stop={stop} _id={_id} />
       ))}
     </>
   );

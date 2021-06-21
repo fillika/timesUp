@@ -16,6 +16,7 @@ export type SortedTask = {
 };
 
 export type TimeType =   {
+  _id: string;
   start: string;
   stop: string;
 }
