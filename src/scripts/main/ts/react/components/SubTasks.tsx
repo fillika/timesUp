@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FocusEvent, useState, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TimeType } from '../../types/tasks';
-import { RootState } from './../../store/index';
+import { TimeType } from 'Scripts/main/ts/types/tasks';
+import { RootState } from 'Scripts/main/ts/store/index';
 import trashIcon from 'Images/icons/trash.svg';
 import api from 'Scripts/main/ts/api/index';
 

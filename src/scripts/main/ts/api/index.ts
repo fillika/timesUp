@@ -89,6 +89,37 @@ class API {
       console.error(error);
     }
   }
+
+  async deleteTaskByName(data = {}) {
+    const headers: RequestInit = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    };
+
+    try {
+      const response = await fetch(this.url, headers).then(response => {
+        if (!response.ok) {
+          const err: CustomError = new Error('HTTP status code: ' + response.status);
+          err.response = response;
+          err.status = response.status;
+          throw err;
+        }
+
+        return {
+          status: response.ok,
+          message: 'All task has been deleted',
+          response,
+        };
+      });
+
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 const api = new API();

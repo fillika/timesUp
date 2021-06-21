@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './../../../store/index';
-import api from './../../../api/index';
+import { RootState } from 'Scripts/main/ts/store/index';
+import api from 'Scripts/main/ts/api/index';
 import { sortData } from 'Scripts/main/ts/utils/tasks';
 
 function useGetTasks() {

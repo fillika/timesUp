@@ -5,12 +5,14 @@ import { useGetTasks } from './useGetTasks';
 const Main: React.FC = () => {
   const taskArr = useGetTasks();
 
-  console.log(taskArr);
-
   return (
     <main className='main'>
       {taskArr.map(({ date, dateISO, tasks }) => {
         const dateString = new Date(dateISO).toUTCString().slice(0, 12);
+
+        if (!tasks.length) {
+          return null;
+        }
 
         return (
           <div className='task-section' key={date}>

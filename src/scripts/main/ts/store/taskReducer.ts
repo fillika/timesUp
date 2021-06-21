@@ -22,6 +22,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         ...state,
         taskArr: action.payload,
       };
+      break;
 
     case 'CREATE_TASK': {
       const date = new Date(action.payload.at).toLocaleDateString();
@@ -40,19 +41,31 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
     }
 
-    case 'DELETE_TASKS_BY_ID':
-      const {_id, date, name} = action.payload;
+    case 'DELETE_TASKS_BY_ID': {
+      const { _id, date, name } = action.payload;
       const newArr = [...state.taskArr];
       const indexByDate = _.findIndex(newArr, ['date', date]);
       const indexByName = _.findIndex(newArr[indexByDate].tasks, ['name', name]);
-      
+
       _.remove(newArr[indexByDate].tasks[indexByName].time!, el => el._id === _id);
 
       return {
         ...state,
-        taskArr: newArr
+        taskArr: newArr,
       };
+    }
+    case 'DELETE_TASKS_BY_NAME': {
+      const newArr = [...state.taskArr];
+      const { date, name } = action.payload;
+      const indexByDate = _.findIndex(newArr, ['date', new Date(date).toLocaleDateString()]);
+      
+      _.remove(newArr[indexByDate].tasks, el => el.name === name);
 
+      return {
+        ...state,
+        taskArr: newArr,
+      };
+    }
     default:
       return state;
   }
