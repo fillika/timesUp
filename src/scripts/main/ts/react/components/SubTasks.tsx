@@ -51,10 +51,15 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const [value, setValue] = useState(name);
 
   async function deleteTaskByID(_id: string) {
+    const date = new Date(stop).toLocaleDateString();
+    
     const response = await api.deleteTaskByID(_id);
 
     if (response?.status) {
+      dispatch({ type: 'DELETE_TASKS_BY_ID', payload: {_id, date, name} });
       console.log(response.message); // Todo выводить в всплывашки
+    } else {
+      console.error('Ошибка. Таск не удален по какой-то причине')
     }
   }
 
