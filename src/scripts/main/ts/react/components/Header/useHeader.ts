@@ -1,8 +1,8 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './../../../store/index';
-import { convertToStringFormat, createTimeObj } from './../../../utils/tasks/index';
-import api from './../../../api/index';
+import { RootState } from 'Redux/index';
+import { time } from 'Utils/Time';
+import api from 'Api/index';
 import _ from 'lodash';
 
 type activeTask = {
@@ -46,7 +46,7 @@ function useHeader() {
 
       setTotalTime(prev => {
         if (isTimeStarted) {
-          return convertToStringFormat(createTimeObj(endTime - startTime));
+          return time.countTotalTime(endTime - startTime);
         } else {
           return prev;
         }

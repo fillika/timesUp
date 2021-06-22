@@ -1,6 +1,6 @@
-import { SortedTask } from '../types/tasks';
+import { SortedTask } from 'Types/tasks';
+import { sort } from 'Utils/Sort';
 import _ from 'lodash';
-import { findDuplicatesUnshift } from '../utils/tasks';
 
 export type TaskState = {
   taskArr: SortedTask[];
@@ -30,7 +30,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       const newArr = [...state.taskArr];
 
       if (indexOfDate !== -1) {
-        findDuplicatesUnshift(newArr[indexOfDate].tasks, action.payload);
+        sort.findDuplicatesUnshift(newArr[indexOfDate].tasks, action.payload);
       } else {
         // Todo если массив совсем новый и нужно добавить новый день
       }

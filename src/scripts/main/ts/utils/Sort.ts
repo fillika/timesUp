@@ -4,6 +4,10 @@ import { SortedTask, TaskType } from 'Types/tasks';
 class Sort {
   constructor() {}
 
+  /**
+   * Функция сортировки полученных с сервера данных. Мы принимаем данные в "сыром" виде
+   * сортированный список тасков по убыванию. В этой функции мы создаем массив объектов, которые объеденены по дате
+   */
   sortData(taskArr: TaskType[]): SortedTask[] {
     const tasks: SortedTask[] = [];
 
@@ -42,6 +46,13 @@ class Sort {
     tasks.push(tempObj);
   }
 
+  /**
+   * Логика функции в том, что когда мы формирует массив объектов с уникальными ключами в виде даты
+   * мы можем встретить одинаковые таски внутри одной даты (например пользователь приступал к одной
+   * и той же задаче в течении дня несколько раз)
+   * поэтому, мы добавляем поле time, в котором перечисляем все время для тасков с одинаковыми именами и суммируем
+   * duration, чтобы меньше вычислений делать при рендере
+   */
   findDuplicatesPush(taskArr: TaskType[], el: TaskType) {
     const index = _.findIndex(taskArr, ['name', el.name]);
 
@@ -69,7 +80,7 @@ class Sort {
       if (taskArr[index].time === undefined) {
         taskArr[index].time = [];
 
-        taskArr[index].time!.unshift(this.createTask( taskArr[index]));
+        taskArr[index].time!.unshift(this.createTask(taskArr[index]));
         taskArr[index].time!.unshift(this.createTask(el));
 
         taskArr[index].duration += el.duration;

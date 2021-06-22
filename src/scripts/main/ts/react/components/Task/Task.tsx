@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent } from 'react';
-import { TaskType } from 'Scripts/main/ts/types/tasks';
+import { TaskType } from 'Types/tasks';
 import SubTasks from '../SubTasks';
-import { countTotalTime } from 'Scripts/main/ts/utils/tasks/index';
+import { time } from 'Utils/Time';
 import trashIcon from 'Images/icons/trash.svg';
-import api from 'Scripts/main/ts/api/index';
+import api from 'Api/index';
 import { useDispatch } from 'react-redux';
 
 type TaskData = {
@@ -63,7 +63,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
           <div onClick={deleteTaskByName} className='task-panel__icon task-panel__icon--delete'>
             <img src={trashIcon} alt='Удалить таск' />
           </div>
-          <span>{countTotalTime(data.duration)}</span>
+          <span>{time.countTotalTime(data.duration)}</span>
         </div>
       </div>
 
