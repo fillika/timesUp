@@ -71,22 +71,8 @@ class API {
     const urlWithID = `${this.url}/${id}`;
 
     try {
-      const response = await fetch(urlWithID, headers).then(response => {
-        if (!response.ok) {
-          const err: CustomError = new Error('HTTP status code: ' + response.status);
-          err.response = response;
-          err.status = response.status;
-          throw err;
-        }
-
-        return {
-          status: response.ok,
-          message: 'Task has been deleted',
-          response,
-        };
-      });
-
-      return response;
+      const response = await fetch(urlWithID, headers).then(this.createErr);
+      return response.json();
     } catch (error) {
       console.error(error);
     }

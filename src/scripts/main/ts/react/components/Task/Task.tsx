@@ -23,7 +23,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
           </div>
         );
       } else {
-        setActive(false)
+        setActive(false);
         return null;
       }
     }
@@ -62,7 +62,11 @@ const Task: React.FC<TaskData> = ({ data }) => {
           <div onClick={deleteTaskByName} className='task-panel__icon task-panel__icon--delete'>
             <img src={trashIcon} alt='Удалить таск' />
           </div>
-          <span>{time.countTotalTime(data.duration)}</span>
+          <span>
+            {
+              time.countTotalTime(data.duration)
+            }
+          </span>
         </div>
       </div>
 

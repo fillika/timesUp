@@ -40,12 +40,22 @@ class Time {
     return `${time.hours}:${time.minutes}:${time.seconds}`;
   }
 
-  getDuration(timesList: TimeType[]) {
+  countDuration(timesList: TimeType[]) {
     let result = 0;
-
     timesList.forEach(el => (result += new Date(el.stop).getTime() - new Date(el.start).getTime()));
-
     return result;
+  }
+
+  createTemplateTime(num: number | string): string {
+    const hours = new Date(num).getHours();
+    const minutes = new Date(num).getMinutes();
+    const seconds = new Date(num).getSeconds();
+
+    const hoursResult = hours < 10 ? `0${hours}` : hours;
+    const minutesResult = minutes < 10 ? `0${minutes}` : minutes;
+    const secondResult = seconds < 10 ? `0${seconds}` : seconds;
+
+    return `${hoursResult}:${minutesResult}:${secondResult}`;
   }
 }
 

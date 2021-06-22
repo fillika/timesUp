@@ -48,24 +48,14 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         taskArr: action.payload,
       };
       break;
+
     case 'DELETE_TASKS_BY_ID': {
-      const { _id, date, name } = action.payload;
-      const newArr = [...state.taskArr];
-      const indexByDate = _.findIndex(newArr, ['date', date]);
-      const indexByName = _.findIndex(newArr[indexByDate].tasks, ['name', name]);
-
-      const task = newArr[indexByDate].tasks[indexByName];
-
-      if (task.time !== undefined) {
-        _.remove(task.time, el => el._id === _id);
-        task.duration = time.getDuration(task.time);
-      }
-
       return {
         ...state,
-        taskArr: newArr,
+        taskArr: action.payload,
       };
     }
+
     case 'DELETE_TASKS_BY_NAME': {
       const newArr = [...state.taskArr];
       const { date, name } = action.payload;
