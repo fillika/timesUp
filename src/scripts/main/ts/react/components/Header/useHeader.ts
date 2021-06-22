@@ -1,6 +1,5 @@
 import { useEffect, useState, ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'Redux/index';
+import { useDispatch } from 'react-redux';
 import { time } from 'Utils/Time';
 import api from 'Api/index';
 import _ from 'lodash';
@@ -25,7 +24,6 @@ function useHeader() {
   };
 
   const dispatch = useDispatch();
-  const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
 
   const [taskName, setTaskName] = useState('');
   const [isTimeStarted, setTimeStarted] = useState(false);

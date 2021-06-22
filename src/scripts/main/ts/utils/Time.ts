@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import { TimeType } from 'Types/tasks';
 
-type TimeType = {
+type TimeDataObj = {
   hours: number | string;
   minutes: number | string;
   seconds: number | string;
@@ -13,8 +14,8 @@ class Time {
     return this.convertToStringFormat(this.createTimeObj(result));
   }
 
-  createTimeObj(result: number): TimeType {
-    const time: TimeType = {
+  createTimeObj(result: number): TimeDataObj {
+    const time: TimeDataObj = {
       hours: 0,
       minutes: 0,
       seconds: 0,
@@ -27,7 +28,7 @@ class Time {
     return time;
   }
 
-  convertToStringFormat(time: TimeType): string {
+  convertToStringFormat(time: TimeDataObj): string {
     if (time.seconds.toString().length === 1) {
       time.seconds = `0${time.seconds}`;
     }
@@ -37,6 +38,14 @@ class Time {
     }
 
     return `${time.hours}:${time.minutes}:${time.seconds}`;
+  }
+
+  getDuration(timesList: TimeType[]) {
+    let result = 0;
+
+    timesList.forEach(el => (result += new Date(el.stop).getTime() - new Date(el.start).getTime()));
+
+    return result;
   }
 }
 

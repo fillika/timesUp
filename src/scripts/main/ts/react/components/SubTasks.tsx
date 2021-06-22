@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FocusEvent, useState, MouseEvent } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { TimeType } from 'Scripts/main/ts/types/tasks';
-import { RootState } from 'Scripts/main/ts/store/index';
 import trashIcon from 'Images/icons/trash.svg';
 import api from 'Scripts/main/ts/api/index';
 
@@ -46,20 +45,19 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
 const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   // TODO понять, с каким таском мы работаем, возможно хранить его где-то в локальном стейте или редаксе
   // TODO или передавать сюда
-  const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
   const dispatch = useDispatch();
   const [value, setValue] = useState(name);
 
   async function deleteTaskByID(_id: string) {
     const date = new Date(stop).toLocaleDateString();
-    
+
     const response = await api.deleteTaskByID(_id);
 
     if (response?.status) {
-      dispatch({ type: 'DELETE_TASKS_BY_ID', payload: {_id, date, name} });
+      dispatch({ type: 'DELETE_TASKS_BY_ID', payload: { _id, date, name } });
       console.log(response.message); // Todo выводить в всплывашки
     } else {
-      console.error('Ошибка. Таск не удален по какой-то причине')
+      console.error('Ошибка. Таск не удален по какой-то причине');
     }
   }
 

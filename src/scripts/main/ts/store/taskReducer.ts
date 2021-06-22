@@ -1,6 +1,7 @@
 import { SortedTask } from 'Types/tasks';
 import { sort } from 'Utils/Sort';
-import _ from 'lodash';
+import { time } from 'Utils/Time';
+import _, { sortedIndexOf } from 'lodash';
 
 export type TaskState = {
   taskArr: SortedTask[];
@@ -48,7 +49,12 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       const indexByDate = _.findIndex(newArr, ['date', date]);
       const indexByName = _.findIndex(newArr[indexByDate].tasks, ['name', name]);
 
-      _.remove(newArr[indexByDate].tasks[indexByName].time!, el => el._id === _id);
+      const task = newArr[indexByDate].tasks[indexByName];
+
+      if (task.time !== undefined) {
+        _.remove(task.time, el => el._id === _id);
+        task.duration = time.getDuration(task.time);
+      }
 
       return {
         ...state,
