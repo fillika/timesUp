@@ -5,6 +5,7 @@ import trashIcon from 'Images/icons/trash.svg';
 import api from 'Api/index';
 import { useDispatch } from 'react-redux';
 import { RangeTime } from 'App/components/RangeTime';
+import { sort } from 'Utils/Sort';
 
 type TaskData = {
   data: TaskType;
@@ -29,8 +30,23 @@ const Task: React.FC<TaskData> = ({ data }) => {
     }
   }
 
-  function onBlur(event: React.FocusEvent<HTMLInputElement>) {
-    console.log(event.target.value);
+  async function updateTaskByName(event: React.FocusEvent<HTMLInputElement>) {
+    const val = event.target.value.trim();
+
+    if (val !== data.name) {
+      try {
+        const queryReq = {
+          name: data.name,
+          date: data.at,
+          set: {
+            name: val,
+          },
+        };
+        const response = await api.updateTaskByName(queryReq);
+
+        dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
+      } catch (error) {}
+    }
   }
 
   async function deleteTaskByName() {
@@ -52,11 +68,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
       <div className='task task--parent'>
         {counter()}
         <div className='task__input-wrapper'>
-          <input
-            // onBlur={onBlur}
-            type='text'
-            defaultValue={data.name}
-          />
+          <input onBlur={updateTaskByName} type='text' defaultValue={data.name} />
         </div>
         <div className='task-panel'>
           <div onClick={deleteTaskByName} className='task-panel__icon task-panel__icon--delete'>

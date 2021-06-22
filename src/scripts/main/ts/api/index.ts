@@ -63,6 +63,23 @@ class API {
     }
   }
 
+  async updateTaskByName(data: { name: string; date: string }) {
+    const headers: RequestInit = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    };
+
+    try {
+      const response = await fetch(this.url, headers).then(this.createErr);
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async deleteTaskByID(id: string) {
     const headers: RequestInit = {
       method: 'DELETE',
