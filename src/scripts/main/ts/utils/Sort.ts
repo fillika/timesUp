@@ -57,18 +57,19 @@ class Sort {
    */
   findDuplicatesPush(taskArr: TaskType[], el: TaskType) {
     const index = _.findIndex(taskArr, ['name', el.name]);
+    const task = taskArr[index];
 
     if (index !== -1) {
-      if (taskArr[index].time === undefined) {
-        taskArr[index].time = [];
+      if (task.time === undefined) {
+        task.time = [];
 
-        taskArr[index].time!.push(this.createTask(taskArr[index]));
-        taskArr[index].time!.push(this.createTask(el));
+        task.time.push(this.createTask(task));
+        task.time.push(this.createTask(el));
 
-        taskArr[index].duration += el.duration;
+        task.duration += el.duration;
       } else {
-        taskArr[index].time!.push(this.createTask(el));
-        taskArr[index].duration += el.duration;
+        task.time.push(this.createTask(el));
+        task.duration += el.duration;
       }
     } else {
       taskArr.push(el);
@@ -77,18 +78,19 @@ class Sort {
 
   findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
     const index = _.findIndex(taskArr, ['name', el.name]);
+    const task = taskArr[index];
 
     if (index !== -1) {
-      if (taskArr[index].time === undefined) {
-        taskArr[index].time = [];
+      if (task.time === undefined) {
+        task.time = [];
 
-        taskArr[index].time!.unshift(this.createTask(taskArr[index]));
-        taskArr[index].time!.unshift(this.createTask(el));
+        task.time.unshift(this.createTask(task));
+        task.time.unshift(this.createTask(el));
 
-        taskArr[index].duration += el.duration;
+        task.duration += el.duration;
       } else {
-        taskArr[index].time!.unshift(this.createTask(el));
-        taskArr[index].duration += el.duration;
+        task.time.unshift(this.createTask(el));
+        task.duration += el.duration;
       }
     } else {
       taskArr.unshift(el);
