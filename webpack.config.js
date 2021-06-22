@@ -29,6 +29,11 @@ module.exports = {
     alias: {
       Images: path.resolve(__dirname, 'src/images/'),
       Scripts: path.resolve(__dirname, 'src/scripts/'),
+      App: path.resolve(__dirname, 'src/scripts/main/ts/react/'),
+      Api: path.resolve(__dirname, 'src/scripts/main/ts/api/'),
+      Types: path.resolve(__dirname, 'src/scripts/main/ts/types/'),
+      Redux: path.resolve(__dirname, 'src/scripts/main/ts/store/'),
+      Utils: path.resolve(__dirname, 'src/scripts/main/ts/utils/'),
       Styles: path.resolve(__dirname, 'src/styles/'),
       Tests: path.resolve(__dirname, 'src/tests/'),
     },

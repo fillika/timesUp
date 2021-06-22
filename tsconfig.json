@@ -54,6 +54,11 @@
     "paths": {
       "Images/*": ["src/images/*"],
       "Scripts/*": ["src/scripts/*"],
+      "App/*": ["src/scripts/main/ts/react/*"],
+      "Api/*": ["src/scripts/main/ts/api/*"],
+      "Types/*": ["src/scripts/main/ts/types/*"],
+      "Redux/*": ["src/scripts/main/ts/store/*"],
+      "Utils/*": ["src/scripts/main/ts/utils/*"],
       "Styles/*": ["src/styles/*"],
       "Tests/*": ["src/tests/*"],
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,

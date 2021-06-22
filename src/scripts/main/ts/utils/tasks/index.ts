@@ -1,4 +1,4 @@
-import { SortedTask } from '../../types/tasks';
+import { SortedTask } from 'Types/tasks';
 import { TaskType } from 'Scripts/main/ts/types/tasks';
 import _ from 'lodash';
 
@@ -44,8 +44,6 @@ export function convertToStringFormat(time: Time): string {
  */
 export function sortData(taskArr: TaskType[]): SortedTask[] {
   const tasks: SortedTask[] = [];
-
-  // todo где то здесь надо дополнительно объединять таски
 
   taskArr.forEach((el: TaskType) => {
     const date = new Date(el.at).toLocaleDateString();
@@ -152,3 +150,5 @@ export function findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
     taskArr.unshift(el);
   }
 }
+
+
