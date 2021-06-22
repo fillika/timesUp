@@ -15,13 +15,13 @@ class Sort {
       const date = new Date(el.at).toLocaleDateString();
 
       if (!tasks.length) {
-        const sortedTask = this.createFirstSortedTask(tasks, el);
+        const sortedTask = this.createFirstSortedTask(el);
         tasks.push(sortedTask);
       } else {
         const index = _.findIndex(tasks, ['date', date]);
 
         if (index === -1) {
-          const sortedTask = this.createFirstSortedTask(tasks, el);
+          const sortedTask = this.createFirstSortedTask(el);
           tasks.push(sortedTask);
         } else {
           this.findDuplicatesPush(tasks[index].tasks, el);
@@ -32,7 +32,7 @@ class Sort {
     return tasks;
   }
 
-  createFirstSortedTask(tasks: SortedTask[], el: TaskType): SortedTask {
+  createFirstSortedTask(el: TaskType): SortedTask {
     const date = new Date(el.at).toLocaleDateString();
 
     const tempObj: SortedTask = {

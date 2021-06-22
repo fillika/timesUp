@@ -1,8 +1,9 @@
 import React, { ChangeEvent, FocusEvent, useState, MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { TimeType } from 'Scripts/main/ts/types/tasks';
+import { TimeType } from 'Types/tasks';
 import trashIcon from 'Images/icons/trash.svg';
-import api from 'Scripts/main/ts/api/index';
+import api from 'Api/index';
+import { sort } from 'Utils/Sort';
 
 type Task = {
   _id: string;
@@ -35,22 +36,24 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
   function getTime(num: number | string): string {
     const hours = new Date(num).getHours();
     const minutes = new Date(num).getMinutes();
+    const seconds = new Date(num).getSeconds();
+
     const hoursResult = hours < 10 ? `0${hours}` : hours;
     const minutesResult = minutes < 10 ? `0${minutes}` : minutes;
+    const secondResult = seconds < 10 ? `0${seconds}` : seconds;
 
-    return `${hoursResult}:${minutesResult}`;
+    return `${hoursResult}:${minutesResult}:${secondResult}`;
   }
 };
 
 const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
-  // TODO понять, с каким таском мы работаем, возможно хранить его где-то в локальном стейте или редаксе
-  // TODO или передавать сюда
   const dispatch = useDispatch();
   const [value, setValue] = useState(name);
 
-  async function deleteTaskByID(_id: string) {
-    const date = new Date(stop).toLocaleDateString();
+  console.log(name);
 
+  async function deleteTaskByID() {
+    const date = new Date(stop).toLocaleDateString();
     const response = await api.deleteTaskByID(_id);
 
     if (response?.status) {
@@ -61,11 +64,31 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
     }
   }
 
+  async function updateTask(event: FocusEvent<HTMLInputElement>) {
+    const val = event.target.value.trim();
+
+    try {
+      if (val !== name) {
+        const response = await api.updateTask(_id, {
+          name: val,
+        });
+
+        // ! Добавил 2 диспатча, так как при одном сортированный массив некорректно заменял данные.
+        // Todo пофиксить
+        dispatch({ type: 'UPDATE_TASK_LIST', payload: [] }); 
+        dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
+      }
+    } catch (error) {
+      console.error(error);
+      // Todo обработать ошибку
+    }
+  }
+
   return (
     <div className='task task--child'>
-      <input onChange={onChange} onBlur={onBlur} type='text' value={value} />
+      <input onChange={onChange} onBlur={updateTask} type='text' value={value} />
       <div className='task-panel'>
-        <div onClick={() => deleteTaskByID(_id)} className='task-panel__icon task-panel__icon--delete'>
+        <div onClick={deleteTaskByID} className='task-panel__icon task-panel__icon--delete'>
           <img src={trashIcon} alt='Удалить таск' />
         </div>
         <Time start={start} stop={stop} />
@@ -75,12 +98,6 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
 
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
-  }
-
-  function onBlur(event: FocusEvent<HTMLInputElement>) {
-    const val = event.target.value;
-    setValue(val);
-    // TODO Фильтровать и обновлять таску если отличается name
   }
 };
 

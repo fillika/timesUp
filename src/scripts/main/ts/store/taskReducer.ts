@@ -1,7 +1,7 @@
 import { SortedTask } from 'Types/tasks';
 import { sort } from 'Utils/Sort';
 import { time } from 'Utils/Time';
-import _, { sortedIndexOf } from 'lodash';
+import _ from 'lodash';
 
 export type TaskState = {
   taskArr: SortedTask[];
@@ -33,7 +33,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       if (indexOfDate !== -1) {
         sort.findDuplicatesUnshift(newArr[indexOfDate].tasks, action.payload);
       } else {
-        const sortedTask = sort.createFirstSortedTask(newArr, action.payload);
+        const sortedTask = sort.createFirstSortedTask(action.payload);
         newArr.unshift(sortedTask);
       }
 
@@ -42,7 +42,12 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         taskArr: newArr,
       };
     }
-
+    case 'UPDATE_TASK_LIST':
+      return {
+        ...state,
+        taskArr: action.payload,
+      };
+      break;
     case 'DELETE_TASKS_BY_ID': {
       const { _id, date, name } = action.payload;
       const newArr = [...state.taskArr];

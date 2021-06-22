@@ -3,6 +3,14 @@ interface CustomError extends Error {
   status?: number;
 }
 
+type Task = {
+  name?: string;
+  at?: string;
+  duration?: number;
+  start?: string;
+  stop?: string;
+};
+
 class API {
   url: string;
 
@@ -12,15 +20,7 @@ class API {
 
   async getAllTask(): Promise<any> {
     try {
-      const response = await fetch(this.url).then(response => {
-        if (!response.ok) {
-          const err: CustomError = new Error('HTTP status code: ' + response.status);
-          err.response = response;
-          err.status = response.status;
-          throw err;
-        }
-        return response;
-      });
+      const response = await fetch(this.url).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);
@@ -37,16 +37,18 @@ class API {
     };
 
     try {
-      const response = await fetch(url, headers);
+      const response = await fetch(url, headers).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);
     }
   }
 
-  async updateTask(url: string, data = {}) {
+  async updateTask(id: string, data: Task = {}) {
+    const url = this.url + `/${id}`;
+
     const headers: RequestInit = {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -54,7 +56,7 @@ class API {
     };
 
     try {
-      const response = await fetch(url, headers);
+      const response = await fetch(url, headers).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);
@@ -119,6 +121,16 @@ class API {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  createErr(response: Response) {
+    if (!response.ok) {
+      const err: CustomError = new Error('HTTP status code: ' + response.status);
+      err.response = response;
+      err.status = response.status;
+      throw err;
+    }
+    return response;
   }
 }
 

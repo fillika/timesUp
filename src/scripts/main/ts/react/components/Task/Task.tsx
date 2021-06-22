@@ -12,7 +12,6 @@ type TaskData = {
 
 const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
-  const [value, setValue] = useState(data.name);
   const dispatch = useDispatch();
 
   function counter() {
@@ -24,6 +23,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
           </div>
         );
       } else {
+        setActive(false)
         return null;
       }
     }
@@ -40,7 +40,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
     });
 
     if (response?.status) {
-      dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date:  data.at, name: data.name } });
+      dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date: data.at, name: data.name } });
       console.log(response.message); // Todo выводить в всплывашки
     } else {
       console.error('Ошибка. Таски не удалены по какой-то причине');
@@ -53,10 +53,9 @@ const Task: React.FC<TaskData> = ({ data }) => {
         {counter()}
         <div className='task__input-wrapper'>
           <input
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setValue(event?.target.value)}
-            onBlur={onBlur}
+            // onBlur={onBlur}
             type='text'
-            value={value}
+            defaultValue={data.name}
           />
         </div>
         <div className='task-panel'>
