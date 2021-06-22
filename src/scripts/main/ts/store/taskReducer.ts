@@ -17,7 +17,7 @@ const initialState: TaskState = {
 
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
-    case 'ADD_TASKS':
+    case 'GET_ALL_TASKS':
       return {
         ...state,
         taskArr: action.payload,
@@ -32,7 +32,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       if (indexOfDate !== -1) {
         sort.findDuplicatesUnshift(newArr[indexOfDate].tasks, action.payload);
       } else {
-        // Todo если массив совсем новый и нужно добавить новый день
+        const sortedTask = sort.createFirstSortedTask(newArr, action.payload);
+        newArr.unshift(sortedTask);
       }
 
       return {
@@ -58,7 +59,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       const newArr = [...state.taskArr];
       const { date, name } = action.payload;
       const indexByDate = _.findIndex(newArr, ['date', new Date(date).toLocaleDateString()]);
-      
+
       _.remove(newArr[indexByDate].tasks, el => el.name === name);
 
       return {
