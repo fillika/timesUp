@@ -25,20 +25,9 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       break;
 
     case 'CREATE_TASK': {
-      const date = new Date(action.payload.at).toLocaleDateString();
-      const indexOfDate = _.findIndex(state.taskArr, ['date', date]);
-      const newArr = [...state.taskArr];
-
-      if (indexOfDate !== -1) {
-        sort.findDuplicatesUnshift(newArr[indexOfDate].tasks, action.payload);
-      } else {
-        const sortedTask = sort.createFirstSortedTask(action.payload);
-        newArr.unshift(sortedTask);
-      }
-
       return {
         ...state,
-        taskArr: newArr,
+        taskArr: action.payload,
       };
     }
     case 'UPDATE_TASK_LIST':

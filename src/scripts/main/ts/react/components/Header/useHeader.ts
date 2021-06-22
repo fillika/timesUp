@@ -1,6 +1,7 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { time } from 'Utils/Time';
+import { sort } from 'Utils/Sort';
 import api from 'Api/index';
 import _ from 'lodash';
 
@@ -108,7 +109,7 @@ function useHeader() {
             if (result.status === 'success') {
               switch (result.action) {
                 case 'CREATE':
-                  dispatch({ type: 'CREATE_TASK', payload: result.data.task });
+                  dispatch({ type: 'CREATE_TASK', payload: sort.sortData(result.data.tasks) });
                   break;
                 default:
                   break;
