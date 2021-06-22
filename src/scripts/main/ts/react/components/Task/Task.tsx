@@ -5,6 +5,7 @@ import { time } from 'Utils/Time';
 import trashIcon from 'Images/icons/trash.svg';
 import api from 'Api/index';
 import { useDispatch } from 'react-redux';
+import { RangeTime } from 'App/components/RangeTime';
 
 type TaskData = {
   data: TaskType;
@@ -62,11 +63,8 @@ const Task: React.FC<TaskData> = ({ data }) => {
           <div onClick={deleteTaskByName} className='task-panel__icon task-panel__icon--delete'>
             <img src={trashIcon} alt='Удалить таск' />
           </div>
-          <span>
-            {
-              time.countTotalTime(data.duration)
-            }
-          </span>
+          
+          <RangeTime data={data} />
         </div>
       </div>
 

@@ -1,6 +1,20 @@
 .task-panel {
     display: flex;
     align-items: center;
+    font-size: 16px;
+    line-height: 1.25em;
+
+    &__time {
+        font-size: 0.8em;
+
+        &--range {
+            margin-right: 10px;
+        }
+    }
+
+    &__time-wrapper {
+        display: flex;
+    }
 
     &__icon {
         cursor: pointer;
