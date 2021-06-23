@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
+import { useEffect, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { activeTaskState } from 'Redux/activeTask';
 import { RootState } from 'Redux/index';
@@ -16,8 +16,8 @@ function useHeader() {
   const taskFromServer: activeTaskState = {
     at: 0,
     userID: '60c8be578a7a1e9f8c8edecb',
-    name: 'Long task',
-    start: 1624435091000,
+    name: 'New short task',
+    start: 1624471988371,
     stop: 0,
     duration: 0,
     isTimeActive: true,
@@ -25,11 +25,20 @@ function useHeader() {
   };
 
   useEffect(() => {
-    // Todo Тут нужен fetch на activeTask
+    getActiveTask('60c8be578a7a1e9f8c8edecb');
 
-    dispatch({ type: 'SET_ACTIVE_TASK', payload: taskFromServer });
-    dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: true });
-    startTimer(store.getState().activeTask.start);
+    async function getActiveTask(id: string) {
+      const result = await api.getActiveTask('60c8be578a7a1e9f8c8edecb');
+      const activeTask: activeTaskState = result.data.activeTask;
+
+      if (activeTask.isTimeActive) {
+        dispatch({ type: 'SET_ACTIVE_TASK', payload: taskFromServer });
+        dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: true });
+        startTimer(store.getState().activeTask.start);
+      } else {
+        return;
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -57,12 +66,8 @@ function useHeader() {
 
   const onClick = () => taskHandler();
   const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && taskHandler();
-  const onInput = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: 'UPDATE_ACTIVE_TASK_NAME',
-      payload: event.target.value,
-    });
-  };
+  const onInput = (event: ChangeEvent<HTMLInputElement>) =>
+    dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: event.target.value });
 
   function startTimer(start: number) {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });

@@ -12,15 +12,19 @@ type Task = {
 };
 
 class API {
-  url: string;
+  host: string;
+  tasksUrl: string;
+  activeTaskUrl: string;
 
   constructor() {
-    this.url = 'http://localhost:22222/api/v1/tasks';
+    this.host = 'http://localhost:22222';
+    this.tasksUrl = this.host + '/api/v1/tasks';
+    this.activeTaskUrl = this.host + '/api/v1/activeTask';
   }
 
   async getAllTask(): Promise<any> {
     try {
-      const response = await fetch(this.url).then(this.createErr);
+      const response = await fetch(this.tasksUrl).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);
@@ -37,7 +41,7 @@ class API {
     };
 
     try {
-      const response = await fetch( this.url, headers).then(this.createErr);
+      const response = await fetch(this.tasksUrl, headers).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);
@@ -45,7 +49,7 @@ class API {
   }
 
   async updateTask(id: string, data: Task = {}) {
-    const url = this.url + `/${id}`;
+    const url = this.tasksUrl + `/${id}`;
 
     const headers: RequestInit = {
       method: 'PATCH',
@@ -73,7 +77,7 @@ class API {
     };
 
     try {
-      const response = await fetch(this.url, headers).then(this.createErr);
+      const response = await fetch(this.tasksUrl, headers).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);
@@ -85,7 +89,7 @@ class API {
       method: 'DELETE',
     };
 
-    const urlWithID = `${this.url}/${id}`;
+    const urlWithID = `${this.tasksUrl}/${id}`;
 
     try {
       const response = await fetch(urlWithID, headers).then(this.createErr);
@@ -105,7 +109,7 @@ class API {
     };
 
     try {
-      const response = await fetch(this.url, headers).then(response => {
+      const response = await fetch(this.tasksUrl, headers).then(response => {
         if (!response.ok) {
           const err: CustomError = new Error('HTTP status code: ' + response.status);
           err.response = response;
@@ -121,6 +125,17 @@ class API {
       });
 
       return response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getActiveTask(userID: string) {
+    const url = `${this.activeTaskUrl}/${userID}`;
+
+    try {
+      const response = await fetch(url).then(this.createErr);
+      return response.json();
     } catch (error) {
       console.error(error);
     }
