@@ -1,7 +1,7 @@
 import { useEffect, useState, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { activeTaskState } from 'Redux/activeTask';
-import { RootState, store } from 'Redux/index';
+import { RootState } from 'Redux/index';
 import { time } from 'Utils/Time';
 import { sort } from 'Utils/Sort';
 import { SortedTask } from 'Types/tasks';
@@ -11,6 +11,7 @@ import _ from 'lodash';
 function useHeader() {
   const dispatch = useDispatch();
   const activeTask = useSelector((state: RootState) => state.activeTask);
+  const store = useStore();
 
   const taskFromServer: activeTaskState = {
     at: 0,
