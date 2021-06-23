@@ -8,4 +8,26 @@
     font-weight: bold;
     color: $color-slateblue;
   }
+
+  &__panel {
+    display: flex;
+    align-items: center;
+    height: 20px;
+  }
+
+  &__total-time {
+    font-size: 0.8em;
+    color: $color-main-dark;
+    margin-right: 20px;
+  }
+
+  &__menu {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
