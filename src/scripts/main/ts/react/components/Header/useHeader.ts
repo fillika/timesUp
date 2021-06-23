@@ -1,7 +1,8 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
 import { useDispatch } from 'react-redux';
 import { time } from 'Utils/Time';
 import { sort } from 'Utils/Sort';
+import { SortedTask } from 'Types/tasks';
 import api from 'Api/index';
 import _ from 'lodash';
 
@@ -15,6 +16,7 @@ type activeTask = {
 };
 
 function useHeader() {
+  const dispatch = useDispatch();
   const defaultTask: activeTask = {
     at: 0,
     userID: '60c8be578a7a1e9f8c8edecb',
@@ -23,8 +25,6 @@ function useHeader() {
     stop: 0,
     duration: 0,
   };
-
-  const dispatch = useDispatch();
 
   const [taskName, setTaskName] = useState('');
   const [isTimeStarted, setTimeStarted] = useState(false);
@@ -57,7 +57,11 @@ function useHeader() {
     };
   }, [startTime, endTime]);
 
-  const onClick = () => {
+  const onClick = () => taskHandler();
+  const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && taskHandler();
+  const onInput = (event: ChangeEvent<HTMLInputElement>) => setTaskName(event.target.value);
+
+  function taskHandler() {
     if (taskName.trim() === '') {
       // TODO создать модалку с оповещалкой
       console.log('Напишите имя задачи');
@@ -69,14 +73,7 @@ function useHeader() {
     const endTime = new Date().getTime();
 
     // Установка даты начала
-    setStartTime(() => {
-      if (isTimeStarted) {
-        return 0;
-      } else {
-        return start;
-      }
-    });
-
+    setStartTime(() => (isTimeStarted ? 0 : start));
     setTask(task => {
       if (isTimeStarted) {
         return task;
@@ -86,15 +83,7 @@ function useHeader() {
         return task;
       }
     });
-
-    setEndTime(prev => {
-      if (isTimeStarted) {
-        return 0;
-      } else {
-        return new Date().getTime();
-      }
-    });
-
+    setEndTime(() => (isTimeStarted ? 0 : new Date().getTime()));
     // Установка даты конца
     setTask(prev => {
       if (isTimeStarted) {
@@ -102,53 +91,13 @@ function useHeader() {
         prev.duration = endTime - prev.start;
         prev.at = endTime + 1000;
 
-        const create = async () => {
-          try {
-            const result = await api.createTask(task);
-
-            if (result.status === 'success') {
-              switch (result.action) {
-                case 'CREATE':
-                  dispatch({ type: 'CREATE_TASK', payload: sort.sortData(result.data.tasks) });
-                  break;
-                default:
-                  break;
-              }
-            } else {
-              // TODO обработать ошибку
-            }
-          } catch (error) {
-            console.error(error);
-          }
-        };
-        create();
+        createTask(task, dispatch);
         return prev;
       }
       return prev;
     });
-
-    setTotalTime(prev => {
-      if (isTimeStarted) {
-        return '0:00:00';
-      } else {
-        return prev;
-      }
-    });
-
-    setTaskName(prev => {
-      if (isTimeStarted) {
-        return '';
-      } else {
-        return prev;
-      }
-    });
-
-    // TODO Добавление таска в список тасков (dispatch)
-    // TODO Очистка таска для будущей задачи
-  };
-
-  function onInput(event: ChangeEvent<HTMLInputElement>) {
-    setTaskName(event.target.value);
+    setTotalTime(prev => (isTimeStarted ? '0:00:00' : prev));
+    setTaskName(prev => (isTimeStarted ? '' : prev));
   }
 
   return {
@@ -157,7 +106,29 @@ function useHeader() {
     isTimeStarted,
     taskName,
     totalTime,
+    onKeyPress,
   };
 }
 
 export { useHeader };
+
+// utils handlers
+async function createTask(task: activeTask, dispatch: Dispatch<{ type: string; payload: SortedTask[] }>) {
+  try {
+    const result = await api.createTask(task);
+
+    if (result.status === 'success') {
+      switch (result.action) {
+        case 'CREATE':
+          dispatch({ type: 'CREATE_TASK', payload: sort.sortData(result.data.tasks) });
+          break;
+        default:
+          break;
+      }
+    } else {
+      // TODO обработать ошибку
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}

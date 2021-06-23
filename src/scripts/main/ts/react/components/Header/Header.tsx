@@ -4,7 +4,7 @@ import stopBtn from 'Images/icons/stop-button.svg';
 import { useHeader } from './useHeader';
 
 const Header: React.FC = () => {
-  const { onInput, taskName, isTimeStarted, totalTime, onClick } = useHeader();
+  const { onInput, taskName, isTimeStarted, totalTime, onClick, onKeyPress } = useHeader();
 
   return (
     <header className='header'>
@@ -16,6 +16,7 @@ const Header: React.FC = () => {
           placeholder='Create your task'
           type='text'
           disabled={isTimeStarted}
+          onKeyPress={onKeyPress}
         />
       </div>
 
