@@ -17,7 +17,7 @@ function useHeader() {
 
   useEffect(() => {
     getActiveTask(userID);
-    
+
     //  Todo рефакторинг. Вынести ниже в utils
     async function getActiveTask(id: string) {
       const result = await api.getActiveTask(id);
@@ -63,6 +63,7 @@ function useHeader() {
 
   function startTimer(start: number) {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
+    updateActiveTask(store.getState().activeTask)
   }
 
   function stopTimer() {
@@ -77,27 +78,18 @@ function useHeader() {
       },
     });
 
-    //  Todo рефакторинг. Вынести ниже в utils
-    updateACtiveTask(); // fetch на обновление таска. Скидывает до дефолтных значений
-    async function updateACtiveTask() {
-      const data = {
-        at: 0,
-        userID: '60c8be578a7a1e9f8c8edecb',
-        name: '',
-        start: 0,
-        stop: 0,
-        duration: 0,
-        isTimeActive: false,
-        totalTime: '0:00:00'
-      };
+    const data = {
+      at: 0,
+      userID: '60c8be578a7a1e9f8c8edecb',
+      name: '',
+      start: 0,
+      stop: 0,
+      duration: 0,
+      isTimeActive: false,
+      totalTime: '0:00:00',
+    };
+    updateActiveTask(data); // fetch на обновление таска. Скидывает до дефолтных значений
 
-      try {
-        await api.updateActiveTask(userID, data);
-        console.log('Task was upd');
-      } catch (error) {
-        console.error(error);
-      }
-    }
   }
 
   function taskHandler() {
@@ -144,6 +136,15 @@ async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: stri
     } else {
       // TODO обработать ошибку
     }
+  } catch (error) {
+    console.error(error);
+  }
+}
+    
+async function updateActiveTask(data: activeTaskState) {
+  try {
+    await api.updateActiveTask(userID, data);
+    console.log('Task was upd');
   } catch (error) {
     console.error(error);
   }

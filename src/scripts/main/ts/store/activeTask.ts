@@ -25,7 +25,14 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
     case 'SET_ACTIVE_TASK':
       return {
         ...state,
-        ...action.payload,
+        at: action.payload.at,
+        userID: action.payload.userID,
+        name: action.payload.name,
+        start:action.payload.start,
+        stop: action.payload.stop,
+        duration: action.payload.duration,
+        isTimeActive: action.payload.totalTime,
+        totalTime: action.payload.totalTime
       };
 
     case 'SET_ACTIVE_TASK_TOTAL_TIME':
