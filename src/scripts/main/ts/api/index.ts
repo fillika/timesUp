@@ -27,7 +27,7 @@ class API {
     }
   }
 
-  async createTask(url: string, data = {}) {
+  async createTask(data = {}) {
     const headers: RequestInit = {
       method: 'POST',
       headers: {
@@ -37,7 +37,7 @@ class API {
     };
 
     try {
-      const response = await fetch(url, headers).then(this.createErr);
+      const response = await fetch( this.url, headers).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);

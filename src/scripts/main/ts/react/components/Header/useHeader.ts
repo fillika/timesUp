@@ -104,7 +104,7 @@ function useHeader() {
 
         const create = async () => {
           try {
-            const result = await api.createTask('http://localhost:22222/api/v1/tasks', task);
+            const result = await api.createTask(task);
 
             if (result.status === 'success') {
               switch (result.action) {
