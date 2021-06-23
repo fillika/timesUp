@@ -31,13 +31,20 @@ function useHeader() {
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
   const [totalTime, setTotalTime] = useState('0:00:00');
-  const [task, setTask] = useState<activeTask>(defaultTask);
+  const [task, setTask] = useState<activeTask | null>(defaultTask);
 
   useEffect(() => {
     // Проверка при первой загрузке
     console.log('Проверка при первой загрузке');
-     
-  }, [])
+    setTask({
+      at: 0,
+      userID: '60c8be578a7a1e9f8c8edecb',
+      name: 'Long task',
+      start: 1624435091000,
+      stop: 0,
+      duration: 0,
+    });
+  }, []);
 
   useEffect(() => {
     let timeoutID = setTimeout(() => {
@@ -74,37 +81,44 @@ function useHeader() {
       return;
     }
 
-    setTimeStarted(!isTimeStarted);
-    const start = new Date().getTime(); // 
-    const endTime = new Date().getTime();
-    
-    // Установка даты начала
-    setStartTime(() => (isTimeStarted ? 0 : start));
-    setTask(task => {
-      if (isTimeStarted) {
-        return task;
-      } else {
-        task.start = start;
-        task.name = taskName;
-        return task;
-      }
-    });
-    setEndTime(() => (isTimeStarted ? 0 : new Date().getTime()));
-    // Установка даты конца
-    setTask(prev => {
-      if (isTimeStarted) {
-        prev.stop = endTime;
-        prev.duration = endTime - prev.start;
-        prev.at = endTime + 1000;
+    if (task === null) {
+      setTask(defaultTask);
+    }
 
-        createTask(task, dispatch);
+    setTimeStarted(!isTimeStarted);
+    const start = new Date().getTime(); //
+    const endTime = new Date().getTime();
+
+    // todo изменить логику set state.
+    if (isTimeStarted) {
+      // Когда таск завершен
+      setStartTime(0);
+      setEndTime(0);
+      setTask(prev => {
+        if (task !== null && prev !== null) {
+          prev.stop = endTime;
+          prev.duration = endTime - prev.start;
+          prev.at = endTime + 1000;
+
+          createTask(task, dispatch);
+        }
+
         return prev;
-      }
-      return prev;
-    });
-    // Сбросы таймера и имени, когда задача выключена
-    setTotalTime(prev => (isTimeStarted ? '0:00:00' : prev));
-    setTaskName(prev => (isTimeStarted ? '' : prev));
+      });
+      setTotalTime('0:00:00');
+      setTaskName('');
+    } else {
+      // Когда таск начат
+      setStartTime(start);
+      setTask(task => {
+        if (task) {
+          task.start = start;
+          task.name = taskName;
+        }
+        return task;
+      });
+      setEndTime(new Date().getTime());
+    }
   }
 
   return {
