@@ -5,6 +5,8 @@ export type activeTaskState = {
   start: number;
   stop: number;
   duration: number;
+  isTimeActive: boolean;
+  totalTime: string;
 };
 
 const initialState: activeTaskState = {
@@ -14,15 +16,28 @@ const initialState: activeTaskState = {
   start: 0,
   stop: 0,
   duration: 0,
+  isTimeActive: false,
+  totalTime: '0:00:00'
 };
 
 export function activeTaskReducer(state: activeTaskState = initialState, action: any) {
   switch (action.type) {
     case 'SET_ACTIVE_TASK':
-
       return {
         ...state,
         ...action.payload,
+      };
+
+    case 'SET_ACTIVE_TASK_TOTAL_TIME':
+      return {
+        ...state,
+        totalTime: action.payload,
+      };
+
+    case 'UPDATE_ACTIVE_TASK_STATUS':
+      return {
+        ...state,
+        isTimeActive: action.payload,
       };
 
     case 'UPDATE_ACTIVE_TASK_NAME':

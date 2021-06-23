@@ -1,7 +1,7 @@
 import { useEffect, useState, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { activeTaskState } from 'Redux/activeTask';
-import { RootState } from 'Redux/index';
+import { RootState, store } from 'Redux/index';
 import { time } from 'Utils/Time';
 import { sort } from 'Utils/Sort';
 import { SortedTask } from 'Types/tasks';
@@ -19,51 +19,38 @@ function useHeader() {
     start: 1624435091000,
     stop: 0,
     duration: 0,
+    isTimeActive: true,
+    totalTime: '0:00:00',
   };
 
-  const [isTimeStarted, setTimeStarted] = useState(false);
-  const [startTime, setStartTime] = useState(0);
-  const [endTime, setEndTime] = useState(0);
-  const [totalTime, setTotalTime] = useState('0:00:00');
-
-  // Todo переделать всю логику под Redux.
-  // Переменная state обновляется после рендера. Нужно 
   useEffect(() => {
     dispatch({ type: 'SET_ACTIVE_TASK', payload: taskFromServer });
-    // setTimeStarted(!isTimeStarted);
-    // startTimer(activeTask.start);
+    dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: true });
+    startTimer(store.getState().activeTask.start);
   }, []);
 
   useEffect(() => {
     if (activeTask.duration > 0) {
       createTask(activeTask, dispatch);
+      dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: '0:00:00' });
       dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: '' });
     }
   }, [activeTask.duration]);
 
   useEffect(() => {
     let timeoutID = setTimeout(() => {
-      setEndTime(prev => {
-        if (isTimeStarted) {
-          return new Date().getTime();
-        } else {
-          return prev;
-        }
-      });
-
-      setTotalTime(prev => {
-        if (isTimeStarted) {
-          return time.countTotalTime(endTime - startTime);
-        } else {
-          return prev;
-        }
-      });
+      if (store.getState().activeTask.isTimeActive) {
+        const diff = new Date().getTime() - activeTask.start;
+        dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: time.countTotalTime(diff) });
+      } else {
+        clearTimeout(timeoutID);
+      }
     }, 1000);
 
     return () => {
       clearTimeout(timeoutID);
     };
-  }, [startTime, endTime]);
+  }, [store.getState().activeTask.isTimeActive, activeTask.totalTime]);
 
   const onClick = () => taskHandler();
   const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && taskHandler();
@@ -75,13 +62,7 @@ function useHeader() {
   };
 
   function startTimer(start: number) {
-    setStartTime(start);
-    setEndTime(new Date().getTime()); // Устанавливаю равное старту, так как при инициализации время в большой минус уходит
-
-    dispatch({
-      type: 'UPDATE_ACTIVE_TASK_START',
-      payload: start,
-    });
+    dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
   }
 
   function stopTimer() {
@@ -95,8 +76,6 @@ function useHeader() {
         at: endTime + 1000,
       },
     });
-
-    setTotalTime('0:00:00');
   }
 
   function taskHandler() {
@@ -106,9 +85,10 @@ function useHeader() {
       return;
     }
 
-    setTimeStarted(!isTimeStarted);
+    dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });
+    // * Тут нет рендера
 
-    if (!isTimeStarted) {
+    if (store.getState().activeTask.isTimeActive) {
       const start = new Date().getTime();
       startTimer(start);
     } else {
@@ -119,9 +99,7 @@ function useHeader() {
   return {
     onInput,
     onClick,
-    isTimeStarted,
     activeTask,
-    totalTime,
     onKeyPress,
   };
 }
