@@ -34,6 +34,12 @@ function useHeader() {
   const [task, setTask] = useState<activeTask>(defaultTask);
 
   useEffect(() => {
+    // Проверка при первой загрузке
+    console.log('Проверка при первой загрузке');
+     
+  }, [])
+
+  useEffect(() => {
     let timeoutID = setTimeout(() => {
       setEndTime(prev => {
         if (isTimeStarted) {
@@ -69,9 +75,9 @@ function useHeader() {
     }
 
     setTimeStarted(!isTimeStarted);
-    const start = new Date().getTime();
+    const start = new Date().getTime(); // 
     const endTime = new Date().getTime();
-
+    
     // Установка даты начала
     setStartTime(() => (isTimeStarted ? 0 : start));
     setTask(task => {
@@ -96,6 +102,7 @@ function useHeader() {
       }
       return prev;
     });
+    // Сбросы таймера и имени, когда задача выключена
     setTotalTime(prev => (isTimeStarted ? '0:00:00' : prev));
     setTaskName(prev => (isTimeStarted ? '' : prev));
   }

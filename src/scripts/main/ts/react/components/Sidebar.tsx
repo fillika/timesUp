@@ -5,10 +5,7 @@ const Sidebar: React.FC = () => {
     <aside className="sidebar">
       <p>Left menu</p>
       <ul>
-        <li>One</li>
-        <li>Two</li>
-        <li>Three</li>
-        <li>Four</li>
+        <li>Timer</li>
       </ul>
     </aside>
   );
