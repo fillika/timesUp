@@ -141,6 +141,25 @@ class API {
     }
   }
 
+  async updateActiveTask(userID: string, data = {}) {
+    const url = `${this.activeTaskUrl}/${userID}`;
+
+    const headers: RequestInit = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    };
+
+    try {
+      const response = await fetch(url, headers).then(this.createErr);
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   createErr(response: Response) {
     if (!response.ok) {
       const err: CustomError = new Error('HTTP status code: ' + response.status);
