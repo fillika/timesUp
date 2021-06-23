@@ -24,6 +24,8 @@ function useHeader() {
   };
 
   useEffect(() => {
+    // Todo Тут нужен fetch на activeTask
+
     dispatch({ type: 'SET_ACTIVE_TASK', payload: taskFromServer });
     dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: true });
     startTimer(store.getState().activeTask.start);
