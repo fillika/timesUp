@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, useState, MouseEvent } from 'react';
+import React, { ChangeEvent, FocusEvent, useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { TimeType } from 'Types/tasks';
 import trashIcon from 'Images/icons/trash.svg';
@@ -41,6 +41,10 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
 const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const dispatch = useDispatch();
   const [value, setValue] = useState(name);
+
+  useEffect(() => {
+    setValue(name)
+  }, [name])
 
   async function deleteTaskByID() {
     const response = await api.deleteTaskByID(_id);

@@ -13,6 +13,7 @@ type TaskData = {
 
 const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
+  const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
 
   function counter() {
@@ -68,18 +69,22 @@ const Task: React.FC<TaskData> = ({ data }) => {
       <div className='task task--parent'>
         {counter()}
         <div className='task__input-wrapper'>
-          <input onBlur={updateTaskByName} type='text' defaultValue={data.name} />
+          <input
+            onBlur={updateTaskByName}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
+            type='text'
+            defaultValue={name}
+          />
         </div>
         <div className='task-panel'>
           <div onClick={deleteTaskByName} className='task-panel__icon task-panel__icon--delete'>
             <img src={trashIcon} alt='Удалить таск' />
           </div>
-
           <RangeTime data={data} />
         </div>
       </div>
 
-      {isActive && data.time !== undefined && data.time?.length > 1 && <SubTasks data={data.time} name={data.name} />}
+      {isActive && data.time !== undefined && data.time?.length > 1 && <SubTasks data={data.time} name={name} />}
     </li>
   );
 };
