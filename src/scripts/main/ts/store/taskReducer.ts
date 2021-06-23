@@ -1,5 +1,4 @@
 import { SortedTask } from 'Types/tasks';
-import { sort } from 'Utils/Sort';
 import _ from 'lodash';
 
 export type TaskState = {
