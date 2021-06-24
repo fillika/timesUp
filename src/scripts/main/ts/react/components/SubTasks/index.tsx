@@ -1,10 +1,12 @@
-import React, { ChangeEvent, FocusEvent, useState, useEffect} from 'react';
-import { useDispatch } from 'react-redux';
+import React, { ChangeEvent, FocusEvent, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { TimeType } from 'Types/tasks';
 import trashIcon from 'Images/icons/trash.svg';
 import taskAPI from 'Api/tasks';
 import { sort } from 'Utils/Sort';
 import { time } from 'Utils/Time';
+import playBtn from 'Images/icons/play.svg';
+import { RootState } from 'Redux/index';
 
 type Task = {
   _id: string;
@@ -33,19 +35,23 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
       <span className='task-panel__time task-panel__time--range'>
         {time.createTemplateTime(start)}&nbsp;-&nbsp;{time.createTemplateTime(stop)}
       </span>
-      <span className='task-panel__time task-panel__time--total'>{time.countTotalTime(new Date(stop).getTime() - new Date(start).getTime())}</span>
+      <span className='task-panel__time task-panel__time--total'>
+        {time.countTotalTime(new Date(stop).getTime() - new Date(start).getTime())}
+      </span>
     </div>
   );
 };
 
 const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.activeTask);
   const [value, setValue] = useState(name);
 
   useEffect(() => {
-    setValue(name)
-  }, [name])
+    setValue(name);
+  }, [name]);
 
+  // Todo рефактор - вынести логику в отдельный хук
   async function deleteTaskByID() {
     const response = await taskAPI.deleteTaskByID(_id);
 
@@ -76,6 +82,11 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
     }
   }
 
+  async function startTask() {
+    dispatch({type: 'UPDATE_ACTIVE_TASK_NAME', payload: name});
+    
+  }
+
   return (
     <div className='task task--child'>
       <input onChange={onChange} onBlur={updateTask} type='text' value={value} />
@@ -85,6 +96,9 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
         </div>
         <div>
           <Time start={start} stop={stop} />
+        </div>
+        <div onClick={startTask} className='task-panel__icon task-panel__icon--play'>
+          <img src={playBtn} alt='Продолжить задачу' />
         </div>
       </div>
     </div>

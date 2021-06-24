@@ -17,19 +17,32 @@
     }
 
     &__icon {
+        --width: 20px;
         cursor: pointer;
         display: flex;
         justify-content: center;
         align-items: center;
+        min-width: var(--width);
+        will-change: transform;
+        transition: 255ms ease-in transform;
+
+        &:hover {
+            transform: scale(1.1);
+            transition: 75ms ease-in transform;
+        }
 
         &--delete {
-            width: 20px;
+            width: var(--width);
             height: auto;
             margin-right: 10px;
+        }
 
-            &:hover {
-                transition: 125ms ease-in box-shadow;
-            }
+        &--play {
+            --width: 15px;
+            width: var(--width);
+            height: auto;
+            margin-right: 0;
+            margin-left: 10px;
         }
     }
 }
