@@ -26,7 +26,7 @@ function useHeader() {
       if (activeTask.isTimeActive) {
         dispatch({ type: 'SET_ACTIVE_TASK', payload: activeTask });
         dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: true });
-        startTimer(store.getState().activeTask.start);
+        dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: store.getState().activeTask.start });
       } else {
         return;
       }
@@ -60,11 +60,6 @@ function useHeader() {
   const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && taskHandler();
   const onInput = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: event.target.value });
-
-  function startTimer(start: number) {
-    dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
-    updateActiveTask(store.getState().activeTask);
-  }
 
   function stopTimer() {
     const endTime = new Date().getTime();
@@ -103,7 +98,8 @@ function useHeader() {
 
     if (store.getState().activeTask.isTimeActive) {
       const start = new Date().getTime();
-      startTimer(start);
+      dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
+      updateActiveTask(store.getState().activeTask);
     } else {
       stopTimer();
     }
