@@ -9,15 +9,14 @@ import taskAPI from 'Api/tasks';
 import activeTaskAPI from 'Api/activeTask';
 import _ from 'lodash';
 
-const userID = '60c8be578a7a1e9f8c8edecb';
 
 function useHeader() {
   const dispatch = useDispatch();
-  const activeTask = useSelector((state: RootState) => state.activeTask);
+  const { activeTask, app } = useSelector((state: RootState) => state);
   const store = useStore();
 
   useEffect(() => {
-    getActiveTask(userID);
+    getActiveTask(app.userID);
 
     //  Todo рефакторинг. Вынести ниже в utils
     async function getActiveTask(id: string) {
@@ -64,7 +63,7 @@ function useHeader() {
 
   function startTimer(start: number) {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
-    updateActiveTask(store.getState().activeTask)
+    updateActiveTask(store.getState().activeTask);
   }
 
   function stopTimer() {
@@ -100,8 +99,6 @@ function useHeader() {
     }
 
     dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });
-    console.log(activeTask.isTimeActive);
-    
     // * Тут нет рендера
 
     if (store.getState().activeTask.isTimeActive) {
@@ -136,16 +133,16 @@ async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: stri
           break;
       }
     } else {
-      // TODO обработать ошибку
+      throw new Error(result);
     }
   } catch (error) {
     console.error(error);
   }
 }
-    
+
 async function updateActiveTask(data: activeTaskState) {
   try {
-    await activeTaskAPI.updateActiveTask(userID, data);
+    await activeTaskAPI.updateActiveTask(data.userID, data);
   } catch (error) {
     console.error(error);
   }
