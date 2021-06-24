@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FocusEvent, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { TimeType } from 'Types/tasks';
 import trashIcon from 'Images/icons/trash.svg';
 import taskAPI from 'Api/tasks';
@@ -7,6 +7,7 @@ import { sort } from 'Utils/Sort';
 import { time } from 'Utils/Time';
 import playBtn from 'Images/icons/play.svg';
 import { RootState } from 'Redux/index';
+import { taskInstance } from 'Utils/Task';
 
 type Task = {
   _id: string;
@@ -44,12 +45,17 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
 
 const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const dispatch = useDispatch();
-  const state = useSelector((state: RootState) => state.activeTask);
+  const activeTask = useSelector((state: RootState) => state.activeTask);
+  const store = useStore();
   const [value, setValue] = useState(name);
 
   useEffect(() => {
     setValue(name);
   }, [name]);
+
+  useEffect(() => {
+    console.log('GONDES RENDER');
+  }, [activeTask]);
 
   // Todo рефактор - вынести логику в отдельный хук
   async function deleteTaskByID() {
@@ -82,8 +88,14 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
     }
   }
 
-  async function startTask() {
-    dispatch({type: 'UPDATE_ACTIVE_TASK_NAME', payload: name});
+ function startTask() {
+    dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
+    // * При первоначальном клике, когда поле пустое, мы передаем activeTask без обновленного
+    if (activeTask.name !== '') {
+      taskInstance.taskHandler(activeTask, dispatch, store);
+    } else {
+      console.log('Мы не вызвали рендер и не обновили state');
+    }
   }
 
   return (
