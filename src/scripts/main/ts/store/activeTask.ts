@@ -70,8 +70,9 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
     case 'RESET_ACTIVE_TASK_PROPS':
       return {
         ...state,
-        totalTime: action.payload,
-        name: action.payload,
+        totalTime: action.payload.totalTime,
+        name: action.payload.name,
+        duration: action.payload.duration,
       };
 
     default:

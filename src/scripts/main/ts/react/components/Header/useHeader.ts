@@ -21,7 +21,7 @@ function useHeader() {
   useEffect(() => {
     if (activeTask.duration > 0) {
       createTask(activeTask, dispatch);
-      dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: '0:00:00' });
+      dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '0:00:00', name: '', duration: 0 } });
     }
   }, [activeTask.duration]);
 
