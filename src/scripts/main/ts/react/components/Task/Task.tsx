@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { TaskType } from 'Types/tasks';
 import SubTasks from '../SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
-import api from 'Api/index';
+import taskAPI from 'Api/tasks';
 import { useDispatch } from 'react-redux';
 import { RangeTime } from 'App/components/RangeTime';
 import { sort } from 'Utils/Sort';
@@ -43,7 +43,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
             name: val,
           },
         };
-        const response = await api.updateTaskByName(queryReq);
+        const response = await taskAPI.updateTaskByName(queryReq);
 
         dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
       } catch (error) {}
@@ -51,7 +51,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
   }
 
   async function deleteTaskByName() {
-    const response = await api.deleteTaskByName({
+    const response = await taskAPI.deleteTaskByName({
       name: data.name,
       date: data.at,
     });

@@ -2,7 +2,7 @@ import React, { ChangeEvent, FocusEvent, useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { TimeType } from 'Types/tasks';
 import trashIcon from 'Images/icons/trash.svg';
-import api from 'Api/index';
+import taskAPI from 'Api/tasks';
 import { sort } from 'Utils/Sort';
 import { time } from 'Utils/Time';
 
@@ -47,7 +47,7 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   }, [name])
 
   async function deleteTaskByID() {
-    const response = await api.deleteTaskByID(_id);
+    const response = await taskAPI.deleteTaskByID(_id);
 
     if (response.status === 'success') {
       dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) });
@@ -61,7 +61,7 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
 
     try {
       if (val !== name) {
-        const response = await api.updateTask(_id, {
+        const response = await taskAPI.updateTask(_id, {
           name: val,
         });
 

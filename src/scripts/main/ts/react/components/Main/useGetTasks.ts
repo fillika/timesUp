@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/index';
-import api from 'Api/index';
+import taskAPI from 'Api/tasks';
 import {sort} from 'Utils/Sort';
 
 function useGetTasks() {
@@ -11,7 +11,7 @@ function useGetTasks() {
   useEffect(() => {
     const result = async () => {
       try {
-        const response = await api.getAllTask();
+        const response = await taskAPI.getAllTask();
         const tasks = sort.sortData(response.data.tasks);
         dispatch({ type: 'GET_ALL_TASKS', payload: tasks });
       } catch (error) {

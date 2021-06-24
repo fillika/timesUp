@@ -5,7 +5,8 @@ import { RootState } from 'Redux/index';
 import { time } from 'Utils/Time';
 import { sort } from 'Utils/Sort';
 import { SortedTask } from 'Types/tasks';
-import api from 'Api/index';
+import taskAPI from 'Api/tasks';
+import activeTaskAPI from 'Api/activeTask';
 import _ from 'lodash';
 
 const userID = '60c8be578a7a1e9f8c8edecb';
@@ -20,7 +21,7 @@ function useHeader() {
 
     //  Todo рефакторинг. Вынести ниже в utils
     async function getActiveTask(id: string) {
-      const result = await api.getActiveTask(id);
+      const result = await activeTaskAPI.getActiveTask(id);
       const activeTask: activeTaskState = result.data.activeTask;
 
       if (activeTask.isTimeActive) {
@@ -89,7 +90,6 @@ function useHeader() {
       totalTime: '0:00:00',
     };
     updateActiveTask(data); // fetch на обновление таска. Скидывает до дефолтных значений
-
   }
 
   function taskHandler() {
@@ -100,6 +100,8 @@ function useHeader() {
     }
 
     dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });
+    console.log(activeTask.isTimeActive);
+    
     // * Тут нет рендера
 
     if (store.getState().activeTask.isTimeActive) {
@@ -123,7 +125,7 @@ export { useHeader };
 // utils handlers
 async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: string; payload: SortedTask[] }>) {
   try {
-    const result = await api.createTask(task);
+    const result = await taskAPI.createTask(task);
 
     if (result.status === 'success') {
       switch (result.action) {
@@ -143,8 +145,7 @@ async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: stri
     
 async function updateActiveTask(data: activeTaskState) {
   try {
-    await api.updateActiveTask(userID, data);
-    console.log('Task was upd');
+    await activeTaskAPI.updateActiveTask(userID, data);
   } catch (error) {
     console.error(error);
   }
