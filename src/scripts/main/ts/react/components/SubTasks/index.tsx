@@ -84,7 +84,6 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
 
   async function startTask() {
     dispatch({type: 'UPDATE_ACTIVE_TASK_NAME', payload: name});
-    
   }
 
   return (
