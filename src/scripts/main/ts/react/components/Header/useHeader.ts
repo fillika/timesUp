@@ -9,7 +9,6 @@ import taskAPI from 'Api/tasks';
 import activeTaskAPI from 'Api/activeTask';
 import _ from 'lodash';
 
-
 function useHeader() {
   const dispatch = useDispatch();
   const { activeTask, app } = useSelector((state: RootState) => state);
@@ -25,8 +24,6 @@ function useHeader() {
 
       if (activeTask.isTimeActive) {
         dispatch({ type: 'SET_ACTIVE_TASK', payload: activeTask });
-        dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: true });
-        dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: store.getState().activeTask.start });
       } else {
         return;
       }
@@ -36,8 +33,7 @@ function useHeader() {
   useEffect(() => {
     if (activeTask.duration > 0) {
       createTask(activeTask, dispatch);
-      dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: '0:00:00' });
-      dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: '' });
+      dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: '0:00:00' });
     }
   }, [activeTask.duration]);
 
