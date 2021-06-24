@@ -3,6 +3,7 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { activeTaskState } from 'Redux/activeTask';
 import { RootState } from 'Redux/index';
 import { time } from 'Utils/Time';
+import { taskInstance } from 'Utils/Task';
 import { sort } from 'Utils/Sort';
 import { SortedTask } from 'Types/tasks';
 import taskAPI from 'Api/tasks';
@@ -40,54 +41,10 @@ function useHeader() {
     };
   }, [store.getState().activeTask.isTimeActive, activeTask.totalTime]);
 
-  const onClick = () => taskHandler();
-  const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && taskHandler();
+  const onClick = () => taskInstance.taskHandler(activeTask, dispatch, store);
+  const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && taskInstance.taskHandler(activeTask, dispatch, store);
   const onInput = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: event.target.value });
-
-  function stopTimer() {
-    const endTime = new Date().getTime();
-
-    dispatch({
-      type: 'UPDATE_ACTIVE_TASK_TIME',
-      payload: {
-        stop: endTime,
-        duration: endTime - new Date(activeTask.start).getTime(),
-        at: endTime + 1000,
-      },
-    });
-
-    const data = {
-      at: 0,
-      userID: '60c8be578a7a1e9f8c8edecb',
-      name: '',
-      start: 0,
-      stop: 0,
-      duration: 0,
-      isTimeActive: false,
-      totalTime: '0:00:00',
-    };
-    updateActiveTask(data); // fetch на обновление таска. Скидывает до дефолтных значений
-  }
-
-  function taskHandler() {
-    if (activeTask.name.trim() === '') {
-      // TODO создать модалку с оповещалкой
-      console.log('Напишите имя задачи');
-      return;
-    }
-
-    dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });
-    // * Тут нет рендера
-
-    if (store.getState().activeTask.isTimeActive) {
-      const start = new Date().getTime();
-      dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
-      updateActiveTask(store.getState().activeTask);
-    } else {
-      stopTimer();
-    }
-  }
 
   return {
     onInput,
@@ -115,14 +72,6 @@ async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: stri
     } else {
       throw new Error(result);
     }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function updateActiveTask(data: activeTaskState) {
-  try {
-    await activeTaskAPI.updateActiveTask(data.userID, data);
   } catch (error) {
     console.error(error);
   }
