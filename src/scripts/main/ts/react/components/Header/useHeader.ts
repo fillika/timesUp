@@ -15,19 +15,7 @@ function useHeader() {
   const store = useStore();
 
   useEffect(() => {
-    getActiveTask(app.userID);
-
-    //  Todo рефакторинг. Вынести ниже в utils
-    async function getActiveTask(id: string) {
-      const result = await activeTaskAPI.getActiveTask(id);
-      const activeTask: activeTaskState = result.data.activeTask;
-
-      if (activeTask.isTimeActive) {
-        dispatch({ type: 'SET_ACTIVE_TASK', payload: activeTask });
-      } else {
-        return;
-      }
-    }
+    getActiveTask(app.userID, dispatch);
   }, []);
 
   useEffect(() => {
@@ -137,5 +125,16 @@ async function updateActiveTask(data: activeTaskState) {
     await activeTaskAPI.updateActiveTask(data.userID, data);
   } catch (error) {
     console.error(error);
+  }
+}
+
+async function getActiveTask(id: string, dispatch: Dispatch<{ type: string; payload: activeTaskState }>) {
+  const result = await activeTaskAPI.getActiveTask(id);
+  const activeTask: activeTaskState = result.data.activeTask;
+
+  if (activeTask.isTimeActive) {
+    dispatch({ type: 'SET_ACTIVE_TASK', payload: activeTask });
+  } else {
+    return;
   }
 }
