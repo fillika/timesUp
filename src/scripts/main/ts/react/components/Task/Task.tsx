@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { TaskType } from 'Types/tasks';
 import SubTasks from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
@@ -15,6 +15,16 @@ const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
+
+  // todo Общая логика, вынести в отдельный хук
+  const [isUnmounting, setUnmount] = useState(false);
+  let timeoutID: NodeJS.Timeout;
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, []);
 
   function counter() {
     if (data.time !== undefined) {
@@ -57,7 +67,10 @@ const Task: React.FC<TaskData> = ({ data }) => {
     });
 
     if (response?.status) {
-      dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date: data.at, name: data.name } });
+      setUnmount(true);
+      timeoutID = setTimeout(() => {
+        dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date: data.at, name: data.name } });
+      }, 500);
       console.log(response.message); // Todo выводить в всплывашки
     } else {
       console.error('Ошибка. Таски не удалены по какой-то причине');
@@ -65,7 +78,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
   }
 
   return (
-    <li className='task-list__task'>
+    <li className={`task-list__task ${isUnmounting ? 'task-list__task--unmounting' : ''}`}>
       <div className='task task--parent'>
         {counter()}
         <div className='task__input-wrapper'>

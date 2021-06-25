@@ -25,3 +25,13 @@
     @content;
   }
 }
+
+// styles
+
+@mixin border-bottom($color) {
+    background-image: linear-gradient($color, $color);
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+

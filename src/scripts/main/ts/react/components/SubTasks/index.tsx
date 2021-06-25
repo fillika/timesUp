@@ -48,6 +48,15 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const activeTask = useSelector((state: RootState) => state.activeTask);
   const store = useStore();
   const [value, setValue] = useState(name);
+  // todo Общая логика, вынести в отдельный хук
+  const [isUnmounting, setUnmount] = useState(false);
+  let timeoutID: NodeJS.Timeout;
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, []);
 
   useEffect(() => {
     setValue(name);
@@ -62,7 +71,10 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
     const response = await taskAPI.deleteTaskByID(_id);
 
     if (response.status === 'success') {
-      dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) });
+      setUnmount(true);
+      timeoutID = setTimeout(() => {
+        dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) });
+      }, 500);
     } else {
       console.error('Ошибка. Таск не удален по какой-то причине');
     }
@@ -99,7 +111,7 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   }
 
   return (
-    <div className='task task--child'>
+    <div className={`task task--child ${isUnmounting ? 'task--unmounting' : ''}`} >
       <input onChange={onChange} onBlur={updateTask} type='text' value={value} />
       <div className='task-panel'>
         <div onClick={deleteTaskByID} className='task-panel__icon task-panel__icon--delete'>

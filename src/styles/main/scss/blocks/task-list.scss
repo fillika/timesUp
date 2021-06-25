@@ -1,5 +1,22 @@
 .task-list {
-  &__task  {
-      border-bottom: 1px solid $color-main-dark;
-  }  
+  &__task {
+    will-change: transform;
+    @include border-bottom($color-main-dark);
+    animation: showUp 300ms;
+    overflow: hidden;
+
+    &--unmounting {
+        animation: unmountingTask 400ms linear normal forwards;
+    }
+  }
 }
+
+@keyframes showUp {
+  from {
+    transform: scale3d(1, 0.2, 1);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+

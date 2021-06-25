@@ -1,48 +1,56 @@
 .task-panel {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 1.25em;
+
+  &__time {
+    font-size: 0.8em;
+
+    &--range {
+      margin-right: 10px;
+      border-radius: 20px;
+      padding: 1px 5px;
+      user-select: none;
+
+      &:hover {
+          cursor: pointer;
+          background-color: darkgray;
+      }
+    }
+  }
+
+  &__time-wrapper {
     display: flex;
+  }
+
+  &__icon {
+    --width: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    font-size: 16px;
-    line-height: 1.25em;
+    min-width: var(--width);
+    will-change: transform;
+    transition: 255ms ease-in transform;
 
-    &__time {
-        font-size: 0.8em;
-
-        &--range {
-            margin-right: 10px;
-        }
+    &:hover {
+      transform: scale(1.1);
+      transition: 75ms ease-in transform;
     }
 
-    &__time-wrapper {
-        display: flex;
+    &--delete {
+      width: var(--width);
+      height: auto;
+      margin-right: 10px;
     }
 
-    &__icon {
-        --width: 20px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-width: var(--width);
-        will-change: transform;
-        transition: 255ms ease-in transform;
-
-        &:hover {
-            transform: scale(1.1);
-            transition: 75ms ease-in transform;
-        }
-
-        &--delete {
-            width: var(--width);
-            height: auto;
-            margin-right: 10px;
-        }
-
-        &--play {
-            --width: 15px;
-            width: var(--width);
-            height: auto;
-            margin-right: 0;
-            margin-left: 10px;
-        }
+    &--play {
+      --width: 15px;
+      width: var(--width);
+      height: auto;
+      margin-right: 0;
+      margin-left: 10px;
     }
+  }
 }
