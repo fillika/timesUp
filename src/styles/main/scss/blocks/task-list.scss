@@ -1,9 +1,9 @@
 .task-list {
   &__task {
     will-change: transform;
-    @include border-bottom($color-main-dark);
     animation: showUp 300ms;
     overflow: hidden;
+    @include border-bottom($color-main-dark);
 
     &--unmounting {
         animation: unmountingTask 400ms linear normal forwards;

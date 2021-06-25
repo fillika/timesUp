@@ -8,6 +8,8 @@ import { time } from 'Utils/Time';
 import playBtn from 'Images/icons/play.svg';
 import { RootState } from 'Redux/index';
 import { taskInstance } from 'Utils/Task';
+import { useUnmounting } from 'Utils/hooks/useUnmounting';
+
 
 type Task = {
   _id: string;
@@ -48,15 +50,7 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const activeTask = useSelector((state: RootState) => state.activeTask);
   const store = useStore();
   const [value, setValue] = useState(name);
-  // todo Общая логика, вынести в отдельный хук
-  const [isUnmounting, setUnmount] = useState(false);
-  let timeoutID: NodeJS.Timeout;
-
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutID);
-    };
-  }, []);
+  const [isUnmounting, startUnmount] = useUnmounting();
 
   useEffect(() => {
     setValue(name);
@@ -71,10 +65,11 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
     const response = await taskAPI.deleteTaskByID(_id);
 
     if (response.status === 'success') {
-      setUnmount(true);
-      timeoutID = setTimeout(() => {
-        dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) });
-      }, 500);
+      if (typeof startUnmount !== 'boolean') {
+        // * Почему он считает, что startUnmount - bool?
+        startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) }));
+        console.log(response.message); // Todo выводить в всплывашки
+      }
     } else {
       console.error('Ошибка. Таск не удален по какой-то причине');
     }

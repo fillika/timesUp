@@ -60,6 +60,8 @@ class Task {
       console.error(error);
     }
   }
+
+  
 }
 
 const taskInstance = new Task();

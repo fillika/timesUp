@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, useEffect, Dispatch } from 'react';
 import { TaskType } from 'Types/tasks';
 import SubTasks from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
@@ -6,6 +6,7 @@ import taskAPI from 'Api/tasks';
 import { useDispatch } from 'react-redux';
 import { RangeTime } from 'App/components/RangeTime';
 import { sort } from 'Utils/Sort';
+import { useUnmounting } from 'Utils/hooks/useUnmounting';
 
 type TaskData = {
   data: TaskType;
@@ -15,16 +16,8 @@ const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
-
-  // todo Общая логика, вынести в отдельный хук
-  const [isUnmounting, setUnmount] = useState(false);
-  let timeoutID: NodeJS.Timeout;
-
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutID);
-    };
-  }, []);
+  
+  const [isUnmounting, startUnmount] = useUnmounting();
 
   function counter() {
     if (data.time !== undefined) {
@@ -67,11 +60,11 @@ const Task: React.FC<TaskData> = ({ data }) => {
     });
 
     if (response?.status) {
-      setUnmount(true);
-      timeoutID = setTimeout(() => {
-        dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date: data.at, name: data.name } });
-      }, 500);
-      console.log(response.message); // Todo выводить в всплывашки
+      if (typeof startUnmount !== 'boolean') {
+        // * Почему он считает, что startUnmount - bool?
+        startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date: data.at, name: data.name } }));
+        console.log(response.message); // Todo выводить в всплывашки
+      }
     } else {
       console.error('Ошибка. Таски не удалены по какой-то причине');
     }
