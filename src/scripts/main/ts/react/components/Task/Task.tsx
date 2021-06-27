@@ -16,7 +16,6 @@ const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
-  
   const [isUnmounting, startUnmount] = useUnmounting();
 
   function counter() {

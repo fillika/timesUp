@@ -8,6 +8,7 @@
   top: 10vh;
   left: 50%;
   transform: translateX(-50%);
+  border: 1px solid silver;
 
   @include above($md) {
      top: 20vh;

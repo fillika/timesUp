@@ -37,6 +37,10 @@ class Time {
       time.minutes = `0${time.minutes}`;
     }
 
+    if (time.hours.toString().length === 1) {
+      time.hours = `0${time.hours}`;
+    }
+
     return `${time.hours}:${time.minutes}:${time.seconds}`;
   }
 

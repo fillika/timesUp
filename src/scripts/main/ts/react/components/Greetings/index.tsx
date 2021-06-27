@@ -1,12 +1,15 @@
 import React, { FormEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const Greetings = () => {
   const [isRegister, setResiter] = useState(true);
   const [isInputHiding, setInputHiding] = useState(false);
+  const dispatch = useDispatch();
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
     console.log('SUBMIT');
+    // Todo регистрация или вход
   };
 
   const toggleRegister = () => {

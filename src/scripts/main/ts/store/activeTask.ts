@@ -17,7 +17,7 @@ const initialState: activeTaskState = {
   stop: 0,
   duration: 0,
   isTimeActive: false,
-  totalTime: '0:00:00',
+  totalTime: '00:00:00',
 };
 
 export function activeTaskReducer(state: activeTaskState = initialState, action: any) {
