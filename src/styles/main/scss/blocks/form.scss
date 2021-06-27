@@ -1,0 +1,25 @@
+.form {
+  &__fields-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  input, label {
+      width: 100%;
+  }
+
+  input {
+      border-radius: 20px;
+      padding: 10px;
+      border: none;
+      outline: none;
+  }
+
+  label {
+      margin-bottom: 5px;
+      font-size: 0.75em;
+  }
+}
