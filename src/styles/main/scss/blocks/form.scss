@@ -1,4 +1,6 @@
 .form {
+  --height: 40px;
+
   &__fields-wrapper {
     width: 100%;
     display: flex;
@@ -6,44 +8,45 @@
     margin-bottom: 0.5em;
     font-size: 16px;
     position: relative;
-    height: 48px;
+    height: var(--height);
     overflow: hidden;
     animation: showUp 200ms linear;
 
     &--hide {
-        height: 0;
-        transition: 200ms ease-in height;
+      height: 0;
+      transition: 200ms ease-in height;
     }
   }
 
   input {
-      height: 48px;
-      border-radius: 10px;
-      padding: 10px 20px 0;
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 1em;
-      line-height: 1.2em;
-      background-color: #eef2f7;
-      color: $color-main-dark;
+    height: var(--height);
+    border-radius: 10px;
+    padding: 10px 20px 0;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.2em;
+    background-color: #eef2f7;
+    color: $color-main-dark;
   }
 
   label {
-      position: absolute;
-      font-size: 0.7em;
-      line-height: 1.2em;
-      top: 50%;
-      left: 20px;
-      color: silver;
-      top: 6px;
+    position: absolute;
+    font-size: 0.6em;
+    line-height: 1.2em;
+    top: 50%;
+    left: 20px;
+    color: silver;
+    top: 4px;
   }
 }
 
 @keyframes showUp {
-    from {
-        height: 0;
-    } to {
-        height: 48px;
-    }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--height);
+  }
 }
