@@ -3,6 +3,7 @@ import IsLogged from 'App/components/isLogged';
 import Greetings from 'App/components/Greetings';
 
 const App: React.FC = () => {
+  // Todo брать из state
   const [isLoggin, setLogin] = useState(false);
   return (
     <div className='timer'>

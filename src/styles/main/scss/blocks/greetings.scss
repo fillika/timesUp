@@ -1,11 +1,44 @@
 .greetings {
-  width: 100%;
+  width: 95%;
   border-radius: 20px;
-  max-width: 600px;
-  background-color: silver;
+  max-width: 400px;
+  background-color: #fff;
   padding: 20px;
   position: absolute;
-  top: 50%;
+  top: 10vh;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
+
+  @include above($md) {
+     top: 20vh;
+  }
+
+  &__toggle {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    color: $color-slateblue;
+    font-weight: bold;
+    font-size: 14px;
+    opacity: 0.8;
+    transition: 200ms linear opacity;
+    width: 100px;
+    margin-left: auto;
+    user-select: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes showUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
