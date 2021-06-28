@@ -24,6 +24,10 @@ export default class API {
     this.loginUrl = this.host + '/api/v1/login';
   }
 
+  createHeaders() {
+    // Todo создавать header для запросов
+  }
+
   createErr(response: Response) {
     if (!response.ok) {
       const err: CustomError = new Error('HTTP status code: ' + response.status);

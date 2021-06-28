@@ -59,11 +59,12 @@ class TasksAPI extends API {
     }
   }
 
-  async updateTaskByName(data: { name: string; date: string }) {
+  async updateTaskByName(data: { name: string; date: string }, token: string) {
     const headers: RequestInit = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Times ${token}`,
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     };
@@ -87,7 +88,7 @@ class TasksAPI extends API {
     const urlWithID = `${this.tasksUrl}/${id}`;
 
     console.log(headers);
-    
+
     try {
       const response = await fetch(urlWithID, headers).then(this.createErr);
       return response.json();

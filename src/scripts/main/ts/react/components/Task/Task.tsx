@@ -47,7 +47,9 @@ const Task: React.FC<TaskData> = ({ data }) => {
             name: val,
           },
         };
-        const response = await taskAPI.updateTaskByName(queryReq);
+
+        if (!state.token) return console.error('Токена нет');
+        const response = await taskAPI.updateTaskByName(queryReq, state.token);
 
         dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
       } catch (error) {}
