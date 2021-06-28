@@ -3,21 +3,7 @@ import IsLogged from 'App/components/isLogged';
 import Greetings from 'App/components/Greetings';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/index';
-import taskAPI from 'Api/tasks';
-import { sort } from 'Utils/Sort';
-
-const firstConnect = async (dispatch: Dispatch<any>, token: string) => {
-  try {
-    const tasksQuery = await taskAPI.getAllTask(token);
-    const tasks = sort.sortData(tasksQuery.data.tasks);
-    console.log('Запросил таски при токене в localStorage', tasks);
-    dispatch({ type: 'GET_ALL_TASKS', payload: tasks });
-  } catch (error) {
-    // Todo обработать ошибки
-    console.error(error);
-    dispatch({ type: 'GET_ALL_TASKS', payload: [] });
-  }
-};
+import { getAllTasks } from 'Utils/helpers/getAllTasks';
 
 const App: React.FC = () => {
   // Todo брать из state
@@ -28,7 +14,7 @@ const App: React.FC = () => {
     const token = localStorage.getItem('JWT');
 
     if (token) {
-      firstConnect(dispatch, token);
+      getAllTasks(token, dispatch);
     } else {
       dispatch({ type: 'APP_LOG_OUT' });
     }
