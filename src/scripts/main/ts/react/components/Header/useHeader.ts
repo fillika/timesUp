@@ -16,12 +16,14 @@ function useHeader() {
   const store = useStore();
 
   useEffect(() => {
-    getActiveTask(app.userID, dispatch);
+    if (app.token) {
+      getActiveTask(app.token, dispatch);
+    }
   }, []);
 
   useEffect(() => {
     if (activeTask.duration > 0) {
-      createTask(activeTask, dispatch);
+      createTask(activeTask, dispatch, app.token!);
       dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
     }
   }, [activeTask.duration]);
@@ -42,7 +44,8 @@ function useHeader() {
   }, [store.getState().activeTask.isTimeActive, activeTask.totalTime]);
 
   const onClick = () => taskInstance.taskHandler(activeTask, dispatch, store);
-  const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && taskInstance.taskHandler(activeTask, dispatch, store);
+  const onKeyPress = (event: KeyboardEvent) =>
+    event.key === 'Enter' && taskInstance.taskHandler(activeTask, dispatch, store);
   const onInput = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: event.target.value });
 
@@ -57,9 +60,9 @@ function useHeader() {
 export { useHeader };
 
 // utils handlers
-async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: string; payload: SortedTask[] }>) {
+async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: string; payload: SortedTask[] }>, token: string) {
   try {
-    const result = await taskAPI.createTask(task);
+    const result = await taskAPI.createTask(task, token);
 
     if (result.status === 'success') {
       switch (result.action) {
@@ -77,13 +80,11 @@ async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: stri
   }
 }
 
-async function getActiveTask(id: string, dispatch: Dispatch<{ type: string; payload: activeTaskState }>) {
-  const result = await activeTaskAPI.getActiveTask(id);
+async function getActiveTask(token: string, dispatch: Dispatch<{ type: string; payload: activeTaskState }>) {
+  const result = await activeTaskAPI.getActiveTask(token);
   const activeTask: activeTaskState = result.data.activeTask;
 
-  if (activeTask.isTimeActive) {
-    dispatch({ type: 'SET_ACTIVE_TASK', payload: activeTask });
-  } else {
-    return;
+  if (activeTask) {
+    if (activeTask.isTimeActive) dispatch({ type: 'SET_ACTIVE_TASK', payload: activeTask });
   }
 }

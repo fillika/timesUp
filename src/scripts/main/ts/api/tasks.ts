@@ -21,11 +21,12 @@ class TasksAPI extends API {
     }
   }
 
-  async createTask(data = {}) {
+  async createTask(data = {}, token: string) {
     const headers: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Times ${token}`,
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     };
@@ -38,13 +39,14 @@ class TasksAPI extends API {
     }
   }
 
-  async updateTask(id: string, data: Task = {}) {
+  async updateTask(id: string, data: Task = {}, token: string) {
     const url = this.tasksUrl + `/${id}`;
 
     const headers: RequestInit = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Times ${token}`,
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     };

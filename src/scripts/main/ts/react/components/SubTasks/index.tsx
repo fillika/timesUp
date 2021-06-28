@@ -10,7 +10,6 @@ import { RootState } from 'Redux/index';
 import { taskInstance } from 'Utils/Task';
 import { useUnmounting } from 'Utils/hooks/useUnmounting';
 
-
 type Task = {
   _id: string;
   name: string;
@@ -47,7 +46,7 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
 
 const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const dispatch = useDispatch();
-  const activeTask = useSelector((state: RootState) => state.activeTask);
+  const {activeTask, app} = useSelector((state: RootState) => state);
   const store = useStore();
   const [value, setValue] = useState(name);
   const [isUnmounting, startUnmount] = useUnmounting();
@@ -80,9 +79,7 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
 
     try {
       if (val !== name) {
-        const response = await taskAPI.updateTask(_id, {
-          name: val,
-        });
+        const response = await taskAPI.updateTask(_id, { name: val }, app.token!);
 
         // ! Добавил 2 диспатча, так как при одном сортированный массив некорректно заменял данные.
         // Todo пофиксить
@@ -95,7 +92,7 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
     }
   }
 
- function startTask() {
+  function startTask() {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
     // * При первоначальном клике, когда поле пустое, мы передаем activeTask без обновленного
     if (activeTask.name !== '') {
@@ -106,7 +103,7 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   }
 
   return (
-    <div className={`task task--child ${isUnmounting ? 'task--unmounting' : ''}`} >
+    <div className={`task task--child ${isUnmounting ? 'task--unmounting' : ''}`}>
       <input onChange={onChange} onBlur={updateTask} type='text' value={value} />
       <div className='task-panel'>
         <div onClick={deleteTaskByID} className='task-panel__icon task-panel__icon--delete'>

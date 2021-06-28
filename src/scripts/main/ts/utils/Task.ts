@@ -9,7 +9,6 @@ class Task {
   constructor() {
     this.defaultData = {
       at: 0,
-      userID: '60c8be578a7a1e9f8c8edecb',
       name: '',
       start: 0,
       stop: 0,
@@ -32,13 +31,13 @@ class Task {
     if (store.getState().activeTask.isTimeActive) {
       const start = new Date().getTime();
       dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
-      this.updateActiveTask(store.getState().activeTask);
+      this.updateActiveTask(store.getState().app.token, store.getState().activeTask);
     } else {
-      this.stopTimer(activeTask, dispatch);
+      this.stopTimer(activeTask, dispatch, store);
     }
   }
 
-  stopTimer(activeTask: activeTaskState, dispatch: Dispatch<any>) {
+  stopTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, store: Store) {
     const endTime = new Date().getTime();
 
     dispatch({
@@ -50,18 +49,16 @@ class Task {
       },
     });
 
-    this.updateActiveTask(this.defaultData); // fetch на обновление таска. Скидывает до дефолтных значений
+    this.updateActiveTask(store.getState().app.token, this.defaultData); // fetch на обновление таска. Скидывает до дефолтных значений
   }
 
-  async updateActiveTask(data: activeTaskState) {
+  async updateActiveTask(token: string, data: activeTaskState) {
     try {
-      await activeTaskAPI.updateActiveTask(data.userID, data);
+      await activeTaskAPI.updateActiveTask(token, data);
     } catch (error) {
       console.error(error);
     }
   }
-
-  
 }
 
 const taskInstance = new Task();

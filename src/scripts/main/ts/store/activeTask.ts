@@ -1,6 +1,5 @@
 export type activeTaskState = {
   at: number;
-  userID: string;
   name: string;
   start: number;
   stop: number;
@@ -11,7 +10,6 @@ export type activeTaskState = {
 
 const initialState: activeTaskState = {
   at: 0,
-  userID: '60c8be578a7a1e9f8c8edecb',
   name: '',
   start: 0,
   stop: 0,
