@@ -6,7 +6,6 @@ import { RootState } from 'Redux/index';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 
 const App: React.FC = () => {
-  // Todo брать из state
   const { isLoggin } = useSelector((state: RootState) => state.app);
   const dispatch = useDispatch();
 
@@ -14,16 +13,12 @@ const App: React.FC = () => {
     const token = localStorage.getItem('JWT');
 
     if (token) {
+      dispatch({ type: 'APP_LOG_IN', payload: token });
       getAllTasks(token, dispatch);
-      dispatch({ type: 'APP_ALWAYS_LOG_IN', payload: token });
     } else {
       dispatch({ type: 'APP_LOG_OUT' });
     }
   }, []);
-
-  // if (isLoggin === null) {
-  //   return <>Здесь null (будет прелоадер)</>;
-  // }
 
   return <div className='timer'>{isLoggin ? <IsLogged /> : <Greetings />}</div>;
 };
