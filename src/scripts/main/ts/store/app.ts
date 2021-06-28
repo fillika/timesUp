@@ -1,12 +1,10 @@
 export type AppState = {
   isLoggin: boolean;
-  token: string;
-  userID: string;
+  token: string | null;
 };
 
 const initialState: AppState = {
-  userID: '60c8be578a7a1e9f8c8edecb',
-  token: '',
+  token: null,
   isLoggin: false,
 };
 
@@ -18,6 +16,12 @@ const appReducer = (state = initialState, action: any) => {
         isLoggin: action.payload,
       };
 
+    case 'APP_LOG_IN':
+      return {
+        ...state,
+        isLoggin: true,
+        token: action.payload
+      };
     default:
       return state;
   }

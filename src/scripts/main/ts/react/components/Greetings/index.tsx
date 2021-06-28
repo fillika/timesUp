@@ -1,15 +1,31 @@
 import React, { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { authAPI } from 'Api/auth';
 
 const Greetings = () => {
-  const [isRegister, setResiter] = useState(true);
+  const [isRegister, setResiter] = useState(false);
   const [isInputHiding, setInputHiding] = useState(false);
   const dispatch = useDispatch();
 
-  const submit = (event: FormEvent) => {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('SUBMIT');
     // Todo регистрация или вход
+
+    if (!isRegister) {
+      const formData = new FormData(event.target as HTMLFormElement);
+      get(formData);
+
+      async function get(formData) {
+        const response = await authAPI.logIn(formData);
+
+        if (response.status === 'success') {
+          const token = response.data.token;
+          localStorage.setItem('JWT', token);
+          dispatch({ type: 'APP_LOG_IN', payload: token });
+        }
+      }
+    }
   };
 
   const toggleRegister = () => {

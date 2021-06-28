@@ -15,11 +15,13 @@ export default class API {
   host: string;
   tasksUrl: string;
   activeTaskUrl: string;
+  loginUrl: string;
 
   constructor() {
     this.host = 'http://localhost:22222';
     this.tasksUrl = this.host + '/api/v1/tasks';
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
+    this.loginUrl = this.host + '/api/v1/login';
   }
 
   createErr(response: Response) {
