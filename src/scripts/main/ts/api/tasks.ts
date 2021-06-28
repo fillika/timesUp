@@ -6,12 +6,7 @@ class TasksAPI extends API {
   }
 
   async getAllTask(token: string): Promise<any> {
-    const headers: RequestInit = {
-      method: 'GET',
-      headers: {
-        Authorization: `Times ${token}`,
-      },
-    };
+    const headers = this.createHeaders('GET', {}, null, token);
 
     try {
       const response = await fetch(this.tasksUrl, headers).then(this.createErr);
@@ -22,14 +17,7 @@ class TasksAPI extends API {
   }
 
   async createTask(data = {}, token: string) {
-    const headers: RequestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Times ${token}`,
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    };
+    const headers = this.createHeaders('POST', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
 
     try {
       const response = await fetch(this.tasksUrl, headers).then(this.createErr);
@@ -60,14 +48,7 @@ class TasksAPI extends API {
   }
 
   async updateTaskByName(data: { name: string; date: string }, token: string) {
-    const headers: RequestInit = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Times ${token}`,
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    };
+    const headers = this.createHeaders('PATCH', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
 
     try {
       const response = await fetch(this.tasksUrl, headers).then(this.createErr);
@@ -78,16 +59,8 @@ class TasksAPI extends API {
   }
 
   async deleteTaskByID(id: string, token: string) {
-    const headers: RequestInit = {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Times ${token}`,
-      },
-    };
-
+    const headers = this.createHeaders('DELETE', { }, null, token);
     const urlWithID = `${this.tasksUrl}/${id}`;
-
-    console.log(headers);
 
     try {
       const response = await fetch(urlWithID, headers).then(this.createErr);
@@ -98,14 +71,7 @@ class TasksAPI extends API {
   }
 
   async deleteTaskByName(data = {}, token: string) {
-    const headers: RequestInit = {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Times ${token}`,
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    };
+    const headers = this.createHeaders('DELETE', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
 
     try {
       const response = await fetch(this.tasksUrl, headers).then(response => {

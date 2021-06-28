@@ -6,12 +6,7 @@ class ActiveTaskAPI extends API {
   }
 
   async getActiveTask(token: string) {
-    const headers: RequestInit = {
-      method: 'GET',
-      headers: {
-        Authorization: `Times ${token}`,
-      },
-    };
+    const headers = this.createHeaders('GET', {}, null, token);
 
     try {
       const response = await fetch(this.activeTaskUrl, headers).then(this.createErr);
@@ -22,15 +17,8 @@ class ActiveTaskAPI extends API {
   }
 
   async updateActiveTask(token: string, data = {}) {
-    const headers: RequestInit = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Times ${token}`,
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    };
-
+    const headers = this.createHeaders('PATCH', {'Content-Type': 'application/json'}, JSON.stringify(data), token);
+    
     try {
       const response = await fetch(this.activeTaskUrl, headers).then(this.createErr);
       return response.json();

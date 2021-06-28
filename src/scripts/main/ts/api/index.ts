@@ -24,8 +24,15 @@ export default class API {
     this.loginUrl = this.host + '/api/v1/login';
   }
 
-  createHeaders() {
-    // Todo создавать header для запросов
+  createHeaders(method: string, headers: HeadersInit, data: BodyInit | null, token?: string): RequestInit {
+    return {
+      method: method,
+      headers: {
+        Authorization: `Times ${token}`,
+        ...headers,
+      },
+      body: data, // body data type must match "Content-Type" header
+    };
   }
 
   createErr(response: Response) {

@@ -6,10 +6,7 @@ class AuthAPI extends API {
   }
 
   async logIn(data: FormData) {
-    const headers: RequestInit = {
-      method: 'POST',
-      body: data, // body data type must match "Content-Type" header
-    };
+    const headers = this.createHeaders('POST', {}, data);
 
     try {
       const response = await fetch(this.loginUrl, headers);
