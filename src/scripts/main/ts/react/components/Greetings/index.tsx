@@ -19,8 +19,6 @@ const Greetings = () => {
 
       if (response.status === 'success') {
         const token = response.data.token;
-        // dispatch({ type: 'APP_LOG_IN', payload: token });
-        
         localStorage.setItem('JWT', token);
         getAllTasks(token, dispatch);
       }

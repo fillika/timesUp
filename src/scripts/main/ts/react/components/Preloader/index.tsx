@@ -1,5 +1,9 @@
 import React from 'react';
 
 export const Preloader: React.FC = () => {
-  return <div>Preloader</div>;
+  return (
+    <div className='preloader'>
+      <div className="clock"></div>
+    </div>
+  );
 };
