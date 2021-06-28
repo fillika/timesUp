@@ -5,9 +5,16 @@ class TasksAPI extends API {
     super();
   }
 
-  async getAllTask(): Promise<any> {
+  async getAllTask(token: string): Promise<any> {
+    const headers: RequestInit = {
+      method: 'GET',
+      headers: {
+        Authorization: `Times ${token}`,
+      },
+    };
+
     try {
-      const response = await fetch(this.tasksUrl).then(this.createErr);
+      const response = await fetch(this.tasksUrl, headers).then(this.createErr);
       return response.json();
     } catch (error) {
       console.error(error);

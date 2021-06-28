@@ -1,26 +1,25 @@
 export type AppState = {
-  isLoggin: boolean;
+  isLoggin: boolean | null;
   token: string | null;
 };
 
 const initialState: AppState = {
   token: null,
-  isLoggin: false,
+  isLoggin: null,
 };
 
 const appReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case 'APP_SET_IS_LOGGIN':
-      return {
-        ...state,
-        isLoggin: action.payload,
-      };
-
     case 'APP_LOG_IN':
       return {
         ...state,
         isLoggin: true,
         token: action.payload
+      };
+    case 'APP_LOG_OUT':
+      return {
+        ...state,
+        isLoggin: false,
       };
     default:
       return state;

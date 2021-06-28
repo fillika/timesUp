@@ -12,7 +12,7 @@ class AuthAPI extends API {
     };
 
     try {
-      const response = await fetch(this.loginUrl, headers).then(this.createErr);
+      const response = await fetch(this.loginUrl, headers);
       return response.json();
     } catch (error) {
       console.error(error);

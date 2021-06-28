@@ -1,29 +1,31 @@
 import React, { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authAPI } from 'Api/auth';
+import { divide } from 'lodash';
 
 const Greetings = () => {
-  const [isRegister, setResiter] = useState(false);
+  const [isRegister, setResiter] = useState(true);
   const [isInputHiding, setInputHiding] = useState(false);
+  const [isError, setErrorMsg] = useState(null);
   const dispatch = useDispatch();
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('SUBMIT');
-    // Todo регистрация или вход
+    setErrorMsg(null);
 
     if (!isRegister) {
       const formData = new FormData(event.target as HTMLFormElement);
-      get(formData);
+      const response = await authAPI.logIn(formData);
 
-      async function get(formData) {
-        const response = await authAPI.logIn(formData);
+      if (response.status === 'success') {
+        const token = response.data.token;
+        localStorage.setItem('JWT', token);
+        dispatch({ type: 'APP_LOG_IN', payload: token });
+      }
 
-        if (response.status === 'success') {
-          const token = response.data.token;
-          localStorage.setItem('JWT', token);
-          dispatch({ type: 'APP_LOG_IN', payload: token });
-        }
+      if (response.status === 'fail') {
+        localStorage.removeItem('JWT');
+        setErrorMsg(response.message);
       }
     }
   };
@@ -44,7 +46,7 @@ const Greetings = () => {
   return (
     <div className='greetings'>
       <div onClick={toggleRegister} className='greetings__toggle'>
-        {isRegister ? 'Регистрация' : 'Вход'}
+        {!isRegister ? 'Регистрация' : 'Вход'}
       </div>
       <div>
         <form onSubmit={submit} className='form'>
@@ -69,8 +71,11 @@ const Greetings = () => {
               <label htmlFor='confirmPassword'>Confirm password</label>
             </div>
           )}
+
+          <div className='form__error-wrapper'>{isError ? <div className='form__error-msg'>{isError}</div> : null}</div>
+
           <div>
-            <button> {isRegister ? 'Регистрация' : 'Вход'}</button>
+            <button> {isRegister ? 'Зарегистрироваться' : 'Войти'}</button>
           </div>
         </form>
       </div>

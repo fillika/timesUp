@@ -5,7 +5,7 @@ import { time } from 'Utils/Time';
 import { TaskType } from 'Types/tasks';
 
 const Main: React.FC = () => {
-  const taskArr = useGetTasks();
+  const { taskArr } = useGetTasks();
 
   return (
     <main className='main'>
