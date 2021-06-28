@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-function useUnmounting(time = 500) {
+function useUnmounting(time = 500): [boolean, (cb: any) => void] {
   const [isUnmounting, setUnmount] = useState(false);
   let timeoutID: NodeJS.Timeout;
 
