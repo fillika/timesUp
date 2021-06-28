@@ -76,13 +76,18 @@ class TasksAPI extends API {
     }
   }
 
-  async deleteTaskByID(id: string) {
+  async deleteTaskByID(id: string, token: string) {
     const headers: RequestInit = {
       method: 'DELETE',
+      headers: {
+        Authorization: `Times ${token}`,
+      },
     };
 
     const urlWithID = `${this.tasksUrl}/${id}`;
 
+    console.log(headers);
+    
     try {
       const response = await fetch(urlWithID, headers).then(this.createErr);
       return response.json();
@@ -91,11 +96,12 @@ class TasksAPI extends API {
     }
   }
 
-  async deleteTaskByName(data = {}) {
+  async deleteTaskByName(data = {}, token: string) {
     const headers: RequestInit = {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Times ${token}`,
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     };

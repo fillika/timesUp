@@ -1,12 +1,13 @@
-import React, { useState, ChangeEvent, useEffect, Dispatch } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { TaskType } from 'Types/tasks';
 import SubTasks from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
 import taskAPI from 'Api/tasks';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RangeTime } from 'App/components/RangeTime';
 import { sort } from 'Utils/Sort';
 import { useUnmounting } from 'Utils/hooks/useUnmounting';
+import { RootState } from 'Redux/index';
 
 type TaskData = {
   data: TaskType;
@@ -16,6 +17,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
+  const state = useSelector((state: RootState) => state.app);
   const [isUnmounting, startUnmount] = useUnmounting();
 
   function counter() {
@@ -53,10 +55,8 @@ const Task: React.FC<TaskData> = ({ data }) => {
   }
 
   async function deleteTaskByName() {
-    const response = await taskAPI.deleteTaskByName({
-      name: data.name,
-      date: data.at,
-    });
+    if (!state.token) return console.log('Токена нет');
+    const response = await taskAPI.deleteTaskByName({ name: data.name, date: data.at }, state.token)
 
     if (response?.status) {
       if (typeof startUnmount !== 'boolean') {

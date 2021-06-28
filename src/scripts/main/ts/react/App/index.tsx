@@ -15,14 +15,15 @@ const App: React.FC = () => {
 
     if (token) {
       getAllTasks(token, dispatch);
+      dispatch({ type: 'APP_ALWAYS_LOG_IN', payload: token });
     } else {
       dispatch({ type: 'APP_LOG_OUT' });
     }
   }, []);
 
-  if (isLoggin === null) {
-    return <>Здесь null (будет прелоадер)</>;
-  }
+  // if (isLoggin === null) {
+  //   return <>Здесь null (будет прелоадер)</>;
+  // }
 
   return <div className='timer'>{isLoggin ? <IsLogged /> : <Greetings />}</div>;
 };

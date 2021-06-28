@@ -46,7 +46,7 @@ const Time: React.FC<TimeComponent> = ({ start, stop }) => {
 
 const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   const dispatch = useDispatch();
-  const {activeTask, app} = useSelector((state: RootState) => state);
+  const { activeTask, app } = useSelector((state: RootState) => state);
   const store = useStore();
   const [value, setValue] = useState(name);
   const [isUnmounting, startUnmount] = useUnmounting();
@@ -61,16 +61,20 @@ const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
 
   // Todo рефактор - вынести логику в отдельный хук
   async function deleteTaskByID() {
-    const response = await taskAPI.deleteTaskByID(_id);
+    if (app.token) {
+      const response = await taskAPI.deleteTaskByID(_id, app.token);
 
-    if (response.status === 'success') {
-      if (typeof startUnmount !== 'boolean') {
-        // * Почему он считает, что startUnmount - bool?
-        startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) }));
-        console.log(response.message); // Todo выводить в всплывашки
+      if (response.status === 'success') {
+        if (typeof startUnmount !== 'boolean') {
+          // * Почему он считает, что startUnmount - bool?
+          startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) }));
+          console.log(response.message); // Todo выводить в всплывашки
+        }
+      } else {
+        console.error('Ошибка. Таск не удален по какой-то причине');
       }
     } else {
-      console.error('Ошибка. Таск не удален по какой-то причине');
+      console.log('Нет токена');
     }
   }
 
