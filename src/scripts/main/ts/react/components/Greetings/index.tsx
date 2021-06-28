@@ -1,7 +1,8 @@
 import React, { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authAPI } from 'Api/auth';
-import { divide } from 'lodash';
+import taskAPI from 'Api/tasks';
+import { sort } from 'Utils/Sort';
 
 const Greetings = () => {
   const [isRegister, setResiter] = useState(true);
@@ -21,6 +22,12 @@ const Greetings = () => {
         const token = response.data.token;
         localStorage.setItem('JWT', token);
         dispatch({ type: 'APP_LOG_IN', payload: token });
+
+        // Todo код дублируется
+        const tasksQuery = await taskAPI.getAllTask(token);
+        const tasks = sort.sortData(tasksQuery.data.tasks);
+        dispatch({ type: 'GET_ALL_TASKS', payload: tasks });
+        console.log('Запросил таски при логине');
       }
 
       if (response.status === 'fail') {

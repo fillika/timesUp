@@ -20,6 +20,7 @@ const appReducer = (state = initialState, action: any) => {
       return {
         ...state,
         isLoggin: false,
+        token: null,
       };
     default:
       return state;

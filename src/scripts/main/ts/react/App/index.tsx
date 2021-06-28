@@ -8,10 +8,10 @@ import { sort } from 'Utils/Sort';
 
 const firstConnect = async (dispatch: Dispatch<any>, token: string) => {
   try {
-    const response = await taskAPI.getAllTask(token);
-    const tasks = sort.sortData(response.data.tasks);
+    const tasksQuery = await taskAPI.getAllTask(token);
+    const tasks = sort.sortData(tasksQuery.data.tasks);
+    console.log('Запросил таски при токене в localStorage', tasks);
     dispatch({ type: 'GET_ALL_TASKS', payload: tasks });
-    dispatch({ type: 'APP_LOG_IN', payload: token });
   } catch (error) {
     // Todo обработать ошибки
     console.error(error);
@@ -27,13 +27,15 @@ const App: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem('JWT');
 
-    if (token) firstConnect(dispatch, token);
-    else dispatch({ type: 'APP_LOG_OUT' });
+    if (token) {
+      firstConnect(dispatch, token);
+    } else {
+      dispatch({ type: 'APP_LOG_OUT' });
+    }
   }, []);
 
   if (isLoggin === null) {
-    // Todo preloader
-    return null;
+    return <>Здесь null (будет прелоадер)</>;
   }
 
   return <div className='timer'>{isLoggin ? <IsLogged /> : <Greetings />}</div>;
