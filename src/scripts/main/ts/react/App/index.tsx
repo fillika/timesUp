@@ -14,7 +14,7 @@ const App: React.FC = () => {
     const token = localStorage.getItem('JWT');
 
     if (token) {
-      getAllTasks(token, dispatch);
+      getAllTasks(errHadler, token, dispatch);
     } else {
       dispatch({ type: 'APP_LOG_OUT' });
     }
@@ -26,3 +26,7 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+function errHadler(err: Error) {
+  console.log('Ошибка в обработчике getAllTaskWithCatcher')
+}
