@@ -16,7 +16,7 @@
     margin-bottom: 10px;
     background-color: #fff;
     border: 2px solid var(--border-color);
-    animation: showUpNotificationItem 300ms ease-in;
+    animation: showUpNotificationItem 300ms ease-in, hideNotificationItem 300ms ease-out 1500ms forwards;
 
     &--success {
       --border-color: green;
@@ -38,5 +38,14 @@
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes hideNotificationItem {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(120%);
   }
 }

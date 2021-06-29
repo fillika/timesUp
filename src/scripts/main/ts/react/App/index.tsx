@@ -6,7 +6,8 @@ import { Preloader } from 'App/components/Preloader/index';
 import { RootState } from 'Redux/rootReducer';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { AppError } from 'Utils/Error';
-import { Notifications } from 'App/components/Errors/index';
+import { Notifications } from 'Scripts/main/ts/react/components/Notifications/index';
+import { createNotify } from 'Utils/helpers/createNotify';
 
 const App: React.FC = () => {
   const { isLoggin, isLoading } = useSelector((state: RootState) => state.app);
@@ -15,7 +16,9 @@ const App: React.FC = () => {
   // Todo - доработать обрабочик ошибок
   const errHadler = (err: AppError) => {
     if (err.statusCode === 404) {
-      console.log('Ошибка подключения к серверу. Приносим свои извинения :(');
+      const message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
+      dispatch({ type: 'APP_LOG_OUT' });
+      createNotify('error', message, dispatch);
     }
   };
 
