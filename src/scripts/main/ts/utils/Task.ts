@@ -2,6 +2,7 @@ import { Dispatch } from 'react';
 import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
 import activeTaskAPI from 'Api/activeTask';
 import { Store } from 'redux';
+import { createNotify } from 'Utils/helpers/createNotify';
 
 class Task {
   defaultData: activeTaskState;
@@ -20,8 +21,7 @@ class Task {
 
   taskHandler(activeTask: activeTaskState, dispatch: Dispatch<any>, store: Store) {
     if (activeTask.name.trim() === '') {
-      // TODO создать модалку с оповещалкой
-      console.log('Напишите имя задачи');
+      createNotify('warning', 'У задачи должно быть имя :)', dispatch);
       return;
     }
 
