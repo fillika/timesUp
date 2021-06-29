@@ -1,7 +1,4 @@
-export interface CustomError extends Error {
-  response?: Response;
-  status?: number;
-}
+import { AppError } from 'Utils/Error';
 
 export type Task = {
   name?: string;
@@ -19,7 +16,7 @@ export default class API {
 
   constructor() {
     this.host = 'http://localhost:22222';
-    this.tasksUrl = this.host + '/api/v1/tasks';
+    this.tasksUrl = this.host + '/api/v1/tasks1';
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
     this.loginUrl = this.host + '/api/v1/login';
   }
@@ -35,11 +32,11 @@ export default class API {
     };
   }
 
-  createErr(response: Response) {
+  createErr(response: Response, message: string) {
     if (!response.ok) {
-      const err: CustomError = new Error('HTTP status code: ' + response.status);
+      const err: AppError = new AppError(message);
       err.response = response;
-      err.status = response.status;
+      err.statusCode = response.status;
       throw err;
     }
     return response;

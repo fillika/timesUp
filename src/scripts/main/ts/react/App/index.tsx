@@ -5,10 +5,18 @@ import Greetings from 'App/components/Greetings';
 import { Preloader } from 'App/components/Preloader/index';
 import { RootState } from 'Redux/index';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
+import { AppError } from 'Utils/Error';
 
 const App: React.FC = () => {
   const { isLoggin, isLoading } = useSelector((state: RootState) => state.app);
   const dispatch = useDispatch();
+
+  // Todo - доработать обрабочик ошибок
+  const errHadler = (err: AppError) => {
+    if (err.statusCode === 404) {
+      console.log('Ошибка подключения к серверу. Приносим свои извинения :(');
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('JWT');
@@ -26,7 +34,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-function errHadler(err: Error) {
-  console.log('Ошибка в обработчике getAllTaskWithCatcher')
-}
