@@ -6,6 +6,7 @@ import { Preloader } from 'App/components/Preloader/index';
 import { RootState } from 'Redux/rootReducer';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { AppError } from 'Utils/Error';
+import { Notifications } from 'App/components/Errors/index';
 
 const App: React.FC = () => {
   const { isLoggin, isLoading } = useSelector((state: RootState) => state.app);
@@ -30,7 +31,12 @@ const App: React.FC = () => {
 
   if (isLoading) return <Preloader />;
 
-  return <div className='timer'>{isLoggin ? <IsLogged /> : <Greetings />}</div>;
+  return (
+    <div className='timer'>
+      {isLoggin ? <IsLogged /> : <Greetings />}
+      <Notifications />
+    </div>
+  );
 };
 
 export default App;
