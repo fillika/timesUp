@@ -32,7 +32,7 @@ module.exports = {
       App: path.resolve(__dirname, 'src/scripts/main/ts/react/'),
       Api: path.resolve(__dirname, 'src/scripts/main/ts/api/'),
       Types: path.resolve(__dirname, 'src/scripts/main/ts/types/'),
-      Redux: path.resolve(__dirname, 'src/scripts/main/ts/store/'),
+      Redux: path.resolve(__dirname, 'src/scripts/main/ts/redux/'),
       Utils: path.resolve(__dirname, 'src/scripts/main/ts/utils/'),
       Styles: path.resolve(__dirname, 'src/styles/'),
       Tests: path.resolve(__dirname, 'src/tests/'),

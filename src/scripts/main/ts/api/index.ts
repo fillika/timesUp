@@ -16,7 +16,7 @@ export default class API {
 
   constructor() {
     this.host = 'http://localhost:22222';
-    this.tasksUrl = this.host + '/api/v1/tasks1';
+    this.tasksUrl = this.host + '/api/v1/tasks';
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
     this.loginUrl = this.host + '/api/v1/login';
   }
@@ -37,6 +37,7 @@ export default class API {
       const err: AppError = new AppError(message);
       err.response = response;
       err.statusCode = response.status;
+      console.error(message);
       throw err;
     }
     return response;

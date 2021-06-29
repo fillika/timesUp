@@ -57,7 +57,7 @@
       "App/*": ["src/scripts/main/ts/react/*"],
       "Api/*": ["src/scripts/main/ts/api/*"],
       "Types/*": ["src/scripts/main/ts/types/*"],
-      "Redux/*": ["src/scripts/main/ts/store/*"],
+      "Redux/*": ["src/scripts/main/ts/redux/*"],
       "Utils/*": ["src/scripts/main/ts/utils/*"],
       "Styles/*": ["src/styles/*"],
       "Tests/*": ["src/tests/*"],

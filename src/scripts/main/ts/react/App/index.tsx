@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import IsLogged from 'App/components/isLogged';
 import Greetings from 'App/components/Greetings';
 import { Preloader } from 'App/components/Preloader/index';
-import { RootState } from 'Redux/index';
+import { RootState } from 'Redux/rootReducer';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { AppError } from 'Utils/Error';
 

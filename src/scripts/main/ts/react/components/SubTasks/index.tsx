@@ -6,9 +6,9 @@ import taskAPI from 'Api/tasks';
 import { sort } from 'Utils/Sort';
 import { time } from 'Utils/Time';
 import playBtn from 'Images/icons/play.svg';
-import { RootState } from 'Redux/index';
+import { RootState } from 'Redux/rootReducer';
 import { taskInstance } from 'Utils/Task';
-import { useUnmounting } from 'Utils/hooks/useUnmounting';
+import { useUnmounting } from 'App/hooks/useUnmounting';
 
 type Task = {
   _id: string;

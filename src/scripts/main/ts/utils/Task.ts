@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { activeTaskState } from 'Redux/activeTask';
+import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
 import activeTaskAPI from 'Api/activeTask';
 import { Store } from 'redux';
 

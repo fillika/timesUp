@@ -6,9 +6,9 @@ import taskAPI from 'Api/tasks';
 import { useDispatch, useSelector } from 'react-redux';
 import { RangeTime } from 'App/components/RangeTime';
 import { sort } from 'Utils/Sort';
-import { useUnmounting } from 'Utils/hooks/useUnmounting';
-import { RootState } from 'Redux/index';
-import { AppState } from 'Scripts/main/ts/store/app';
+import { useUnmounting } from 'App/hooks/useUnmounting';
+import { RootState } from 'Redux/rootReducer';
+import { AppState } from 'Scripts/main/ts/redux/app';
 
 type TaskData = {
   data: TaskType;

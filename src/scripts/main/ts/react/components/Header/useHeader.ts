@@ -1,7 +1,7 @@
 import { useEffect, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { activeTaskState } from 'Redux/activeTask';
-import { RootState } from 'Redux/index';
+import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
+import { RootState } from 'Redux/rootReducer';
 import { time } from 'Utils/Time';
 import { taskInstance } from 'Utils/Task';
 import { sort } from 'Utils/Sort';
