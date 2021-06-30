@@ -18,20 +18,6 @@
     }
   }
 
-  &__error-msg {
-    color: red;
-    margin: 0;
-    text-align: center;
-    font-size: 0.9em;
-    font-weight: bold;
-    animation: showErrorMsgToForm 200ms linear;
-  }
-
-  &__error-wrapper {
-      height: 20px;
-      margin: 5px 0;
-  }
-
   input {
     height: var(--height);
     border-radius: 10px;
@@ -62,17 +48,5 @@
   }
   to {
     height: var(--height);
-  }
-}
-
-@keyframes showErrorMsgToForm {
-  0% {
-    transform: scale(0.1);
-  }
-  90% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
   }
 }

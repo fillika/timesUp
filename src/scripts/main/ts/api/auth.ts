@@ -1,4 +1,5 @@
 import API from '.';
+import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 
 class AuthAPI extends API {
   constructor() {
@@ -7,13 +8,10 @@ class AuthAPI extends API {
 
   async logIn(data: FormData) {
     const headers = this.createHeaders('POST', {}, data);
+    const errMessage = 'Ошибка при попытке logIn';
 
-    try {
-      const response = await fetch(this.loginUrl, headers);
-      return response.json();
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch(this.loginUrl, headers).then(response => this.createErr(response, errMessage));;
+    return response.json();
   }
 }
 

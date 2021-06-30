@@ -1,47 +1,8 @@
-import React, { FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { authAPI } from 'Api/auth';
-import { getAllTasks } from 'Utils/helpers/getAllTasks';
+import React from 'react';
+import { useGreetingsState } from './hooks/useGreetingsState';
 
 const Greetings = () => {
-  const [isRegister, setResiter] = useState(true);
-  const [isInputHiding, setInputHiding] = useState(false);
-  const [isError, setErrorMsg] = useState(null);
-  const dispatch = useDispatch();
-
-  const submit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setErrorMsg(null);
-
-    if (!isRegister) {
-      const formData = new FormData(event.target as HTMLFormElement);
-      const response = await authAPI.logIn(formData);
-
-      if (response.status === 'success') {
-        const token = response.data.token;
-        localStorage.setItem('JWT', token);
-        getAllTasks(token, dispatch);
-      }
-
-      if (response.status === 'fail') {
-        localStorage.removeItem('JWT');
-        setErrorMsg(response.message);
-      }
-    }
-  };
-
-  const toggleRegister = () => {
-    setInputHiding(!isInputHiding);
-
-    if (isRegister) {
-      let timerID = setTimeout(() => {
-        setResiter(!isRegister);
-        clearTimeout(timerID);
-      }, 210);
-    } else {
-      setResiter(!isRegister);
-    }
-  };
+  const [isRegister, isInputHiding, submit, toggleRegister] = useGreetingsState();
 
   return (
     <div className='greetings'>
@@ -71,8 +32,6 @@ const Greetings = () => {
               <label htmlFor='confirmPassword'>Confirm password</label>
             </div>
           )}
-
-          <div className='form__error-wrapper'>{isError ? <div className='form__error-msg'>{isError}</div> : null}</div>
 
           <div>
             <button> {isRegister ? 'Зарегистрироваться' : 'Войти'}</button>
