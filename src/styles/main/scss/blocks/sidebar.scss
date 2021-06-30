@@ -1,3 +1,10 @@
 .sidebar {
-  padding: 20px;
+  padding: 5px;
+  grid-area: aside;
+  border: 1px solid salmon;
+  overflow: hidden;
+
+  @include above($md) {
+      padding: 20px;
+  }
 }
