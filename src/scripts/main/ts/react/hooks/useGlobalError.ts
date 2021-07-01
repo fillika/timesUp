@@ -19,8 +19,7 @@ export function useGlobalError() {
         break;
 
       default:
-        message = 'Неизвестная ошибка. Нужно обработать';
-        createNotify('error', message, dispatch);
+        createNotify('error', err.message, dispatch);
         break;
     }
   };
@@ -46,8 +45,7 @@ export function useGlobalError() {
         break;
 
       default:
-        message = 'Неизвестная ошибка. Нужно обработать';
-        createNotify('error', message, dispatch);
+        createNotify('error', err.message, dispatch);
         break;
     }
   };

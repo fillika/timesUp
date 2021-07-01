@@ -2,7 +2,7 @@ import React from 'react';
 import { useGreetingsState } from './hooks/useGreetingsState';
 
 const Greetings = () => {
-  const [isRegister, isInputHiding, submit, toggleRegister] = useGreetingsState();
+  const [isRegister, isInputHiding, logIn, toggleRegister] = useGreetingsState();
 
   return (
     <div className='greetings'>
@@ -10,7 +10,7 @@ const Greetings = () => {
         {!isRegister ? 'Регистрация' : 'Вход'}
       </div>
       <div>
-        <form onSubmit={submit} className='form'>
+        <form onSubmit={logIn} className='form'>
           {isRegister && (
             <div className={`form__fields-wrapper ${isInputHiding ? 'form__fields-wrapper--hide' : ''}`}>
               <input type='text' name='username' id='username' required />

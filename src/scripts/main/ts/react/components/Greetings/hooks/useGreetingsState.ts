@@ -1,25 +1,26 @@
 import { useState, FormEvent, Dispatch } from 'react';
 import { useDispatch } from 'react-redux';
-import { authAPI } from 'Api/auth';
+import { useGlobalError } from 'App/hooks/useGlobalError';
+import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 import { createNotify } from 'Utils/helpers/createNotify';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
-import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
-import { useGlobalError } from 'App/hooks/useGlobalError';
+import { authAPI } from 'Api/auth';
 
 type useGreetingsType = [
   isRegister: boolean,
   isInputHiding: boolean,
-  submit: (event: FormEvent<HTMLFormElement>) => Promise<void>,
+  onSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>,
   toggleRegister: () => void
 ];
 
 export function useGreetingsState(): useGreetingsType {
   const [isRegister, setResiter] = useState(true);
   const [isInputHiding, setInputHiding] = useState(false);
-  const { authErrorHandler, getTasksErrorHandlerErr } = useGlobalError();
+  const { authErrorHandler } = useGlobalError();
+  const { getTasksErrorHandlerErr } = useGlobalError();
   const dispatch = useDispatch();
 
-  const auth = asyncCatcher(async (formData: FormData, dispatch: Dispatch<any>) => {
+  const logIn = asyncCatcher(async (formData: FormData, dispatch: Dispatch<any>) => {
     const response = await authAPI.logIn(formData);
 
     if (response.status === 'success') {
@@ -37,12 +38,12 @@ export function useGreetingsState(): useGreetingsType {
     return response;
   });
 
-  const submit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!isRegister) {
       const formData = new FormData(event.target as HTMLFormElement);
-      auth(authErrorHandler, formData, dispatch);
+      logIn(authErrorHandler, formData, dispatch);
     }
   };
 
@@ -59,5 +60,5 @@ export function useGreetingsState(): useGreetingsType {
     }
   };
 
-  return [isRegister, isInputHiding, submit, toggleRegister];
+  return [isRegister, isInputHiding, onSubmit, toggleRegister];
 }
