@@ -5,6 +5,7 @@ import trashIcon from 'Images/icons/trash.svg';
 import { RangeTime } from 'App/components/RangeTime';
 import { ContinueButton } from 'App/components/ContinueButton';
 import { useHandlers } from './hooks/useHandlers';
+import { Counter } from './Counter';
 
 type TaskData = {
   data: TaskType;
@@ -13,25 +14,11 @@ type TaskData = {
 const Task: React.FC<TaskData> = ({ data }) => {
   const [isUnmounting, isActive, name, setActive, deleteTask, updateTask, onChange] = useHandlers(data);
 
-  function counter() {
-    if (data.time !== undefined) {
-      if (data.time.length > 1) {
-        return (
-          <div className='task__counter' onClick={() => setActive(!isActive)}>
-            {data.time.length}
-          </div>
-        );
-      } else {
-        setActive(false);
-        return null;
-      }
-    }
-  }
-
   return (
     <li className={`task-list__task ${isUnmounting ? 'task-list__task--unmounting' : ''}`}>
       <div className='task task--parent'>
-        {counter()}
+        <Counter isActive={isActive} time={data.time} onClick={setActive} />
+
         <div className='task__input-wrapper'>
           <input onBlur={updateTask} onChange={onChange} type='text' defaultValue={name} />
         </div>
@@ -39,6 +26,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
           <div onClick={deleteTask} className='task-panel__icon task-panel__icon--delete'>
             <img src={trashIcon} alt='Удалить таск' />
           </div>
+
           <RangeTime data={data} />
           <ContinueButton name={name} />
         </div>
