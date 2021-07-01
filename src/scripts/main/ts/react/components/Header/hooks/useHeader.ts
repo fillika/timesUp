@@ -1,12 +1,12 @@
 import { useEffect, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
 import { RootState } from 'Redux/rootReducer';
 import { time } from 'Utils/Time';
 import { taskHandler } from 'Utils/TaskHandler';
 import { sort } from 'Utils/Sort';
 import { SortedTask } from 'Types/tasks';
-import taskAPI from 'Api/tasks';
+import { taskAPI } from 'Api/tasks';
 import activeTaskAPI from 'Api/activeTask';
 import _ from 'lodash';
 

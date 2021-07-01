@@ -90,4 +90,4 @@ class TasksAPI extends API {
 
 const taskAPI = new TasksAPI();
 
-export default taskAPI;
+export { taskAPI };

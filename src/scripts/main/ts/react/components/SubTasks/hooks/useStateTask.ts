@@ -3,7 +3,7 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { RootState } from 'Redux/rootReducer';
 import { taskHandler } from 'Utils/TaskHandler';
 import { sort } from 'Utils/Sort';
-import taskAPI from 'Api/tasks';
+import { taskAPI } from 'Api/tasks';
 import { useUnmounting } from 'App/hooks/useUnmounting';
 
 type useStateTaskType = [
@@ -30,8 +30,8 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
       const response = await taskAPI.deleteTaskByID(_id, app.token);
 
       if (response.status === 'success') {
-          startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) }));
-          console.log(response.message); // Todo выводить в всплывашки
+        startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) }));
+        console.log(response.message); // Todo выводить в всплывашки
       } else {
         console.error('Ошибка. Таск не удален по какой-то причине');
       }
@@ -54,7 +54,7 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
   function startTask() {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
     // * Тут не успевает обновляться activeTask, поэтому Я создаю свой (копию) и заменяю name на текущий
-    const activeTaskCopy = {...activeTask, name};
+    const activeTaskCopy = { ...activeTask, name };
     app.token && taskHandler.toggleTimer(activeTaskCopy, dispatch, app.token);
   }
 

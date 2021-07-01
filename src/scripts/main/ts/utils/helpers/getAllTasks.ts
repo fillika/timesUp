@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import taskAPI from 'Api/tasks';
+import { taskAPI } from 'Api/tasks';
 import { sort } from 'Utils/Sort';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 

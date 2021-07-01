@@ -1,7 +1,7 @@
 import React from 'react';
 import playBtn from 'Images/icons/play.svg';
 import stopBtn from 'Images/icons/stop-button.svg';
-import { useHeader } from './useHeader';
+import { useHeader } from './hooks/useHeader';
 
 const Header: React.FC = () => {
   const { onInput, toggleTimer, onKeyPress, activeTask } = useHeader();

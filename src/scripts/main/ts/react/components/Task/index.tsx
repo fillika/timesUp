@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, Dispatch, useEffect } from 'react';
 import { TaskType } from 'Types/tasks';
 import { SubTasks } from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
-import taskAPI from 'Api/tasks';
+import { taskAPI } from 'Api/tasks';
 import { useDispatch, useSelector } from 'react-redux';
 import { RangeTime } from 'App/components/RangeTime';
 import { sort } from 'Utils/Sort';
