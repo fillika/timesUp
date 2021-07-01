@@ -6,7 +6,7 @@ export function useGlobalError() {
   const dispatch = useDispatch();
   let message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
 
-  const getTasksHandlerErr = (err: AppError) => {
+  const commonSwitchCase = (err: AppError) => {
     switch (err.statusCode) {
       case 401:
         message = 'Пожалуйста, залогиньтесь заново';
@@ -21,7 +21,14 @@ export function useGlobalError() {
       default:
         break;
     }
+  };
 
+  const activeTaskErrorHandler = (err: AppError) => {
+    commonSwitchCase(err);
+  };
+
+  const getTasksErrorHandlerErr = (err: AppError) => {
+    commonSwitchCase(err);
     dispatch({ type: 'APP_LOG_OUT' });
   };
 
@@ -31,14 +38,24 @@ export function useGlobalError() {
         message = 'Неверный логин или пароль';
         createNotify('error', message, dispatch);
         break;
+      case 404:
+        message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
+        createNotify('error', message, dispatch);
+        break;
 
       default:
         break;
     }
   };
 
+  const createTaskErrorHandler = (err: AppError) => {
+    commonSwitchCase(err);
+  };
+
   return {
-    getTasksHandlerErr,
-    authErrorHandler
+    getTasksErrorHandlerErr,
+    authErrorHandler,
+    activeTaskErrorHandler,
+    createTaskErrorHandler,
   };
 }

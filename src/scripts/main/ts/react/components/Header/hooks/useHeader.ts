@@ -1,22 +1,21 @@
 import { useEffect, ChangeEvent, KeyboardEvent, Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
 import { RootState } from 'Redux/rootReducer';
 import { time } from 'Utils/Time';
 import { taskHandler } from 'Utils/TaskHandler';
-import { sort } from 'Utils/Sort';
-import { SortedTask } from 'Types/tasks';
-import { taskAPI } from 'Api/tasks';
-import activeTaskAPI from 'Api/activeTask';
+import { createTask } from './../utils/createTask';
+import { getActiveTask } from '../utils/getActiveTask';
 import _ from 'lodash';
+import { useGlobalError } from 'App/hooks/useGlobalError';
 
 export function useHeader() {
   const dispatch = useDispatch();
   const { activeTask, app } = useSelector((state: RootState) => state);
+  const { activeTaskErrorHandler, createTaskErrorHandler } = useGlobalError();
 
   useEffect(() => {
     if (app.token) {
-      getActiveTask(app.token, dispatch);
+      getActiveTask(activeTaskErrorHandler, app.token, dispatch);
     }
   }, []);
 
@@ -30,7 +29,7 @@ export function useHeader() {
 
   useEffect(() => {
     if (activeTask.duration > 0 && app.token) {
-      createTask(activeTask, dispatch, app.token);
+      createTask(createTaskErrorHandler, activeTask, dispatch, app.token);
       dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
     }
   }, [activeTask.duration]);
@@ -63,38 +62,4 @@ export function useHeader() {
     activeTask,
     onKeyPress,
   };
-}
-
-// utils handlers
-async function createTask(
-  task: activeTaskState,
-  dispatch: Dispatch<{ type: string; payload: SortedTask[] }>,
-  token: string
-) {
-  try {
-    const result = await taskAPI.createTask(task, token);
-
-    if (result.status === 'success') {
-      switch (result.action) {
-        case 'CREATE':
-          dispatch({ type: 'CREATE_TASK', payload: sort.sortData(result.data.tasks) });
-          break;
-        default:
-          break;
-      }
-    } else {
-      throw new Error(result);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function getActiveTask(token: string, dispatch: Dispatch<{ type: string; payload: activeTaskState }>) {
-  const result = await activeTaskAPI.getActiveTask(token);
-  const activeTask: activeTaskState = result.data.activeTask;
-
-  if (activeTask) {
-    if (activeTask.isTimeActive) dispatch({ type: 'SET_ACTIVE_TASK', payload: activeTask });
-  }
 }

@@ -6,14 +6,14 @@ import { useGlobalError } from 'App/hooks/useGlobalError';
 
 export function useLoggin(): [boolean | null, boolean] {
   const { isLoggin, isLoading } = useSelector((state: RootState) => state.app);
-  const { getTasksHandlerErr } = useGlobalError();
+  const { getTasksErrorHandlerErr } = useGlobalError();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem('JWT');
 
     if (token) {
-      getAllTasks(getTasksHandlerErr, token, dispatch);
+      getAllTasks(getTasksErrorHandlerErr, token, dispatch);
     } else {
       dispatch({ type: 'APP_LOG_OUT' });
     }

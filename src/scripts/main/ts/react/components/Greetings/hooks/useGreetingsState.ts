@@ -16,7 +16,7 @@ type useGreetingsType = [
 export function useGreetingsState(): useGreetingsType {
   const [isRegister, setResiter] = useState(true);
   const [isInputHiding, setInputHiding] = useState(false);
-  const { authErrorHandler, getTasksHandlerErr } = useGlobalError();
+  const { authErrorHandler, getTasksErrorHandlerErr } = useGlobalError();
   const dispatch = useDispatch();
 
   const auth = asyncCatcher(async (formData: FormData, dispatch: Dispatch<any>) => {
@@ -26,7 +26,7 @@ export function useGreetingsState(): useGreetingsType {
       const token = response.data.token;
       localStorage.setItem('JWT', token);
       createNotify('success', 'Добро пожаловать!', dispatch);
-      getAllTasks(getTasksHandlerErr, token, dispatch);
+      getAllTasks(getTasksErrorHandlerErr, token, dispatch);
     }
 
     if (response.status === 'fail') {

@@ -3,12 +3,13 @@ import { activeTaskState } from 'Redux/activeTask';
 import { SortedTask } from 'Types/tasks';
 import { taskAPI } from 'Api/tasks';
 import { sort } from 'Utils/Sort';
+import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 
-async function createTask(
+export const createTask = asyncCatcher(async (
   task: activeTaskState,
   dispatch: Dispatch<{ type: string; payload: SortedTask[] }>,
   token: string
-) {
+) => {
   try {
     const result = await taskAPI.createTask(task, token);
 
@@ -26,4 +27,4 @@ async function createTask(
   } catch (error) {
     console.error(error);
   }
-}
+});

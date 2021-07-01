@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
-import activeTaskAPI from 'Api/activeTask';
+import { activeTaskAPI } from 'Api/activeTask';
 import { createNotify } from 'Utils/helpers/createNotify';
 
 class TaskHandler {

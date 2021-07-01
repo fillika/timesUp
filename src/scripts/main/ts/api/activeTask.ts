@@ -18,9 +18,9 @@ class ActiveTaskAPI extends API {
   }
 
   async updateActiveTask(token: string, data = {}) {
-    const headers = this.createHeaders('PATCH', {'Content-Type': 'application/json'}, JSON.stringify(data), token);
+    const headers = this.createHeaders('PATCH', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
     const errMessage = 'Ошибка при обновлении активного таска в методе updateActiveTask';
-    
+
     try {
       const response = await fetch(this.activeTaskUrl, headers).then(response => this.createErr(response, errMessage));
       return response.json();
@@ -32,4 +32,4 @@ class ActiveTaskAPI extends API {
 
 const activeTaskAPI = new ActiveTaskAPI();
 
-export default activeTaskAPI;
+export { activeTaskAPI };
