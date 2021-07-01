@@ -26,9 +26,6 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
     setValue(name);
   }, [name]);
 
-  useEffect(() => {
-    console.log('Use effect');
-  }, []);
 
   // Todo рефактор - вынести логику в отдельный хук
   async function deleteTaskByID() {
@@ -53,12 +50,8 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
     const val = event.target.value.trim();
 
     try {
-      if (val !== name) {
-        const response = await taskAPI.updateTask(_id, { name: val }, app.token!);
-
-        // ! Добавил 2 диспатча, так как при одном сортированный массив некорректно заменял данные.
-        // Todo пофиксить
-        dispatch({ type: 'UPDATE_TASK_LIST', payload: [] });
+      if (val !== name && app.token) {
+        const response = await taskAPI.updateTask(_id, { name: val }, app.token);
         dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
       }
     } catch (error) {

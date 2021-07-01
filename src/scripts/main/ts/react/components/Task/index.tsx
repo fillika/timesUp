@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, Dispatch } from 'react';
+import React, { useState, ChangeEvent, Dispatch, useEffect } from 'react';
 import { TaskType } from 'Types/tasks';
 import { SubTasks } from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
@@ -62,8 +62,12 @@ const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
-  const state = useSelector((state: RootState) => state.app);
+  const { app, tasks } = useSelector((state: RootState) => state);
   const [isUnmounting, startUnmount] = useUnmounting();
+
+  useEffect(() => {
+    console.log('Use effect with tasks in TASK');
+  }, [name]);
 
   function counter() {
     if (data.time !== undefined) {
@@ -86,7 +90,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
         {counter()}
         <div className='task__input-wrapper'>
           <input
-            onBlur={(event: React.FocusEvent<HTMLInputElement>) => updateTaskByName(event, data, state, dispatch)}
+            onBlur={(event: React.FocusEvent<HTMLInputElement>) => updateTaskByName(event, data, app, dispatch)}
             onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
             type='text'
             defaultValue={name}
@@ -94,7 +98,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
         </div>
         <div className='task-panel'>
           <div
-            onClick={() => deleteTaskByName(data, state, startUnmount, dispatch)}
+            onClick={() => deleteTaskByName(data, app, startUnmount, dispatch)}
             className='task-panel__icon task-panel__icon--delete'>
             <img src={trashIcon} alt='Удалить таск' />
           </div>
