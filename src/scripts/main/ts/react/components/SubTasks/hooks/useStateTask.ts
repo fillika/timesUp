@@ -1,7 +1,7 @@
 import { FocusEvent, useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { RootState } from 'Redux/rootReducer';
-import { taskInstance } from 'Utils/Task';
+import { taskHandler } from 'Utils/TaskHandler';
 import { sort } from 'Utils/Sort';
 import taskAPI from 'Api/tasks';
 import { useUnmounting } from 'App/hooks/useUnmounting';
@@ -18,7 +18,6 @@ type useStateTaskType = [
 export function useStateTask(name: string, _id: string): useStateTaskType {
   const dispatch = useDispatch();
   const { activeTask, app } = useSelector((state: RootState) => state);
-  const store = useStore();
   const [value, setValue] = useState(name);
   const [isUnmounting, startUnmount] = useUnmounting();
 
@@ -77,7 +76,7 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
   // Todo - вынести функцию taskHandler в useEffect. Она должна запускаться, когда статус у таска изменился.
   function startTask() {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
-    taskInstance.taskHandler(activeTask, dispatch, store);
+    // taskHandler.taskHandler(activeTask, dispatch, store);
   }
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);

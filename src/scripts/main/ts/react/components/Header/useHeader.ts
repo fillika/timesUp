@@ -3,7 +3,7 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
 import { RootState } from 'Redux/rootReducer';
 import { time } from 'Utils/Time';
-import { taskInstance } from 'Utils/Task';
+import { taskHandler } from 'Utils/TaskHandler';
 import { sort } from 'Utils/Sort';
 import { SortedTask } from 'Types/tasks';
 import taskAPI from 'Api/tasks';
@@ -20,6 +20,14 @@ export function useHeader() {
       getActiveTask(app.token, dispatch);
     }
   }, []);
+
+  useEffect(() => {
+    if (app.token) {
+      if (activeTask.isTimeActive) {
+        taskHandler.updateActiveTask(app.token, activeTask);
+      }
+    }
+  }, [activeTask.isTimeActive]);
 
   useEffect(() => {
     if (activeTask.duration > 0 && app.token) {
@@ -43,13 +51,7 @@ export function useHeader() {
     };
   }, [activeTask.isTimeActive, activeTask.totalTime]);
 
-  const onClick = () => {
-    if (app.token) {
-      !activeTask.isTimeActive
-        ? taskInstance.startTimer(activeTask, dispatch, app.token)
-        : taskInstance.stopTimer(activeTask, dispatch, app.token);
-    }
-  };
+  const onClick = () => app.token && taskHandler.toggleTimer(activeTask, dispatch, app.token);
 
   const onKeyPress = (event: KeyboardEvent) =>
     event.key === 'Enter' && dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });

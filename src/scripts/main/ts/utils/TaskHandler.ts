@@ -1,10 +1,9 @@
 import { Dispatch } from 'react';
 import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
 import activeTaskAPI from 'Api/activeTask';
-import { Store } from 'redux';
 import { createNotify } from 'Utils/helpers/createNotify';
 
-class Task {
+class TaskHandler {
   defaultData: activeTaskState;
 
   constructor() {
@@ -19,6 +18,12 @@ class Task {
     };
   }
 
+  toggleTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, token: string) {
+    !activeTask.isTimeActive
+      ? this.startTimer(activeTask, dispatch, token)
+      : this.stopTimer(activeTask, dispatch, token);
+  }
+
   startTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, token: string) {
     if (activeTask.name.trim() === '') {
       createNotify('warning', 'У задачи должно быть имя :)', dispatch);
@@ -27,8 +32,6 @@ class Task {
 
     const start = new Date().getTime();
     dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
-    // Тут статус isTimeActive равняется false. Нужно решить проблему 
-    this.updateActiveTask(token, activeTask);
   }
 
   stopTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, token: string) {
@@ -40,7 +43,7 @@ class Task {
         stop: endTime,
         duration: endTime - new Date(activeTask.start).getTime(),
         at: endTime + 1000,
-        isTimeActive: false
+        isTimeActive: false,
       },
     });
 
@@ -56,6 +59,6 @@ class Task {
   }
 }
 
-const taskInstance = new Task();
+const taskHandler = new TaskHandler();
 
-export { taskInstance };
+export { taskHandler };
