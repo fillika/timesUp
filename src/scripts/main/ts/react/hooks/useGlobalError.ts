@@ -19,6 +19,8 @@ export function useGlobalError() {
         break;
 
       default:
+        message = 'Неизвестная ошибка. Нужно обработать';
+        createNotify('error', message, dispatch);
         break;
     }
   };
@@ -44,6 +46,8 @@ export function useGlobalError() {
         break;
 
       default:
+        message = 'Неизвестная ошибка. Нужно обработать';
+        createNotify('error', message, dispatch);
         break;
     }
   };
@@ -52,10 +56,20 @@ export function useGlobalError() {
     commonSwitchCase(err);
   };
 
+  const delTaskByNameErrHadler = (err: AppError) => {
+    commonSwitchCase(err);
+  };
+
+  const updTaskByNameErrHadler = (err: AppError) => {
+    commonSwitchCase(err);
+  };
+
   return {
     getTasksErrorHandlerErr,
     authErrorHandler,
     activeTaskErrorHandler,
     createTaskErrorHandler,
+    delTaskByNameErrHadler,
+    updTaskByNameErrHadler
   };
 }

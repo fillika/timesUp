@@ -4,8 +4,10 @@ import { AppState } from 'Redux/app';
 import { Dispatch } from 'react';
 import { taskAPI } from 'Api/tasks';
 import { sort } from 'Utils/Sort';
+import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 
-export const updateTaskByName = async (
+
+export const updateTaskByName = asyncCatcher(async (
   event: React.FocusEvent<HTMLInputElement>,
   data: TaskType,
   state: AppState,
@@ -31,4 +33,4 @@ export const updateTaskByName = async (
       console.log(error);
     }
   }
-};
+});

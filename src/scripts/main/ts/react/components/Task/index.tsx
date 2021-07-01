@@ -32,7 +32,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
         </div>
       </div>
 
-      {isActive && data.time !== undefined && data.time?.length > 1 && <SubTasks data={data.time} name={name} />}
+      {isActive && data.time !== undefined && data.time.length > 1 && <SubTasks data={data.time} name={name} />}
     </li>
   );
 };
