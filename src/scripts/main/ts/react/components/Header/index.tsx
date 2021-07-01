@@ -4,7 +4,7 @@ import stopBtn from 'Images/icons/stop-button.svg';
 import { useHeader } from './useHeader';
 
 const Header: React.FC = () => {
-  const { onInput, onClick, onKeyPress, activeTask } = useHeader();
+  const { onInput, toggleTimer, onKeyPress, activeTask } = useHeader();
 
   return (
     <header className='header'>
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
           <div>{activeTask.totalTime}</div>
         </div>
         <div className='header__button-wrapper'>
-          <button onClick={onClick} className='header__button header__button--play'>
+          <button onClick={toggleTimer} className='header__button header__button--play'>
             <img src={!activeTask.isTimeActive ? playBtn : stopBtn} alt='Иконка' />
           </button>
         </div>

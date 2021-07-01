@@ -13,7 +13,6 @@ import _ from 'lodash';
 export function useHeader() {
   const dispatch = useDispatch();
   const { activeTask, app } = useSelector((state: RootState) => state);
-  const store = useStore();
 
   useEffect(() => {
     if (app.token) {
@@ -51,17 +50,16 @@ export function useHeader() {
     };
   }, [activeTask.isTimeActive, activeTask.totalTime]);
 
-  const onClick = () => app.token && taskHandler.toggleTimer(activeTask, dispatch, app.token);
+  const toggleTimer = () => app.token && taskHandler.toggleTimer(activeTask, dispatch, app.token);
 
-  const onKeyPress = (event: KeyboardEvent) =>
-    event.key === 'Enter' && dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });
+  const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && toggleTimer();
 
   const onInput = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: event.target.value });
 
   return {
     onInput,
-    onClick,
+    toggleTimer,
     activeTask,
     onKeyPress,
   };

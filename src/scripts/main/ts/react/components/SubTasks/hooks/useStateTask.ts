@@ -31,7 +31,6 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
     }
   }, [activeTask.name]);
 
-
   // Todo привязка к статусу
   // useEffect(() => {
   //   if (activeTask.isTimeActive) {
@@ -39,18 +38,14 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
   //   }
   // }, [activeTask.isTimeActive]);
 
-
   // Todo рефактор - вынести логику в отдельный хук
   async function deleteTaskByID() {
     if (app.token) {
       const response = await taskAPI.deleteTaskByID(_id, app.token);
 
       if (response.status === 'success') {
-        if (typeof startUnmount !== 'boolean') {
-          // * Почему он считает, что startUnmount - bool?
           startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: sort.sortData(response.data.tasks) }));
           console.log(response.message); // Todo выводить в всплывашки
-        }
       } else {
         console.error('Ошибка. Таск не удален по какой-то причине');
       }
@@ -69,14 +64,12 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
       }
     } catch (error) {
       console.error(error);
-      // Todo обработать ошибку
     }
   }
 
-  // Todo - вынести функцию taskHandler в useEffect. Она должна запускаться, когда статус у таска изменился.
   function startTask() {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
-    // taskHandler.taskHandler(activeTask, dispatch, store);
+    app.token && taskHandler.toggleTimer(activeTask, dispatch, app.token);
   }
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
