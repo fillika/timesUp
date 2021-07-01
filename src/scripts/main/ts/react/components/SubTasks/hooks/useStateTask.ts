@@ -23,22 +23,8 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
 
   useEffect(() => {
     setValue(name);
-
-    if (activeTask.name !== '') {
-      console.log('У задачи есть имя');
-    } else {
-      console.log('Имени нет');
-    }
   }, [activeTask.name]);
 
-  // Todo привязка к статусу
-  // useEffect(() => {
-  //   if (activeTask.isTimeActive) {
-  //     taskInstance.taskHandler(activeTask, dispatch, store);
-  //   }
-  // }, [activeTask.isTimeActive]);
-
-  // Todo рефактор - вынести логику в отдельный хук
   async function deleteTaskByID() {
     if (app.token) {
       const response = await taskAPI.deleteTaskByID(_id, app.token);
@@ -49,8 +35,6 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
       } else {
         console.error('Ошибка. Таск не удален по какой-то причине');
       }
-    } else {
-      console.log('Нет токена');
     }
   }
 
@@ -69,7 +53,9 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
 
   function startTask() {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
-    app.token && taskHandler.toggleTimer(activeTask, dispatch, app.token);
+    // * Тут не успевает обновляться activeTask, поэтому Я создаю свой (копию) и заменяю name на текущий
+    const activeTaskCopy = {...activeTask, name};
+    app.token && taskHandler.toggleTimer(activeTaskCopy, dispatch, app.token);
   }
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
