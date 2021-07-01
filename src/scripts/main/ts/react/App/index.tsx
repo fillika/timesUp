@@ -1,8 +1,8 @@
 import React from 'react';
-import IsLogged from 'App/components/isLogged';
+import { Login } from 'App/components/Login';
 import Greetings from 'App/components/Greetings';
-import { Preloader } from 'App/components/Preloader/index';
-import { Notifications } from 'Scripts/main/ts/react/components/Notifications/index';
+import { Preloader } from 'App/components/Preloader';
+import { Notifications } from 'App/components/Notifications';
 import { useLoggin } from './hooks/useLoggin';
 
 const App: React.FC = () => {
@@ -12,7 +12,7 @@ const App: React.FC = () => {
 
   return (
     <div className='timer'>
-      {isLoggin ? <IsLogged /> : <Greetings />}
+      {isLoggin ? <Login /> : <Greetings />}
       <Notifications />
     </div>
   );

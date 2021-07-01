@@ -3,7 +3,7 @@ import Header from 'App/components/Header';
 import Main from 'App/components/Main';
 import Sidebar from 'App/components/Sidebar';
 
-const IsLogged = () => {
+export const Login = () => {
   return (
     <div className='timer__wrapper'>
       <Header />
@@ -12,5 +12,3 @@ const IsLogged = () => {
     </div>
   );
 };
-
-export default IsLogged;
