@@ -59,8 +59,15 @@ export function useGlobalError() {
   const delTaskByNameErrHadler = (err: AppError) => {
     commonSwitchCase(err);
   };
+  const delTaskByIdErrHadler = (err: AppError) => {
+    commonSwitchCase(err);
+  };
 
   const updTaskByNameErrHadler = (err: AppError) => {
+    commonSwitchCase(err);
+  };
+
+  const updTaskByIdErrHadler = (err: AppError) => {
     commonSwitchCase(err);
   };
 
@@ -70,6 +77,8 @@ export function useGlobalError() {
     activeTaskErrorHandler,
     createTaskErrorHandler,
     delTaskByNameErrHadler,
-    updTaskByNameErrHadler
+    delTaskByIdErrHadler,
+    updTaskByNameErrHadler,
+    updTaskByIdErrHadler,
   };
 }
