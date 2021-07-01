@@ -19,25 +19,19 @@ class Task {
     };
   }
 
-  taskHandler(activeTask: activeTaskState, dispatch: Dispatch<any>, store: Store) {
+  startTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, token: string) {
     if (activeTask.name.trim() === '') {
       createNotify('warning', 'У задачи должно быть имя :)', dispatch);
       return;
     }
 
-    dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });
-    // * Тут нет рендера
-
-    if (store.getState().activeTask.isTimeActive) {
-      const start = new Date().getTime();
-      dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
-      this.updateActiveTask(store.getState().app.token, store.getState().activeTask);
-    } else {
-      this.stopTimer(activeTask, dispatch, store);
-    }
+    const start = new Date().getTime();
+    dispatch({ type: 'UPDATE_ACTIVE_TASK_START', payload: start });
+    // Тут статус isTimeActive равняется false. Нужно решить проблему 
+    this.updateActiveTask(token, activeTask);
   }
 
-  stopTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, store: Store) {
+  stopTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, token: string) {
     const endTime = new Date().getTime();
 
     dispatch({
@@ -46,10 +40,11 @@ class Task {
         stop: endTime,
         duration: endTime - new Date(activeTask.start).getTime(),
         at: endTime + 1000,
+        isTimeActive: false
       },
     });
 
-    this.updateActiveTask(store.getState().app.token, this.defaultData); // fetch на обновление таска. Скидывает до дефолтных значений
+    this.updateActiveTask(token, this.defaultData); // fetch на обновление таска. Скидывает до дефолтных значений
   }
 
   async updateActiveTask(token: string, data: activeTaskState) {

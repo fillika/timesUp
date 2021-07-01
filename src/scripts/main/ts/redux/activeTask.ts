@@ -29,7 +29,7 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
         start: action.payload.start,
         stop: action.payload.stop,
         duration: action.payload.duration,
-        isTimeActive: action.payload.totalTime,
+        isTimeActive: action.payload.isTimeActive,
         totalTime: action.payload.totalTime,
       };
 
@@ -37,12 +37,6 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
       return {
         ...state,
         totalTime: action.payload,
-      };
-
-    case 'UPDATE_ACTIVE_TASK_STATUS':
-      return {
-        ...state,
-        isTimeActive: action.payload,
       };
 
     case 'UPDATE_ACTIVE_TASK_NAME':
@@ -55,6 +49,7 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
       return {
         ...state,
         start: action.payload,
+        isTimeActive: true,
       };
 
     case 'UPDATE_ACTIVE_TASK_TIME':
@@ -63,6 +58,7 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
         stop: action.payload.stop,
         duration: action.payload.duration,
         at: action.payload.at,
+        isTimeActive: action.payload.isTimeActive,
       };
 
     case 'RESET_ACTIVE_TASK_PROPS':

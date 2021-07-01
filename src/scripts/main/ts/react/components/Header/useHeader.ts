@@ -10,7 +10,7 @@ import taskAPI from 'Api/tasks';
 import activeTaskAPI from 'Api/activeTask';
 import _ from 'lodash';
 
-function useHeader() {
+export function useHeader() {
   const dispatch = useDispatch();
   const { activeTask, app } = useSelector((state: RootState) => state);
   const store = useStore();
@@ -22,15 +22,15 @@ function useHeader() {
   }, []);
 
   useEffect(() => {
-    if (activeTask.duration > 0) {
-      createTask(activeTask, dispatch, app.token!);
+    if (activeTask.duration > 0 && app.token) {
+      createTask(activeTask, dispatch, app.token);
       dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
     }
   }, [activeTask.duration]);
 
   useEffect(() => {
     let timeoutID = setTimeout(() => {
-      if (store.getState().activeTask.isTimeActive) {
+      if (activeTask.isTimeActive) {
         const diff = new Date().getTime() - new Date(activeTask.start).getTime();
         dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: time.countTotalTime(diff) });
       } else {
@@ -41,11 +41,19 @@ function useHeader() {
     return () => {
       clearTimeout(timeoutID);
     };
-  }, [store.getState().activeTask.isTimeActive, activeTask.totalTime]);
+  }, [activeTask.isTimeActive, activeTask.totalTime]);
 
-  const onClick = () => taskInstance.taskHandler(activeTask, dispatch, store);
+  const onClick = () => {
+    if (app.token) {
+      !activeTask.isTimeActive
+        ? taskInstance.startTimer(activeTask, dispatch, app.token)
+        : taskInstance.stopTimer(activeTask, dispatch, app.token);
+    }
+  };
+
   const onKeyPress = (event: KeyboardEvent) =>
-    event.key === 'Enter' && taskInstance.taskHandler(activeTask, dispatch, store);
+    event.key === 'Enter' && dispatch({ type: 'UPDATE_ACTIVE_TASK_STATUS', payload: !activeTask.isTimeActive });
+
   const onInput = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: event.target.value });
 
@@ -57,10 +65,12 @@ function useHeader() {
   };
 }
 
-export { useHeader };
-
 // utils handlers
-async function createTask(task: activeTaskState, dispatch: Dispatch<{ type: string; payload: SortedTask[] }>, token: string) {
+async function createTask(
+  task: activeTaskState,
+  dispatch: Dispatch<{ type: string; payload: SortedTask[] }>,
+  token: string
+) {
   try {
     const result = await taskAPI.createTask(task, token);
 
