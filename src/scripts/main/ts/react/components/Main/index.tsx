@@ -1,8 +1,15 @@
 import React from 'react';
-import Task from '../Task/Task';
-import { useGetTasks } from './useGetTasks';
-import { time } from 'Utils/Time';
+import Task from 'App/components/Task';
 import { TaskType } from 'Types/tasks';
+import { time } from 'Utils/Time';
+import { useGetTasks } from './useGetTasks';
+
+// Utils
+const getTotalDayTime = (tasks: TaskType[]): string => {
+  let result = 0;
+  tasks.forEach(el => (result += el.duration));
+  return time.countTotalTime(result);
+};
 
 const Main: React.FC = () => {
   const { taskArr } = useGetTasks();
@@ -40,10 +47,3 @@ const Main: React.FC = () => {
 };
 
 export default Main;
-
-// Utils
-function getTotalDayTime(tasks: TaskType[]): string {
-  let result = 0;
-  tasks.forEach(el => (result += el.duration));
-  return time.countTotalTime(result);
-}

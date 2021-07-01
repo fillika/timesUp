@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, Dispatch } from 'react';
 import { TaskType } from 'Types/tasks';
-import SubTasks from 'App/components/SubTasks';
+import { SubTasks } from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
 import taskAPI from 'Api/tasks';
 import { useDispatch, useSelector } from 'react-redux';
