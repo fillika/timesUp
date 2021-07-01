@@ -16,8 +16,7 @@ type useGreetingsType = [
 export function useGreetingsState(): useGreetingsType {
   const [isRegister, setResiter] = useState(true);
   const [isInputHiding, setInputHiding] = useState(false);
-  const { authErrorHandler } = useGlobalError();
-  const { getTasksErrorHandlerErr } = useGlobalError();
+  const { getTasksErrorHandlerErr, authErrorHandler, signUpErrorHandler } = useGlobalError();
   const dispatch = useDispatch();
 
   const logIn = asyncCatcher(async (formData: FormData, dispatch: Dispatch<any>) => {
@@ -34,16 +33,32 @@ export function useGreetingsState(): useGreetingsType {
       localStorage.removeItem('JWT');
       createNotify('error', response.message, dispatch);
     }
+  });
 
-    return response;
+  const signUp = asyncCatcher(async (formData: FormData, dispatch: Dispatch<any>) => {
+    const response = await authAPI.signUp(formData);
+
+    if (response.status === 'success') {
+      const token = response.data.token;
+      localStorage.setItem('JWT', token);
+      createNotify('success', 'Добро пожаловать!', dispatch);
+      getAllTasks(getTasksErrorHandlerErr, token, dispatch);
+    }
+
+    if (response.status === 'fail') {
+      localStorage.removeItem('JWT');
+      createNotify('error', response.message, dispatch);
+    }
   });
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
 
     if (!isRegister) {
-      const formData = new FormData(event.target as HTMLFormElement);
       logIn(authErrorHandler, formData, dispatch);
+    } else {
+      signUp(signUpErrorHandler, formData, dispatch);
     }
   };
 

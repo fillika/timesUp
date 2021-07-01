@@ -13,7 +13,7 @@ const Greetings = () => {
         <form onSubmit={logIn} className='form'>
           {isRegister && (
             <div className={`form__fields-wrapper ${isInputHiding ? 'form__fields-wrapper--hide' : ''}`}>
-              <input type='text' name='username' id='username' required />
+              <input type='text' name='name' id='username' required />
               <label htmlFor='username'>Username</label>
             </div>
           )}
@@ -28,8 +28,8 @@ const Greetings = () => {
           </div>
           {isRegister && (
             <div className={`form__fields-wrapper ${isInputHiding ? 'form__fields-wrapper--hide' : ''}`}>
-              <input type='password' name='confirmPassword' id='confirmPassword' required />
-              <label htmlFor='confirmPassword'>Confirm password</label>
+              <input type='password' name='passwordConfirm' id='passwordConfirm' required />
+              <label htmlFor='passwordConfirm'>Confirm password</label>
             </div>
           )}
 

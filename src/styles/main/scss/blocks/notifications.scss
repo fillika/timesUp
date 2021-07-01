@@ -6,19 +6,24 @@
   &__wrapper {
     width: 200px;
     padding-top: 10px;
+    display: grid;
+    gap: 0 5px;
   }
 
   &__item {
     --border-color: silver;
+    --anination-total-time: 2200ms;
+    --show-animation-time: 350ms;
+    --hide-animation-time: 350ms;
+    --delay-animation-time: calc(var(--anination-total-time) - var(--show-animation-time) - var(--hide-animation-time));
     border-radius: 12px;
     font-size: 14px;
     padding: 8px 15px;
     margin-bottom: 10px;
     background-color: #fff;
-    border: 1px solid var(--border-color);
     line-height: 120%;
-    box-shadow: 0 0 2px 5px var(--border-color);
-    animation: showUpNotificationItem 300ms ease-in, hideNotificationItem 300ms ease-out 1500ms forwards;
+    box-shadow: 0 0 8px -3px var(--border-color);
+    animation: showUpNotificationItem var(--show-animation-time) linear, hideNotificationItem var(--hide-animation-time) ease-out var(--delay-animation-time) forwards;
 
     &--success {
       --border-color: green;
@@ -26,7 +31,7 @@
 
     &--warning {
       border-color: $color-tinkoff-yellow;
-      box-shadow: 0 0 12px 1px  $color-tinkoff-yellow;
+      box-shadow: 0 0 5px 12px $color-tinkoff-yellow;
     }
 
     &--error {

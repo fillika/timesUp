@@ -13,12 +13,14 @@ export default class API {
   tasksUrl: string;
   activeTaskUrl: string;
   loginUrl: string;
+  signUpUrl: string;
 
   constructor() {
     this.host = 'http://localhost:22222';
     this.tasksUrl = this.host + '/api/v1/tasks';
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
     this.loginUrl = this.host + '/api/v1/login';
+    this.signUpUrl = this.host + '/api/v1/signup';
   }
 
   createHeaders(method: string, headers: HeadersInit, data: BodyInit | null, token?: string): RequestInit {
@@ -32,12 +34,14 @@ export default class API {
     };
   }
 
-  createErr(response: Response, message: string) {
+  async createErr(response: Response, message?: string) {
     if (!response.ok) {
-      const err: AppError = new AppError(message);
+      const resJson: { status: string; message: string } = await response.json();
+      const err: AppError = new AppError(message || resJson.message);
       err.response = response;
       err.statusCode = response.status;
-      console.error(message);
+      err.status = resJson.status;
+      console.error(message || resJson.message);
       throw err;
     }
     return response;

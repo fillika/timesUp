@@ -10,7 +10,14 @@ class AuthAPI extends API {
     const headers = this.createHeaders('POST', {}, data);
     const errMessage = 'Ошибка при попытке logIn';
 
-    const response = await fetch(this.loginUrl, headers).then(response => this.createErr(response, errMessage));;
+    const response = await fetch(this.loginUrl, headers).then(response => this.createErr(response, errMessage));
+    return response.json();
+  }
+
+  async signUp(data: FormData) {
+    const headers = this.createHeaders('POST', {}, data);
+
+    const response = await fetch(this.signUpUrl, headers).then(response => this.createErr(response));
     return response.json();
   }
 }
