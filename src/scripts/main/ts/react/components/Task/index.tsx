@@ -9,6 +9,7 @@ import { sort } from 'Utils/Sort';
 import { useUnmounting } from 'App/hooks/useUnmounting';
 import { RootState } from 'Redux/rootReducer';
 import { AppState } from 'Scripts/main/ts/redux/app';
+import { ContinueButton } from 'App/components/ContinueButton';
 
 type TaskData = {
   data: TaskType;
@@ -103,6 +104,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
             <img src={trashIcon} alt='Удалить таск' />
           </div>
           <RangeTime data={data} />
+          <ContinueButton name={name} />
         </div>
       </div>
 

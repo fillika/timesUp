@@ -1,8 +1,8 @@
 import React from 'react';
 import { Time } from './Time';
 import trashIcon from 'Images/icons/trash.svg';
-import playBtn from 'Images/icons/play.svg';
 import { useStateTask } from './hooks/useStateTask';
+import { ContinueButton } from 'App/components/ContinueButton';
 
 type Task = {
   _id: string;
@@ -24,11 +24,9 @@ export const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
         <div>
           <Time start={start} stop={stop} />
         </div>
-        <div onClick={startTask} className='task-panel__icon task-panel__icon--play'>
-          <img src={playBtn} alt='Продолжить задачу' />
-        </div>
+
+        <ContinueButton name={name} />
       </div>
     </div>
   );
-
 };
