@@ -62,7 +62,7 @@ const Task: React.FC<TaskData> = ({ data }) => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
-  const { app, tasks } = useSelector((state: RootState) => state);
+  const { app } = useSelector((state: RootState) => state);
   const [isUnmounting, startUnmount] = useUnmounting();
 
   useEffect(() => {

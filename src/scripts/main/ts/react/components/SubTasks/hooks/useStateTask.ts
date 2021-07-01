@@ -24,7 +24,21 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
 
   useEffect(() => {
     setValue(name);
-  }, [name]);
+
+    if (activeTask.name !== '') {
+      console.log('У задачи есть имя');
+    } else {
+      console.log('Имени нет');
+    }
+  }, [activeTask.name]);
+
+
+  // Todo привязка к статусу
+  // useEffect(() => {
+  //   if (activeTask.isTimeActive) {
+  //     taskInstance.taskHandler(activeTask, dispatch, store);
+  //   }
+  // }, [activeTask.isTimeActive]);
 
 
   // Todo рефактор - вынести логику в отдельный хук
@@ -60,6 +74,7 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
     }
   }
 
+  // Todo - вынести функцию taskHandler в useEffect. Она должна запускаться, когда статус у таска изменился.
   function startTask() {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
     taskInstance.taskHandler(activeTask, dispatch, store);
