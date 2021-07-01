@@ -2,73 +2,16 @@ import React, { useState, ChangeEvent, Dispatch, useEffect } from 'react';
 import { TaskType } from 'Types/tasks';
 import { SubTasks } from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';
-import { taskAPI } from 'Api/tasks';
-import { useDispatch, useSelector } from 'react-redux';
 import { RangeTime } from 'App/components/RangeTime';
-import { sort } from 'Utils/Sort';
-import { useUnmounting } from 'App/hooks/useUnmounting';
-import { RootState } from 'Redux/rootReducer';
-import { AppState } from 'Scripts/main/ts/redux/app';
 import { ContinueButton } from 'App/components/ContinueButton';
+import { useHandlers } from './hooks/useHandlers';
 
 type TaskData = {
   data: TaskType;
 };
 
-const updateTaskByName = async (
-  event: React.FocusEvent<HTMLInputElement>,
-  data: TaskType,
-  state: AppState,
-  dispatch: Dispatch<any>
-) => {
-  const val = event.target.value.trim();
-
-  if (val !== data.name) {
-    try {
-      const queryReq = {
-        name: data.name,
-        date: data.at,
-        set: {
-          name: val,
-        },
-      };
-
-      if (!state.token) return console.error('Токена нет');
-      const response = await taskAPI.updateTaskByName(queryReq, state.token);
-
-      dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
-
-const deleteTaskByName = async (
-  data: TaskType,
-  state: AppState,
-  startUnmount: (cb: any) => void,
-  dispatch: Dispatch<any>
-) => {
-  if (!state.token) return console.log('Токена нет');
-  const response = await taskAPI.deleteTaskByName({ name: data.name, date: data.at }, state.token);
-
-  if (response?.status) {
-    startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date: data.at, name: data.name } }));
-  } else {
-    console.error('Ошибка. Таски не удалены по какой-то причине');
-  }
-};
-
 const Task: React.FC<TaskData> = ({ data }) => {
-  const [isActive, setActive] = useState(false);
-  const [name, setName] = useState(data.name);
-  const dispatch = useDispatch();
-  const { app } = useSelector((state: RootState) => state);
-  const [isUnmounting, startUnmount] = useUnmounting();
-
-  useEffect(() => {
-    console.log('Use effect with tasks in TASK');
-  }, [name]);
+  const [isUnmounting, isActive, name, setActive, deleteTask, updateTask, onChange] = useHandlers(data);
 
   function counter() {
     if (data.time !== undefined) {
@@ -90,17 +33,10 @@ const Task: React.FC<TaskData> = ({ data }) => {
       <div className='task task--parent'>
         {counter()}
         <div className='task__input-wrapper'>
-          <input
-            onBlur={(event: React.FocusEvent<HTMLInputElement>) => updateTaskByName(event, data, app, dispatch)}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
-            type='text'
-            defaultValue={name}
-          />
+          <input onBlur={updateTask} onChange={onChange} type='text' defaultValue={name} />
         </div>
         <div className='task-panel'>
-          <div
-            onClick={() => deleteTaskByName(data, app, startUnmount, dispatch)}
-            className='task-panel__icon task-panel__icon--delete'>
+          <div onClick={deleteTask} className='task-panel__icon task-panel__icon--delete'>
             <img src={trashIcon} alt='Удалить таск' />
           </div>
           <RangeTime data={data} />
