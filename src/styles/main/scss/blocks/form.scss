@@ -1,5 +1,6 @@
 .form {
-  --height: 40px;
+  --input-height: 40px;
+  --field-height: 60px;
 
   &__fields-wrapper {
     width: 100%;
@@ -8,24 +9,32 @@
     margin-bottom: 0.5em;
     font-size: 16px;
     position: relative;
-    height: var(--height);
+    height: auto;
+    max-height: var(--field-height);
     overflow: hidden;
     animation: showUp 200ms linear;
 
     &--hide {
-      height: 0;
-      transition: 200ms ease-in height;
+      max-height: 0;
+      transition: 200ms ease-in height, 200ms ease-in max-height;
     }
   }
 
   &__button-wrapper {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  &__error {
+    padding-left: 10px;
+    font-size: small;
+    color: $color-danger;
+    margin-top: 5px;
   }
 
   input {
-    height: var(--height);
+    height: var(--input-height);
     border-radius: 10px;
     padding: 10px 20px 0;
     border: none;
@@ -53,6 +62,6 @@
     height: 0;
   }
   to {
-    height: var(--height);
+    max-height: var(--field-height);
   }
 }
