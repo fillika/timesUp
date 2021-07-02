@@ -23,19 +23,22 @@
     background-color: #fff;
     line-height: 120%;
     box-shadow: 0 0 8px -3px var(--border-color);
-    animation: showUpNotificationItem var(--show-animation-time) linear, hideNotificationItem var(--hide-animation-time) ease-out var(--delay-animation-time) forwards;
+    animation: showUpNotificationItem var(--show-animation-time) linear,
+      hideNotificationItem var(--hide-animation-time) ease-out var(--delay-animation-time) forwards;
 
     &--success {
-      --border-color: green;
+      border-color: $color-success;
+      box-shadow: 0 0 14px -1px $color-success;
     }
 
     &--warning {
       border-color: $color-warning;
-      box-shadow: 0 0 5px 12px $color-warning;
+      box-shadow: 0 0 14px -1px $color-warning;
     }
 
     &--error {
-      --border-color: $color-warning;
+      border-color: $color-danger;
+      box-shadow: 0 0 14px -1px $color-danger;
     }
   }
 }

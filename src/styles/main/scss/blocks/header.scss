@@ -38,7 +38,7 @@
   &__button {
     background-color: none;
     border: 1px solid;
-    border-color: transparent;
+    border-color: $color-dark;
     cursor: pointer;
     transition: 300ms ease-in border-color;
 

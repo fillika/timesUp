@@ -5,13 +5,7 @@ import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 import { createNotify } from 'Utils/helpers/createNotify';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { authAPI } from 'Api/auth';
-
-type FormikValues = {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-};
+import { FormikValues } from './useFormikConfig';
 
 type useGreetingsType = [
   isRegister: boolean,
@@ -25,7 +19,6 @@ export function useGreetingsState(): useGreetingsType {
   const [isInputHiding, setInputHiding] = useState(false);
   const { getTasksErrorHandlerErr, authErrorHandler, signUpErrorHandler } = useGlobalError();
   const dispatch = useDispatch();
-
 
   const logIn = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
     const response = await authAPI.logIn(values);
@@ -60,7 +53,6 @@ export function useGreetingsState(): useGreetingsType {
   });
 
   const onSubmit = async (values: FormikValues) => {
-
     if (!isRegister) {
       logIn(authErrorHandler, values, dispatch);
     } else {

@@ -1,15 +1,11 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-type FormikValues = {
+export type FormikValues = {
   name: string;
   email: string;
   password: string;
   passwordConfirm: string;
-};
-
-type FormikErrors = {
-  [key: string]: string;
 };
 
 const validationSchema = {
@@ -29,7 +25,7 @@ export const useFormikConfig = (onSubmit: (values: FormikValues) => Promise<void
     },
     validationSchema: Yup.object(validationSchema),
     validateOnChange: false,
-    onSubmit: (values, { resetForm }) => onSubmit(values),
+    onSubmit,
   });
 
   return formik;
