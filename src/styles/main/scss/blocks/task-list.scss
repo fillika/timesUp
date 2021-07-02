@@ -3,7 +3,7 @@
     will-change: transform;
     animation: showUpTask 300ms linear;
     overflow: hidden;
-    @include border-bottom($color-main-dark);
+    @include border-bottom($color-dark);
 
     &--unmounting {
         animation: unmountingTask 400ms linear normal forwards;

@@ -1,0 +1,28 @@
+.button {
+  border: 1px solid silver;
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  line-height: 120%;
+
+  &--primary {
+    background-color: $color-primary;
+  }
+
+  &--secondary {
+    background-color: $color-secondary;
+  }
+
+  &--success {
+    background-color: $color-success;
+  }
+
+  &:hover {
+    transition: 100ms linear opacity;
+    opacity: 0.94;
+  }
+
+  &:active {
+      transform: scale(0.97);
+  }
+}

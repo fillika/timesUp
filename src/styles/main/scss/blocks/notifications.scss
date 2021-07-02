@@ -30,12 +30,12 @@
     }
 
     &--warning {
-      border-color: $color-tinkoff-yellow;
-      box-shadow: 0 0 5px 12px $color-tinkoff-yellow;
+      border-color: $color-warning;
+      box-shadow: 0 0 5px 12px $color-warning;
     }
 
     &--error {
-      --border-color: red;
+      --border-color: $color-warning;
     }
   }
 }

@@ -18,6 +18,12 @@
     }
   }
 
+  &__button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+  }
+
   input {
     height: var(--height);
     border-radius: 10px;
@@ -28,7 +34,7 @@
     font-size: 1em;
     line-height: 1.2em;
     background-color: #eef2f7;
-    color: $color-main-dark;
+    color: $color-dark;
   }
 
   label {

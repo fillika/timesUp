@@ -12,13 +12,13 @@
   transition: calc(var(--transition) / var(--animation-coef)) ease-in background-color;
 
   &--parent {
-    // border-bottom: 1px solid $color-main-dark;
+    // border-bottom: 1px solid $color-dark;
   }
 
   &--child {
     padding-left: calc(var(--padding-left) + var(--counter-margin-r) + var(--counter-sides));
-    @include border-bottom(lighten($color-main-dark, 50%));
-    background-color: lighten($color-main-dark, 78%);
+    @include border-bottom(lighten($color-dark, 50%));
+    background-color: lighten($color-dark, 78%);
     will-change: opacity;
     animation: showClilds 300ms linear forwards;
     grid-template-columns: 1fr;

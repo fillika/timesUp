@@ -33,8 +33,8 @@ const Greetings = () => {
             </div>
           )}
 
-          <div>
-            <button> {isRegister ? 'Зарегистрироваться' : 'Войти'}</button>
+          <div className="form__button-wrapper">
+            <button className={`button button--${isRegister ? 'primary' : 'success'}`}>{isRegister ? 'Зарегистрироваться' : 'Войти'}</button>
           </div>
         </form>
       </div>

@@ -22,3 +22,12 @@ svg {
 li {
   list-style-type: none;
 }
+ 
+button {
+    background-color: transparent;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 11px;
+    text-align: center;
+    cursor: pointer;
+}
