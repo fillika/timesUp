@@ -12,20 +12,21 @@ const Sidebar: React.FC = () => {
 
   return (
     <aside className='sidebar'>
-      <p>Track</p>
+      <p className="sidebar__title">Track</p>
       <ul>
         <li>Timer</li>
       </ul>
-      <p>Statictis</p>
+      <p className="sidebar__title">Statictis</p>
       <ul>
         <li>Reports</li>
       </ul>
-      <p>Menu</p>
+      <p className="sidebar__title">Menu</p>
       <ul>
+        <li>News</li>
         <li>Profile</li>
       </ul>
 
-      <a href='#' onClick={logOut}>
+      <a className="sidebar__log-out" href='#' onClick={logOut}>
         Log out
       </a>
     </aside>
