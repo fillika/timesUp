@@ -1,21 +1,32 @@
 import API from '.';
-import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 
 class AuthAPI extends API {
   constructor() {
     super();
   }
 
-  async logIn(data: FormData) {
-    const headers = this.createHeaders('POST', {}, data);
+  async logIn(data = {}) {
+    const headers = this.createHeaders(
+      'POST',
+      {
+        'Content-type': 'application/json',
+      },
+      JSON.stringify(data)
+    );
     const errMessage = 'Ошибка при попытке logIn';
 
     const response = await fetch(this.loginUrl, headers).then(response => this.createErr(response, errMessage));
     return response.json();
   }
 
-  async signUp(data: FormData) {
-    const headers = this.createHeaders('POST', {}, data);
+  async signUp(data = {}) {
+    const headers = this.createHeaders(
+      'POST',
+      {
+        'Content-type': 'application/json',
+      },
+      JSON.stringify(data)
+    );
 
     const response = await fetch(this.signUpUrl, headers).then(response => this.createErr(response));
     return response.json();

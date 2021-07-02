@@ -59,7 +59,7 @@
 
 @keyframes showUp {
   from {
-    height: 0;
+    max-height: 0;
   }
   to {
     max-height: var(--field-height);

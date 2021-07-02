@@ -7,10 +7,16 @@ const FormErrorMessage: React.FC<{ error: string | undefined }> = ({ error }) =>
 };
 
 const Greetings = () => {
-  const [isRegister, isInputHiding, logIn, toggleRegister] = useGreetingsState();
-  const formik = useFormikConfig();
+  const [isRegister, isInputHiding, onSubmit, toggleRegister] = useGreetingsState();
+  const formik = useFormikConfig(onSubmit);
 
-  // useEffect(() => {}, [isRegister]);
+  useEffect(() => {
+    if (!isRegister) {
+      formik.values.name = '';
+      formik.values.passwordConfirm = '';
+    }
+
+  }, [isRegister]);
 
   return (
     <div className='greetings'>

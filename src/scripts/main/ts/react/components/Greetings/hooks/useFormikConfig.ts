@@ -5,7 +5,7 @@ type FormikValues = {
   name: string;
   email: string;
   password: string;
-  passwordConfirm?: string;
+  passwordConfirm: string;
 };
 
 type FormikErrors = {
@@ -19,7 +19,7 @@ const validationSchema = {
   passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'Both password need to be the same'),
 };
 
-export const useFormikConfig = () => {
+export const useFormikConfig = (onSubmit: (values: FormikValues) => Promise<void>) => {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -29,7 +29,7 @@ export const useFormikConfig = () => {
     },
     validationSchema: Yup.object(validationSchema),
     validateOnChange: false,
-    onSubmit: (values, { resetForm }) => console.log('Валидировано', values),
+    onSubmit: (values, { resetForm }) => onSubmit(values),
   });
 
   return formik;

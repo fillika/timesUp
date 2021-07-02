@@ -6,10 +6,17 @@ import { createNotify } from 'Utils/helpers/createNotify';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { authAPI } from 'Api/auth';
 
+type FormikValues = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
+
 type useGreetingsType = [
   isRegister: boolean,
   isInputHiding: boolean,
-  onSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>,
+  onSubmit: (values: FormikValues) => Promise<void>,
   toggleRegister: () => void
 ];
 
@@ -19,8 +26,9 @@ export function useGreetingsState(): useGreetingsType {
   const { getTasksErrorHandlerErr, authErrorHandler, signUpErrorHandler } = useGlobalError();
   const dispatch = useDispatch();
 
-  const logIn = asyncCatcher(async (formData: FormData, dispatch: Dispatch<any>) => {
-    const response = await authAPI.logIn(formData);
+
+  const logIn = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
+    const response = await authAPI.logIn(values);
 
     if (response.status === 'success') {
       const token = response.data.token;
@@ -35,8 +43,8 @@ export function useGreetingsState(): useGreetingsType {
     }
   });
 
-  const signUp = asyncCatcher(async (formData: FormData, dispatch: Dispatch<any>) => {
-    const response = await authAPI.signUp(formData);
+  const signUp = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
+    const response = await authAPI.signUp(values);
 
     if (response.status === 'success') {
       const token = response.data.token;
@@ -51,14 +59,12 @@ export function useGreetingsState(): useGreetingsType {
     }
   });
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
+  const onSubmit = async (values: FormikValues) => {
 
     if (!isRegister) {
-      logIn(authErrorHandler, formData, dispatch);
+      logIn(authErrorHandler, values, dispatch);
     } else {
-      signUp(signUpErrorHandler, formData, dispatch);
+      signUp(signUpErrorHandler, values, dispatch);
     }
   };
 
