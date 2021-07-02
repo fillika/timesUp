@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 type FormikValues = {
   name: string;
@@ -11,31 +12,11 @@ type FormikErrors = {
   [key: string]: string;
 };
 
-const validate = (values: FormikValues) => {
-  const errors: FormikErrors = {};
-  console.log(values);
-
-  const { name, email, password, passwordConfirm } = values;
-
-  if (name && name === '') {
-    errors.name = 'Name is required';
-  }
-
-  if (password.length < 8) {
-    errors.password = 'Password must be 8 char or more';
-  }
-
-  if (passwordConfirm && password !== passwordConfirm) {
-    errors.passwordConfirm = 'Пароли должны совпадать.';
-  }
-
-  if (!email) {
-    errors.email = 'Email is required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-    errors.email = 'Invalid email address';
-  }
-
-  return errors;
+const validationSchema = {
+  name: Yup.string().max(15, 'Must be 15 characters or less').min(3, 'Must be 3 characters or less'),
+  email: Yup.string().email('Invalid email address').required('Required'),
+  password: Yup.string().required('Password is required').min(8, 'Must be 8 characters or less'),
+  passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'Both password need to be the same'),
 };
 
 export const useFormikConfig = () => {
@@ -46,9 +27,9 @@ export const useFormikConfig = () => {
       password: '',
       passwordConfirm: '',
     },
-    validate: validate,
+    validationSchema: Yup.object(validationSchema),
     validateOnChange: false,
-    onSubmit: (values, { resetForm }) => console.log("Валидировано"),
+    onSubmit: (values, { resetForm }) => console.log('Валидировано', values),
   });
 
   return formik;
