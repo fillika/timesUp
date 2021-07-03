@@ -1,6 +1,6 @@
-import React from 'react'
-import { Formik, FormikHelpers, Form, Field, ErrorMessage, FormikProps } from 'formik';
-import { formikKeyType, LogInValues } from '../hooks/useFormikLogIn';
+import React from 'react';
+import { Form, Field, ErrorMessage, FormikProps } from 'formik';
+import { formikKeyType, LogInValues } from './hooks/useFormikLogIn';
 
 export const LogInForm: React.FC<{ formik: FormikProps<LogInValues> }> = ({ formik }) => {
   return (

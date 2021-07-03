@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { useLogInState } from '../hooks/useLogInState';
+import { useLogInState } from './hooks/useLogInState';
 import { LogInForm } from './LogInForm';
 
 export const LogIn = () => {
