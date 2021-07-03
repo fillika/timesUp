@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useGreetingsState } from './hooks/useGreetingsState';
 import { useFormikConfig } from './hooks/useFormikConfig';
+import { LogIn } from './LogIn';
 
 const FormErrorMessage: React.FC<{ error: string | undefined }> = ({ error }) => {
   return <>{error ? <div className='form__error'>{error}</div> : null}</>;
@@ -15,8 +16,13 @@ const Greetings = () => {
       formik.values.name = '';
       formik.values.passwordConfirm = '';
     }
-
   }, [isRegister]);
+
+  return (
+    <div className='greetings'>
+      <LogIn />
+    </div>
+  );
 
   return (
     <div className='greetings'>

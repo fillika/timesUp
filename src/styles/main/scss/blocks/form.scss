@@ -18,6 +18,12 @@
       max-height: 0;
       transition: 200ms ease-in height, 200ms ease-in max-height;
     }
+
+    &.error {
+      input {
+        border: 1px solid $color-danger;
+      }
+    }
   }
 
   &__button-wrapper {
