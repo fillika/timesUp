@@ -7,7 +7,16 @@ export type LogInValues = {
 
 export type formikKeyType = keyof LogInValues;
 
-export const useFormikLogIn = (): [LogInValues, any] => {
+export type FormikData = {
+  labels: {
+    [key: string]: string;
+  };
+  types: {
+    [key: string]: string;
+  };
+};
+
+export const useFormikLogIn = (): [LogInValues, any, FormikData] => {
   const initialValues: LogInValues = {
     email: '',
     password: '',
@@ -18,5 +27,20 @@ export const useFormikLogIn = (): [LogInValues, any] => {
     password: Yup.string().required('Password is required').min(8, 'Must be 8 characters or less'),
   });
 
-  return [initialValues, validationSchema];
+  const data = {
+    labels: {
+      name: 'Username',
+      email: 'Email',
+      password: 'Password',
+      passwordConfirm: 'Confirm password',
+    },
+    types: {
+      name: 'text',
+      email: 'email',
+      password: 'password',
+      passwordConfirm: 'password',
+    },
+  };
+
+  return [initialValues, validationSchema, data];
 };

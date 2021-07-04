@@ -1,24 +1,9 @@
 import React from 'react';
 import { Form, Field, FormikProps } from 'formik';
-import { formikKeyType, LogInValues } from './hooks/useFormikLogIn';
+import { FormikData, formikKeyType, LogInValues } from './hooks/useFormikLogIn';
 import { FormikError } from './../FormikError';
 
-export const LogInForm: React.FC<{ formik: FormikProps<LogInValues> }> = ({ formik }) => {
-  const data = {
-    labels: {
-      name: 'Username',
-      email: 'Email',
-      password: 'Password',
-      passwordConfirm: 'Confirm password',
-    },
-    types: {
-      name: 'text',
-      email: 'email',
-      password: 'password',
-      passwordConfirm: 'password',
-    },
-  };
-
+export const LogInForm: React.FC<{ formik: FormikProps<LogInValues>, data: FormikData }> = ({ formik, data }) => {
   return (
     <Form onSubmit={formik.handleSubmit} className='form'>
       {Object.keys(formik.values).map(formikKey => {

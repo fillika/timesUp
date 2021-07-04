@@ -6,7 +6,7 @@ import { useFormikSignUp } from './hooks/useFormikSignUp';
 import { useSignUpState } from './hooks/useSignUpState';
 
 export const SignUp = () => {
-  const [initialValues, validationSchema] = useFormikSignUp();
+  const [initialValues, validationSchema, data] = useFormikSignUp();
   const [onSubmit] = useSignUpState();
 
   return (
@@ -16,7 +16,7 @@ export const SignUp = () => {
       onSubmit={onSubmit}
       validateOnChange={false}
       validateOnBlur={false}>
-      {formik => <SignUpForm formik={formik} />}
+      {formik => <SignUpForm formik={formik} data={data} />}
     </Formik>
   );
 };

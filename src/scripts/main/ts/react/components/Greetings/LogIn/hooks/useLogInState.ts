@@ -7,8 +7,7 @@ import { authAPI } from 'Api/auth';
 import { useDispatch } from 'react-redux';
 import { LogInValues, useFormikLogIn } from './useFormikLogIn';
 
-export const useLogInState = () => {
-  const [initialValues, validationSchema] = useFormikLogIn();
+export const useLogInState = (): [(values: LogInValues) => void] => {
   const { getTasksErrorHandlerErr, authErrorHandler } = useGlobalError();
   const dispatch = useDispatch();
 
@@ -32,5 +31,5 @@ export const useLogInState = () => {
     logIn(authErrorHandler, values, dispatch);
   };
 
-  return [initialValues, validationSchema, onSubmit];
+  return [onSubmit];
 };

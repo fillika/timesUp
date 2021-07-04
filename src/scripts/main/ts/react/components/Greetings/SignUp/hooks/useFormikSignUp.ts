@@ -9,12 +9,36 @@ export type FormikSignUpValues = {
 
 export type formikKeyType = keyof FormikSignUpValues;
 
-export const useFormikSignUp = (): [FormikSignUpValues, any] => {
+export type FormikData = {
+  labels: {
+    [key: string]: string;
+  };
+  types: {
+    [key: string]: string;
+  };
+};
+
+export const useFormikSignUp = (): [FormikSignUpValues, any, FormikData] => {
   const initialValues: FormikSignUpValues = {
     name: '',
     email: '',
     password: '',
     passwordConfirm: '',
+  };
+
+  const data = {
+    labels: {
+      name: 'Username',
+      email: 'Email',
+      password: 'Password',
+      passwordConfirm: 'Confirm password',
+    },
+    types: {
+      name: 'text',
+      email: 'email',
+      password: 'password',
+      passwordConfirm: 'password',
+    },
   };
 
   const validationSchema = {
@@ -29,5 +53,5 @@ export const useFormikSignUp = (): [FormikSignUpValues, any] => {
       .required('Please, confirm your password'),
   };
 
-  return [initialValues, validationSchema];
+  return [initialValues, validationSchema, data];
 };
