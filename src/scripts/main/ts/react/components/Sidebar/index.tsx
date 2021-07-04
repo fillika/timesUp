@@ -8,6 +8,7 @@ const Sidebar: React.FC = () => {
     event.preventDefault();
     localStorage.removeItem('JWT');
     dispatch({ type: 'APP_LOG_OUT' });
+    dispatch({ type: 'SET_DEFAULT_ACTIVE_TASK_PROPS' });
   };
 
   return (

@@ -69,6 +69,12 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
         duration: action.payload.duration,
       };
 
+    case 'SET_DEFAULT_ACTIVE_TASK_PROPS':
+      return {
+        ...state,
+        ...initialState,
+      };
+
     default:
       return state;
   }
