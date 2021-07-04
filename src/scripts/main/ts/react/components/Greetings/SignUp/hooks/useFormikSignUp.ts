@@ -21,7 +21,7 @@ export const useFormikSignUp = (): [FormikSignUpValues, any] => {
     name: Yup.string()
       .max(15, 'Must be 15 characters or less')
       .min(3, 'Must be 3 characters or less')
-      .required('Name is required'),
+      .required('Username is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
     password: Yup.string().required('Password is required').min(8, 'Must be 8 characters or less'),
     passwordConfirm: Yup.string()
