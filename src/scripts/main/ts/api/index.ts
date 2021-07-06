@@ -16,7 +16,7 @@ export default class API {
   signUpUrl: string;
 
   constructor() {
-    this.host = 'http://localhost:3000';
+    this.host = 'http://localhost:3002';
     this.tasksUrl = this.host + '/api/v1/tasks';
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
     this.loginUrl = this.host + '/api/v1/login';
