@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from 'App/components/Header';
-import Main from 'App/components/Main';
+import Main from 'Scripts/main/ts/react/components/Timer';
 import Sidebar from 'App/components/Sidebar';
 
 export const Login = () => {

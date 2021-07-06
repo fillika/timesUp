@@ -11,11 +11,11 @@ const getTotalDayTime = (tasks: TaskType[]): string => {
   return time.countTotalTime(result);
 };
 
-const Main: React.FC = () => {
+const Timer: React.FC = () => {
   const { taskArr } = useGetTasks();
 
   return (
-    <main className='main'>
+    <div>
       {taskArr.map(({ date, dateISO, tasks }) => {
         const dateString = new Date(dateISO).toUTCString().slice(0, 12);
         const totalDayTime = getTotalDayTime(tasks);
@@ -28,6 +28,7 @@ const Main: React.FC = () => {
           <div className='task-section' key={date}>
             <div className='task-section__wrapper'>
               <div>{dateString}</div>
+              
               <div className='task-section__panel'>
                 <div className='task-section__total-time'>{totalDayTime}</div>
                 <div className='task-section__menu'>...</div>
@@ -42,8 +43,8 @@ const Main: React.FC = () => {
           </div>
         );
       })}
-    </main>
+    </div>
   );
 };
 
-export default Main;
+export default Timer;
