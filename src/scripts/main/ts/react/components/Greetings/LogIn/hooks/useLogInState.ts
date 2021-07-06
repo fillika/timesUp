@@ -17,6 +17,7 @@ export const useLogInState = (): [(values: LogInValues) => void] => {
     if (response.status === 'success') {
       const token = response.data.token;
       localStorage.setItem('JWT', token);
+      dispatch({type: ''});
       createNotify('success', 'Добро пожаловать!', dispatch);
       getAllTasks(getTasksErrorHandlerErr, token, dispatch);
     }

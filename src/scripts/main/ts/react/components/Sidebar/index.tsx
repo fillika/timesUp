@@ -1,5 +1,6 @@
 import React, { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,21 +14,29 @@ const Sidebar: React.FC = () => {
 
   return (
     <aside className='sidebar'>
-      <p className="sidebar__title">Track</p>
+      <p className='sidebar__title'>Track</p>
       <ul>
-        <li>Timer</li>
+        <li>
+          <NavLink exact to='/'>Timer</NavLink>
+        </li>
       </ul>
-      <p className="sidebar__title">Statictis</p>
+      <p className='sidebar__title'>Statictis</p>
       <ul>
-        <li>Reports</li>
+        <li>
+          <NavLink to='/reports'>Reports</NavLink>
+        </li>
       </ul>
-      <p className="sidebar__title">Menu</p>
+      <p className='sidebar__title'>Menu</p>
       <ul>
-        <li>News</li>
-        <li>Profile</li>
+        <li>
+          <NavLink to='/news'>News</NavLink>
+        </li>
+        <li>
+          <NavLink to='/profile'>Profile</NavLink>
+        </li>
       </ul>
 
-      <a className="sidebar__log-out" href='#' onClick={logOut}>
+      <a className='sidebar__log-out' href='#' onClick={logOut}>
         Log out
       </a>
     </aside>

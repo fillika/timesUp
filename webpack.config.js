@@ -21,7 +21,7 @@ fs.readdirSync(testFolder).forEach(file => {
 module.exports = {
   entry: entry,
   output: {
-    path: isDev ? path.resolve(__dirname, './dist/dev/') : path.resolve(__dirname, './dist/build/'),
+    path: isDev ? path.resolve(__dirname, './public/dist/dev/') : path.resolve(__dirname, './public/dist/build/'),
     filename: isDev ? '[name]/dev.[name].min.js' : '[name]/build.[name].min.js',
   },
   resolve: {

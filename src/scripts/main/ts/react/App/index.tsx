@@ -1,39 +1,30 @@
 import React, { useEffect } from 'react';
-import { Login } from 'App/components/Login';
+import { Root } from 'Scripts/main/ts/react/components/Root';
 import Greetings from 'App/components/Greetings';
 import { Preloader } from 'App/components/Preloader';
 import { Notifications } from 'App/components/Notifications';
 import { useLoggin } from './hooks/useLoggin';
-import { Switch, Route, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'Redux/rootReducer';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 const App: React.FC = () => {
   const [isLoggin, isLoading] = useLoggin();
-  const { app } = useSelector((state: RootState) => state);
-  let history = useHistory();
 
-  useEffect(() => {
-    console.log(app.isLoggin);
-    
-    if (!app.isLoggin) {
-      history.push('/login');
-    }
-  }, []);
+  useEffect(() => {}, [isLoggin]);
 
   if (isLoading) return <Preloader />;
 
   return (
     <div className='timer'>
       <Switch>
-        <Route path='/'>
-          <Login />
+        <Route exact path='/login'>
+          {!isLoggin ? <Greetings /> : <Redirect to='/' />}
         </Route>
 
-        <Route path='/login'>
-          <Greetings />
-        </Route>
+        <Route path='/'>{isLoggin ? <Root /> : <Redirect to='/login' />}</Route>
+
+        <Redirect to='/' />
       </Switch>
+
       <Notifications />
     </div>
   );
