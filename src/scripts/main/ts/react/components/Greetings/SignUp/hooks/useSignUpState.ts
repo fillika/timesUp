@@ -12,7 +12,16 @@ export const useSignUpState = (): [(values: FormikSignUpValues) => void] => {
   const dispatch = useDispatch();
 
   const signUp = asyncCatcher(async (values: FormikSignUpValues, dispatch: Dispatch<any>) => {
-    const response = await authAPI.signUp(values);
+    const captchaResult = await grecaptcha
+      .execute('6LcRiXcbAAAAAI2l3coT8LIawOX3B-IhNRAmmQin', { action: 'registration' })
+      .then((token: string) => {
+        return {
+          token: token,
+          action: 'registration',
+        };
+      });
+
+    const response = await authAPI.signUp({...values, ...captchaResult});
 
     switch (response.status) {
       case 'success':
