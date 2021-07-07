@@ -27,7 +27,7 @@ export default class API {
     return {
       method: method,
       headers: {
-        Authorization: `Times ${token}`,
+        Authorization: `Bearer ${token}`,
         ...headers,
       },
       body: data, // body data type must match "Content-Type" header

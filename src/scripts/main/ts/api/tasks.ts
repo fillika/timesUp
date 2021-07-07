@@ -32,7 +32,7 @@ class TasksAPI extends API {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Times ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     };

@@ -39,8 +39,8 @@ const checkIsLogin = async (req, res, next) => {
   let token = null;
   const { authorization } = req.headers;
 
-  if (authorization && authorization.startsWith("Times")) {
-    token = authorization.slice(6);
+  if (authorization && authorization.startsWith("Bearer ")) {
+    token = authorization.slice(7);
   }
 
   if (!token) {
