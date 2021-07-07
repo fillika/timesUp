@@ -17,11 +17,10 @@ export const useSignUpState = (): [(values: FormikSignUpValues) => void] => {
       .then((token: string) => {
         return {
           token: token,
-          action: 'registration',
         };
       });
 
-    const response = await authAPI.signUp({...values, ...captchaResult});
+    const response = await authAPI.signUp({ ...values, ...captchaResult });
 
     switch (response.status) {
       case 'success':

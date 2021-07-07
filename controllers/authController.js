@@ -3,6 +3,7 @@ const { promisify } = require("util");
 const asyncCatchHandler = require("../utils/asyncCatchHandler");
 const { UserModel } = require("../models/userModel");
 const AppError = require("../utils/Error");
+const fetch = require('isomorphic-fetch');
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -25,7 +26,7 @@ const signUp = async (req, res, next) => {
   res.status(201).json({
     status: "success",
     data: {
-      token,
+      token: token,
       user: {
         name: newUser.name,
       },
@@ -87,6 +88,29 @@ const logIn = async (req, res, next) => {
   });
 };
 
+const reCaptchaVerify = async (req, res, next) => {
+  const { token } = req.body;
+  const secretKey = process.env.RE_CAPTCHA_KEY;
+  const captchaVerifyURL = 'https://www.google.com/recaptcha/api/siteverify';
+
+  // https://stackoverflow.com/questions/52416002/recaptcha-error-codes-missing-input-response-missing-input-secret-when-v
+  const params = {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `secret=${secretKey}&response=${token}`,
+  }
+
+  const response = await fetch(captchaVerifyURL, params)
+    .then(response => response.json());
+
+  if (response.success) {
+    next();
+    return;
+  }
+  next(new AppError('Вы не прошли проверку reCaptcha. Приносим свои извинения. Попробуйте еще раз', 401));
+}
+
 exports.signUp = asyncCatchHandler(signUp);
 exports.checkIsLogin = asyncCatchHandler(checkIsLogin);
 exports.logIn = asyncCatchHandler(logIn);
+exports.reCaptchaVerify = asyncCatchHandler(reCaptchaVerify);
