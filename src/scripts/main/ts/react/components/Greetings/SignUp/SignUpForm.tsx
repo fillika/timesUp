@@ -3,7 +3,10 @@ import { Form, Field, FormikProps } from 'formik';
 import { FormikData, formikKeyType, FormikSignUpValues } from './hooks/useFormikSignUp';
 import { FormikError } from './../FormikError';
 
-export const SignUpForm: React.FC<{ formik: FormikProps<FormikSignUpValues>, data: FormikData }> = ({ formik, data }) => {
+export const SignUpForm: React.FC<{ formik: FormikProps<FormikSignUpValues>; data: FormikData }> = ({
+  formik,
+  data,
+}) => {
   return (
     <Form onSubmit={formik.handleSubmit} className='form'>
       {Object.keys(formik.values).map(formikKey => {
@@ -21,6 +24,13 @@ export const SignUpForm: React.FC<{ formik: FormikProps<FormikSignUpValues>, dat
         );
       })}
 
+      <div className="form__policy">
+          This site is protected by reCAPTCHA and the Google <a href='https://policies.google.com/privacy' rel='noreferrer' target="_blank">
+            Privacy Policy
+          </a> and <a href='https://policies.google.com/terms' rel='noreferrer' target="_blank">
+            Terms of Service
+          </a> apply.
+      </div>
       <div className='form__button-wrapper'>
         <button className='button button--primary' type='submit'>
           Зарегистрироваться

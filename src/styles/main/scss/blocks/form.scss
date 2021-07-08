@@ -39,6 +39,15 @@
     margin-top: 5px;
   }
 
+  &__policy {
+      font-size: xx-small;
+      color: $color-secondary;
+      margin: 1em 0;
+      padding-left: 0.5em;
+      padding-right: 0.2em;
+      line-height: 1.25;
+  }
+
   input {
     height: var(--input-height);
     border-radius: 10px;
