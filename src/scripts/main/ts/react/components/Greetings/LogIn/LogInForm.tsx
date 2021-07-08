@@ -21,6 +21,11 @@ export const LogInForm: React.FC<{ formik: FormikProps<LogInValues>, data: Formi
         );
       })}
 
+      <div>
+        {/* // Todo forgot password link and form */}
+        Forgot your password?
+      </div>
+
       <div className='form__button-wrapper'>
         <button className={`button button--success`} type='submit'>
           Войти
