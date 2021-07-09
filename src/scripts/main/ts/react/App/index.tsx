@@ -16,6 +16,10 @@ const App: React.FC = () => {
   return (
     <div className='timer'>
       <Switch>
+        <Route path='/forgotPassword/:id'>
+          {isLoggin ? <Redirect to='/' /> : (<h1>Забыл пароль? Бывает</h1>)}
+        </Route>
+
         <Route exact path='/login'>
           {!isLoggin ? <Greetings /> : <Redirect to='/' />}
         </Route>

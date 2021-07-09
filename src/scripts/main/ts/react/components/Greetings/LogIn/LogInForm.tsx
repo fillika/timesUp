@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Form, Field, FormikProps } from 'formik';
 import { FormikData, formikKeyType, LogInValues } from './hooks/useFormikLogIn';
 import { FormikError } from './../FormikError';
+
 
 export const LogInForm: React.FC<{ formik: FormikProps<LogInValues>, data: FormikData }> = ({ formik, data }) => {
   return (
@@ -22,8 +24,7 @@ export const LogInForm: React.FC<{ formik: FormikProps<LogInValues>, data: Formi
       })}
 
       <div>
-        {/* // Todo forgot password link and form */}
-        Forgot your password?
+        <Link to='/forgotPassword/123'>Forgot your password?</Link>
       </div>
 
       <div className='form__button-wrapper'>
