@@ -4,7 +4,7 @@ const asyncCatchHandler = require("../utils/asyncCatchHandler");
 const { UserModel } = require("../models/userModel");
 const AppError = require("../utils/Error");
 const fetch = require('isomorphic-fetch');
-const { sendEmail} = require('../utils/nodeMailer');
+const { sendEmail } = require('../utils/nodeMailer');
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -129,7 +129,7 @@ Hello friend!
 <br>
 If you want to reset your password, please, follow to link
 <br>
-<a href="http://localhost:3002/forgotPassword/${resetToken}" target="_blank">Reset password</a>
+<a href="${req.protocol}://${req.get('host')}/forgotPassword/${resetToken}" target="_blank">Reset password</a>
 <br>
 If you don't wanna change your password or received this email by mistake
 <br>
@@ -139,17 +139,12 @@ Thanks! Have a good day :)
 <br>
 Times-up TEAM!
 `
-
   // Отправить email
   await sendEmail(email, 'Восстановление пароля', html)
 
   res.status(200).json({
     status: 'success',
-    data: {
-      email,
-      user,
-      resetToken
-    }
+    data: {}
   })
 }
 
