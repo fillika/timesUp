@@ -120,11 +120,17 @@ const forgotPassword = async (req, res, next) => {
     return next(new AppError('This email does not exist', 404))
   }
 
+  const resetToken = user.createResetToken();
+  await user.save();
+
+  // Отправить email
+
   res.status(200).json({
     status: 'success',
     data: {
       email,
-      user
+      user,
+      resetToken
     }
   })
 }
