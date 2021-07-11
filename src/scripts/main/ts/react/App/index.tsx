@@ -21,7 +21,7 @@ const App: React.FC = () => {
           {!isLoggin ? <Greetings /> : <Redirect to='/' />}
         </Route>
 
-        <Route path='/forgotPassword/:id'>
+        <Route path='/updatePassword/:id'>
           {!isLoggin ? <ForgotPassword /> : <Redirect to='/' />}
         </Route> 
 

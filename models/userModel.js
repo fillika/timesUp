@@ -50,7 +50,7 @@ UserSchema.pre("save", async function (next) {
   this.passwordConfirm = undefined;
   this.passwordResetToken = undefined;
   this.passwordResetTokenDate = undefined;
-  this.passwordChangedAt = new Date();
+  this.passwordChangedAt = new Date().getTime() - 1000;
   next();
 });
 

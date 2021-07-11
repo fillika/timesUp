@@ -47,7 +47,7 @@ export const useFormikState = (): HookState => {
     const response = await authAPI.forgotPassword({ email });
 
     if (response.status === 'success') {
-      console.log(response);
+      console.log(response.data.id);
       setMailSended(true);
     }
   });

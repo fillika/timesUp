@@ -54,7 +54,7 @@ class AuthAPI extends API {
       JSON.stringify(data)
     );
 
-    const response = await fetch(this.forgotPasswordUrl, headers).then(response => this.createErr(response));
+    const response = await fetch(this.updatePasswordUrl, headers).then(response => this.createErr(response));
     return response.json();
   }
 }

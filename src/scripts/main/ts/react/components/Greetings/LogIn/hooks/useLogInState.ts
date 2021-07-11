@@ -6,11 +6,7 @@ import { useGlobalError } from 'App/hooks/useGlobalError';
 import { authAPI } from 'Api/auth';
 import { useDispatch } from 'react-redux';
 import { LogInValues } from './useFormikLogIn';
-import { FormikHelpers, FormikConfig } from 'formik';
-
-type OnSubmit = (values: LogInValues, formikHelpers: FormikHelpers<LogInValues>) => void | Promise<any>;
-
-type P = FormikConfig<LogInValues>;
+import { FormikHelpers } from 'formik';
 
 export const useLogInState = () => {
   const { getTasksErrorHandlerErr, authErrorHandler } = useGlobalError();
@@ -21,8 +17,6 @@ export const useLogInState = () => {
 
     if (response.status === 'success') {
       const token = response.data.token;
-      localStorage.setItem('JWT', token);
-      dispatch({ type: '' });
       createNotify('success', 'Добро пожаловать!', dispatch);
       getAllTasks(getTasksErrorHandlerErr, token, dispatch);
     }

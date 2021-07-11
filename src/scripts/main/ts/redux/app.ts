@@ -17,6 +17,8 @@ const initialState: AppState = {
 const appReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case 'APP_LOG_IN':
+      localStorage.setItem('JWT', action.payload);
+
       return {
         ...state,
         isLoggin: true,
@@ -24,6 +26,8 @@ const appReducer = (state = initialState, action: any) => {
         isLoading: false,
       };
     case 'APP_LOG_OUT':
+      localStorage.removeItem('JWT');
+
       return {
         ...state,
         isLoggin: false,

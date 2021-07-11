@@ -25,7 +25,6 @@ export const useSignUpState = (): [(values: FormikSignUpValues) => void] => {
     switch (response.status) {
       case 'success':
         const token = response.data.token;
-        localStorage.setItem('JWT', token);
         createNotify('success', 'Добро пожаловать!', dispatch);
         getAllTasks(getTasksErrorHandlerErr, token, dispatch);
         break;
