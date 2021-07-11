@@ -152,8 +152,7 @@ Times-up TEAM!
 }
 
 const updatePassword = async (req, res, next) => {
-  const { id } = req.params;
-  const { password, passwordConfirm } = req.body;
+  const { id ,password, passwordConfirm } = req.body;
   // Это в базу для будущего сравнения
 
   const hashedToken = crypto

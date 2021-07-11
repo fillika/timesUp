@@ -14,6 +14,8 @@ export default class API {
   activeTaskUrl: string;
   loginUrl: string;
   signUpUrl: string;
+  forgotPasswordUrl: string;
+  updatePasswordUrl: string;
 
   constructor() {
     this.host = 'http://localhost:3002';
@@ -21,6 +23,8 @@ export default class API {
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
     this.loginUrl = this.host + '/api/v1/login';
     this.signUpUrl = this.host + '/api/v1/signup';
+    this.forgotPasswordUrl = this.host + '/api/v1/forgotPassword';
+    this.updatePasswordUrl = this.host + '/api/v1/updatePassword';
   }
 
   createHeaders(method: string, headers: HeadersInit, data: BodyInit | null, token?: string): RequestInit {

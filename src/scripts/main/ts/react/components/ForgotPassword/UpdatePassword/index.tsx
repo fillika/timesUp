@@ -2,7 +2,7 @@ import React from 'react';
 import { FormikHOC } from 'App/components/FormikWrapper';
 import { useFormikState } from './hooks/useFormikState';
 
-export const RestorePassword = () => {
+export const UpdatePassword = () => {
   const [initialValues, validationSchema, data, onSubmit] = useFormikState();
 
   const config = {

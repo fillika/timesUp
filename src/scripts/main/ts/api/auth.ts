@@ -31,6 +31,32 @@ class AuthAPI extends API {
     const response = await fetch(this.signUpUrl, headers).then(response => this.createErr(response));
     return response.json();
   }
+
+  async forgotPassword(data = {}) {
+    const headers = this.createHeaders(
+      'POST',
+      {
+        'Content-type': 'application/json',
+      },
+      JSON.stringify(data)
+    );
+
+    const response = await fetch(this.forgotPasswordUrl, headers).then(response => this.createErr(response));
+    return response.json();
+  }
+
+  async updatePassword(data = {}) {
+    const headers = this.createHeaders(
+      'PATCH',
+      {
+        'Content-type': 'application/json',
+      },
+      JSON.stringify(data)
+    );
+
+    const response = await fetch(this.forgotPasswordUrl, headers).then(response => this.createErr(response));
+    return response.json();
+  }
 }
 
 const authAPI = new AuthAPI();
