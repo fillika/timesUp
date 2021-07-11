@@ -29,16 +29,12 @@ export const useFormikLogIn = (): [LogInValues, any, FormikData] => {
 
   const data = {
     labels: {
-      name: 'Username',
       email: 'Email',
       password: 'Password',
-      passwordConfirm: 'Confirm password',
     },
     types: {
-      name: 'text',
       email: 'email',
       password: 'password',
-      passwordConfirm: 'password',
     },
   };
 

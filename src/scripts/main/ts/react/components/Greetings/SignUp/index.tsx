@@ -15,7 +15,8 @@ export const SignUp = () => {
       validationSchema={Yup.object(validationSchema)}
       onSubmit={onSubmit}
       validateOnChange={false}
-      validateOnBlur={false}>
+      validateOnBlur={false}
+      >
       {formik => <SignUpForm formik={formik} data={data} />}
     </Formik>
   );

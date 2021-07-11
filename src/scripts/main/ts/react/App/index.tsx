@@ -3,8 +3,11 @@ import { Root } from 'Scripts/main/ts/react/components/Root';
 import Greetings from 'App/components/Greetings';
 import { Preloader } from 'App/components/Preloader';
 import { Notifications } from 'App/components/Notifications';
+import { ForgotPassword } from 'App/components/ForgotPassword';
 import { useLoggin } from './hooks/useLoggin';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useParams } from 'react-router-dom';
+
+
 
 const App: React.FC = () => {
   const [isLoggin, isLoading] = useLoggin();
@@ -16,9 +19,7 @@ const App: React.FC = () => {
   return (
     <div className='timer'>
       <Switch>
-        <Route path='/forgotPassword/:id'>
-          {isLoggin ? <Redirect to='/' /> : (<h1>Забыл пароль? Бывает</h1>)}
-        </Route>
+        <Route path='/forgotPassword'>{!isLoggin ? <ForgotPassword /> : <Redirect to='/' />}</Route>
 
         <Route exact path='/login'>
           {!isLoggin ? <Greetings /> : <Redirect to='/' />}
