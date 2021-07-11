@@ -110,7 +110,27 @@ const reCaptchaVerify = async (req, res, next) => {
   next(new AppError('Вы не прошли проверку reCaptcha. Приносим свои извинения. Попробуйте еще раз', 401));
 }
 
+const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  // Проверить, существует ли email?
+  const user = await UserModel.findOne({ email })
+
+  if (!user) {
+    return next(new AppError('This email does not exist', 404))
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      email,
+      user
+    }
+  })
+}
+
 exports.signUp = asyncCatchHandler(signUp);
 exports.checkIsLogin = asyncCatchHandler(checkIsLogin);
 exports.logIn = asyncCatchHandler(logIn);
 exports.reCaptchaVerify = asyncCatchHandler(reCaptchaVerify);
+exports.forgotPassword = asyncCatchHandler(forgotPassword);
