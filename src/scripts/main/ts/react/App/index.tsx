@@ -5,9 +5,7 @@ import { Preloader } from 'App/components/Preloader';
 import { Notifications } from 'App/components/Notifications';
 import { ForgotPassword } from 'App/components/ForgotPassword';
 import { useLoggin } from './hooks/useLoggin';
-import { Switch, Route, Redirect, useParams } from 'react-router-dom';
-
-
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 const App: React.FC = () => {
   const [isLoggin, isLoading] = useLoggin();
@@ -22,6 +20,10 @@ const App: React.FC = () => {
         <Route path='/login'>
           {!isLoggin ? <Greetings /> : <Redirect to='/' />}
         </Route>
+
+        <Route path='/forgotPassword/:id'>
+          {!isLoggin ? <ForgotPassword /> : <Redirect to='/' />}
+        </Route> 
 
         <Route path='/forgotPassword'>
           {!isLoggin ? <ForgotPassword /> : <Redirect to='/' />}
