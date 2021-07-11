@@ -4,6 +4,7 @@ const asyncCatchHandler = require("../utils/asyncCatchHandler");
 const { UserModel } = require("../models/userModel");
 const AppError = require("../utils/Error");
 const fetch = require('isomorphic-fetch');
+const crypto = require('crypto');
 const { sendEmail } = require('../utils/nodeMailer');
 
 const signToken = (id) =>
@@ -140,12 +141,49 @@ Thanks! Have a good day :)
 Times-up TEAM!
 `
   // Отправить email
-  await sendEmail(email, 'Восстановление пароля', html)
+  // await sendEmail(email, 'Восстановление пароля', html)
 
   res.status(200).json({
     status: 'success',
-    data: {}
+    data: {
+      id: resetToken
+    }
   })
+}
+
+const updatePassword = async (req, res, next) => {
+  const { id } = req.params;
+  const { password, passwordConfirm } = req.body;
+  // Это в базу для будущего сравнения
+
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(id)
+    .digest('hex');
+
+  // Сделать проверку на существование юзера по данному hashedToken
+  const user = await UserModel.findOne({
+    passwordResetToken: hashedToken, passwordResetTokenDate: {
+      $gt: new Date()
+    }
+  })
+
+  if (!user) {
+    return next(new AppError('Token invalid or expired. Please, try reset your password again.', 401))
+  }
+
+  user.password = password;
+  user.passwordConfirm = passwordConfirm;
+  await user.save();
+
+  const token = signToken(user._id);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      token,
+    },
+  });
 }
 
 exports.signUp = asyncCatchHandler(signUp);
@@ -153,3 +191,4 @@ exports.checkIsLogin = asyncCatchHandler(checkIsLogin);
 exports.logIn = asyncCatchHandler(logIn);
 exports.reCaptchaVerify = asyncCatchHandler(reCaptchaVerify);
 exports.forgotPassword = asyncCatchHandler(forgotPassword);
+exports.updatePassword = asyncCatchHandler(updatePassword);

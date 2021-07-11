@@ -44,12 +44,13 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre("save", async function (next) {
-  // Если мы изменяем пароль - то пропускаем этот этап
   if (!this.isModified("password")) return next();
 
   this.password = await bcrypt.hash(this.password, 14);
   this.passwordConfirm = undefined;
-  this.passwordChangedAt = undefined;
+  this.passwordResetToken = undefined;
+  this.passwordResetTokenDate = undefined;
+  this.passwordChangedAt = new Date();
   next();
 });
 
@@ -73,9 +74,10 @@ UserSchema.methods.createResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  this.passwordResetTokenDate = new Date() + 1000 * 60 * 10;
+  this.passwordResetTokenDate = new Date().getTime() + 1000 * 60 * 10;
   return resetToken;
 }
+
 
 UserSchema.methods.comparePasswords = async function (pswFromFrom, pswFromBase) {
   return await bcrypt.compare(pswFromFrom, pswFromBase);

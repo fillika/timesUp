@@ -44,7 +44,7 @@ const handlDuplicatedFieldsDB = (err) => {
 };
 
 module.exports = (err, req, res, next) => {
-  // console.error("ERROR:", err);
+  // console.error("ERROR.name", error.name);
   let error = JSON.parse(JSON.stringify(err));
 
   error.statusCode = error.statusCode || 500;
