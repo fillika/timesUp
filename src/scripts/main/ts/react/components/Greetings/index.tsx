@@ -7,8 +7,8 @@ const Greetings = () => {
   const [isRegister, toggleRegister] = useGreetingsState();
 
   return (
-    <div className='greetings'>
-      <div onClick={toggleRegister} className='greetings__toggle'>
+    <div className='formWrapper'>
+      <div onClick={toggleRegister} className='formWrapper__toggle'>
         {!isRegister ? 'Регистрация' : 'Вход'}
       </div>
       {isRegister ? <SignUp /> : <LogIn />}

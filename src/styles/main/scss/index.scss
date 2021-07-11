@@ -11,6 +11,10 @@
   font-family: 'Ubuntu', sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
 img,
 svg {
   max-width: 100%;
@@ -22,12 +26,12 @@ svg {
 li {
   list-style-type: none;
 }
- 
+
 button {
-    background-color: transparent;
-    border: none;
-    padding: 0.5em 1em;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
 }

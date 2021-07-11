@@ -1,9 +1,9 @@
-.greetings {
+.formWrapper {
   width: 95%;
   border-radius: 20px;
   max-width: 400px;
   background-color: #fff;
-  padding: 20px;
+  padding: 10px;
   position: absolute;
   top: 10vh;
   left: 50%;
@@ -12,6 +12,7 @@
 
   @include above($md) {
      top: 20vh;
+     padding: 20px;
   }
 
   &__toggle {

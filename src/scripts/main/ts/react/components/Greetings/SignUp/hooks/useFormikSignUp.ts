@@ -41,7 +41,7 @@ export const useFormikSignUp = (): [FormikSignUpValues, any, FormikData] => {
     },
   };
 
-  const validationSchema = {
+  const validationSchema = Yup.object({
     name: Yup.string()
       .max(15, 'Must be 15 characters or less')
       .min(3, 'Must be 3 characters or less')
@@ -51,7 +51,7 @@ export const useFormikSignUp = (): [FormikSignUpValues, any, FormikData] => {
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Both passwords need to be the same')
       .required('Please, confirm your password'),
-  };
+  });
 
   return [initialValues, validationSchema, data];
 };

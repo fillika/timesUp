@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLogInState } from './hooks/useLogInState';
 import { useFormikLogIn } from './hooks/useFormikLogIn';
-import { FormikWrapper } from 'App/components/FormikWrapper';
+import { FormikHOC } from 'App/components/FormikWrapper';
 import { Link } from 'react-router-dom';
 
 export const LogIn = () => {
@@ -17,9 +17,9 @@ export const LogIn = () => {
   };
 
   return (
-    <FormikWrapper data={data} config={config}>
+    <FormikHOC data={data} config={config}>
       <div>
-        <Link to='/forgotPassword/123'>Forgot your password?</Link>
+        <Link to='/forgotPassword' className="form__link form__link--forgot-password">I forgot my password :(</Link>
       </div>
 
       <div className='form__button-wrapper'>
@@ -27,6 +27,6 @@ export const LogIn = () => {
           Войти
         </button>
       </div>
-    </FormikWrapper>
+    </FormikHOC>
   );
 };

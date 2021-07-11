@@ -1,5 +1,6 @@
 import React from 'react';
-import { Formik, Form, FormikConfig, Field, ErrorMessage, FormikHelpers } from 'formik';
+import { Formik, Form, FormikConfig, Field} from 'formik';
+import { FormikError } from './FormikError';
 
 // type InitialValues = {
 //   [key: string]: string;
@@ -32,21 +33,13 @@ type Data = {
   };
 };
 
-export const FormikError: React.FC<{ formikKey: string }> = ({ formikKey }) => {
-  return (
-    <div className='form__error'>
-      <ErrorMessage name={formikKey} />
-    </div>
-  );
-};
-
 type FormikWrapper = {
   children: React.ReactNode;
   config: Config;
   data: Data;
 };
 
-export const FormikWrapper: React.FC<FormikWrapper> = ({ children, config, data }) => {
+export const FormikHOC: React.FC<FormikWrapper> = ({ children, config, data }) => {
   return (
     <Formik {...config}>
       {formik => (

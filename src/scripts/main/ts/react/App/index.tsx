@@ -19,11 +19,13 @@ const App: React.FC = () => {
   return (
     <div className='timer'>
       <Switch>
-        <Route path='/forgotPassword'>{!isLoggin ? <ForgotPassword /> : <Redirect to='/' />}</Route>
-
-        <Route exact path='/login'>
+        <Route path='/login'>
           {!isLoggin ? <Greetings /> : <Redirect to='/' />}
         </Route>
+
+        <Route path='/forgotPassword'>
+          {!isLoggin ? <ForgotPassword /> : <Redirect to='/' />}
+        </Route>  
 
         <Route path='/'>{isLoggin ? <Root /> : <Redirect to='/login' />}</Route>
 
