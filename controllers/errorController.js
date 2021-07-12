@@ -38,15 +38,16 @@ const validationJWTError = (err) => {
 };
 const handlDuplicatedFieldsDB = (err) => {
   // keyValue, value
-  const values = Object.values(err.keyValue);
-  const message = `Duplicate field value: '${values}'. Please use another value`;
+  // const values = Object.values(err.keyValue);
+  const message = Object.keys(err.keyValue).map(key => {
+    return `This is ${key} already exist. Please, use another ${key}\n`;
+  }).join(';');
   return new AppError(message, 400);
 };
 
 module.exports = (err, req, res, next) => {
   // console.error("ERROR.name", error.name);
   let error = JSON.parse(JSON.stringify(err));
-
   error.statusCode = error.statusCode || 500;
   error.status = error.status || "error";
   error.message = err.message;

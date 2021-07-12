@@ -53,8 +53,8 @@ export function useGlobalError() {
   const signUpErrorHandler = (err: AppError) => {
     switch (err.statusCode) {
       case 400:
-        // message = 'Неверный логин или пароль';
         createNotify('error', err.message, dispatch, 5000);
+
         break;
       case 404:
         message = 'Ошибка подключения к серверу. Приносим свои извинения :(';

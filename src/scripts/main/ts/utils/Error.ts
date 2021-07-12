@@ -7,6 +7,5 @@ export interface AppError extends Error {
 export class AppError extends Error {
   constructor(message?: string) {
     super(message);
-    Error.captureStackTrace(this, this.constructor);
   }
 }
