@@ -38,8 +38,12 @@ export function useHeader() {
     let timeoutID = setTimeout(() => {
       if (activeTask.isTimeActive) {
         const diff = new Date().getTime() - new Date(activeTask.start).getTime();
-        dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: time.countTotalTime(diff) });
+        const totalTime = time.countTotalTime(diff);
+        dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: totalTime });
+
+        document.title = `${totalTime} - ${activeTask.name}`;
       } else {
+        document.title = `TimesUp`;
         clearTimeout(timeoutID);
       }
     }, 1000);
