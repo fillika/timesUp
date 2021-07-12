@@ -18,7 +18,7 @@ export default class API {
   updatePasswordUrl: string;
 
   constructor() {
-    this.host = 'http://localhost:3002';
+    this.host = window.location.origin;
     this.tasksUrl = this.host + '/api/v1/tasks';
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
     this.loginUrl = this.host + '/api/v1/login';
