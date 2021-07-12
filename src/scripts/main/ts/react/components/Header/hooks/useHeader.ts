@@ -31,6 +31,7 @@ export function useHeader() {
     if (activeTask.duration > 0 && app.token) {
       createTask(createTaskErrorHandler, activeTask, dispatch, app.token);
       dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
+      document.title = `TimesUp`;
     }
   }, [activeTask.duration]);
 
@@ -43,7 +44,6 @@ export function useHeader() {
 
         document.title = `${totalTime} - ${activeTask.name}`;
       } else {
-        document.title = `TimesUp`;
         clearTimeout(timeoutID);
       }
     }, 1000);

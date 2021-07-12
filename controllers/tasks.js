@@ -37,7 +37,7 @@ async function createTask(req, res, next) {
   if (currentDay !== nextDay) {
     // Если это разные дни, тогда мы разбиваем таск и создаем 2 задачи
     const taskArray = taskManager.createTaskFromNextDay(req.body);
-    const task = await TaskModel.create(taskArray);
+    const tasks = await TaskModel.create(taskArray);
     const result = await getTasks(TaskModel, req.user.id, limit);
 
     res.status(200).json({
@@ -45,8 +45,8 @@ async function createTask(req, res, next) {
       action: "CREATE",
       message: "All tasks have been created",
       data: {
-        task,
-        result,
+        tasks: result,
+        tasksModified: tasks,
       },
     });
   } else {
