@@ -72,7 +72,24 @@ export function useGlobalError() {
   };
 
   const delTaskByNameErrHadler = (err: AppError) => {
-    commonSwitchCase(err);
+    switch (err.statusCode) {
+      case 400:
+        createNotify('error', err.message, dispatch);
+        break; 
+      case 401:
+        message = 'Пожалуйста, залогиньтесь заново';
+        createNotify('warning', message, dispatch);
+        localStorage.removeItem('JWT');
+        break;
+      case 404:
+        message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
+        createNotify('error', message, dispatch);
+        break;
+
+      default:
+        createNotify('error', err.message, dispatch);
+        break;
+    }
   };
   const delTaskByIdErrHadler = (err: AppError) => {
     commonSwitchCase(err);

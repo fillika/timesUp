@@ -9,6 +9,6 @@ export const deleteTaskByName = asyncCatcher(async (
   startUnmount: (cb: any) => void,
   dispatch: Dispatch<any>
 ) => {
-  const response = await taskAPI.deleteTaskByName({ name: data.name, date: data.at }, token);
+  await taskAPI.deleteTaskByName({ name: data.name, date: data.at }, token);
   startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_NAME', payload: { date: data.at, name: data.name } }));
 });

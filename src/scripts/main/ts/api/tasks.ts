@@ -16,12 +16,8 @@ class TasksAPI extends API {
     const headers = this.createHeaders('POST', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
     const errMessage = 'Ошибка при создании таска в методе createTask';
 
-    try {
-      const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
-      return response.json();
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
+    return response.json();
   }
 
   async updateTask(id: string, data: Task = {}, token: string) {
@@ -37,24 +33,16 @@ class TasksAPI extends API {
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     };
 
-    try {
-      const response = await fetch(url, headers).then(response => this.createErr(response, errMessage));
-      return response.json();
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch(url, headers).then(response => this.createErr(response, errMessage));
+    return response.json();
   }
 
   async updateTaskByName(data: { name: string; date: string }, token: string) {
     const headers = this.createHeaders('PATCH', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
     const errMessage = 'Ошибка при обновлении всех тасков по имени в методе updateTaskByName';
 
-    try {
-      const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
-      return response.json();
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
+    return response.json();
   }
 
   async deleteTaskByID(id: string, token: string) {
@@ -62,29 +50,15 @@ class TasksAPI extends API {
     const urlWithID = `${this.tasksUrl}/${id}`;
     const errMessage = 'Ошибка при удалении таска по ID в методе deleteTaskByID';
 
-    try {
-      const response = await fetch(urlWithID, headers).then(response => this.createErr(response, errMessage));
-      return response.json();
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch(urlWithID, headers).then(response => this.createErr(response, errMessage));
+    return response.json();
   }
 
   async deleteTaskByName(data = {}, token: string) {
     const headers = this.createHeaders('DELETE', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
-    const errMessage = 'Ошибка при удалении всех тасков по имени в методе deleteTaskByName';
 
-    try {
-      const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
-
-      return {
-        status: response.ok,
-        message: 'All task has been deleted',
-        response,
-      };
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response));
+    return response.json();
   }
 }
 
