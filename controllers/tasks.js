@@ -45,8 +45,8 @@ async function createTask(req, res, next) {
       action: "CREATE",
       message: "All tasks have been created",
       data: {
+        task: tasks,
         tasks: result,
-        tasksModified: tasks,
       },
     });
   } else {

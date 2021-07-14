@@ -5,12 +5,8 @@ import { taskAPI } from 'Api/tasks';
 import { sort } from 'Utils/Sort';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 
-export const createTask = asyncCatcher(async (
-  task: activeTaskState,
-  dispatch: Dispatch<{ type: string; payload: SortedTask[] }>,
-  token: string
-) => {
-  try {
+export const createTask = asyncCatcher(
+  async (task: activeTaskState, dispatch: Dispatch<{ type: string; payload: SortedTask[] }>, token: string) => {
     const result = await taskAPI.createTask(task, token);
 
     if (result.status === 'success') {
@@ -24,7 +20,5 @@ export const createTask = asyncCatcher(async (
     } else {
       throw new Error(result);
     }
-  } catch (error) {
-    console.error(error);
   }
-});
+);
