@@ -10,28 +10,28 @@ import _ from 'lodash';
 
 export function useHeader() {
   const dispatch = useDispatch();
-  const { activeTask, app } = useSelector((state: RootState) => state);
+  const { activeTask, app: {token} } = useSelector((state: RootState) => state);
   const { activeTaskErrorHandler, createTaskErrorHandler } = useGlobalError();
 
   console.log('Render[Header]');
   
   useEffect(() => {
-    if (app.token) {
-      getActiveTask(activeTaskErrorHandler, app.token, dispatch);
+    if (token) {
+      getActiveTask(activeTaskErrorHandler, token, dispatch);
     }
   }, []);
 
   useEffect(() => {
-    if (app.token) {
+    if (token) {
       if (activeTask.isTimeActive) {
-        taskHandler.updateActiveTask(app.token, activeTask);
+        taskHandler.updateActiveTask(token, activeTask);
       }
     }
   }, [activeTask.isTimeActive]);
 
   useEffect(() => {
-    if (activeTask.duration > 0 && app.token) {
-      createTask(createTaskErrorHandler, activeTask, dispatch, app.token);
+    if (activeTask.duration > 0 && token) {
+      createTask(createTaskErrorHandler, activeTask, dispatch, token);
       dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
       document.title = `TimesUp`;
     }
@@ -55,7 +55,7 @@ export function useHeader() {
     };
   }, [activeTask.isTimeActive, activeTask.totalTime]);
 
-  const toggleTimer = () => app.token && taskHandler.toggleTimer(activeTask, dispatch, app.token);
+  const toggleTimer = () => token && taskHandler.toggleTimer(activeTask, dispatch, token);
 
   const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && toggleTimer();
 
