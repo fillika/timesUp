@@ -11,7 +11,7 @@ type TaskData = {
   data: TaskType;
 };
 
-const Task: React.FC<TaskData> = ({ data }) => {
+export const MainTask: React.FC<TaskData> = ({ data }) => {
   const [isUnmounting, isActive, name, setActive, deleteTask, updateTask, onChange] = useHandlers(data);
 
   return (
@@ -36,5 +36,3 @@ const Task: React.FC<TaskData> = ({ data }) => {
     </li>
   );
 };
-
-export default Task;

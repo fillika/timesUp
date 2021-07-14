@@ -1,5 +1,5 @@
 import React from 'react';
-import Task from 'App/components/Task';
+import { MainTask } from 'App/components/MainTask';
 import { TaskType } from 'Types/tasks';
 import { time } from 'Utils/Time';
 import { useGetTasks } from './useGetTasks';
@@ -28,7 +28,7 @@ const Timer: React.FC = () => {
           <div className='task-section' key={date}>
             <div className='task-section__wrapper'>
               <div>{dateString}</div>
-              
+
               <div className='task-section__panel'>
                 <div className='task-section__total-time'>{totalDayTime}</div>
                 <div className='task-section__menu'>...</div>
@@ -37,7 +37,7 @@ const Timer: React.FC = () => {
 
             <ul className='task-list'>
               {tasks.map(task => (
-                <Task data={task} key={task._id} />
+                <MainTask data={task} key={task._id} />
               ))}
             </ul>
           </div>

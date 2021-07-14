@@ -2,8 +2,8 @@ import { useState, ChangeEvent, FocusEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/rootReducer';
 import { useUnmounting } from 'App/hooks/useUnmounting';
-import { deleteTaskByName } from './../utils/deleteTaskByName';
-import { updateTaskByName } from './../utils/updateTaskByName';
+import { deleteTaskByName } from '../utils/deleteTaskByName';
+import { updateTaskByName } from '../utils/updateTaskByName';
 import { TaskType } from 'Types/tasks';
 import { useGlobalError } from 'App/hooks/useGlobalError';
 
@@ -24,6 +24,8 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const { app } = useSelector((state: RootState) => state);
   const [isUnmounting, startUnmount] = useUnmounting();
   const { delTaskByNameErrHadler, updTaskByNameErrHadler } = useGlobalError();
+
+  console.log('Render[MainTask]');
 
   const deleteTask = () =>
     app.token && deleteTaskByName(delTaskByNameErrHadler, data, app.token, startUnmount, dispatch);
