@@ -21,17 +21,17 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const dispatch = useDispatch();
-  const { app } = useSelector((state: RootState) => state);
+  const { token } = useSelector((state: RootState) => state.app);
   const [isUnmounting, startUnmount] = useUnmounting();
   const { delTaskByNameErrHadler, updTaskByNameErrHadler } = useGlobalError();
 
   console.log('Render[MainTask]');
 
   const deleteTask = () =>
-    app.token && deleteTaskByName(delTaskByNameErrHadler, data, app.token, startUnmount, dispatch);
+    token && deleteTaskByName(delTaskByNameErrHadler, data, token, startUnmount, dispatch);
 
   const updateTask = (event: FocusEvent<HTMLInputElement>) =>
-    updateTaskByName(updTaskByNameErrHadler, event, data, app, dispatch);
+    updateTaskByName(updTaskByNameErrHadler, event, data, token, dispatch);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value), setActive(false);

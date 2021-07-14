@@ -56,9 +56,7 @@ class TasksAPI extends API {
 
   async deleteTaskByName(data = {}, token: string) {
     const headers = this.createHeaders('DELETE', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
-
-    const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response));
-    return response.json();
+    await fetch(this.tasksUrl, headers).then(response => this.createErr(response));
   }
 }
 

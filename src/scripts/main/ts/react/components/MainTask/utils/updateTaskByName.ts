@@ -1,6 +1,5 @@
 
 import { TaskType } from 'Types/tasks';
-import { AppState } from 'Redux/app';
 import { Dispatch } from 'react';
 import { taskAPI } from 'Api/tasks';
 import { sort } from 'Utils/Sort';
@@ -10,7 +9,7 @@ import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 export const updateTaskByName = asyncCatcher(async (
   event: React.FocusEvent<HTMLInputElement>,
   data: TaskType,
-  state: AppState,
+  token: string,
   dispatch: Dispatch<any>
 ) => {
   const val = event.target.value.trim();
@@ -25,8 +24,8 @@ export const updateTaskByName = asyncCatcher(async (
         },
       };
 
-      if (!state.token) return console.error('Токена нет');
-      const response = await taskAPI.updateTaskByName(queryReq, state.token);
+      if (!token) return console.error('Токена нет');
+      const response = await taskAPI.updateTaskByName(queryReq, token);
 
       dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
     } catch (error) {

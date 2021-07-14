@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, Dispatch, useEffect } from 'react';
+import React from 'react';
 import { TaskType } from 'Types/tasks';
 import { SubTasks } from 'App/components/SubTasks';
 import trashIcon from 'Images/icons/trash.svg';

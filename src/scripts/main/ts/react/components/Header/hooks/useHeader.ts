@@ -13,6 +13,8 @@ export function useHeader() {
   const { activeTask, app } = useSelector((state: RootState) => state);
   const { activeTaskErrorHandler, createTaskErrorHandler } = useGlobalError();
 
+  console.log('Render[Header]');
+  
   useEffect(() => {
     if (app.token) {
       getActiveTask(activeTaskErrorHandler, app.token, dispatch);
