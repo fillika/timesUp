@@ -1,6 +1,7 @@
 import React, { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { createNotify } from 'Utils/helpers/createNotify';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ const Sidebar: React.FC = () => {
       <p className='sidebar__title'>Track</p>
       <ul>
         <li>
-          <NavLink exact to='/'>Timer</NavLink>
+          <NavLink exact to='/'>
+            Timer
+          </NavLink>
         </li>
       </ul>
       <p className='sidebar__title'>Statictis</p>
@@ -33,6 +36,10 @@ const Sidebar: React.FC = () => {
         <li>
           <NavLink to='/profile'>Profile</NavLink>
         </li>
+      </ul>
+      <p className='sidebar__title'>DevTools</p>
+      <ul>
+        <li onClick={() => createNotify('error', 'Test ERROR', dispatch, 5000)}>Call notification</li>
       </ul>
 
       <a className='sidebar__log-out' href='#' onClick={logOut}>

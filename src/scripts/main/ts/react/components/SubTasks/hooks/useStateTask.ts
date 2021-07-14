@@ -16,16 +16,19 @@ type useStateTaskType = [
 
 export function useStateTask(name: string, _id: string): useStateTaskType {
   const dispatch = useDispatch();
-  const { activeTask, app } = useSelector((state: RootState) => state);
+  const {
+    activeTask: { name: taskName },
+    app: { token },
+  } = useSelector((state: RootState) => state);
   const [value, setValue] = useState(name);
   const [isUnmounting, startUnmount] = useUnmounting();
   const { delTaskByIdErrHadler, updTaskByIdErrHadler } = useGlobalError();
 
-  useEffect(() => setValue(name), [activeTask.name]);
+  useEffect(() => setValue(name), [taskName]);
 
-  const deleteTask = () => deleteTaskByID(delTaskByIdErrHadler, _id, app.token, startUnmount, dispatch);
+  const deleteTask = () => deleteTaskByID(delTaskByIdErrHadler, _id, token, startUnmount, dispatch);
   const updateTask = (event: FocusEvent<HTMLInputElement>) =>
-    updateTaskByID(updTaskByIdErrHadler, _id, app.token, name, event, dispatch);
+    updateTaskByID(updTaskByIdErrHadler, _id, token, name, event, dispatch);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
 
