@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'Redux/rootReducer';
 
 export const Notifications: React.FC = () => {
-  const { notifications } = useSelector((state: RootState) => state.app);
+  const { notifications } = useSelector((state: RootState) => state.notification);
 
   return (
     <div className='notifications'>

@@ -12,12 +12,12 @@ const notify = (type: string, message: string, time: number): Notification => {
 
 export const createNotify = (type: string, message: string, dispatch: Dispatch<any>, time: number = 2200) => {
   dispatch({
-    type: 'APP_SET_NOTIFICATION',
+    type: 'SET_NOTIFICATION',
     payload: notify(type, message, time),
   });
 
   let timeoutID = setTimeout(() => {
-    dispatch({ type: 'APP_CLEAR_NOTIFICATION' });
+    dispatch({ type: 'CLEAR_NOTIFICATION' });
     clearTimeout(timeoutID);
   }, time);
 };
