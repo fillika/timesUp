@@ -1,4 +1,4 @@
-import { FocusEvent, useState, useEffect, ChangeEvent } from 'react';
+import { FocusEvent, useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useUnmounting } from 'App/hooks/useUnmounting';
@@ -11,7 +11,8 @@ type useStateTaskType = [
   string,
   (event: FocusEvent<HTMLInputElement>) => Promise<void>,
   () => Promise<void>,
-  (event: ChangeEvent<HTMLInputElement>) => void
+  (event: ChangeEvent<HTMLInputElement>) => void,
+  (event: KeyboardEvent) => void
 ];
 
 export function useStateTask(name: string, _id: string): useStateTaskType {
@@ -33,5 +34,11 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
 
-  return [isUnmounting, value, updateTask, deleteTask, onChange];
+  const onKeyPress = (event: KeyboardEvent) => {
+    if (event.key === 'Enter' && event.target instanceof HTMLInputElement) {
+      event.target.blur();
+    }
+  };
+
+  return [isUnmounting, value, updateTask, deleteTask, onChange, onKeyPress];
 }

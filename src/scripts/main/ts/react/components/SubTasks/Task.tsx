@@ -12,11 +12,12 @@ type Task = {
 };
 
 export const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
-  const [isUnmounting, value, updateTask, deleteTask, onChange] = useStateTask(name, _id);
+  const [isUnmounting, value, updateTask, deleteTask, onChange, onKeyPress] = useStateTask(name, _id);
 
   return (
     <div className={`task task--child ${isUnmounting ? 'task--unmounting' : ''}`}>
-      <input onChange={onChange} onBlur={updateTask} type='text' value={value} />
+      <input onChange={onChange} onBlur={updateTask} onKeyPress={onKeyPress} type='text' value={value} />
+
       <div className='task-panel'>
         <div onClick={deleteTask} className='task-panel__icon task-panel__icon--delete'>
           <img src={trashIcon} alt='Удалить таск' />
