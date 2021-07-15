@@ -1,6 +1,6 @@
 import { useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'Redux/rootReducer';
+import { RootState } from 'Redux/reducers/rootReducer';
 import { time } from 'Utils/Time';
 import { taskHandler } from 'Utils/TaskHandler';
 import { createTask } from './../utils/createTask';

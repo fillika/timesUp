@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'Redux/rootReducer';
+import { RootState } from 'Redux/reducers/rootReducer';
 import { taskHandler } from 'Utils/TaskHandler';
 
 export function usePresenter(name: string) {

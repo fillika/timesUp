@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { activeTaskState } from 'Scripts/main/ts/redux/activeTask';
+import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
 import { activeTaskAPI } from 'Api/activeTask';
 import { createNotify } from 'Utils/helpers/createNotify';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import playBtn from 'Images/icons/play.svg';
 import { usePresenter } from './hooks/usePresenter';
 import { useSelector } from 'react-redux';
-import { RootState } from 'Redux/rootReducer';
+import { RootState } from 'Redux/reducers/rootReducer';
 
 type ContinueButton = {
   name: string;

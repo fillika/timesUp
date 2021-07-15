@@ -32,7 +32,7 @@ const updateTaskByName = (state: TaskState, payload: { name: string; date: strin
     return task;
   });
 };
-const updateTaskByID = (state: TaskState, payload: { newName: string; taskID: string; }) => {
+const updateTaskByID = (state: TaskState, payload: { newName: string; taskID: string }) => {
   const { newName, taskID } = payload;
 
   return state.databaseTaskList.map(task => {
@@ -47,12 +47,12 @@ const updateTaskByID = (state: TaskState, payload: { newName: string; taskID: st
 
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
-    case 'GET_ALL_TASKS':
+    case 'GET_ALL_TASKS': {
       return {
         ...state,
         databaseTaskList: action.payload.databaseTaskList,
       };
-
+    }
     case 'CREATE_TASK': {
       const newArr = [action.payload.newTask, ...state.databaseTaskList];
 
@@ -61,19 +61,18 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList: newArr,
       };
     }
-
-    case 'UPDATE_TASK_LIST_BY_NAME':
+    case 'UPDATE_TASK_LIST_BY_NAME': {
       return {
         ...state,
         databaseTaskList: updateTaskByName(state, action.payload),
       };
-
-    case 'UPDATE_TASK_LIST_BY_ID':
+    }
+    case 'UPDATE_TASK_LIST_BY_ID': {
       return {
         ...state,
         databaseTaskList: updateTaskByID(state, action.payload),
       };
-
+    }
     case 'DELETE_TASKS_BY_ID': {
       const filteredArr = state.databaseTaskList.filter(task => task._id !== action.payload.taskID);
 
@@ -82,7 +81,6 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList: filteredArr,
       };
     }
-
     case 'DELETE_TASKS_BY_NAME': {
       const newArr = [...state.databaseTaskList];
       const { date, name } = action.payload;

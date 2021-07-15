@@ -1,23 +1,23 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { taskReducer, TaskState } from './taskReducer';
-import { activeTaskReducer, activeTaskState } from './activeTask';
-import { appReducer, AppState } from './app';
-import { notifyReducer, Notyfy } from './notification';
+import { activeTaskReducer, activeTaskState } from './activeTaskReducer';
+import { appReducer, AppState } from './appReducer';
+import { notifyReducer, Notify } from './notifyReducer';
 import thunk from 'redux-thunk';
 
 export interface RootState {
   tasks: TaskState;
   activeTask: activeTaskState;
   app: AppState;
-  notification: Notyfy;
+  notify: Notify;
 }
 
 const rootReducer = combineReducers({
   tasks: taskReducer,
   activeTask: activeTaskReducer,
   app: appReducer,
-  notification: notifyReducer,
+  notify: notifyReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

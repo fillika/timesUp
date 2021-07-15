@@ -64,13 +64,8 @@ class Sort {
 
         task.duration += el.duration;
       } else {
-        const index = _.findIndex(task.time, ['_id', el._id]);
-
-        // * Таски по какой-то причине дублируются. Отсеиваю дубликаты
-        if (index === -1) {
-          task.time.push(this.createTask(el));
-          task.duration += el.duration;
-        }
+        task.time.push(this.createTask(el));
+        task.duration += el.duration;
       }
     } else {
       taskArr.push(el);

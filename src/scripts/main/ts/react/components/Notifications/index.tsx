@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'Redux/rootReducer';
+import { RootState } from 'Redux/reducers/rootReducer';
 
 export const Notifications: React.FC = () => {
-  const { notifications } = useSelector((state: RootState) => state.notification);
+  const { notifications } = useSelector((state: RootState) => state.notify);
 
   return (
     <div className='notifications'>

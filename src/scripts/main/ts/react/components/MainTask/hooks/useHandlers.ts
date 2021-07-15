@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FocusEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'Redux/rootReducer';
+import { RootState } from 'Redux/reducers/rootReducer';
 import { useUnmounting } from 'App/hooks/useUnmounting';
 import { deleteTaskByName } from '../utils/deleteTaskByName';
 import { updateTaskByName } from '../utils/updateTaskByName';

@@ -1,6 +1,6 @@
 import { Notification } from 'Types/notifications';
 
-export type Notyfy = {
+export type Notify = {
   notifications: Notification[];
 };
 

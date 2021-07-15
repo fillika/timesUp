@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { activeTaskState } from 'Redux/activeTask';
+import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
 import { DatabaseTask } from 'Types/tasks';
 import { taskAPI } from 'Api/tasks';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';

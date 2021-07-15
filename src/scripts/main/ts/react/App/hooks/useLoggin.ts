@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'Redux/rootReducer';
+import { RootState } from 'Redux/reducers/rootReducer';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { useGlobalError } from 'App/hooks/useGlobalError';
 
