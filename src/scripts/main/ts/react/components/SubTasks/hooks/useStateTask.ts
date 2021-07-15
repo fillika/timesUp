@@ -27,6 +27,7 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
   useEffect(() => setValue(name), [taskName]);
 
   const deleteTask = () => deleteTaskByID(delTaskByIdErrHadler, _id, token, startUnmount, dispatch);
+  
   const updateTask = (event: FocusEvent<HTMLInputElement>) =>
     updateTaskByID(updTaskByIdErrHadler, _id, token, name, event, dispatch);
 

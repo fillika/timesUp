@@ -9,8 +9,9 @@ async function del(
   dispatch: Dispatch<{ type: string; payload: { taskID: string } }>
 ) {
   if (token) {
-    const response = await taskAPI.deleteTaskByID(id, token);
-    startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: { taskID: id } }));
+    await taskAPI.deleteTaskByID(id, token);
+    // startUnmount(() => dispatch({ type: 'DELETE_TASKS_BY_ID', payload: { taskID: id } }));
+    dispatch({ type: 'DELETE_TASKS_BY_ID', payload: { taskID: id } })
   }
 }
 
