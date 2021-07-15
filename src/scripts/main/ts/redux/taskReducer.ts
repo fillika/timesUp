@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 export type TaskState = {
   taskArr: SortedTask[];
-  databaseTaskList: DatabaseTask[]
+  databaseTaskList: DatabaseTask[];
 };
 
 type TAction = {
@@ -13,7 +13,7 @@ type TAction = {
 
 const initialState: TaskState = {
   taskArr: [],
-  databaseTaskList: []
+  databaseTaskList: [],
 };
 
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
@@ -26,9 +26,12 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       break;
 
     case 'CREATE_TASK': {
+      const newTask: DatabaseTask = action.payload.newTask;
+      const newArr = [newTask, ...state.databaseTaskList];
+      
       return {
         ...state,
-        taskArr: action.payload,
+        databaseTaskList: newArr,
       };
     }
     case 'UPDATE_TASK_LIST':
