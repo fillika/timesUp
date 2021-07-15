@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'Redux/rootReducer';
 
 function useGetTasks() {
-  const taskArr = useSelector((state: RootState) => state.tasks.taskArr);
+  const { databaseTaskList } = useSelector((state: RootState) => state.tasks);
   console.log('Render[Timer]');
-  return { taskArr };
+  return { databaseTaskList };
 }
 
 export { useGetTasks };

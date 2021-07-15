@@ -21,7 +21,6 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
     case 'GET_ALL_TASKS':
       return {
         ...state,
-        taskArr: action.payload.taskArr,
         databaseTaskList: action.payload.databaseTaskList,
       };
       break;

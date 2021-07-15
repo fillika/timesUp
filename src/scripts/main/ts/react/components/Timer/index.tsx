@@ -3,6 +3,7 @@ import { MainTask } from 'App/components/MainTask';
 import { TaskType } from 'Types/tasks';
 import { time } from 'Utils/Time';
 import { useGetTasks } from './useGetTasks';
+import { sort } from 'Utils/Sort';
 
 // Utils
 const getTotalDayTime = (tasks: TaskType[]): string => {
@@ -12,7 +13,8 @@ const getTotalDayTime = (tasks: TaskType[]): string => {
 };
 
 const Timer: React.FC = () => {
-  const { taskArr } = useGetTasks();
+  const { databaseTaskList } = useGetTasks();
+  const taskArr = sort.sortData(databaseTaskList);
 
   return (
     <div>
