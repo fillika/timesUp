@@ -1,6 +1,5 @@
 import { DatabaseTask, SortedTask } from 'Types/tasks';
 import _ from 'lodash';
-import { sort } from 'Utils/Sort';
 
 export type TaskState = {
   taskArr: SortedTask[];
@@ -20,19 +19,17 @@ const initialState: TaskState = {
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
     case 'GET_ALL_TASKS':
+
       return {
         ...state,
-        taskArr: sort.sortData(action.payload.databaseTaskList),
         databaseTaskList: action.payload.databaseTaskList,
       };
 
     case 'CREATE_TASK': {
-      const newTask: DatabaseTask = action.payload.newTask;
-      const newArr = [newTask, ...state.databaseTaskList];
+      const newArr = [action.payload.newTask, ...state.databaseTaskList];
 
       return {
         ...state,
-        taskArr: sort.sortData(newArr),
         databaseTaskList: newArr,
       };
     }
@@ -58,7 +55,6 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
       return {
         ...state,
-        taskArr: sort.sortData(newArr),
         databaseTaskList: newArr,
       };
 
@@ -70,13 +66,9 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
     case 'DELETE_TASKS_BY_ID': {
       const filteredArr = state.databaseTaskList.filter(task => task._id !== action.payload.taskID)
-
-
-      console.log(filteredArr);
       
       return {
         ...state,
-        taskArr: sort.sortData(filteredArr),
         databaseTaskList: filteredArr,
       };
     }
@@ -91,7 +83,6 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
       return {
         ...state,
-        taskArr: sort.sortData(newArr),
         databaseTaskList: newArr,
       };
     }

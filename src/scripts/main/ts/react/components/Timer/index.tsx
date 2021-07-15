@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { MainTask } from 'App/components/MainTask';
-import { TaskType, SortedTask } from 'Types/tasks';
+import { TaskType } from 'Types/tasks';
 import { time } from 'Utils/Time';
 import { useGetTasks } from './useGetTasks';
 import _ from 'lodash';
@@ -38,7 +38,7 @@ const DayList: FC<{ dateString: string; totalDayTime: string; taskList: TaskType
 };
 
 const Timer: React.FC = () => {
-  const { taskArr: sortedTaskList } = useGetTasks();
+  const { sortedTaskList } = useGetTasks();
 
   return (
     <div>

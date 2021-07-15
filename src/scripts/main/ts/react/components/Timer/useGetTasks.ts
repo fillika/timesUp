@@ -1,10 +1,15 @@
 import { useSelector } from 'react-redux';
 import { RootState } from 'Redux/rootReducer';
+import { sort } from 'Utils/Sort';
 
 function useGetTasks() {
-  const { taskArr } = useSelector((state: RootState) => state.tasks);
+  const { databaseTaskList } = useSelector((state: RootState) => state.tasks);
+  const sortedTaskList = sort.sortData(databaseTaskList);
+
+  console.log('databaseTaskList[useGetTask]', databaseTaskList);
+  console.log('sortedTaskArray[useGetTask]', sortedTaskList);
   
-  return { taskArr };
+  return { sortedTaskList };
 }
 
 export { useGetTasks };

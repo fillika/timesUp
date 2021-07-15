@@ -10,8 +10,10 @@ class Sort {
    */
   sortData(taskArr: DatabaseTask[]): SortedTask[] {
     const tasks: SortedTask[] = [];
+    // * По какой-то причине здесь мы модифицировали входящий массив
+    const deepCopy = JSON.parse(JSON.stringify(taskArr));
 
-    taskArr.forEach((el: DatabaseTask) => {
+    deepCopy.forEach((el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
 
       // Тут Я создаю самый первый таск
