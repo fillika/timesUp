@@ -1,8 +1,8 @@
-import React, { KeyboardEvent } from 'react';
+import React from 'react';
 import { TaskType } from 'Types/tasks';
 import { SubTasks } from 'App/components/SubTasks';
-import trashIcon from 'Images/icons/trash.svg';
 import { RangeTime } from 'App/components/RangeTime';
+import { DeleteIcon } from 'App/components/DeleteIcon';
 import { ContinueButton } from 'App/components/ContinueButton';
 import { useHandlers } from './hooks/useHandlers';
 import { Counter } from './Counter';
@@ -12,7 +12,8 @@ type TaskData = {
 };
 
 export const MainTask: React.FC<TaskData> = ({ data }) => {
-  const [isUnmounting, isActive, name, setActive, deleteTask, updateTask, onChange, onKeyPress] = useHandlers(data);
+  const [isUnmounting, isActive, isTyping, name, setActive, deleteTask, updateTask, onChange, onKeyPress] =
+    useHandlers(data);
 
   return (
     <li className={`task-list__task ${isUnmounting ? 'task-list__task--unmounting' : ''}`}>
@@ -20,19 +21,10 @@ export const MainTask: React.FC<TaskData> = ({ data }) => {
         <Counter isActive={isActive} time={data.time} onClick={setActive} />
 
         <div className='task__input-wrapper'>
-          <input
-            type='text'
-            onBlur={updateTask}
-            onChange={onChange}
-            onKeyPress={onKeyPress}
-            defaultValue={name}
-          />
+          <input type='text' onBlur={updateTask} onChange={onChange} onKeyPress={onKeyPress} defaultValue={name} />
         </div>
         <div className='task-panel'>
-          <div onClick={deleteTask} className='task-panel__icon task-panel__icon--delete'>
-            <img src={trashIcon} alt='Удалить таск' />
-          </div>
-
+          <DeleteIcon isTyping={isTyping} onClickHandler={deleteTask} />
           <RangeTime data={data} />
           <ContinueButton name={name} />
         </div>
