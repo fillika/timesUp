@@ -44,6 +44,16 @@ const updateTaskByID = (state: TaskState, payload: { newName: string; taskID: st
     return task;
   });
 };
+const deleteTaskByName = (state: TaskState, payload: { date: string; name: string }) => {
+  const newArr = [...state.databaseTaskList];
+  const { date, name } = payload;
+
+  _.remove(newArr, task => {
+    return task.name === name && new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
+  });
+
+  return newArr;
+};
 
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
@@ -54,11 +64,9 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
     }
     case 'CREATE_TASK': {
-      const newArr = [action.payload.newTask, ...state.databaseTaskList];
-
       return {
         ...state,
-        databaseTaskList: newArr,
+        databaseTaskList: [action.payload.newTask, ...state.databaseTaskList],
       };
     }
     case 'UPDATE_TASK_LIST_BY_NAME': {
@@ -74,24 +82,15 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
     }
     case 'DELETE_TASKS_BY_ID': {
-      const filteredArr = state.databaseTaskList.filter(task => task._id !== action.payload.taskID);
-
       return {
         ...state,
-        databaseTaskList: filteredArr,
+        databaseTaskList: state.databaseTaskList.filter(task => task._id !== action.payload.taskID),
       };
     }
     case 'DELETE_TASKS_BY_NAME': {
-      const newArr = [...state.databaseTaskList];
-      const { date, name } = action.payload;
-
-      _.remove(newArr, task => {
-        return task.name === name && new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
-      });
-
       return {
         ...state,
-        databaseTaskList: newArr,
+        databaseTaskList: deleteTaskByName(state, action.payload),
       };
     }
     default:
