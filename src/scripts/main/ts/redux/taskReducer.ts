@@ -1,8 +1,9 @@
-import { SortedTask } from 'Types/tasks';
+import { DatabaseTask, SortedTask } from 'Types/tasks';
 import _ from 'lodash';
 
 export type TaskState = {
   taskArr: SortedTask[];
+  databaseTaskList: DatabaseTask[]
 };
 
 type TAction = {
@@ -12,6 +13,7 @@ type TAction = {
 
 const initialState: TaskState = {
   taskArr: [],
+  databaseTaskList: []
 };
 
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
@@ -19,7 +21,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
     case 'GET_ALL_TASKS':
       return {
         ...state,
-        taskArr: action.payload,
+        taskArr: action.payload.taskArr,
+        databaseTaskList: action.payload.databaseTaskList,
       };
       break;
 

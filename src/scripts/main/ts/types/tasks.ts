@@ -1,3 +1,13 @@
+export type DatabaseTask = {
+  at: string;
+  duration: number;
+  name: string;
+  start: string;
+  stop: string;
+  userID: string;
+  _id: string;
+}
+
 export type TaskType = {
   _id: string;
   name: string;
