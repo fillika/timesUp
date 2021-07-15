@@ -1,5 +1,6 @@
 import { DatabaseTask, SortedTask } from 'Types/tasks';
 import _ from 'lodash';
+import { sort } from 'Utils/Sort';
 
 export type TaskState = {
   taskArr: SortedTask[];
@@ -21,6 +22,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
     case 'GET_ALL_TASKS':
       return {
         ...state,
+        taskArr: sort.sortData(action.payload.databaseTaskList),
         databaseTaskList: action.payload.databaseTaskList,
       };
 
@@ -30,6 +32,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
       return {
         ...state,
+        taskArr: sort.sortData(newArr),
         databaseTaskList: newArr,
       };
     }
@@ -40,9 +43,13 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
 
     case 'DELETE_TASKS_BY_ID': {
+      const newArr = [...state.databaseTaskList];
+      _.remove(newArr, task => task._id === action.payload.taskID);
+
       return {
         ...state,
-        taskArr: action.payload,
+        taskArr: sort.sortData(newArr),
+        databaseTaskList: newArr
       };
     }
 
@@ -56,6 +63,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
       return {
         ...state,
+        taskArr: sort.sortData(newArr),
         databaseTaskList: newArr,
       };
     }

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { MainTask } from 'App/components/MainTask';
-import { TaskType } from 'Types/tasks';
+import { TaskType, SortedTask } from 'Types/tasks';
 import { time } from 'Utils/Time';
 import { useGetTasks } from './useGetTasks';
-import { sort } from 'Utils/Sort';
+import _ from 'lodash';
 
 // Utils
 const getTotalDayTime = (tasks: TaskType[]): string => {
@@ -12,38 +12,46 @@ const getTotalDayTime = (tasks: TaskType[]): string => {
   return time.countTotalTime(result);
 };
 
+const DayList: FC<{ dateString: string; totalDayTime: string; taskList: TaskType[] }> = ({
+  dateString,
+  totalDayTime,
+  taskList,
+}) => {
+  return (
+    <div className='task-section'>
+      <div className='task-section__wrapper'>
+        <div>{dateString}</div>
+
+        <div className='task-section__panel'>
+          <div className='task-section__total-time'>{totalDayTime}</div>
+          <div className='task-section__menu'>...</div>
+        </div>
+      </div>
+
+      <ul className='task-list'>
+        {taskList.map(task => (
+          <MainTask data={task} key={task._id} />
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const Timer: React.FC = () => {
-  const { databaseTaskList } = useGetTasks();
-  const taskArr = sort.sortData(databaseTaskList);
+  const { taskArr: sortedTaskList } = useGetTasks();
 
   return (
     <div>
-      {taskArr.map(({ date, dateISO, tasks }) => {
-        const dateString = new Date(dateISO).toUTCString().slice(0, 12);
-        const totalDayTime = getTotalDayTime(tasks);
-
-        if (!tasks.length) {
+      {sortedTaskList.map(({ dateISO, mainTaskList }) => {
+        if (!mainTaskList.length) {
           return null;
         }
 
-        return (
-          <div className='task-section' key={date}>
-            <div className='task-section__wrapper'>
-              <div>{dateString}</div>
+        const keyID = _.uniqueId('dayTask_');
+        const dateString = new Date(dateISO).toUTCString().slice(0, 12);
+        const totalDayTime = getTotalDayTime(mainTaskList);
 
-              <div className='task-section__panel'>
-                <div className='task-section__total-time'>{totalDayTime}</div>
-                <div className='task-section__menu'>...</div>
-              </div>
-            </div>
-
-            <ul className='task-list'>
-              {tasks.map(task => (
-                <MainTask data={task} key={task._id} />
-              ))}
-            </ul>
-          </div>
-        );
+        return <DayList key={keyID} taskList={mainTaskList} dateString={dateString} totalDayTime={totalDayTime} />;
       })}
     </div>
   );

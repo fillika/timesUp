@@ -22,7 +22,7 @@ export type TaskType = {
 export type SortedTask = {
   date: string;
   dateISO: string;
-  tasks: TaskType[];
+  mainTaskList: TaskType[];
 };
 
 export type TimeType =   {

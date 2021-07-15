@@ -1,7 +1,7 @@
 .task-list {
   &__task {
     will-change: transform;
-    animation: showUpTask 300ms linear;
+    // animation: showUpTask 300ms linear;
     overflow: hidden;
     @include border-bottom($color-dark);
 
@@ -11,12 +11,12 @@
   }
 }
 
-@keyframes showUpTask {
-  from {
-    transform: scale3d(1, 0.2, 1);
-  }
-  to {
-    transform: scale3d(1, 1, 1);
-  }
-}
+// @keyframes showUpTask {
+//   from {
+//     transform: scale3d(1, 0.2, 1);
+//   }
+//   to {
+//     transform: scale3d(1, 1, 1);
+//   }
+// }
 

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { SortedTask, TaskType } from 'Types/tasks';
+import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
 
 class Sort {
   constructor() {}
@@ -8,23 +8,25 @@ class Sort {
    * Функция сортировки полученных с сервера данных. Мы принимаем данные в "сыром" виде
    * сортированный список тасков по убыванию. В этой функции мы создаем массив объектов, которые объеденены по дате
    */
-  sortData(taskArr: TaskType[]): SortedTask[] {
+  sortData(taskArr: DatabaseTask[]): SortedTask[] {
     const tasks: SortedTask[] = [];
 
-    taskArr.forEach((el: TaskType) => {
+    taskArr.forEach((el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
 
+      // Тут Я создаю самый первый таск
       if (!tasks.length) {
         const sortedTask = this.createFirstSortedTask(el);
         tasks.push(sortedTask);
       } else {
+        // Ищу таски с одинаковой датой
         const index = _.findIndex(tasks, ['date', date]);
 
         if (index === -1) {
           const sortedTask = this.createFirstSortedTask(el);
           tasks.push(sortedTask);
         } else {
-          this.findDuplicatesPush(tasks[index].tasks, el);
+          this.findDuplicatesAndPush(tasks[index].mainTaskList, el);
         }
       }
     });
@@ -33,19 +35,11 @@ class Sort {
   }
 
   createFirstSortedTask(el: TaskType): SortedTask {
-    const date = new Date(el.at).toLocaleDateString();
-
-    const tempObj: SortedTask = {
-      date: '',
-      dateISO: '',
-      tasks: [],
+    return {
+      date: new Date(el.at).toLocaleDateString(),
+      dateISO: el.at,
+      mainTaskList: [el],
     };
-
-    tempObj.date = date;
-    tempObj.dateISO = el.at;
-    tempObj.tasks.push(el);
-
-    return tempObj;
   }
 
   /**
@@ -55,7 +49,7 @@ class Sort {
    * поэтому, мы добавляем поле time, в котором перечисляем все время для тасков с одинаковыми именами и суммируем
    * duration, чтобы меньше вычислений делать при рендере
    */
-  findDuplicatesPush(taskArr: TaskType[], el: TaskType) {
+  findDuplicatesAndPush(taskArr: TaskType[], el: TaskType) {
     const index = _.findIndex(taskArr, ['name', el.name]);
     const task = taskArr[index];
 
@@ -68,8 +62,13 @@ class Sort {
 
         task.duration += el.duration;
       } else {
-        task.time.push(this.createTask(el));
-        task.duration += el.duration;
+        const index = _.findIndex(task.time, ['_id', el._id]);
+
+        // * Таски по какой-то причине дублируются. Отсеиваю дубликаты
+        if (index === -1) {
+          task.time.push(this.createTask(el));
+          task.duration += el.duration;
+        }
       }
     } else {
       taskArr.push(el);
