@@ -50,8 +50,7 @@ class TasksAPI extends API {
     const urlWithID = `${this.tasksUrl}/${id}`;
     const errMessage = 'Ошибка при удалении таска по ID в методе deleteTaskByID';
 
-    const response = await fetch(urlWithID, headers).then(response => this.createErr(response, errMessage));
-    return response.json();
+    await fetch(urlWithID, headers).then(response => this.createErr(response, errMessage));
   }
 
   async deleteTaskByName(data = {}, token: string) {

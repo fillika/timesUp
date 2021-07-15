@@ -36,6 +36,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList: newArr,
       };
     }
+
     case 'UPDATE_TASK_LIST':
       return {
         ...state,
@@ -46,6 +47,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       const { name, date, newName } = action.payload;
       const newArr = state.databaseTaskList.map(task => {
         const isDateEqual = new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
+
         if (task.name === name && isDateEqual) {
          task.name = newName;
          return task;
@@ -67,13 +69,15 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
 
     case 'DELETE_TASKS_BY_ID': {
-      const newArr = [...state.databaseTaskList];
-      _.remove(newArr, task => task._id === action.payload.taskID);
+      const filteredArr = state.databaseTaskList.filter(task => task._id !== action.payload.taskID)
 
+
+      console.log(filteredArr);
+      
       return {
         ...state,
-        taskArr: sort.sortData(newArr),
-        databaseTaskList: newArr,
+        taskArr: sort.sortData(filteredArr),
+        databaseTaskList: filteredArr,
       };
     }
 

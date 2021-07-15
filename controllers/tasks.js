@@ -1,6 +1,6 @@
+const _ = require("lodash");
 const { TaskModel } = require("../models/task");
 const taskManager = require("../utils/Task");
-const _ = require("lodash");
 const AppError = require("../utils/Error");
 const asyncCatchHandler = require("../utils/asyncCatchHandler");
 
@@ -38,7 +38,6 @@ async function createTask(req, res, next) {
     // Если это разные дни, тогда мы разбиваем таск и создаем 2 задачи
     const taskArray = taskManager.createTaskFromNextDay(req.body);
     const tasks = await TaskModel.create(taskArray);
-    const result = await getTasks(TaskModel, req.user.id, limit);
 
     res.status(200).json({
       status: "success",
@@ -46,14 +45,12 @@ async function createTask(req, res, next) {
       message: "All tasks have been created",
       data: {
         task: tasks,
-        tasks: result,
       },
     });
   } else {
     const newTask = JSON.parse(JSON.stringify(req.body));
     newTask.userID = req.user.id;
     const task = await TaskModel.create(newTask);
-    const result = await getTasks(TaskModel, req.user.id, limit);
 
     res.status(200).json({
       status: "success",
@@ -61,7 +58,6 @@ async function createTask(req, res, next) {
       message: "Task has been created",
       data: {
         task,
-        tasks: result,
       },
     });
   }
@@ -69,9 +65,8 @@ async function createTask(req, res, next) {
 async function updateTask(req, res, next) {
   const { id } = req.params;
   await TaskModel.findByIdAndUpdate(id, req.body);
-  const result = await getTasks(TaskModel, req.user.id, limit);
 
-  res.status(200).json({
+  res.status(204).json({
     status: "success",
     message: "Task was updated",
     data: {
@@ -96,15 +91,11 @@ async function updateManyTasks(req, res, next) {
     };
 
     const updateResult = await TaskModel.updateMany(query, set);
-    const result = await getTasks(TaskModel, req.user.id, limit);
 
     if (updateResult.n > 0) {
-      res.status(200).json({
+      res.status(204).json({
         status: "success",
         message: "Task was deleted",
-        data: {
-          tasks: result,
-        },
       });
     } else {
       next(new AppError("Something went wrong in updateManyTasks", 400));
@@ -123,14 +114,10 @@ async function deleteTaskByID(req, res, next) {
 
   if (id) {
     await TaskModel.findByIdAndDelete(id);
-    const result = await getTasks(TaskModel, req.user.id, limit);
 
-    res.status(200).json({
+    res.status(204).json({
       status: "success",
       message: "Task was deleted",
-      data: {
-        tasks: result,
-      },
     });
   } else {
     next(new AppError("You have to send :ID param in deleteTaskByID", 400));

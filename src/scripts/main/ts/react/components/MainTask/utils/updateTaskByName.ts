@@ -1,7 +1,6 @@
 import { TaskType } from 'Types/tasks';
 import { Dispatch } from 'react';
 import { taskAPI } from 'Api/tasks';
-import { sort } from 'Utils/Sort';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 
 export const updateTaskByName = asyncCatcher(
@@ -21,7 +20,6 @@ export const updateTaskByName = asyncCatcher(
         if (!token) return console.error('Токена нет');
         await taskAPI.updateTaskByName(queryReq, token);
 
-        // dispatch({ type: 'UPDATE_TASK_LIST', payload: sort.sortData(response.data.tasks) });
         dispatch({
           type: 'UPDATE_TASK_LIST_BY_NAME',
           payload: {
