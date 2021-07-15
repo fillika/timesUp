@@ -33,16 +33,13 @@ class TasksAPI extends API {
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     };
 
-    const response = await fetch(url, headers).then(response => this.createErr(response, errMessage));
-    return response.json();
+    await fetch(url, headers).then(response => this.createErr(response, errMessage));
   }
 
   async updateTaskByName(data: { name: string; date: string }, token: string) {
     const headers = this.createHeaders('PATCH', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
     const errMessage = 'Ошибка при обновлении всех тасков по имени в методе updateTaskByName';
-
-    const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
-    return response.json();
+    await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
   }
 
   async deleteTaskByID(id: string, token: string) {

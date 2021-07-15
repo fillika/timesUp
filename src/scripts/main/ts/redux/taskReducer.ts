@@ -16,10 +16,38 @@ const initialState: TaskState = {
   databaseTaskList: [],
 };
 
+// Utils
+
+const updateTaskByName = (state: TaskState, payload: { name: string; date: string; newName: string }) => {
+  const { name, date, newName } = payload;
+
+  return state.databaseTaskList.map(task => {
+    const isDateEqual = new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
+
+    if (task.name === name && isDateEqual) {
+      task.name = newName;
+      return task;
+    }
+
+    return task;
+  });
+};
+const updateTaskByID = (state: TaskState, payload: { newName: string; taskID: string; }) => {
+  const { newName, taskID } = payload;
+
+  return state.databaseTaskList.map(task => {
+    if (task._id === taskID) {
+      task.name = newName;
+      return task;
+    }
+
+    return task;
+  });
+};
+
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
     case 'GET_ALL_TASKS':
-
       return {
         ...state,
         databaseTaskList: action.payload.databaseTaskList,
@@ -34,39 +62,21 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
     }
 
-    case 'UPDATE_TASK_LIST':
-      return {
-        ...state,
-        taskArr: action.payload,
-      };
-
     case 'UPDATE_TASK_LIST_BY_NAME':
-      const { name, date, newName } = action.payload;
-      const newArr = state.databaseTaskList.map(task => {
-        const isDateEqual = new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
-
-        if (task.name === name && isDateEqual) {
-         task.name = newName;
-         return task;
-        }
-
-        return task;
-      });
-
       return {
         ...state,
-        databaseTaskList: newArr,
+        databaseTaskList: updateTaskByName(state, action.payload),
       };
 
     case 'UPDATE_TASK_LIST_BY_ID':
       return {
         ...state,
-        taskArr: action.payload,
+        databaseTaskList: updateTaskByID(state, action.payload),
       };
 
     case 'DELETE_TASKS_BY_ID': {
-      const filteredArr = state.databaseTaskList.filter(task => task._id !== action.payload.taskID)
-      
+      const filteredArr = state.databaseTaskList.filter(task => task._id !== action.payload.taskID);
+
       return {
         ...state,
         databaseTaskList: filteredArr,

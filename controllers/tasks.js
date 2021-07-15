@@ -69,11 +69,9 @@ async function updateTask(req, res, next) {
   res.status(204).json({
     status: "success",
     message: "Task was updated",
-    data: {
-      tasks: result,
-    },
   });
 }
+
 async function updateManyTasks(req, res, next) {
   const { name, date, set } = req.body;
 
