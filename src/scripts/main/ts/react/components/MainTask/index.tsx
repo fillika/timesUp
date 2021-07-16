@@ -26,7 +26,7 @@ export const MainTask: React.FC<TaskData> = ({ data }) => {
         <div className='task-panel'>
           <DeleteIcon isTyping={isTyping} onClickHandler={deleteTask} />
           <RangeTime data={data} />
-          <ContinueButton name={name} />
+          <ContinueButton name={name}  />
         </div>
       </div>
 

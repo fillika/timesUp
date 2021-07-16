@@ -1,4 +1,4 @@
-import { useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import { useEffect, ChangeEvent, KeyboardEvent, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { time } from 'Utils/Time';
@@ -10,11 +10,14 @@ import _ from 'lodash';
 
 export function useHeader() {
   const dispatch = useDispatch();
-  const { activeTask, app: {token} } = useSelector((state: RootState) => state);
+  const {
+    activeTask,
+    app: { token },
+  } = useSelector((state: RootState) => state);
   const { activeTaskErrorHandler, createTaskErrorHandler } = useGlobalError();
 
   console.log('Render[Header]');
-  
+
   useEffect(() => {
     if (token) {
       getActiveTask(activeTaskErrorHandler, token, dispatch);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import playBtn from 'Images/icons/play.svg';
 import { usePresenter } from './hooks/usePresenter';
 import { useSelector } from 'react-redux';
@@ -8,15 +8,22 @@ type ContinueButton = {
   name: string;
 };
 
-export const ContinueButton: React.FC<ContinueButton> = ({ name }) => {
-  const { activeTask } = useSelector((state: RootState) => state);
-  const [startTask] = usePresenter(name);
+// memo стоит на true, чтобы кнопка продолжения не рендерилась при изменении имени таска
+export const ContinueButton = memo<ContinueButton>(
+  ({ name }) => {    const { isTimeActive } = useSelector((state: RootState) => state.activeTask);
+    const [startTask] = usePresenter(name);
 
-  return (
-    <div
-      onClick={startTask}
-      className={`task-panel__icon task-panel__icon--play ${activeTask.isTimeActive && 'disabled'}`}>
-      <img src={playBtn} alt='Продолжить задачу' />
-    </div>
-  );
-};
+    console.log('Render[ContinueButton]');
+
+    return (
+      <div
+        onClick={startTask}
+        className={`task-panel__icon task-panel__icon--play ${isTimeActive && 'disabled'}`}>
+        <img src={playBtn} alt='Продолжить задачу' />
+      </div>
+    );
+  },
+  (prev, next) => {
+    return true
+  }
+);
