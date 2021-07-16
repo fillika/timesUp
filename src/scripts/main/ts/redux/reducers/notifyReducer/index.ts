@@ -30,4 +30,4 @@ export const notifyReducer = (state = initialState, action: any) => {
     default:
       return state;
   }
-}
+};
