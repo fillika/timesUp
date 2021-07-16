@@ -5,12 +5,11 @@ export const HeaderInput = memo<{ name: string; isTimeActive: boolean; toggleTim
   ({ toggleTimer, name, isTimeActive }) => {
     const dispatch = useDispatch();
 
-    useEffect(() => console.log('Render[HeaderInput]'));
-
     const onInput = (event: ChangeEvent<HTMLInputElement>) =>
       dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: event.target.value });
 
     const onKeyPress = (event: KeyboardEvent) => event.key === 'Enter' && toggleTimer();
+    // useEffect(() => console.log('Render[HeaderInput]'));
 
     return (
       <div className='header__input-wrapper'>

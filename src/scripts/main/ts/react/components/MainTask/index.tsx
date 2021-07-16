@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { TaskType } from 'Types/tasks';
 import { SubTasks } from 'App/components/SubTasks';
 import { useHandlers } from './hooks/useHandlers';
-import { Counter } from './Counter';
+import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
 import { TaskPanel } from './components/TaskPanel';
 

@@ -14,7 +14,7 @@ export const DayList: FC<{ dateString: string; totalDayTime: string; taskList: T
   taskList,
 }) => {
   const isTimeActive = useSelector((state: RootState) => state.activeTask.isTimeActive, shallowEqual);
-  useEffect(() => console.log('Render[DayList]'));
+  // useEffect(() => console.log('Render[DayList]'));
 
   return (
     <StateContext.Provider value={{ isTimeActive }}>

@@ -3,7 +3,6 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useUnmounting } from 'App/hooks/useUnmounting';
 import { deleteTaskByName } from '../utils/deleteTaskByName';
-import { updateTaskByName } from '../utils/updateTaskByName';
 import { TaskType } from 'Types/tasks';
 import { useGlobalError } from 'App/hooks/useGlobalError';
 
@@ -24,7 +23,7 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const [isTyping, setTyping] = useState(false);
   const { token } = useSelector((state: RootState) => state.app, shallowEqual);
   const [isUnmounting, startUnmount] = useUnmounting();
-  const { delTaskByNameErrHadler, updTaskByNameErrHadler } = useGlobalError();
+  const { delTaskByNameErrHadler } = useGlobalError();
 
   const deleteTask = () => {
     if (isTyping) return;

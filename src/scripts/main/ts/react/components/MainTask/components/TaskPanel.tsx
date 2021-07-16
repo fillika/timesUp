@@ -12,7 +12,7 @@ type TaskPanel = {
 };
 
 export const TaskPanel = memo<TaskPanel>(({ isTyping, name, data, deleteTask }) => {
-  useEffect(() => console.log('Render[TaskPanel]'));
+  // useEffect(() => console.log('Render[TaskPanel]'));
 
   return (
     <div className='task-panel'>
