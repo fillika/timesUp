@@ -14,37 +14,37 @@ class Task {
   }
 
   createTaskListFromLongDate(data, start, duration, result) {
-    const { nextDayInMS, restOfCurrentDay } = this.countNextDayAndRest(start);
+    const { startNextDayTimestamp, restTimeOfCurrentDayInMS } = this.countNextDayAndRest(start);
 
     result.push({
       ...data,
       start: start,
-      stop: nextDayInMS - 1,
-      at: nextDayInMS - 1,
-      duration: restOfCurrentDay,
-    });
+      stop: startNextDayTimestamp - 1,
+      at: startNextDayTimestamp - 1,
+      duration: restTimeOfCurrentDayInMS,
+    });    
 
-    start = nextDayInMS;
+    start = startNextDayTimestamp;
     duration -= this.oneDayLength;
 
-    if (duration > 0) {
+    if (duration > this.oneDayLength) {
       this.createTaskListFromLongDate(data, start, duration, result);
     } else {
-      start = nextDayInMS;
-      // Тут Я еще раз вызываю функцию отдельно. Потому что до этого мы вычитали полное кол-во времени, не учитывая 
-      // Самого первого кусочка времени, которое осталось в самой первой половине таска
-      const oldData = this.countNextDayAndRest(data.start);
-
       result.push({
         ...data,
         start: start,
         stop: new Date(data.stop).getTime(),
         at: new Date(data.stop).getTime() + 1000,
-        duration: duration + this.oneDayLength - oldData.restOfCurrentDay,
+        duration: new Date(data.stop).getTime() - start
       });
     }
   }
 
+  /**
+   * Функция вычисляет кол-во миллисекунд до конца дня с момента начала таска.
+   * @param {number} start кол-во миллисекунд, время начала таска 
+   * @returns Возвращает таймштамп начала следующего дня и остаток текущего дня
+   */
   countNextDayAndRest(start) {
     const startDay = {
       day: new Date(start).getDate(),
@@ -55,12 +55,12 @@ class Task {
     const currentDate = `${startDay.year}-${startDay.month}-${startDay.day}`;
 
     const currentDayInMs = new Date(currentDate).getTime(); // Нахожу начало текущего дня
-    const nextDayInMS = currentDayInMs + this.oneDayLength; // Нахожу начало следующего дня
-    const restOfCurrentDay = nextDayInMS - new Date(start).getTime(); // Это остаток для текущего дня у задачи.
+    const startNextDayTimestamp = currentDayInMs + this.oneDayLength; // Нахожу начало следующего дня
+    const restTimeOfCurrentDayInMS = startNextDayTimestamp - new Date(start).getTime(); // Это остаток для текущего дня у задачи.
 
     return {
-      nextDayInMS,
-      restOfCurrentDay,
+      startNextDayTimestamp,
+      restTimeOfCurrentDayInMS,
     };
   }
 }
