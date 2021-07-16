@@ -9,11 +9,10 @@ import { Counter } from './Counter';
 
 type TaskData = {
   data: TaskType;
-  isTimeActive: boolean;
 };
 
 export const MainTask = memo<TaskData>(
-  ({ data, isTimeActive }) => {
+  ({ data }) => {
     const [isUnmounting, isActive, isTyping, name, setActive, deleteTask, updateTask, onChange, onKeyPress] =
       useHandlers(data);
 
@@ -25,10 +24,11 @@ export const MainTask = memo<TaskData>(
           <div className='task__input-wrapper'>
             <input type='text' onBlur={updateTask} onChange={onChange} onKeyPress={onKeyPress} defaultValue={name} />
           </div>
+
           <div className='task-panel'>
             <DeleteIcon isTyping={isTyping} onClickHandler={deleteTask} />
             <RangeTime data={data} />
-            <ContinueButton name={name} isActive={isTimeActive} />
+            <ContinueButton name={name} />
           </div>
         </div>
 

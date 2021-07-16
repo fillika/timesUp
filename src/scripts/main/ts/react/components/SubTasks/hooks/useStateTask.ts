@@ -9,7 +9,6 @@ import { updateTaskByID } from '../utils/updateTask';
 type useStateTaskType = [
   boolean,
   boolean,
-  boolean,
   string,
   (event: FocusEvent<HTMLInputElement>) => Promise<void>,
   () => void,
@@ -20,7 +19,7 @@ type useStateTaskType = [
 export function useStateTask(name: string, _id: string): useStateTaskType {
   const dispatch = useDispatch();
   const {
-    activeTask: { name: taskName, isTimeActive },
+    activeTask: { name: taskName },
     app: { token },
   } = useSelector((state: RootState) => state, shallowEqual);
   const [value, setValue] = useState(name);
@@ -48,5 +47,5 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
     }
   };
 
-  return [isUnmounting, isTyping, isTimeActive, value, updateTask, deleteTask, onChange, onKeyPress];
+  return [isUnmounting, isTyping, value, updateTask, deleteTask, onChange, onKeyPress];
 }

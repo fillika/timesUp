@@ -1,11 +1,14 @@
+import { useContext } from 'react';
 import { useDispatch, shallowEqual, useStore, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { taskHandler } from 'Utils/TaskHandler';
+import { StateContext } from 'App/components/Timer/components/DayList';
 
-export function usePresenter(name: string): [() => void] {
+export function usePresenter(name: string): [() => void, boolean] {
   const dispatch = useDispatch();
   const store = useStore();
   const { token } = useSelector((state: RootState) => state.app, shallowEqual);
+  const { isTimeActive } = useContext(StateContext);
 
   function startTask() {
     dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
@@ -14,5 +17,5 @@ export function usePresenter(name: string): [() => void] {
     token && taskHandler.toggleTimer(activeTaskCopy, dispatch, token);
   }
 
-  return [startTask];
+  return [startTask, isTimeActive];
 }
