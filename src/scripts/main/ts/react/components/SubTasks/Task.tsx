@@ -12,7 +12,10 @@ type Task = {
 };
 
 export const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
-  const [isUnmounting, isTyping, value, updateTask, deleteTask, onChange, onKeyPress] = useStateTask(name, _id);
+  const [isUnmounting, isTyping, isTimeActive, value, updateTask, deleteTask, onChange, onKeyPress] = useStateTask(
+    name,
+    _id
+  );
 
   return (
     <div className={`task task--child ${isUnmounting ? 'task--unmounting' : ''}`}>
@@ -23,7 +26,7 @@ export const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
         <div>
           <Time start={start} stop={stop} />
         </div>
-        <ContinueButton name={name} />
+        <ContinueButton name={name} isActive={isTimeActive} />
       </div>
     </div>
   );

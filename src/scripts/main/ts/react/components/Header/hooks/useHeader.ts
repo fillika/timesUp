@@ -1,23 +1,29 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
+import _ from 'lodash';
+import { createSelector } from 'reselect';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useGlobalError } from 'App/hooks/useGlobalError';
 import { taskHandler } from 'Utils/TaskHandler';
 import { time } from 'Utils/Time';
 import { getActiveTask } from '../utils/getActiveTask';
 import { createTask } from '../utils/createTask';
-import _ from 'lodash';
+
+const memoState = createSelector(
+  (state: RootState) => state,
+  ({ activeTask, app }: RootState) => ({ activeTask, app })
+);
 
 export function useHeader() {
   const dispatch = useDispatch();
-  const {
-    activeTask: { isTimeActive, duration, start, name, totalTime },
-    app: { token },
-  } = useSelector((state: RootState) => state);
-  const { activeTaskErrorHandler, createTaskErrorHandler } = useGlobalError();
   const store = useStore();
+  const {
+    activeTask,
+    app: { token },
+  } = useSelector(memoState);
 
-  console.log('Render[Header]');
+  const { isTimeActive, duration, start, name, totalTime } = activeTask;
+  const { activeTaskErrorHandler, createTaskErrorHandler } = useGlobalError();
 
   useEffect(() => {
     if (token) {
@@ -28,14 +34,14 @@ export function useHeader() {
   useEffect(() => {
     if (token) {
       if (isTimeActive) {
-        taskHandler.updateActiveTask(token, store.getState().activeTask);
+        taskHandler.updateActiveTask(token, activeTask);
       }
     }
   }, [isTimeActive]);
 
   useEffect(() => {
     if (duration > 0 && token) {
-      createTask(createTaskErrorHandler, store.getState().activeTask, dispatch, token);
+      createTask(createTaskErrorHandler, activeTask, dispatch, token);
       dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
       document.title = `TimesUp`;
     }
@@ -63,6 +69,8 @@ export function useHeader() {
     () => token && taskHandler.toggleTimer(store.getState().activeTask, dispatch, token),
     []
   );
+
+  console.log('Render[Header]');
 
   return {
     isTimeActive,

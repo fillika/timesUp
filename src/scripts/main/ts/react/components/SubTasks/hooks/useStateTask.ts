@@ -1,5 +1,5 @@
-import { FocusEvent, useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FocusEvent, useState, useEffect, ChangeEvent, KeyboardEvent, useMemo } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useUnmounting } from 'App/hooks/useUnmounting';
 import { useGlobalError } from 'App/hooks/useGlobalError';
@@ -7,6 +7,7 @@ import { deleteTaskByID } from '../utils/deleteTaskByID';
 import { updateTaskByID } from '../utils/updateTask';
 
 type useStateTaskType = [
+  boolean,
   boolean,
   boolean,
   string,
@@ -19,9 +20,9 @@ type useStateTaskType = [
 export function useStateTask(name: string, _id: string): useStateTaskType {
   const dispatch = useDispatch();
   const {
-    activeTask: { name: taskName },
+    activeTask: { name: taskName, isTimeActive },
     app: { token },
-  } = useSelector((state: RootState) => state);
+  } = useSelector((state: RootState) => state, shallowEqual);
   const [value, setValue] = useState(name);
   const [isTyping, setTyping] = useState(false);
   const [isUnmounting, startUnmount] = useUnmounting();
@@ -47,5 +48,5 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
     }
   };
 
-  return [isUnmounting, isTyping, value, updateTask, deleteTask, onChange, onKeyPress];
+  return [isUnmounting, isTyping, isTimeActive, value, updateTask, deleteTask, onChange, onKeyPress];
 }
