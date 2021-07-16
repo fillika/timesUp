@@ -1,12 +1,10 @@
-import React, { createContext, FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { TaskType } from 'Types/tasks';
 import { MainTask } from 'App/components/MainTask';
+import { ActiveTaskContext } from 'Scripts/main/ts/utils/Context';
 
-export const StateContext = createContext({
-  isTimeActive: false,
-});
 
 export const DayList: FC<{ dateString: string; totalDayTime: string; taskList: TaskType[] }> = ({
   dateString,
@@ -17,7 +15,7 @@ export const DayList: FC<{ dateString: string; totalDayTime: string; taskList: T
   // useEffect(() => console.log('Render[DayList]'));
 
   return (
-    <StateContext.Provider value={{ isTimeActive }}>
+    <ActiveTaskContext.Provider value={{ isTimeActive }}>
       <div className='task-section'>
         <div className='task-section__wrapper'>
           <div>{dateString}</div>
@@ -35,6 +33,6 @@ export const DayList: FC<{ dateString: string; totalDayTime: string; taskList: T
           })}
         </ul>
       </div>
-    </StateContext.Provider>
+    </ActiveTaskContext.Provider>
   );
 };
