@@ -141,7 +141,7 @@ Thanks! Have a good day :)
 Times-up TEAM!
 `
   // Отправить email
-  // await sendEmail(email, 'Восстановление пароля', html)
+  await sendEmail(email, 'Восстановление пароля', html)
 
   res.status(200).json({
     status: 'success',
@@ -152,7 +152,7 @@ Times-up TEAM!
 }
 
 const updatePassword = async (req, res, next) => {
-  const { id ,password, passwordConfirm } = req.body;
+  const { id, password, passwordConfirm } = req.body;
   // Это в базу для будущего сравнения
 
   const hashedToken = crypto

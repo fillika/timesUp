@@ -2,12 +2,12 @@ const nodemailer = require("nodemailer");
 const AppError = require("./Error");
 
 let transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
+  host: process.env.SMTP_HOST_BZ,
+  port: process.env.SMTP_PORT_BZ,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: process.env.EMAIL_USERNAME, // generated ethereal user
-    pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+    user: process.env.SMTP_LOGIN_BZ, // generated ethereal user
+    pass: process.env.SMTP_PASSWORD_BZ, // generated ethereal password
   },
 });
 
