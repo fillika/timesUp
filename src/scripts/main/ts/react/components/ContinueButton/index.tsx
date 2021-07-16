@@ -10,7 +10,7 @@ type ContinueButton = {
 export const ContinueButton = memo<ContinueButton>(({ name }) => {
   const [startTask, isTimeActive] = usePresenter(name);
 
-  useEffect(() => console.log('Render[ContinueButton]'));
+  // useEffect(() => console.log('Render[ContinueButton]'));
 
   return (
     <div onClick={startTask} className={`task-panel__icon task-panel__icon--play ${isTimeActive && 'disabled'}`}>

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { HeaderInput } from './component/HeaderInput';
+import { HeaderInput } from './components/HeaderInput';
 import { useHeader } from './hooks/useHeader';
-import { TotalTime } from './component/TotalTime';
-import { ToggleButton } from './component/ToggleButton';
+import { TotalTime } from './components/TotalTime';
+import { ToggleButton } from './components/ToggleButton';
 
 const Header: React.FC = () => {
   const { isTimeActive, name, totalTime, toggleTimer } = useHeader();
