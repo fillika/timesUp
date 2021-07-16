@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FocusEvent, KeyboardEvent, useMemo } from 'react';
+import { useState, ChangeEvent, FocusEvent, KeyboardEvent, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useUnmounting } from 'App/hooks/useUnmounting';
@@ -13,10 +13,8 @@ type useHandlers = [
   boolean,
   string,
   React.Dispatch<React.SetStateAction<boolean>>,
+  React.Dispatch<React.SetStateAction<boolean>>,
   () => void,
-  (event: React.FocusEvent<HTMLInputElement>) => Promise<void>,
-  (event: ChangeEvent<HTMLInputElement>) => void,
-  (event: KeyboardEvent) => void
 ];
 
 export const useHandlers = (data: TaskType): useHandlers => {
@@ -33,20 +31,7 @@ export const useHandlers = (data: TaskType): useHandlers => {
     token && deleteTaskByName(delTaskByNameErrHadler, data, token, startUnmount, dispatch);
   };
 
-  const updateTask = (event: FocusEvent<HTMLInputElement>) =>
-    updateTaskByName(updTaskByNameErrHadler, event, data, token, dispatch);
+  useEffect(() => console.log('Render[MainTask]'));
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value), setActive(false), setTyping(true);
-  };
-
-  const onKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' && event.target instanceof HTMLInputElement) {
-      event.target.blur();
-    }
-  };
-
-  console.log('Render[MainTask]');
-
-  return [isUnmounting, isActive, isTyping, name, setActive, deleteTask, updateTask, onChange, onKeyPress];
+  return [isUnmounting, isActive, isTyping, name, setActive, setTyping, deleteTask];
 };
