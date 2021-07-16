@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { MainTask } from 'App/components/MainTask';
 import { TaskType } from 'Types/tasks';
 import { time } from 'Utils/Time';
@@ -24,14 +24,17 @@ const DayList: FC<{ dateString: string; totalDayTime: string; taskList: TaskType
 
         <div className='task-section__panel'>
           <div className='task-section__total-time'>{totalDayTime}</div>
-          <div className='task-section__menu'>...</div>
+          <div className='task-section__menu'>
+            ...
+          </div>
         </div>
       </div>
 
       <ul className='task-list'>
-        {taskList.map(task => (
-          <MainTask data={task} key={task._id} />
-        ))}
+        {taskList.map(task => {
+          const memorizedTask = useMemo(() => task, []);
+          return <MainTask data={memorizedTask} key={task._id} />;
+        })}
       </ul>
     </div>
   );
