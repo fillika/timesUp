@@ -66,7 +66,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
     case 'CREATE_TASK': {
       return {
         ...state,
-        databaseTaskList: [action.payload.newTask, ...state.databaseTaskList],
+        databaseTaskList: [...action.payload.newTask, ...state.databaseTaskList],
       };
     }
     case 'UPDATE_TASK_LIST_BY_NAME': {

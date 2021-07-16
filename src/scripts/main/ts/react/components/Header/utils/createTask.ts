@@ -11,11 +11,15 @@ export const createTask = asyncCatcher(
     token: string
   ) => {
     const result = await taskAPI.createTask(task, token);
+    let payload;
+
+    if (Array.isArray(result.data.task)) payload = result.data.task;
+    else payload = [result.data.task];
 
     if (result.status === 'success') {
       switch (result.action) {
         case 'CREATE':
-          dispatch({ type: 'CREATE_TASK', payload: { newTask: result.data.task } });
+          dispatch({ type: 'CREATE_TASK', payload: { newTask: payload } });
           break;
         default:
           break;

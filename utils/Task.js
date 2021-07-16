@@ -10,7 +10,7 @@ class Task {
     let start = dataCopy.start,
       duration = dataCopy.duration;
     this.createTaskListFromLongDate(data, start, duration, result);
-    return result;
+    return result.reverse();
   }
 
   createTaskListFromLongDate(data, start, duration, result) {
