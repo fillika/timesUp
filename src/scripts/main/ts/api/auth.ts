@@ -17,7 +17,7 @@ class AuthAPI extends API {
       JSON.stringify(data)
     );
     const response = await fetch(this.loginUrl, headers).then(response => this.createErr(response));
-    return response.json();
+    return response;
   }
 
   async signUp(data = {}) {

@@ -1,38 +1,25 @@
-import { Dispatch } from 'react';
 import { createNotify } from 'Utils/helpers/createNotify';
-import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
-import { useGlobalError } from 'App/hooks/useGlobalError';
 import { authAPI } from 'Api/auth';
 import { useDispatch } from 'react-redux';
 import { LogInValues } from './useFormikLogIn';
 import { FormikHelpers } from 'formik';
 import { useStatusState } from 'App/hooks/useStatusState';
 import { AppError } from 'Utils/Error';
+import { asyncStatus } from 'Types/async';
 
 export const useLogInState = (): [
   boolean,
+  asyncStatus,
   (values: LogInValues, formikHelpers: FormikHelpers<LogInValues>) => void
 ] => {
-  const { getTasksErrorHandlerErr } = useGlobalError();
   const dispatch = useDispatch();
   const [status, setStatus] = useStatusState();
   const statusState: boolean = status === 'pending' ? true : false;
 
-  const logIn = asyncCatcher(async (values: LogInValues, dispatch: Dispatch<any>) => {
-    const response = await authAPI.logIn(values);
-
-    if (response.status === 'success') {
-      const token = response.data.token;
-      createNotify('success', 'Добро пожаловать!', dispatch);
-      getAllTasks(getTasksErrorHandlerErr, token, dispatch);
-    }
-
-    // * Не уверен, что до этого куска кода доходит код
-    if (response.status === 'fail') {
-      localStorage.removeItem('JWT');
-      createNotify('error', response.message, dispatch);
-    }
+  const logIn = asyncCatcher(async (values: LogInValues) => {
+    await authAPI.logIn(values);
+    setStatus('success');
   });
 
   const authErrorHandler = (err: AppError) => {
@@ -60,5 +47,5 @@ export const useLogInState = (): [
     logIn(authErrorHandler, values, dispatch);
   };
 
-  return [statusState, onSubmit];
+  return [statusState, status, onSubmit];
 };

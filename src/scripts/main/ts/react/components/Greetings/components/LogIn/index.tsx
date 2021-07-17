@@ -3,10 +3,11 @@ import { useLogInState } from './hooks/useLogInState';
 import { useFormikLogIn } from './hooks/useFormikLogIn';
 import { FormikHOC } from 'App/components/FormikWrapper';
 import { Link } from 'react-router-dom';
+import { ConfirmMessage } from '../ConfirmMessage';
 
 export const LogIn = () => {
   const [initialValues, validationSchema, data] = useFormikLogIn();
-  const [status, onSubmit] = useLogInState();
+  const [status, asyncStatus, onSubmit] = useLogInState();
 
   const config = {
     initialValues,
@@ -15,6 +16,10 @@ export const LogIn = () => {
     validateOnBlur: false,
     validateOnChange: false,
   };
+
+  if (asyncStatus === 'success') {
+    return <ConfirmMessage />;
+  }
 
   return (
     <FormikHOC data={data} config={config}>

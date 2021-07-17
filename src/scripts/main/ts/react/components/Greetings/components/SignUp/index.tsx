@@ -2,6 +2,7 @@ import React from 'react';
 import { useFormikSignUp } from './hooks/useFormikSignUp';
 import { useSignUpState } from './hooks/useSignUpState';
 import { FormikHOC } from 'App/components/FormikWrapper';
+import { ConfirmMessage } from '../ConfirmMessage/index';
 
 export const SignUp = () => {
   const [initialValues, validationSchema, data] = useFormikSignUp();
@@ -16,9 +17,8 @@ export const SignUp = () => {
   };
 
   if (asyncStatus === 'success') {
-    return <div>На вашу почту было отправлено письмо с инструкцией для завершения регистрации.</div>;
+    return <ConfirmMessage />;
   }
-
   return (
     <FormikHOC data={data} config={config}>
       <div className='form__policy'>

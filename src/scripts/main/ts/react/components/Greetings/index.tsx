@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGreetingsState } from './hooks/useGreetingsState';
-import { LogIn } from './LogIn';
-import { SignUp } from './SignUp/index';
+import { LogIn } from './components/LogIn';
+import { SignUp } from './components/SignUp/index';
 
 const Greetings = () => {
   const [isRegister, toggleRegister] = useGreetingsState();

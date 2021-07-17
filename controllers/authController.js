@@ -12,15 +12,16 @@ const resetPasswordEmail = fs.readFileSync(`${__dirname}/../templates/resetPassw
 const registrationEmail = fs.readFileSync(`${__dirname}/../templates/registration.html`, 'utf8');
 
 // Utils
-const signToken = (id) =>
+const signToken = (id) => {
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+}
 
 const sendConfirmRegEmail = async (user, req) => {
   const token = signToken(user._id);
   const href = `${req.protocol}://${req.get('host')}/confirmRegister/${token}`;
-  const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, name)
+  const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, req.body.name)
 
   // Отправить email
   await sendEmail(req.body.email, 'New register', html);
@@ -170,7 +171,7 @@ const forgotPassword = async (req, res, next) => {
   const user = await UserModel.findOne({ email })
 
   if (!user) {
-    return next(new AppError('This email does not exist', 404))
+    return next(new AppError('This email doesn\'t exist', 404))
   }
 
   const resetToken = user.createResetToken();
