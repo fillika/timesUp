@@ -1,4 +1,5 @@
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+const fs = require('fs');
 const { promisify } = require("util");
 const asyncCatchHandler = require("../utils/asyncCatchHandler");
 const { UserModel } = require("../models/userModel");
@@ -6,6 +7,8 @@ const AppError = require("../utils/Error");
 const fetch = require('isomorphic-fetch');
 const crypto = require('crypto');
 const { sendEmail } = require('../utils/nodeMailer');
+
+const resetPasswordEmail = fs.readFileSync(`${__dirname}/../templates/resetPassword.html`, 'utf8');
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -125,21 +128,9 @@ const forgotPassword = async (req, res, next) => {
   const resetToken = user.createResetToken();
   await user.save();
 
-  const html = `
-Hello friend!
-<br>
-If you want to reset your password, please, follow to link
-<br>
-<a href="${req.protocol}://${req.get('host')}/forgotPassword/${resetToken}" target="_blank">Reset password</a>
-<br>
-If you don't wanna change your password or received this email by mistake
-<br>
-Please, ignore or delete them.
-<br>
-Thanks! Have a good day :)
-<br>
-Times-up TEAM!
-`
+  const href = `${req.protocol}://${req.get('host')}/forgotPassword/${resetToken}`;
+  const html = resetPasswordEmail.replace(/{%href%}/gi, href);
+
   // Отправить email
   await sendEmail(email, 'Восстановление пароля', html)
 
