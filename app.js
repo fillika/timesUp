@@ -13,10 +13,14 @@ const globalErrorHandler = require("./controllers/errorController.js");
 
 connectionDB();
 
-var allowList = ["http://127.0.0.1:5500", "http://localhost:3000/", "http://localhost:5500/"];
+var allowList = [
+  "http://localhost:3000/",
+  "https://localhost:3000/",
+  "http://127.0.0.1:3000/",
+  "https://127.0.0.1:3000/",
+];
 
 var corsOptions = {
-  // origin: "http://127.0.0.1:5500",
   origin: allowList,
   // methods: "POST",
   // allowedHeaders: "application/json",
