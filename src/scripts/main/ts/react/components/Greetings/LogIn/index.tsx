@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export const LogIn = () => {
   const [initialValues, validationSchema, data] = useFormikLogIn();
-  const [onSubmit] = useLogInState();
+  const [status, onSubmit] = useLogInState();
 
   const config = {
     initialValues,
@@ -19,11 +19,13 @@ export const LogIn = () => {
   return (
     <FormikHOC data={data} config={config}>
       <div>
-        <Link to='/forgotPassword' className="form__link form__link--forgot-password">I forgot my password :(</Link>
+        <Link to='/forgotPassword' className='form__link form__link--forgot-password'>
+          I forgot my password :(
+        </Link>
       </div>
 
       <div className='form__button-wrapper'>
-        <button className={`button button--success`} type='submit'>
+        <button className={`button button--success`} type='submit' disabled={status}>
           Войти
         </button>
       </div>

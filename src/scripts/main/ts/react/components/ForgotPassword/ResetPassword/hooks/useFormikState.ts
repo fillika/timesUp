@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Dispatch, useState } from 'react';
 import { createNotify } from 'Utils/helpers/createNotify';
 import { AppError } from 'Utils/Error';
+import { useStatusState } from 'App/hooks/useStatusState';
 
 type FormikValues = {
   email: string;
@@ -19,11 +20,13 @@ type FormikData = {
   };
 };
 
-type HookState = [FormikValues, any, FormikData, (values: FormikValues) => void, boolean];
+type HookState = [boolean, FormikValues, any, FormikData, (values: FormikValues) => void, boolean];
 
 export const useFormikState = (): HookState => {
   const dispatch = useDispatch();
   const [isMailSended, setMailSended] = useState(false);
+  const [status, setStatus] = useStatusState();
+  const statusState: boolean = status === 'pending' ? true : false;
 
   const initialValues: FormikValues = {
     email: '',
@@ -42,17 +45,16 @@ export const useFormikState = (): HookState => {
     email: Yup.string().email('Invalid email address').required('Email is required'),
   });
 
-  const sendReq = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
+  const resetPassword = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
     const { email } = values;
-    const response = await authAPI.forgotPassword({ email });
+    await authAPI.forgotPassword({ email });
 
-    if (response.status === 'success') {
-      console.log(response.data.id);
-      setMailSended(true);
-    }
+    setMailSended(true);
+    setStatus('success');
   });
 
   const errHandler = (err: AppError) => {
+    setStatus('error');
     let message = 'Ошибка по умолчанию!';
 
     switch (err.statusCode) {
@@ -68,8 +70,9 @@ export const useFormikState = (): HookState => {
   };
 
   const onSubmit = async (values: FormikValues) => {
-    sendReq(errHandler, values, dispatch);
+    setStatus('pending');
+    resetPassword(errHandler, values, dispatch);
   };
 
-  return [initialValues, validationSchema, data, onSubmit, isMailSended];
+  return [statusState, initialValues, validationSchema, data, onSubmit, isMailSended];
 };

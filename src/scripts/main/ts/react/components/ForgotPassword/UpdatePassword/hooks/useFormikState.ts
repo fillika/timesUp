@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { authAPI } from 'Api/auth';
 import { AppError } from 'Utils/Error';
 import { createNotify } from 'Utils/helpers/createNotify';
-import { asyncStatus } from 'Types/async';
+import { useStatusState } from 'App/hooks/useStatusState';
 
 type FormikValues = {
   password: string;
@@ -22,13 +22,14 @@ type FormikData = {
   };
 };
 
-type HookState = [asyncStatus, FormikValues, any, FormikData, (values: FormikValues) => void];
+type HookState = [boolean, FormikValues, any, FormikData, (values: FormikValues) => void];
 
 export const useFormikState = (): HookState => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [status, setStatus] = useState<asyncStatus>('idle');
+  const [status, setStatus] = useStatusState();
+  const statusState: boolean = status === 'pending' || status === 'error' ? true : false 
 
   const initialValues: FormikValues = {
     password: '',
@@ -82,5 +83,5 @@ export const useFormikState = (): HookState => {
 
   const onSubmit = (values: FormikValues) => updatePassword(errHandler, values, dispatch);
 
-  return [status, initialValues, validationSchema, data, onSubmit];
+  return [statusState, initialValues, validationSchema, data, onSubmit];
 };

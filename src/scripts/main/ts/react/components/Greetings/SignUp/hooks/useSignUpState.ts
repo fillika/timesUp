@@ -6,10 +6,14 @@ import { createNotify } from 'Utils/helpers/createNotify';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { FormikSignUpValues } from './useFormikSignUp';
 import { useDispatch } from 'react-redux';
+import { AppError } from 'Utils/Error';
+import { useStatusState } from 'App/hooks/useStatusState';
 
-export const useSignUpState = (): [(values: FormikSignUpValues) => void] => {
-  const { getTasksErrorHandlerErr, signUpErrorHandler } = useGlobalError();
+export const useSignUpState = (): [boolean, (values: FormikSignUpValues) => void] => {
+  const { getTasksErrorHandlerErr } = useGlobalError();
   const dispatch = useDispatch();
+  const [status, setStatus] = useStatusState();
+  const statusState: boolean = status === 'pending' ? true : false;
 
   const signUp = asyncCatcher(async (values: FormikSignUpValues, dispatch: Dispatch<any>) => {
     const captchaResult = await grecaptcha
@@ -24,11 +28,13 @@ export const useSignUpState = (): [(values: FormikSignUpValues) => void] => {
 
     switch (response.status) {
       case 'success':
+        setStatus('success');
         const token = response.data.token;
         createNotify('success', 'Добро пожаловать!', dispatch);
         getAllTasks(getTasksErrorHandlerErr, token, dispatch);
         break;
       case 'fail':
+        setStatus('error');
         localStorage.removeItem('JWT');
         createNotify('error', response.message, dispatch);
         break;
@@ -38,9 +44,29 @@ export const useSignUpState = (): [(values: FormikSignUpValues) => void] => {
     }
   });
 
+  const signUpErrorHandler = (err: AppError) => {
+    setStatus('error');
+    let message = '';
+    switch (err.statusCode) {
+      case 400:
+        createNotify('error', err.message, dispatch, 5000);
+
+        break;
+      case 404:
+        message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
+        createNotify('error', message, dispatch);
+        break;
+
+      default:
+        createNotify('error', err.message, dispatch);
+        break;
+    }
+  };
+
   const onSubmit = (values: FormikSignUpValues) => {
+    setStatus('pending');
     signUp(signUpErrorHandler, values, dispatch);
   };
 
-  return [onSubmit];
+  return [statusState, onSubmit];
 };

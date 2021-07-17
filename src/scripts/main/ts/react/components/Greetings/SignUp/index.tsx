@@ -5,7 +5,7 @@ import { FormikHOC } from 'App/components/FormikWrapper';
 
 export const SignUp = () => {
   const [initialValues, validationSchema, data] = useFormikSignUp();
-  const [onSubmit] = useSignUpState();
+  const [status, onSubmit] = useSignUpState();
 
   const config = {
     initialValues,
@@ -29,7 +29,7 @@ export const SignUp = () => {
         apply.
       </div>
       <div className='form__button-wrapper'>
-        <button className='button button--primary' type='submit'>
+        <button className='button button--primary' type='submit' disabled={status}>
           Зарегистрироваться
         </button>
       </div>

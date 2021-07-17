@@ -33,40 +33,6 @@ export function useGlobalError() {
     dispatch({ type: 'APP_LOG_OUT' });
   };
 
-  const authErrorHandler = (err: AppError) => {
-    switch (err.statusCode) {
-      case 401:
-        message = 'Неверный логин или пароль';
-        createNotify('error', message, dispatch);
-        break;
-      case 404:
-        message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-        createNotify('error', message, dispatch);
-        break;
-
-      default:
-        createNotify('error', err.message, dispatch);
-        break;
-    }
-  };
-
-  const signUpErrorHandler = (err: AppError) => {
-    switch (err.statusCode) {
-      case 400:
-        createNotify('error', err.message, dispatch, 5000);
-
-        break;
-      case 404:
-        message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-        createNotify('error', message, dispatch);
-        break;
-
-      default:
-        createNotify('error', err.message, dispatch);
-        break;
-    }
-  };
-
   const createTaskErrorHandler = (err: AppError) => {
     commonSwitchCase(err);
   };
@@ -75,7 +41,7 @@ export function useGlobalError() {
     switch (err.statusCode) {
       case 400:
         createNotify('error', err.message, dispatch);
-        break; 
+        break;
       case 401:
         message = 'Пожалуйста, залогиньтесь заново';
         createNotify('warning', message, dispatch);
@@ -105,8 +71,6 @@ export function useGlobalError() {
 
   return {
     getTasksErrorHandlerErr,
-    authErrorHandler,
-    signUpErrorHandler,
     activeTaskErrorHandler,
     createTaskErrorHandler,
     delTaskByNameErrHadler,

@@ -16,7 +16,7 @@ export const UpdatePassword = () => {
   return (
     <FormikHOC data={data} config={config}>
       <div className='form__button-wrapper'>
-        <button className='button button--success' type='submit' disabled={status === 'pending' || status === 'error' ? true : false}>
+        <button className='button button--success' type='submit' disabled={status}>
           Создать новый пароль
         </button>
       </div>

@@ -6,8 +6,7 @@ import { useFormikState } from './hooks/useFormikState';
 const EmailSendedMessage = () => (
   <div>
     <p style={{ marginBottom: 10 }}>
-      На вашу почту было отправлено письмо. 
-      Чтобы продолжить процедуру восстановления пароля пройдите по ссылке в
+      На вашу почту было отправлено письмо. Чтобы продолжить процедуру восстановления пароля пройдите по ссылке в
       письме.
     </p>
     <p>
@@ -19,7 +18,7 @@ const EmailSendedMessage = () => (
 );
 
 export const ResetPassword = () => {
-  const [initialValues, validationSchema, data, onSubmit, isMailSended] = useFormikState();
+  const [status, initialValues, validationSchema, data, onSubmit, isMailSended] = useFormikState();
 
   const config = {
     initialValues,
@@ -39,7 +38,7 @@ export const ResetPassword = () => {
             <Link className='button button--primary' to='/'>
               Назад
             </Link>
-            <button className='button button--secondary' type='submit'>
+            <button className='button button--secondary' type='submit' disabled={status}>
               Сбросить пароль
             </button>
           </div>
