@@ -3,6 +3,21 @@ import { FormikHOC } from 'App/components/FormikWrapper';
 import { Link } from 'react-router-dom';
 import { useFormikState } from './hooks/useFormikState';
 
+const EmailSendedMessage = () => (
+  <div>
+    <p style={{ marginBottom: 10 }}>
+      На вашу почту было отправлено письмо. 
+      Чтобы продолжить процедуру восстановления пароля пройдите по ссылке в
+      письме.
+    </p>
+    <p>
+      <Link to='/' className='button button--secondary'>
+        Ok
+      </Link>
+    </p>
+  </div>
+);
+
 export const ResetPassword = () => {
   const [initialValues, validationSchema, data, onSubmit, isMailSended] = useFormikState();
 
@@ -17,11 +32,7 @@ export const ResetPassword = () => {
   return (
     <>
       {isMailSended ? (
-        <div>
-          Вам на почту отправлено письмо.
-          <br />
-          Чтобы продолжить процедуру восстановления пароля пройдите по ссылке в письме.
-        </div>
+        <EmailSendedMessage />
       ) : (
         <FormikHOC data={data} config={config}>
           <div className='form__button-wrapper'>
