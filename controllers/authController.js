@@ -128,7 +128,7 @@ const forgotPassword = async (req, res, next) => {
   const resetToken = user.createResetToken();
   await user.save();
 
-  const href = `${req.protocol}://${req.get('host')}/forgotPassword/${resetToken}`;
+  const href = `${req.protocol}://${req.get('host')}/updatePassword/${resetToken}`;
   const html = resetPasswordEmail.replace(/{%href%}/gi, href);
 
   // Отправить email
