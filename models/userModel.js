@@ -41,6 +41,14 @@ const UserSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetTokenDate: Date,
+  registrationConfirm: {
+    type: Boolean,
+    default: false
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
 });
 
 UserSchema.pre("save", async function (next) {
@@ -77,7 +85,6 @@ UserSchema.methods.createResetToken = function () {
   this.passwordResetTokenDate = new Date().getTime() + 1000 * 60 * 10;
   return resetToken;
 }
-
 
 UserSchema.methods.comparePasswords = async function (pswFromFrom, pswFromBase) {
   return await bcrypt.compare(pswFromFrom, pswFromBase);

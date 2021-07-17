@@ -11,14 +11,23 @@ const { sendEmail } = require('../utils/nodeMailer');
 const resetPasswordEmail = fs.readFileSync(`${__dirname}/../templates/resetPassword.html`, 'utf8');
 const registrationEmail = fs.readFileSync(`${__dirname}/../templates/registration.html`, 'utf8');
 
+// Utils
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
+const sendConfirmRegEmail = async (user, req) => {
+  const token = signToken(user._id);
+  const href = `${req.protocol}://${req.get('host')}/confirmRegister/${token}`;
+  const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, name)
+
+  // Отправить email
+  await sendEmail(req.body.email, 'New register', html);
+}
+
 // Register
 const signUp = async (req, res, next) => {
-  // проверить, существует ли User по email. Если он существует, выдать ошибку
   const { name, email, password, passwordConfirm } = req.body;
   const newUser = await UserModel.create({
     name,
@@ -27,28 +36,40 @@ const signUp = async (req, res, next) => {
     passwordConfirm,
   });
 
-  const token = signToken(newUser._id);
-  const href = `${req.protocol}://${req.get('host')}/confirmPassword/${token}`;
-  const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, name)
+  await sendConfirmRegEmail(newUser, req);
 
-  // Отправить email
-  await sendEmail(email, 'Восстановление пароля', html)
-
-  // res.status(201).json({
-  //   status: "success",
-  //   data: {
-  //     token: token,
-  //     user: {
-  //       name: newUser.name,
-  //     },
-  //   },
-  // });
-  
   res.status(201).json({
     status: "success",
     data: null,
   });
 };
+
+const confirmRegister = async (req, res, next) => {
+  const { token } = req.params;
+
+  if (!token) return next(new AppError("Please, log in.", 401));
+
+  const verifyPromise = promisify(jwt.verify);
+  const decodedData = await verifyPromise(token, process.env.JWT_SECRET);
+  const currentUser = await UserModel.findById(decodedData.id);
+
+  if (!currentUser) return next(new AppError("User doesn't exist", 404));
+
+  // Если повторно пошел по ссылке
+  if (currentUser.registrationConfirm) {
+    return next(new AppError("User already confirmed register. Please, log in.", 400));
+  }
+
+  currentUser.registrationConfirm = true;
+  currentUser.save();
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      token: token
+    },
+  });
+}
 
 // Check logged user or not
 const checkIsLogin = async (req, res, next) => {
@@ -79,8 +100,7 @@ const checkIsLogin = async (req, res, next) => {
   next();
 };
 
-// Log in
-const logIn = async (req, res, next) => {
+const preLogIn = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -91,13 +111,30 @@ const logIn = async (req, res, next) => {
 
   if (!currentUser) return next(new AppError("This email doesn't exist", 404));
 
+  // Если пользователь не подтвредил регистрацию, тогда мы отправляем ему повторно письмо
+  if (!currentUser.registrationConfirm) {
+    await sendConfirmRegEmail(currentUser, req);
+
+    return res.status(204).json({
+      status: "success",
+    });
+  }
+
   const isValid = await currentUser.comparePasswords(password, currentUser.password);
 
   if (!isValid) {
     return next(new AppError("Incorrect email or password", 401));
   }
 
-  const token = signToken(currentUser._id);
+  req.user = currentUser;
+  next();
+}
+
+// Log in
+const logIn = async (req, res, next) => {
+  const { user } = req.body;
+
+  const token = signToken(user._id);
 
   res.status(200).json({
     status: "success",
@@ -189,8 +226,10 @@ const updatePassword = async (req, res, next) => {
 }
 
 exports.signUp = asyncCatchHandler(signUp);
+exports.confirmRegister = asyncCatchHandler(confirmRegister);
 exports.checkIsLogin = asyncCatchHandler(checkIsLogin);
 exports.logIn = asyncCatchHandler(logIn);
+exports.preLogIn = asyncCatchHandler(preLogIn);
 exports.reCaptchaVerify = asyncCatchHandler(reCaptchaVerify);
 exports.forgotPassword = asyncCatchHandler(forgotPassword);
 exports.updatePassword = asyncCatchHandler(updatePassword);
