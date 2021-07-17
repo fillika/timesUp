@@ -21,14 +21,14 @@ const SMTP_DEV_CONFIG = {
   },
 }
 
-let transporter = nodemailer.createTransport(SMTP_DEV_CONFIG);
+let transporter = nodemailer.createTransport(process.env.NODE_ENV === 'development' ? SMTP_DEV_CONFIG : SMTP_BZ_CONFIG);
 
 exports.sendEmail = async (email, text, html) => {
   try {
-    const result = await transporter.sendMail({
+    await transporter.sendMail({
       from: '<no-reply@times-up.ru>', // sender address
       to: email, // list of receivers
-      subject: "Hello ✔", // Subject line
+      subject: "Times-Up ✔", // Subject line
       text: text, // plain text body
       html: html, // html body
     });
