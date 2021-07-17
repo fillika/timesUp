@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const { sendEmail } = require('../utils/nodeMailer');
 
 const resetPasswordEmail = fs.readFileSync(`${__dirname}/../templates/resetPassword.html`, 'utf8');
+const registrationEmail = fs.readFileSync(`${__dirname}/../templates/registration.html`, 'utf8');
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -27,15 +28,25 @@ const signUp = async (req, res, next) => {
   });
 
   const token = signToken(newUser._id);
+  const href = `${req.protocol}://${req.get('host')}/confirmPassword/${token}`;
+  const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, name)
 
+  // Отправить email
+  await sendEmail(email, 'Восстановление пароля', html)
+
+  // res.status(201).json({
+  //   status: "success",
+  //   data: {
+  //     token: token,
+  //     user: {
+  //       name: newUser.name,
+  //     },
+  //   },
+  // });
+  
   res.status(201).json({
     status: "success",
-    data: {
-      token: token,
-      user: {
-        name: newUser.name,
-      },
-    },
+    data: null,
   });
 };
 
@@ -132,7 +143,7 @@ const forgotPassword = async (req, res, next) => {
   await user.save();
 
   const href = `${req.protocol}://${req.get('host')}/updatePassword/${resetToken}`;
-  const html = resetPasswordEmail.replace(/{%href%}/gi, href);
+  const html = resetPasswordEmail.replace(/{%HREF%}/gi, href);
 
   // Отправить email
   await sendEmail(email, 'Восстановление пароля', html)
