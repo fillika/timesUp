@@ -3,7 +3,7 @@ import { FormikHOC } from 'App/components/FormikWrapper';
 import { useFormikState } from './hooks/useFormikState';
 
 export const UpdatePassword = () => {
-  const [initialValues, validationSchema, data, onSubmit] = useFormikState();
+  const [isError, initialValues, validationSchema, data, onSubmit] = useFormikState();
 
   const config = {
     initialValues,
@@ -16,7 +16,7 @@ export const UpdatePassword = () => {
   return (
     <FormikHOC data={data} config={config}>
       <div className='form__button-wrapper'>
-        <button className='button button--success' type='submit'>
+        <button className='button button--success' type='submit' disabled={isError}>
           Создать новый пароль
         </button>
       </div>

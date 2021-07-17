@@ -136,9 +136,7 @@ const forgotPassword = async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      id: resetToken
-    }
+    data: null
   })
 }
 

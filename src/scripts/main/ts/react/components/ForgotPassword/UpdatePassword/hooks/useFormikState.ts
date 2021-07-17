@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
-import { Dispatch } from 'react';
+import { Dispatch, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authAPI } from 'Api/auth';
 import { AppError } from 'Utils/Error';
@@ -21,13 +21,13 @@ type FormikData = {
   };
 };
 
-type HookState = [FormikValues, any, FormikData, (values: FormikValues) => void];
+type HookState = [boolean, FormikValues, any, FormikData, (values: FormikValues) => void];
 
 export const useFormikState = (): HookState => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
-
-  console.log(id);
+  const history = useHistory();
+  const [isError, setIsError] = useState(false);
 
   const initialValues: FormikValues = {
     password: '',
@@ -66,9 +66,11 @@ export const useFormikState = (): HookState => {
     let message = 'Ошибка по умолчанию!';
 
     switch (err.statusCode) {
-      case 404:
-        message = 'Такого email не существует';
-        createNotify('error', message, dispatch);
+      case 401:
+        message = 'Время действия ссылки истекло. Попробуйте еще раз!';
+        setIsError(true);
+        createNotify('error', message, dispatch, 3000);
+        setTimeout(() => history.push('/'), 3000);
         break;
 
       default:
@@ -81,5 +83,5 @@ export const useFormikState = (): HookState => {
     sendReq(errHandler, values, dispatch);
   };
 
-  return [initialValues, validationSchema, data, onSubmit];
+  return [isError, initialValues, validationSchema, data, onSubmit];
 };
