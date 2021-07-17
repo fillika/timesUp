@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 
+type status = 'idle' | 'pending' | 'success' | 'error'
 // Todo типизировать кастомный хук
 /* @ts-ignore */
 export const useAsync = (asyncFunction, immediate: boolean = true) => {
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState<status>('idle');
   const [value, setValue] = useState(null);
   const [error, setError] = useState(null);
 
@@ -16,17 +17,19 @@ export const useAsync = (asyncFunction, immediate: boolean = true) => {
     setValue(null);
     setError(null);
 
-    return asyncFunction()
-    .then((response: Response) => {
+    return (
+      asyncFunction()
+        .then((response: Response) => {
+          /* @ts-ignore */
+          setValue(response);
+          setStatus('success');
+        })
         /* @ts-ignore */
-        setValue(response);
-        setStatus('success');
-      })
-      /* @ts-ignore */
-      .catch(error => {
-        setError(error);
-        setStatus('error');
-      });
+        .catch(error => {
+          setError(error);
+          setStatus('error');
+        })
+    );
   }, [asyncFunction]);
 
   // вызываем execute для немедленного выполнения

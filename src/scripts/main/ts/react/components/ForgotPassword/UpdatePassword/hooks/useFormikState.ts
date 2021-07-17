@@ -1,11 +1,12 @@
 import * as Yup from 'yup';
 import { useHistory, useParams } from 'react-router-dom';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
-import { Dispatch, useState } from 'react';
+import { Dispatch, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { authAPI } from 'Api/auth';
 import { AppError } from 'Utils/Error';
 import { createNotify } from 'Utils/helpers/createNotify';
+import { asyncStatus } from 'Types/async';
 
 type FormikValues = {
   password: string;
@@ -21,13 +22,13 @@ type FormikData = {
   };
 };
 
-type HookState = [boolean, FormikValues, any, FormikData, (values: FormikValues) => void];
+type HookState = [asyncStatus, FormikValues, any, FormikData, (values: FormikValues) => void];
 
 export const useFormikState = (): HookState => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [isError, setIsError] = useState(false);
+  const [status, setStatus] = useState<asyncStatus>('idle');
 
   const initialValues: FormikValues = {
     password: '',
@@ -52,23 +53,23 @@ export const useFormikState = (): HookState => {
       .required('Please, confirm your password'),
   });
 
-  const sendReq = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
+  const updatePassword = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
+    setStatus('pending');
     const { password, passwordConfirm } = values;
     const response = await authAPI.updatePassword({ id, password, passwordConfirm });
 
-    if (response.status === 'success') {
-      dispatch({ type: 'APP_LOG_IN', payload: response.data.token });
-      createNotify('success', 'Ваш пароль изменен.\nДобро пожаловать!', dispatch);
-    }
+    dispatch({ type: 'APP_LOG_IN', payload: response.data.token });
+    createNotify('success', 'Ваш пароль изменен.\nДобро пожаловать!', dispatch);
+    setStatus('success');
   });
 
   const errHandler = (err: AppError) => {
+    setStatus('error');
     let message = 'Ошибка по умолчанию!';
 
     switch (err.statusCode) {
       case 401:
         message = 'Время действия ссылки истекло. Попробуйте еще раз!';
-        setIsError(true);
         createNotify('error', message, dispatch, 3000);
         setTimeout(() => history.push('/'), 3000);
         break;
@@ -79,9 +80,7 @@ export const useFormikState = (): HookState => {
     }
   };
 
-  const onSubmit = (values: FormikValues) => {
-    sendReq(errHandler, values, dispatch);
-  };
+  const onSubmit = (values: FormikValues) => updatePassword(errHandler, values, dispatch);
 
-  return [isError, initialValues, validationSchema, data, onSubmit];
+  return [status, initialValues, validationSchema, data, onSubmit];
 };
