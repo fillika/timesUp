@@ -34,5 +34,5 @@ export const ConfirmRegister = () => {
     sendConfirmRequest(sendConfirmErrHandler);
   }, []);
 
-  return <div>ConfirmRegister</div>;
+  return <div></div>;
 };

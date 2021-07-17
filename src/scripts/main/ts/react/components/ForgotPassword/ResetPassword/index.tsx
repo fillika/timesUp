@@ -11,7 +11,7 @@ const EmailSendedMessage = () => (
     </p>
     <p>
       <Link to='/' className='button button--secondary'>
-        Ok
+         Понятно
       </Link>
     </p>
   </div>
