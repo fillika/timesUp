@@ -13,9 +13,7 @@ class AuthAPI extends API {
       },
       JSON.stringify(data)
     );
-    const errMessage = 'Ошибка при попытке logIn';
-
-    const response = await fetch(this.loginUrl, headers).then(response => this.createErr(response, errMessage));
+    const response = await fetch(this.loginUrl, headers).then(response => this.createErr(response));
     return response.json();
   }
 

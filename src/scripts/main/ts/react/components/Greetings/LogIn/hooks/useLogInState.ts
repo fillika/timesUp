@@ -45,8 +45,8 @@ export const useLogInState = (): [
         createNotify('error', message, dispatch);
         break;
       case 404:
-        message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-        createNotify('error', message, dispatch);
+        message = 'Такой email не существует';
+        createNotify('error', err.message, dispatch);
         break;
 
       default:

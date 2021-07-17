@@ -77,6 +77,9 @@ const logIn = async (req, res, next) => {
   }
   // Сравнить email и выдать токен
   const currentUser = await UserModel.findOne({ email }).select('+password');
+
+  if (!currentUser) return next(new AppError("This email doesn't exist", 404));
+
   const isValid = await currentUser.comparePasswords(password, currentUser.password);
 
   if (!isValid) {
