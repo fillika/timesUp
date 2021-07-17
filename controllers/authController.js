@@ -13,15 +13,16 @@ const registrationEmail = fs.readFileSync(`${__dirname}/../templates/registratio
 
 // Utils
 const signToken = (id) => {
-  jwt.sign({ id }, process.env.JWT_SECRET, {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 }
 
 const sendConfirmRegEmail = async (user, req) => {
   const token = signToken(user._id);
+  
   const href = `${req.protocol}://${req.get('host')}/confirmRegister/${token}`;
-  const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, req.body.name)
+  const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, user.name)
 
   // Отправить email
   await sendEmail(req.body.email, 'New register', html);
@@ -124,7 +125,7 @@ const preLogIn = async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
   }
 
-  req.user = currentUser;
+  req.body.user = currentUser;
   next();
 }
 
