@@ -1,16 +1,14 @@
 import { Dispatch } from 'react';
-import { useGlobalError } from 'App/hooks/useGlobalError';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 import { authAPI } from 'Api/auth';
 import { createNotify } from 'Utils/helpers/createNotify';
-import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { FormikSignUpValues } from './useFormikSignUp';
 import { useDispatch } from 'react-redux';
 import { AppError } from 'Utils/Error';
 import { useStatusState } from 'App/hooks/useStatusState';
+import { asyncStatus } from 'Types/async';
 
-export const useSignUpState = (): [boolean, (values: FormikSignUpValues) => void] => {
-  const { getTasksErrorHandlerErr } = useGlobalError();
+export const useSignUpState = (): [boolean, asyncStatus, (values: FormikSignUpValues) => void] => {
   const dispatch = useDispatch();
   const [status, setStatus] = useStatusState();
   const statusState: boolean = status === 'pending' ? true : false;
@@ -29,9 +27,6 @@ export const useSignUpState = (): [boolean, (values: FormikSignUpValues) => void
     switch (response.status) {
       case 'success':
         setStatus('success');
-        const token = response.data.token;
-        createNotify('success', 'Добро пожаловать!', dispatch);
-        getAllTasks(getTasksErrorHandlerErr, token, dispatch);
         break;
       case 'fail':
         setStatus('error');
@@ -68,5 +63,5 @@ export const useSignUpState = (): [boolean, (values: FormikSignUpValues) => void
     signUp(signUpErrorHandler, values, dispatch);
   };
 
-  return [statusState, onSubmit];
+  return [statusState, status, onSubmit];
 };

@@ -45,7 +45,7 @@ const signUp = async (req, res, next) => {
 };
 
 const confirmRegister = async (req, res, next) => {
-  const { token } = req.params;
+  const { token } = req.body;
 
   if (!token) return next(new AppError("Please, log in.", 401));
 
@@ -65,9 +65,6 @@ const confirmRegister = async (req, res, next) => {
 
   res.status(201).json({
     status: "success",
-    data: {
-      token: token
-    },
   });
 }
 

@@ -1,8 +1,11 @@
 import API from '.';
 
 class AuthAPI extends API {
+  confirmRegisterUrl: string;
+
   constructor() {
     super();
+    this.confirmRegisterUrl = this.host + '/api/v1/confirmRegister';
   }
 
   async logIn(data = {}) {
@@ -27,6 +30,18 @@ class AuthAPI extends API {
     );
 
     const response = await fetch(this.signUpUrl, headers).then(response => this.createErr(response));
+    return response.json();
+  }
+
+  async confirmRegister(data = {}) {
+    const headers = this.createHeaders(
+      'POST',
+      {
+        'Content-type': 'application/json',
+      },
+      JSON.stringify(data)
+    );
+    const response = await fetch(this.confirmRegisterUrl, headers).then(response => this.createErr(response));
     return response.json();
   }
 

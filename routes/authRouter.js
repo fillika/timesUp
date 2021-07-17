@@ -6,7 +6,7 @@ router.post('/forgotPassword', forgotPassword);
 router.patch('/updatePassword', updatePassword);
 
 router.post('/signup', reCaptchaVerify, signUp);
-router.post('/confirmRegister/:token', confirmRegister);
+router.post('/confirmRegister', confirmRegister);
 router.post('/login', preLogIn, logIn);
 
 module.exports = router;

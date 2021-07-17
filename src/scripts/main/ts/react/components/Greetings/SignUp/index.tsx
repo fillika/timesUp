@@ -5,7 +5,7 @@ import { FormikHOC } from 'App/components/FormikWrapper';
 
 export const SignUp = () => {
   const [initialValues, validationSchema, data] = useFormikSignUp();
-  const [status, onSubmit] = useSignUpState();
+  const [status, asyncStatus, onSubmit] = useSignUpState();
 
   const config = {
     initialValues,
@@ -14,6 +14,10 @@ export const SignUp = () => {
     validateOnBlur: false,
     validateOnChange: false,
   };
+
+  if (asyncStatus === 'success') {
+    return <div>На вашу почту было отправлено письмо с инструкцией для завершения регистрации.</div>;
+  }
 
   return (
     <FormikHOC data={data} config={config}>
