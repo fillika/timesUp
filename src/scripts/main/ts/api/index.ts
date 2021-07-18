@@ -10,7 +10,6 @@ export type Task = {
 
 export default class API {
   host: string;
-  tasksUrl: string;
   activeTaskUrl: string;
   loginUrl: string;
   signUpUrl: string;
@@ -19,7 +18,6 @@ export default class API {
 
   constructor() {
     this.host = window.location.origin;
-    this.tasksUrl = this.host + '/api/v1/tasks';
     this.activeTaskUrl = this.host + '/api/v1/activeTask';
     this.loginUrl = this.host + '/api/v1/login';
     this.signUpUrl = this.host + '/api/v1/signup';

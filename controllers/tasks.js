@@ -23,7 +23,6 @@ async function getAllTasks(req, res, next) {
 
   res.status(200).json({
     status: "success",
-    message: "Get all tasks",
     data: {
       tasks: result,
       isLoadMore: result.length === limit
@@ -31,10 +30,10 @@ async function getAllTasks(req, res, next) {
   });
 }
 async function getMoreTasks(req, res, next) {
-  const { page } = req.body;
+  const { page } = req.query;
   const skip = limit * page - limit;
 
-  const result = model.find({ userID: req.user.id })
+  const result = await TaskModel.find({ userID: req.user.id })
     .skip(skip)
     .limit(limit)
     .sort({ at: "desc" });

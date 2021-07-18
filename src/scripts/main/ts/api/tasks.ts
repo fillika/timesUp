@@ -1,7 +1,12 @@
 import API, { Task } from '.';
 class TasksAPI extends API {
+  tasksUrl: string;
+  moreTaskUrl: string;
+
   constructor() {
     super();
+    this.tasksUrl = this.host + '/api/v1/tasks';
+    this.moreTaskUrl = this.host + '/api/v1/tasks/more';
   }
 
   async getAllTask(token: string): Promise<any> {
@@ -9,6 +14,14 @@ class TasksAPI extends API {
     const errMessage = 'Ошибка при получении всех тасков в методе getAllTask';
 
     const response = await fetch(this.tasksUrl, headers).then(response => this.createErr(response, errMessage));
+    return response.json();
+  }
+
+  async getMoreTask(page: number, token: string) {
+    const headers = this.createHeaders('GET', {}, null, token);
+    const url = `${this.moreTaskUrl}?page=${page}`;
+
+    const response = await fetch(url, headers).then(response => this.createErr(response));
     return response.json();
   }
 
