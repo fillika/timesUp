@@ -35,7 +35,7 @@ const Timer: React.FC = () => {
           );
         })}
       </div>
-      
+
       <LoadMore />
     </ActiveTaskContext.Provider>
   );
