@@ -73,16 +73,15 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
     }
     case 'GET_MORE_TASKS': {
-      console.log(action.payload);
-      
-      // const sortedTaskList = sort.sortData(action.payload.databaseTaskList);
+      const databaseTaskList = [...state.databaseTaskList, ...action.payload.databaseTaskList];
+      const sortedTaskList = sort.sortData(databaseTaskList);
 
       return {
         ...state,
-        page: action.payload.page
-        // sortedTaskList,
-        // databaseTaskList: action.payload.databaseTaskList,
-        // isLoadMore: action.payload.isLoadMore,
+        page: action.payload.page,
+        isLoadMore: action.payload.isLoadMore,
+        sortedTaskList,
+        databaseTaskList,
       };
     }
     case 'CREATE_TASK': {

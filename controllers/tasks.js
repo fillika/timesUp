@@ -4,7 +4,7 @@ const taskManager = require("../utils/Task");
 const AppError = require("../utils/Error");
 const asyncCatchHandler = require("../utils/asyncCatchHandler");
 
-const limit = 50;
+const limit = 40;
 
 exports.getAllTasks = asyncCatchHandler(getAllTasks);
 exports.getMoreTasks = asyncCatchHandler(getMoreTasks);
