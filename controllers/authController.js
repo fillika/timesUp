@@ -11,6 +11,8 @@ const { sendEmail } = require('../utils/nodeMailer');
 const resetPasswordEmail = fs.readFileSync(`${__dirname}/../templates/resetPassword.html`, 'utf8');
 const registrationEmail = fs.readFileSync(`${__dirname}/../templates/registration.html`, 'utf8');
 
+const protocol = process.env.NODE_ENV === 'development'? 'http' : 'https';
+
 // Utils
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -20,7 +22,6 @@ const signToken = (id) => {
 
 const sendConfirmRegEmail = async (user, req) => {
   const token = signToken(user._id);
-  const protocol = process.env.NODE_ENV === 'development'? req.protocol : 'https';
   
   const href = `${protocol}://${req.get('host')}/confirmRegister/${token}`;
   const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, user.name)
@@ -179,8 +180,8 @@ const forgotPassword = async (req, res, next) => {
   const resetToken = user.createResetToken();
   await user.save();
 
-  const href = `${req.protocol}://${req.get('host')}/updatePassword/${resetToken}`;
-  const html = resetPasswordEmail.replace(/{%HREF%}/gi, href);
+  const href = `${protocol}://${req.get('host')}/updatePassword/${resetToken}`;
+  const html = resetPasswordEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, user.name);
 
   // Отправить email
   await sendEmail(email, 'Восстановление пароля', html)
