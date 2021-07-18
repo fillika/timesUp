@@ -7,6 +7,7 @@ const asyncCatchHandler = require("../utils/asyncCatchHandler");
 const limit = 80;
 
 exports.getAllTasks = asyncCatchHandler(getAllTasks);
+exports.getMoreTasks = asyncCatchHandler(getMoreTasks);
 exports.createTask = asyncCatchHandler(createTask);
 exports.updateTask = asyncCatchHandler(updateTask);
 exports.updateManyTasks = asyncCatchHandler(updateManyTasks);
@@ -23,6 +24,23 @@ async function getAllTasks(req, res, next) {
   res.status(200).json({
     status: "success",
     message: "Get all tasks",
+    data: {
+      tasks: result,
+      isLoadMore: result.length === limit
+    },
+  });
+}
+async function getMoreTasks(req, res, next) {
+  const { page } = req.body;
+  const skip = limit * page - limit;
+
+  const result = model.find({ userID: req.user.id })
+    .skip(skip)
+    .limit(limit)
+    .sort({ at: "desc" });
+
+  res.status(200).json({
+    status: "success",
     data: {
       tasks: result,
       isLoadMore: result.length === limit
