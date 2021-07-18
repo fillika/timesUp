@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { sort } from 'Utils/Sort';
 
 export type TaskState = {
+  isLoadMore: boolean;
   sortedTaskList: SortedTask[];
   databaseTaskList: DatabaseTask[];
 };
@@ -13,6 +14,7 @@ type TAction = {
 };
 
 const initialState: TaskState = {
+  isLoadMore: false,
   sortedTaskList: [],
   databaseTaskList: [],
 };
@@ -65,6 +67,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         ...state,
         sortedTaskList,
         databaseTaskList: action.payload.databaseTaskList,
+        isLoadMore: action.payload.isLoadMore,
       };
     }
     case 'CREATE_TASK': {

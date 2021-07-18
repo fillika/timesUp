@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './load-more.scss';
 
-export const LoadMore = () => {
+export const LoadMore: FC<{ isLoadMore: boolean }> = ({ isLoadMore }) => {
+  if (!isLoadMore) return null;
+  
   return (
     <div className='load-more'>
       <div className='load-more__wrapper'>

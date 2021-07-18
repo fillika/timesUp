@@ -16,7 +16,7 @@ const getTotalDayTime = (tasks: TaskType[]): string => {
 };
 
 const Timer: React.FC = () => {
-  const { sortedTaskList } = useGetTasks();
+  const { isLoadMore, sortedTaskList } = useGetTasks();
   const isTimeActive = useSelector((state: RootState) => state.activeTask.isTimeActive, shallowEqual);
 
   return (
@@ -36,7 +36,7 @@ const Timer: React.FC = () => {
         })}
       </div>
 
-      <LoadMore />
+      <LoadMore isLoadMore={isLoadMore} />
     </ActiveTaskContext.Provider>
   );
 };

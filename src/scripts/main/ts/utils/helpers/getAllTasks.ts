@@ -9,6 +9,7 @@ export const getAllTasks = asyncCatcher(async (token: string, dispatch: Dispatch
     type: 'GET_ALL_TASKS',
     payload: {
       databaseTaskList: response.data.tasks,
+      isLoadMore: response.data.isLoadMore
     },
   });
   dispatch({ type: 'APP_LOG_IN', payload: token });
