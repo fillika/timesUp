@@ -6,6 +6,7 @@ import { time } from 'Utils/Time';
 import { useGetTasks } from './useGetTasks';
 import { DayList } from './components/DayList';
 import { ActiveTaskContext } from 'Utils/Context';
+import { LoadMore } from './components/LoadMore';
 
 // Utils
 const getTotalDayTime = (tasks: TaskType[]): string => {
@@ -34,6 +35,8 @@ const Timer: React.FC = () => {
           );
         })}
       </div>
+      
+      <LoadMore />
     </ActiveTaskContext.Provider>
   );
 };

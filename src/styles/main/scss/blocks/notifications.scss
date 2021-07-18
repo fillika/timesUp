@@ -2,6 +2,7 @@
   position: fixed;
   right: 10px;
   top: 0;
+  z-index: $zIndex-notify;
 
   &__wrapper {
     width: 320px;
