@@ -20,8 +20,9 @@ const signToken = (id) => {
 
 const sendConfirmRegEmail = async (user, req) => {
   const token = signToken(user._id);
+  const protocol = process.env.NODE_ENV === 'development'? req.protocol : 'https';
   
-  const href = `${req.protocol}://${req.get('host')}/confirmRegister/${token}`;
+  const href = `${protocol}://${req.get('host')}/confirmRegister/${token}`;
   const html = registrationEmail.replace(/{%HREF%}/gi, href).replace(/{%USERNAME%}/gi, user.name)
 
   // Отправить email
@@ -63,7 +64,7 @@ const confirmRegister = async (req, res, next) => {
   }
 
   currentUser.registrationConfirm = true;
-  currentUser.save();
+  await currentUser.save();
 
   res.status(201).json({
     status: "success",
