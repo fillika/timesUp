@@ -25,6 +25,7 @@ async function getAllTasks(req, res, next) {
     message: "Get all tasks",
     data: {
       tasks: result,
+      isLoadMore: result.length === limit
     },
   });
 }
