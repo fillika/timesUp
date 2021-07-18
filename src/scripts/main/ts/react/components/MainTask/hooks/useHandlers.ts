@@ -30,7 +30,7 @@ export const useHandlers = (data: TaskType): useHandlers => {
     token && deleteTaskByName(delTaskByNameErrHadler, data, token, startUnmount, dispatch);
   };
 
-  // useEffect(() => console.log('Render[MainTask]'));
+  useEffect(() => console.log('Render[MainTask]'));
 
   return [isUnmounting, isActive, isTyping, name, setActive, setTyping, deleteTask];
 };

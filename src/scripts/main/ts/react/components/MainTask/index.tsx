@@ -26,5 +26,10 @@ export const MainTask = memo<TaskData>(
       </li>
     );
   },
-  (prev, next) => (prev.data === next.data ? true : false)
+  (prev, next) => {
+    if (prev.data.duration === next.data.duration && prev.data.name === next.data.name) {
+      return true;
+    }
+    return false;
+  }
 );

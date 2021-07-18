@@ -26,5 +26,5 @@ export const DayList = memo<{ dateString: string; totalDayTime: string; taskList
       </div>
     );
   },
-  (prev, next) => (prev.totalDayTime === next.totalDayTime ? true : false)
+  // (prev, next) => (prev.totalDayTime === next.totalDayTime ? true : false)
 );
