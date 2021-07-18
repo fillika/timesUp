@@ -22,11 +22,10 @@ const Timer: React.FC = () => {
           return null;
         }
 
-        const keyID = _.uniqueId('dayTask_');
         const dateString = new Date(dateISO).toUTCString().slice(0, 12);
         const totalDayTime = getTotalDayTime(mainTaskList);
 
-        return <DayList key={keyID} taskList={mainTaskList} dateString={dateString} totalDayTime={totalDayTime} />;
+        return <DayList key={dateString} taskList={mainTaskList} dateString={dateString} totalDayTime={totalDayTime} />;
       })}
     </div>
   );
