@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FocusEvent, KeyboardEvent, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useUnmounting } from 'App/hooks/useUnmounting';
@@ -30,7 +30,7 @@ export const useHandlers = (data: TaskType): useHandlers => {
     token && deleteTaskByName(delTaskByNameErrHadler, data, token, startUnmount, dispatch);
   };
 
-  useEffect(() => console.log('Render[MainTask]'));
+  // useEffect(() => console.log('Render[MainTask]'));
 
   return [isUnmounting, isActive, isTyping, name, setActive, setTyping, deleteTask];
 };

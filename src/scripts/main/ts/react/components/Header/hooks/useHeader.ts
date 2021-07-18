@@ -70,7 +70,7 @@ export function useHeader() {
     []
   );
 
-  console.log('Render[Header]');
+  // console.log('Render[Header]');
 
   return {
     isTimeActive,
