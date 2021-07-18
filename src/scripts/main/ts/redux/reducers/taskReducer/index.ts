@@ -1,8 +1,9 @@
 import { DatabaseTask, SortedTask } from 'Types/tasks';
 import _ from 'lodash';
+import { sort } from 'Utils/Sort';
 
 export type TaskState = {
-  taskArr: SortedTask[];
+  sortedTaskList: SortedTask[];
   databaseTaskList: DatabaseTask[];
 };
 
@@ -12,7 +13,7 @@ type TAction = {
 };
 
 const initialState: TaskState = {
-  taskArr: [],
+  sortedTaskList: [],
   databaseTaskList: [],
 };
 
@@ -58,39 +59,62 @@ const deleteTaskByName = (state: TaskState, payload: { date: string; name: strin
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
     case 'GET_ALL_TASKS': {
+      const sortedTaskList = sort.sortData(action.payload.databaseTaskList);
+
       return {
         ...state,
+        sortedTaskList,
         databaseTaskList: action.payload.databaseTaskList,
       };
     }
     case 'CREATE_TASK': {
+      const databaseTaskList = [...action.payload.newTask, ...state.databaseTaskList];
+      const sortedTaskList = sort.sortData(databaseTaskList);
+
       return {
         ...state,
-        databaseTaskList: [...action.payload.newTask, ...state.databaseTaskList],
+        sortedTaskList,
+        databaseTaskList,
       };
     }
     case 'UPDATE_TASK_LIST_BY_NAME': {
+      const databaseTaskList = updateTaskByName(state, action.payload);
+      const sortedTaskList = sort.sortData(databaseTaskList);
+
       return {
         ...state,
-        databaseTaskList: updateTaskByName(state, action.payload),
+        sortedTaskList,
+        databaseTaskList,
       };
     }
     case 'UPDATE_TASK_LIST_BY_ID': {
+      const databaseTaskList = updateTaskByID(state, action.payload);
+      const sortedTaskList = sort.sortData(databaseTaskList);
+
       return {
         ...state,
-        databaseTaskList: updateTaskByID(state, action.payload),
+        sortedTaskList,
+        databaseTaskList,
       };
     }
     case 'DELETE_TASKS_BY_ID': {
+      const databaseTaskList = state.databaseTaskList.filter(task => task._id !== action.payload.taskID);
+      const sortedTaskList = sort.sortData(databaseTaskList);
+
       return {
         ...state,
-        databaseTaskList: state.databaseTaskList.filter(task => task._id !== action.payload.taskID),
+        sortedTaskList,
+        databaseTaskList,
       };
     }
     case 'DELETE_TASKS_BY_NAME': {
+      const databaseTaskList = deleteTaskByName(state, action.payload);
+      const sortedTaskList = sort.sortData(databaseTaskList);
+
       return {
         ...state,
-        databaseTaskList: deleteTaskByName(state, action.payload),
+        sortedTaskList,
+        databaseTaskList,
       };
     }
     default:

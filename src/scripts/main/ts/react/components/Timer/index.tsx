@@ -1,9 +1,11 @@
 import React from 'react';
-import _ from 'lodash';
+import { useSelector, shallowEqual } from 'react-redux';
+import { RootState } from 'Redux/reducers/rootReducer';
 import { TaskType } from 'Types/tasks';
 import { time } from 'Utils/Time';
 import { useGetTasks } from './useGetTasks';
 import { DayList } from './components/DayList';
+import { ActiveTaskContext } from 'Utils/Context';
 
 // Utils
 const getTotalDayTime = (tasks: TaskType[]): string => {
@@ -14,20 +16,25 @@ const getTotalDayTime = (tasks: TaskType[]): string => {
 
 const Timer: React.FC = () => {
   const { sortedTaskList } = useGetTasks();
+  const isTimeActive = useSelector((state: RootState) => state.activeTask.isTimeActive, shallowEqual);
 
   return (
-    <div>
-      {sortedTaskList.map(({ dateISO, mainTaskList }) => {
-        if (!mainTaskList.length) {
-          return null;
-        }
+    <ActiveTaskContext.Provider value={{ isTimeActive }}>
+      <div>
+        {sortedTaskList.map(({ dateISO, mainTaskList }) => {
+          if (!mainTaskList.length) {
+            return null;
+          }
 
-        const dateString = new Date(dateISO).toUTCString().slice(0, 12);
-        const totalDayTime = getTotalDayTime(mainTaskList);
+          const dateString = new Date(dateISO).toUTCString().slice(0, 12);
+          const totalDayTime = getTotalDayTime(mainTaskList);
 
-        return <DayList key={dateString} taskList={mainTaskList} dateString={dateString} totalDayTime={totalDayTime} />;
-      })}
-    </div>
+          return (
+            <DayList key={dateString} taskList={mainTaskList} dateString={dateString} totalDayTime={totalDayTime} />
+          );
+        })}
+      </div>
+    </ActiveTaskContext.Provider>
   );
 };
 

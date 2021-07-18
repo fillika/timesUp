@@ -1,10 +1,8 @@
 import { useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
-import { sort } from 'Utils/Sort';
 
 function useGetTasks() {
-  const { databaseTaskList } = useSelector((state: RootState) => state.tasks);
-  const sortedTaskList = sort.sortData(databaseTaskList);
+  const { sortedTaskList } = useSelector((state: RootState) => state.tasks);
   return { sortedTaskList };
 }
 
