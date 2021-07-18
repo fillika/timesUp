@@ -27,7 +27,7 @@ const Timer: React.FC = () => {
             return null;
           }
 
-          const dateString = new Date(dateISO).toUTCString().slice(0, 12);
+          const dateString = new Date(dateISO).toLocaleDateString();
           const totalDayTime = getTotalDayTime(mainTaskList);
 
           return (
