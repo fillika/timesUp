@@ -5,6 +5,7 @@ import { useHandlers } from './hooks/useHandlers';
 import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
 import { TaskPanel } from './components/TaskPanel';
+import _ from 'lodash';
 
 type TaskData = {
   data: TaskType;
@@ -22,14 +23,11 @@ export const MainTask = memo<TaskData>(
           <TaskPanel isTyping={isTyping} name={name} data={data} deleteTask={deleteTask} />
         </div>
 
-        {isActive && data.time !== undefined && data.time.length > 1 && <SubTasks data={data.time} name={name} />}
+        {isActive && data.time !== undefined && data.time.length > 1 && <SubTasks data={data.time} name={data.name} />}
       </li>
     );
   },
   (prev, next) => {
-    if (prev.data.duration === next.data.duration || prev.data.name === next.data.name) {
-      return true;
-    }
-    return false;
+    return _.isEqual(prev.data, next.data);
   }
 );

@@ -7,6 +7,11 @@ export const updateTaskByName = asyncCatcher(
   async (event: React.FocusEvent<HTMLInputElement>, data: TaskType, token: string, dispatch: Dispatch<any>) => {
     const val = event.target.value.trim();
 
+
+    console.log('blur');
+    console.log('val', val);
+    console.log('val', data.name);
+
     if (val !== data.name) {
       try {
         const queryReq = {

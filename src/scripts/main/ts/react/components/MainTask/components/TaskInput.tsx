@@ -11,14 +11,15 @@ type TaskInput = {
   setTyping: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const TaskInput = memo<TaskInput>(({ data, setActive, setTyping }) => {
+export const TaskInput: FC<TaskInput> = ({ data, setActive, setTyping }) => {
   const dispatch = useDispatch();
   const { updTaskByNameErrHadler } = useGlobalError();
   const { token } = useSelector((state: RootState) => state.app, shallowEqual);
   const [name, setName] = useState(data.name);
 
-  const updateTask = (event: FocusEvent<HTMLInputElement>) =>
+  const updateTask = (event: FocusEvent<HTMLInputElement>) => {
     updateTaskByName(updTaskByNameErrHadler, event, data, token, dispatch);
+  };
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value), setActive(false), setTyping(true);
@@ -37,4 +38,4 @@ export const TaskInput = memo<TaskInput>(({ data, setActive, setTyping }) => {
       <input type='text' onBlur={updateTask} onChange={onChange} onKeyPress={onKeyPress} defaultValue={name} />
     </div>
   );
-});
+};

@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { FC, memo, useEffect } from 'react';
 import { RangeTime } from 'App/components/RangeTime';
 import { DeleteIcon } from 'App/components/DeleteIcon';
 import { ContinueButton } from 'App/components/ContinueButton';
@@ -11,7 +11,7 @@ type TaskPanel = {
   deleteTask: () => void;
 };
 
-export const TaskPanel = memo<TaskPanel>(({ isTyping, name, data, deleteTask }) => {
+export const TaskPanel: FC<TaskPanel> = ({ isTyping, name, data, deleteTask }) => {
   // useEffect(() => console.log('Render[TaskPanel]'));
 
   return (
@@ -21,4 +21,4 @@ export const TaskPanel = memo<TaskPanel>(({ isTyping, name, data, deleteTask }) 
       <ContinueButton name={name} />
     </div>
   );
-});
+};

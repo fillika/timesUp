@@ -114,7 +114,7 @@ async function updateManyTasks(req, res, next) {
         message: "Task was deleted",
       });
     } else {
-      next(new AppError("Something went wrong in updateManyTasks", 400));
+      next(new AppError("Таски не обновлены", 400));
     }
   } else {
     next(

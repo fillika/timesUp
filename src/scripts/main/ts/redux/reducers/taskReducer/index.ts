@@ -37,6 +37,7 @@ const updateTaskByName = (state: TaskState, payload: { name: string; date: strin
     return task;
   });
 };
+
 const updateTaskByID = (state: TaskState, payload: { newName: string; taskID: string }) => {
   const { newName, taskID } = payload;
 
