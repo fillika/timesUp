@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import _ from 'lodash';
 import { createSelector } from 'reselect';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useGlobalError } from 'App/hooks/useGlobalError';

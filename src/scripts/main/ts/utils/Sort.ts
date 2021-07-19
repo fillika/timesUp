@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import findIndex from 'lodash/findIndex';
 import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
 
 class Sort {
@@ -21,7 +21,7 @@ class Sort {
         tasks.push(sortedTask);
       } else {
         // Ищу таски с одинаковой датой
-        const index = _.findIndex(tasks, ['date', date]);
+        const index = findIndex(tasks, ['date', date]);
 
         if (index === -1) {
           const sortedTask = this.createFirstSortedTask(el);
@@ -51,7 +51,7 @@ class Sort {
    * duration, чтобы меньше вычислений делать при рендере
    */
   findDuplicatesAndPush(taskArr: TaskType[], el: TaskType) {
-    const index = _.findIndex(taskArr, ['name', el.name]);
+    const index = findIndex(taskArr, ['name', el.name]);
     const task = taskArr[index];
 
 
@@ -73,7 +73,7 @@ class Sort {
   }
 
   findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
-    const index = _.findIndex(taskArr, ['name', el.name]);
+    const index = findIndex(taskArr, ['name', el.name]);
     const task = taskArr[index];
 
     if (index !== -1) {

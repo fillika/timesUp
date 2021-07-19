@@ -5,7 +5,7 @@ import { useHandlers } from './hooks/useHandlers';
 import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
 import { TaskPanel } from './components/TaskPanel';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 type TaskData = {
   data: TaskType;
@@ -28,6 +28,6 @@ export const MainTask = memo<TaskData>(
     );
   },
   (prev, next) => {
-    return _.isEqual(prev.data, next.data);
+    return isEqual(prev.data, next.data);
   }
 );

@@ -8,6 +8,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 const testFolder = path.resolve(__dirname, './src/entryPoints/');
 const entry = {};
@@ -75,6 +77,7 @@ module.exports = {
       filename: '[name]/[name].min.css',
     }),
     new ForkTsCheckerWebpackPlugin(),
+    new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [

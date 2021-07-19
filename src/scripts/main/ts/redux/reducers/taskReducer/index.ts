@@ -1,5 +1,5 @@
 import { DatabaseTask, SortedTask } from 'Types/tasks';
-import _ from 'lodash';
+import remove from 'lodash/remove';
 import { sort } from 'Utils/Sort';
 
 export type TaskState = {
@@ -54,7 +54,7 @@ const deleteTaskByName = (state: TaskState, payload: { date: string; name: strin
   const newArr = [...state.databaseTaskList];
   const { date, name } = payload;
 
-  _.remove(newArr, task => {
+  remove(newArr, task => {
     return task.name === name && new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
   });
 

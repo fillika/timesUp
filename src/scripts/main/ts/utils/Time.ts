@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { TimeType } from 'Types/tasks';
 
 type TimeDataObj = {

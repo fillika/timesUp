@@ -2,7 +2,7 @@ import React, { useEffect, memo } from 'react';
 
 import { TaskType } from 'Types/tasks';
 import { MainTask } from 'App/components/MainTask';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 export const DayList = memo<{ dateString: string; totalDayTime: string; taskList: TaskType[] }>(
   ({ dateString, totalDayTime, taskList }) => {
@@ -27,5 +27,5 @@ export const DayList = memo<{ dateString: string; totalDayTime: string; taskList
       </div>
     );
   },
-  (prev, next) => _.isEqual(prev.taskList, next.taskList)
+  (prev, next) => isEqual(prev.taskList, next.taskList)
 );
