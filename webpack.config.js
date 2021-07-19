@@ -18,6 +18,37 @@ fs.readdirSync(testFolder).forEach(file => {
   }
 });
 
+const splitChunks = isDev
+  ? false
+  : {
+    /**
+     * Мы можем разделить библиотеки вручную. Для это пишем, внутри регулярных выражений какие библиотеки нам нужны
+     * Например, мы можем добавить несколько библиотек в единый чанк вот в таком формате
+     * /[\\/]node_modules[\\/](react|react-dom|lodash)[\\/]/
+     */
+    cacheGroups: {
+      react: {
+        test: /[\\/]node_modules[\\/]((react).*)[\\/]/,
+        name: 'react',
+        chunks: 'all',
+        filename: 'libs/react.min.js',
+      },
+      lodash: {
+        test: /[\\/]node_modules[\\/](lodash)[\\/]/,
+        name: 'lodash',
+        chunks: 'all',
+        filename: 'libs/lodash.libs.min.js',
+      },
+      mui: {
+        test: /[\\/]node_modules[\\/]((@material-ui).*)[\\/]/,
+        name: 'mui',
+        chunks: 'all',
+        filename: 'libs/mui.libs.min.js',
+      },
+    },
+  };
+
+
 module.exports = {
   entry: entry,
   output: {
@@ -39,9 +70,7 @@ module.exports = {
     },
   },
   plugins: [
-    new CleanWebpackPlugin({
-      dry: true,
-    }),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name]/[name].min.css',
     }),
@@ -96,30 +125,11 @@ module.exports = {
   optimization: {
     minimize: isDev ? false : true,
     removeAvailableModules: false,
-    removeEmptyChunks: false,
-    /**
-     * Мы можем разделить библиотеки вручную. Для это пишем, внутри регулярных выражений какие библиотеки нам нужны
-     * Например, мы можем добавить несколько библиотек в единый чанк вот в таком формате
-     * /[\\/]node_modules[\\/](react|react-dom|lodash)[\\/]/
-     */
-    splitChunks: isDev
-      ? false
-      : {
-          cacheGroups: {
-            react: {
-              test: /[\\/]node_modules[\\/]((react).*)[\\/]/,
-              name: 'react',
-              chunks: 'all',
-              filename: 'libs/react.min.js',
-            },
-            lodash: {
-              test: /[\\/]node_modules[\\/](lodash)[\\/]/,
-              name: 'lodash',
-              chunks: 'all',
-              filename: 'libs/lodash.libs.min.js',
-            },
-          },
-        },
+    mergeDuplicateChunks: true,
+    flagIncludedChunks: true,
+    removeEmptyChunks: true,
+
+    splitChunks,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
   },
 };
