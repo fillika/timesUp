@@ -18,13 +18,15 @@ const theme = createTheme({
       main: '#dc3545',
     },
     warning: {
-      main: '#fcc521'
+      main: '#fcc521',
     },
     success: {
-      main: '#28a745'
-    }
+      main: '#28a745',
+    },
   },
 });
+
+console.log(theme);
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
