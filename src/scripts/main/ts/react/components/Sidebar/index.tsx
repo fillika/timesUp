@@ -9,33 +9,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CodeIcon from '@material-ui/icons/Code';
-
-import { makeStyles, Theme } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  exitButton: {
-    borderColor: theme.palette.error.main,
-    color: theme.palette.error.main,
-    border: '2px solid',
-    width: 50,
-    height: 50,
-    padding: 8,
-    position: 'absolute',
-    bottom: 50,
-    left: 10,
-  },
-  iconLink: {
-    width: 50,
-    height: 50,
-    padding: 8,
-  },
-  title: {
-    color: 'silver',
-    fontSize: 'small',
-    marginBottom: '1em',
-    marginTop: '1em',
-  },
-}));
+import { useStyles } from './hooks/useStyles';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -57,6 +31,7 @@ const Sidebar: React.FC = () => {
           </IconButton>
         </li>
       </ul>
+
       <p className={classes.title}>Statictis</p>
       <ul>
         <li>
@@ -69,6 +44,7 @@ const Sidebar: React.FC = () => {
           </IconButton>
         </li>
       </ul>
+
       <p className={classes.title}>Menu</p>
       <ul>
         <li>
@@ -86,6 +62,7 @@ const Sidebar: React.FC = () => {
           </IconButton>
         </li>
       </ul>
+
       <p className={classes.title}>DevTools</p>
       <ul>
         <li>
