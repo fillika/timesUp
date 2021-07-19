@@ -4,10 +4,13 @@ import { useFormikLogIn } from './hooks/useFormikLogIn';
 import { FormikHOC } from 'App/components/FormikWrapper';
 import { Link } from 'react-router-dom';
 import { ConfirmMessage } from '../ConfirmMessage';
+import Button from '@material-ui/core/Button';
+import { useStyles } from './hooks/useStyles';
 
 export const LogIn = () => {
   const [initialValues, validationSchema, data] = useFormikLogIn();
   const [status, asyncStatus, onSubmit] = useLogInState();
+  const classes = useStyles();
 
   const config = {
     initialValues,
@@ -30,9 +33,9 @@ export const LogIn = () => {
       </div>
 
       <div className='form__button-wrapper'>
-        <button className={`button button--success`} type='submit' disabled={status}>
+        <Button className={classes.button} variant='contained' disabled={status} type='submit'>
           Войти
-        </button>
+        </Button>
       </div>
     </FormikHOC>
   );

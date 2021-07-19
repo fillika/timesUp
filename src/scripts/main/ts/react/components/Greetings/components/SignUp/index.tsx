@@ -3,6 +3,7 @@ import { useFormikSignUp } from './hooks/useFormikSignUp';
 import { useSignUpState } from './hooks/useSignUpState';
 import { FormikHOC } from 'App/components/FormikWrapper';
 import { ConfirmMessage } from '../ConfirmMessage/index';
+import Button from '@material-ui/core/Button';
 
 export const SignUp = () => {
   const [initialValues, validationSchema, data] = useFormikSignUp();
@@ -33,9 +34,9 @@ export const SignUp = () => {
         apply.
       </div>
       <div className='form__button-wrapper'>
-        <button className='button button--primary' type='submit' disabled={status}>
+        <Button color='primary' variant='contained' disabled={status} type="submit">
           Зарегистрироваться
-        </button>
+        </Button>
       </div>
     </FormikHOC>
   );
