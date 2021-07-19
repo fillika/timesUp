@@ -6,7 +6,6 @@ export type DatabaseTask = {
   stop: string;
   userID: string;
   _id: string;
-  _keyID?: string
 }
 
 export type TaskType = {
@@ -17,7 +16,6 @@ export type TaskType = {
   start: string;
   stop: string;
   userID: string;
-  _keyID?: string;
   time?: TimeType[];
 };
 

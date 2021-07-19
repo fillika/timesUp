@@ -61,28 +61,20 @@ const deleteTaskByName = (state: TaskState, payload: { date: string; name: strin
   return newArr;
 };
 
-function generateUniqID(arr: DatabaseTask[]): DatabaseTask[] {
-  return arr.map(el => {
-    if (!el._keyID) el._keyID = _.uniqueId('_key_id_');
-    return el;
-  });
-}
-
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
     case 'GET_ALL_TASKS': {
-      const databaseTaskList = generateUniqID(action.payload.databaseTaskList);
-      const sortedTaskList = sort.sortData(databaseTaskList);
+      const sortedTaskList = sort.sortData(action.payload.databaseTaskList);
 
       return {
         ...state,
         sortedTaskList,
-        databaseTaskList,
+        databaseTaskList: action.payload.databaseTaskList,
         isLoadMore: action.payload.isLoadMore,
       };
     }
     case 'GET_MORE_TASKS': {
-      const databaseTaskList = generateUniqID([...state.databaseTaskList, ...action.payload.databaseTaskList]);
+      const databaseTaskList = [...state.databaseTaskList, ...action.payload.databaseTaskList];
       const sortedTaskList = sort.sortData(databaseTaskList);
 
       return {
@@ -94,9 +86,9 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
       };
     }
     case 'CREATE_TASK': {
-      const databaseTaskList = generateUniqID([...action.payload.newTask, ...state.databaseTaskList]);
+      const databaseTaskList = [...action.payload.newTask, ...state.databaseTaskList];
       const sortedTaskList = sort.sortData(databaseTaskList);
-      
+
       return {
         ...state,
         sortedTaskList,
