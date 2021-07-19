@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import { usePresenter } from './hooks/usePresenter';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import { IconButton } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import { useStyles } from './hooks/useStyles';
 
 type ContinueButton = {
