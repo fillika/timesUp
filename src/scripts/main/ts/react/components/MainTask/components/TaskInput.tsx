@@ -17,8 +17,11 @@ export const TaskInput: FC<TaskInput> = ({ data, setActive, setTyping }) => {
   const { token } = useSelector((state: RootState) => state.app, shallowEqual);
   const [name, setName] = useState(data.name);
 
+  useEffect(() => setName(data.name), [data.name]);
+
   const updateTask = (event: FocusEvent<HTMLInputElement>) => {
     updateTaskByName(updTaskByNameErrHadler, event, data, token, dispatch);
+    setTyping(false);
   };
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +38,7 @@ export const TaskInput: FC<TaskInput> = ({ data, setActive, setTyping }) => {
 
   return (
     <div className='task__input-wrapper'>
-      <input type='text' onBlur={updateTask} onChange={onChange} onKeyPress={onKeyPress} defaultValue={name} />
+      <input type='text' onBlur={updateTask} onChange={onChange} onKeyPress={onKeyPress} value={name} />
     </div>
   );
 };

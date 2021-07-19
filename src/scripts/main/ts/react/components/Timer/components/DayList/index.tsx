@@ -20,9 +20,9 @@ export const DayList = memo<{ dateString: string; totalDayTime: string; taskList
         </div>
 
         <ul className='task-list'>
-          {taskList.map(task => {
-            return <MainTask key={task._id} data={task} />;
-          })}
+          {taskList.map(task => (
+            <MainTask key={task._keyID} data={task} />
+          ))}
         </ul>
       </div>
     );

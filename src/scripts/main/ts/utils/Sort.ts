@@ -10,12 +10,11 @@ class Sort {
    */
   sortData(taskArr: DatabaseTask[]): SortedTask[] {
     const tasks: SortedTask[] = [];
-    // * По какой-то причине здесь мы модифицировали входящий массив
     const deepCopy = JSON.parse(JSON.stringify(taskArr));
 
     deepCopy.forEach((el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
-
+      
       // Тут Я создаю самый первый таск
       if (!tasks.length) {
         const sortedTask = this.createFirstSortedTask(el);
@@ -54,6 +53,7 @@ class Sort {
   findDuplicatesAndPush(taskArr: TaskType[], el: TaskType) {
     const index = _.findIndex(taskArr, ['name', el.name]);
     const task = taskArr[index];
+
 
     if (index !== -1) {
       if (task.time === undefined) {
