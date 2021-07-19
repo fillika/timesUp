@@ -5,10 +5,6 @@
   border-right: 1px solid $color-dark;
   overflow: hidden;
 
-  @include above($md) {
-    --padding: 20px;
-  }
-
   &__log-out {
     position: absolute;
     bottom: 40px;

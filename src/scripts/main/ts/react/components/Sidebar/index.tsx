@@ -2,12 +2,13 @@ import React, { MouseEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { createNotify } from 'Utils/helpers/createNotify';
+import { Button, IconButton } from '@material-ui/core';
+import { ExitToApp } from '@material-ui/icons';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
 
-  const logOut = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
+  const logOut = () => {
     dispatch({ type: 'APP_LOG_OUT' });
     dispatch({ type: 'SET_DEFAULT_ACTIVE_TASK_PROPS' });
   };
@@ -42,9 +43,9 @@ const Sidebar: React.FC = () => {
         <li onClick={() => createNotify('error', 'Test ERROR', dispatch, 5000)}>Call notification</li>
       </ul>
 
-      <a className='sidebar__log-out' href='#' onClick={logOut}>
-        Log out
-      </a>
+      <IconButton onClick={logOut} color="secondary" title="Exit">
+        <ExitToApp />
+      </IconButton>
     </aside>
   );
 };
