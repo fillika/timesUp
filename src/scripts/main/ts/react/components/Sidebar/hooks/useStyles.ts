@@ -1,16 +1,23 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    paddingLeft: 5,
+    borderRight: '1px solid',
+    overflow: 'hidden',
+    position: 'relative',
+  },
   exitButton: {
+    border: '2px solid',
     borderColor: theme.palette.error.main,
     color: theme.palette.error.main,
-    border: '2px solid',
+    position: 'absolute',
+    padding: 8,
     width: 50,
     height: 50,
-    padding: 8,
-    position: 'absolute',
     bottom: 50,
-    left: 10,
+    left: '50%',
+    transform: 'translateX(-50%)',
   },
   iconLink: {
     width: 50,

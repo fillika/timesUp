@@ -8,16 +8,18 @@ import { ConfirmRegister } from 'App/components/ConfirmRegister';
 import { useLoggin } from './hooks/useLoggin';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Cookie } from 'App/components/Cookie';
+import { useStyles } from 'App/components/Timer/hooks/useStyles';
 
 const App: React.FC = () => {
   const [isLoggin, isLoading] = useLoggin();
+  const classes = useStyles();
 
   useEffect(() => {}, [isLoggin]);
 
   if (isLoading) return <Preloader />;
 
   return (
-    <div className='timer'>
+    <div className={classes.root}>
       <Switch>
         <Route path='/login'>{!isLoggin ? <Greetings /> : <Redirect to='/' />}</Route>
 

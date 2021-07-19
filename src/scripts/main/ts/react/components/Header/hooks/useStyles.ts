@@ -2,7 +2,6 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    gridArea: 'header',
     position: 'sticky',
     borderBottom: '1px solid',
     borderColor: theme.palette.primary.main,
@@ -12,6 +11,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     top: 0,
     backgroundColor: '#fff',
     zIndex: theme.zIndex.appBar,
+    overflow: 'hidden',
   },
   panel: {
     position: 'absolute',

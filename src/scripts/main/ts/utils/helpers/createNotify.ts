@@ -16,8 +16,4 @@ export const createNotify = (type: string, message: string, dispatch: Dispatch<a
     payload: notify(type, message, time),
   });
 
-  let timeoutID = setTimeout(() => {
-    dispatch({ type: 'CLEAR_NOTIFICATION' });
-    clearTimeout(timeoutID);
-  }, time);
 };

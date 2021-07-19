@@ -3,10 +3,13 @@ import Header from 'App/components/Header';
 import Timer from 'Scripts/main/ts/react/components/Timer';
 import Sidebar from 'App/components/Sidebar';
 import { Route } from 'react-router-dom';
+import { useStyles } from '../Timer/hooks/useStyles';
 
 export const Root = () => {
+  const classes = useStyles();
+
   return (
-    <div className='timer__wrapper'>
+    <div className={classes.wrapper}>
       <Sidebar />
 
       <main className='main'>

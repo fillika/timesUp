@@ -15,14 +15,14 @@ const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
-
+  
   const logOut = () => {
     dispatch({ type: 'APP_LOG_OUT' });
     dispatch({ type: 'SET_DEFAULT_ACTIVE_TASK_PROPS' });
   };
 
   return (
-    <aside className='sidebar'>
+    <aside className={classes.root}>
       <p className={classes.title}>Track</p>
       <ul>
         <li>
