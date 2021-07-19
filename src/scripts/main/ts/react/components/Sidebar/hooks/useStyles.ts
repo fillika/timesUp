@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   title: {
     color: 'silver',
     fontSize: 'small',
-    marginBottom: '1em',
+    marginBottom: 0,
     marginTop: '1em',
   },
 }));
