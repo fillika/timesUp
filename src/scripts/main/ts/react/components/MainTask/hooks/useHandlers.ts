@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { deleteTaskByName } from '../utils/deleteTaskByName';
@@ -11,7 +11,7 @@ type useHandlers = [
   string,
   React.Dispatch<React.SetStateAction<boolean>>,
   React.Dispatch<React.SetStateAction<boolean>>,
-  () => void,
+  () => void
 ];
 
 export const useHandlers = (data: TaskType): useHandlers => {
@@ -19,15 +19,15 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const [isTyping, setTyping] = useState(false);
-  const { token } = useSelector((state: RootState) => state.app, shallowEqual);
+  const token = useSelector((state: RootState) => state.app.token, shallowEqual);
   const { delTaskByNameErrHadler } = useGlobalError();
 
-  const deleteTask = () => {
+  const deleteTask = useCallback(() => {
     if (isTyping) return;
-    token && deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
-  };
+    if (token) return deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
+  }, [isTyping]);
 
-  useEffect(() => console.log('Render[MainTask]'));
+  useEffect(() => console.log('Render[MainTask]', data.name));
 
   return [isActive, isTyping, name, setActive, setTyping, deleteTask];
 };

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import isEqual from 'lodash/isEqual';
+import _isEqual from 'lodash/isEqual';
 import { SubTasks } from './components/SubTasks';
 import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
@@ -25,11 +25,9 @@ export const MainTask = memo<TaskData>(
           <TaskPanel data={data} isTyping={isTyping} name={name} deleteTask={deleteTask} />
         </div>
 
-        {isActive && data.time !== undefined && data.time.length > 1 && <SubTasks data={data.time} name={data.name} />}
+        <SubTasks isActive={isActive} data={data.time} name={data.name} />
       </li>
     );
   },
-  (prev, next) => {
-    return isEqual(prev.data, next.data);
-  }
+  (prev, next) => _isEqual(prev.data, next.data)
 );

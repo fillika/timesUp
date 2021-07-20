@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { time } from 'Utils/Time';
+import _isEqual from 'lodash/isEqual';
 import { useStyles } from 'App/components/MainTask/hooks/useStyles';
 import { TimeType } from 'Types/tasks';
 
 type RangeTimeProps = {
   data: {
-    start: string,
-    stop: string,
-    duration?: number,
-    time?: TimeType[],
-  }
-}
+    start: string;
+    stop: string;
+    duration?: number;
+    time?: TimeType[];
+  };
+};
 
-const RangeTime: React.FC<RangeTimeProps> = ({ data }) => {
+const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
   const classes = useStyles();
+  const data = JSON.parse(JSON.stringify(fromState));
 
   // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
   if (data.time !== undefined) {
