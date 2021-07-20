@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
-import { useUnmounting } from 'App/hooks/useUnmounting';
 import { deleteTaskByName } from '../utils/deleteTaskByName';
 import { TaskType } from 'Types/tasks';
 import { useGlobalError } from 'App/hooks/useGlobalError';
 
 type useHandlers = [
-  boolean,
   boolean,
   boolean,
   string,
@@ -22,15 +20,14 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const [name, setName] = useState(data.name);
   const [isTyping, setTyping] = useState(false);
   const { token } = useSelector((state: RootState) => state.app, shallowEqual);
-  const [isUnmounting, startUnmount] = useUnmounting();
   const { delTaskByNameErrHadler } = useGlobalError();
 
   const deleteTask = () => {
     if (isTyping) return;
-    token && deleteTaskByName(delTaskByNameErrHadler, data, token, startUnmount, dispatch);
+    token && deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
   };
 
   useEffect(() => console.log('Render[MainTask]'));
 
-  return [isUnmounting, isActive, isTyping, name, setActive, setTyping, deleteTask];
+  return [isActive, isTyping, name, setActive, setTyping, deleteTask];
 };

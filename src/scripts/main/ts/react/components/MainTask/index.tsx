@@ -14,7 +14,7 @@ type TaskData = {
 
 export const MainTask = memo<TaskData>(
   ({ data }) => {
-    const [isUnmounting, isActive, isTyping, name, setActive, setTyping, deleteTask] = useHandlers(data);
+    const [isActive, isTyping, name, setActive, setTyping, deleteTask] = useHandlers(data);
     const classes = useStyles();
 
     return (
@@ -22,7 +22,15 @@ export const MainTask = memo<TaskData>(
         <div className={classes.taskParent}>
           <Counter isActive={isActive} time={data.time} onClick={setActive} />
           <TaskInput data={data} setActive={setActive} setTyping={setTyping} />
-          <TaskPanel isTyping={isTyping} name={name} data={data} deleteTask={deleteTask} />
+          <TaskPanel
+            isTyping={isTyping}
+            name={name}
+            start={data.start}
+            stop={data.stop}
+            duration={data.duration}
+            timeArr={data.time}
+            deleteTask={deleteTask}
+          />
         </div>
 
         {isActive && data.time !== undefined && data.time.length > 1 && <SubTasks data={data.time} name={data.name} />}

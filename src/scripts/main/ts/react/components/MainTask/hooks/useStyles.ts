@@ -21,7 +21,7 @@ const inputStyle = {
   outline: 'none',
   color: 'inherit',
   width: '100%',
-}
+};
 
 export const useStyles = makeStyles(({ palette }: Theme) => ({
   task: {
@@ -46,6 +46,27 @@ export const useStyles = makeStyles(({ palette }: Theme) => ({
     '& input': inputStyle,
     '&:hover': {
       backgroundColor: palette.grey[100],
+    },
+  },
+  taskPanel: {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: 16,
+    lineHeight: '1.25em',
+  },
+  timeTotal: {
+    fontSize: '0.8em',
+  },
+  timeRange: {
+    fontSize: '0.8em',
+    marginRight: 10,
+    borderRadius: 20,
+    padding: '0 5px',
+    userSelect: 'none',
+
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: palette.grey[700],
     },
   },
   counter: {
