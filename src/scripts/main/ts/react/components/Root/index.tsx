@@ -12,7 +12,7 @@ export const Root = () => {
     <div className={classes.wrapper}>
       <Sidebar />
 
-      <main className='main'>
+      <main className={classes.main}>
         <Route exact path='/'>
           <Header />
           <Timer />

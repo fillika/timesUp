@@ -14,7 +14,7 @@ const Header: React.FC = () => {
     <header className={classes.root}>
       <HeaderInput toggleTimer={toggleTimer} name={name} isTimeActive={isTimeActive} />
 
-      <div className={`${classes.panel} header-panel`}>
+      <div className={classes.panel}>
         <TotalTime totalTime={totalTime} />
         <ToggleButton isTimeActive={isTimeActive} toggleTimer={toggleTimer} />
       </div>

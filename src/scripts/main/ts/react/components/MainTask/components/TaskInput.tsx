@@ -4,6 +4,7 @@ import { useGlobalError } from 'App/hooks/useGlobalError';
 import { updateTaskByName } from '../utils/updateTaskByName';
 import { TaskType } from 'Types/tasks';
 import { RootState } from 'Redux/reducers/rootReducer';
+import { useStyles } from '../hooks/useStyles';
 
 type TaskInput = {
   data: TaskType;
@@ -16,6 +17,7 @@ export const TaskInput: FC<TaskInput> = ({ data, setActive, setTyping }) => {
   const { updTaskByNameErrHadler } = useGlobalError();
   const { token } = useSelector((state: RootState) => state.app, shallowEqual);
   const [name, setName] = useState(data.name);
+  const classes = useStyles();
 
   useEffect(() => setName(data.name), [data.name]);
 
@@ -37,8 +39,15 @@ export const TaskInput: FC<TaskInput> = ({ data, setActive, setTyping }) => {
   // useEffect(() => console.log('Render[TaskInput]'));
 
   return (
-    <div className='task__input-wrapper'>
-      <input type='text' onBlur={updateTask} onChange={onChange} onKeyPress={onKeyPress} value={name} />
+    <div className={classes.inputWRapper}>
+      <input
+        onBlur={updateTask}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+        value={name}
+        className={classes.input}
+        type='text'
+      />
     </div>
   );
 };

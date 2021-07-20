@@ -6,6 +6,7 @@ import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
 import { TaskPanel } from './components/TaskPanel';
 import isEqual from 'lodash/isEqual';
+import { useStyles } from './hooks/useStyles';
 
 type TaskData = {
   data: TaskType;
@@ -14,10 +15,11 @@ type TaskData = {
 export const MainTask = memo<TaskData>(
   ({ data }) => {
     const [isUnmounting, isActive, isTyping, name, setActive, setTyping, deleteTask] = useHandlers(data);
+    const classes = useStyles();
 
     return (
-      <li className={`task-list__task ${isUnmounting ? 'task-list__task--unmounting' : ''}`}>
-        <div className='task task--parent'>
+      <li className={classes.task}>
+        <div className={classes.taskParent}>
           <Counter isActive={isActive} time={data.time} onClick={setActive} />
           <TaskInput data={data} setActive={setActive} setTyping={setTyping} />
           <TaskPanel isTyping={isTyping} name={name} data={data} deleteTask={deleteTask} />

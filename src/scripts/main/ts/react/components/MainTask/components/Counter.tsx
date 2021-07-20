@@ -1,5 +1,6 @@
 import React from 'react';
 import { TimeType } from 'Types/tasks';
+import { useStyles } from '../hooks/useStyles';
 
 type Counter = {
   isActive: boolean;
@@ -9,11 +10,12 @@ type Counter = {
 
 export const Counter: React.FC<Counter> = ({ isActive, time, onClick: setActive }) => {
   const toggleActive = () => setActive(!isActive);
+  const classes = useStyles();
 
   if (time !== undefined) {
     if (time.length > 1) {
       return (
-        <div className='task__counter' onClick={toggleActive}>
+        <div className={classes.counter} onClick={toggleActive}>
           {time.length}
         </div>
       );

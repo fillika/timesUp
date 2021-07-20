@@ -11,7 +11,7 @@ export const ToggleButton = memo<{ isTimeActive: boolean; toggleTimer: () => voi
     const iconBtnClassName = isTimeActive ? classes.iconButtonActive : {};
 
     return (
-      <div className='header__button-wrapper'>
+      <div>
         <IconButton onClick={toggleTimer} className={clsx(classes.iconButton, iconBtnClassName)}>
           {!isTimeActive ? <PlayArrowIcon className={classes.playIcon} /> : <StopIcon className={classes.stopIcon} />}
         </IconButton>
