@@ -1,11 +1,11 @@
 import React, { memo } from 'react';
-import { TaskType } from 'Types/tasks';
-import { SubTasks } from 'App/components/SubTasks';
-import { useHandlers } from './hooks/useHandlers';
+import isEqual from 'lodash/isEqual';
+import { SubTasks } from './components/SubTasks';
 import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
 import { TaskPanel } from './components/TaskPanel';
-import isEqual from 'lodash/isEqual';
+import { TaskType } from 'Types/tasks';
+import { useHandlers } from './hooks/useHandlers';
 import { useStyles } from './hooks/useStyles';
 
 type TaskData = {

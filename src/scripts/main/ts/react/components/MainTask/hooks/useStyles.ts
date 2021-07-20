@@ -1,33 +1,64 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(({ palette }: Theme) => ({
-  task: {
-    backgroundImage: `linear-gradient(${palette.primary.main}, ${palette.primary.main})`,
+const bottomLine = (lineColor: string) => {
+  return {
+    backgroundImage: `linear-gradient(${lineColor}, ${lineColor})`,
     backgroundSize: '100% 1px',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center bottom',
-    '&:hover': {
-      backgroundColor: 'silver'
-    }
+  };
+};
+
+const variables = {
+  paddingLeft: 20,
+  counterMarginRight: 10,
+  counterSides: 30,
+};
+
+const inputStyle = {
+  backgroundColor: 'transparent',
+  border: 'none',
+  outline: 'none',
+  color: 'inherit',
+  width: '100%',
+}
+
+export const useStyles = makeStyles(({ palette }: Theme) => ({
+  task: {
+    ...bottomLine(palette.primary.main),
   },
   taskParent: {
     display: 'flex',
     alignItems: 'center',
     height: 50,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: variables.paddingLeft,
+
+    '&:hover': {
+      backgroundColor: palette.grey[300],
+    },
+  },
+  taskChild: {
+    ...bottomLine(palette.grey[500]),
+    display: 'flex',
+    alignItems: 'center',
+    height: 50,
+    paddingLeft: variables.counterMarginRight + variables.counterSides + variables.paddingLeft,
+    '& input': inputStyle,
+    '&:hover': {
+      backgroundColor: palette.grey[100],
+    },
   },
   counter: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     border: `1px solid ${palette.secondary.main}`,
-    width: 30,
-    height: 30,
-    minWidth: 30,
-    minHeight: 30,
+    width: variables.counterSides,
+    height: variables.counterSides,
+    minWidth: variables.counterSides,
+    minHeight: variables.counterSides,
     borderRadius: '50%',
-    marginRight: 10,
+    marginRight: variables.counterMarginRight,
     cursor: 'pointer',
     userSelect: 'none',
 
@@ -38,11 +69,5 @@ export const useStyles = makeStyles(({ palette }: Theme) => ({
   inputWRapper: {
     width: '100%',
   },
-  input: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    outline: 'none',
-    color: 'inherit',
-    width: '100%',
-  },
+  input: inputStyle,
 }));

@@ -1,10 +1,10 @@
-import React, { FC, memo, ChangeEvent, FocusEvent, useState, KeyboardEvent, useEffect } from 'react';
+import React, { FC, ChangeEvent, FocusEvent, useState, KeyboardEvent, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useGlobalError } from 'App/hooks/useGlobalError';
-import { updateTaskByName } from '../utils/updateTaskByName';
-import { TaskType } from 'Types/tasks';
+import { updateTaskByName } from '../../utils/updateTaskByName';
+import { useStyles } from '../../hooks/useStyles';
 import { RootState } from 'Redux/reducers/rootReducer';
-import { useStyles } from '../hooks/useStyles';
+import { TaskType } from 'Types/tasks';
 
 type TaskInput = {
   data: TaskType;

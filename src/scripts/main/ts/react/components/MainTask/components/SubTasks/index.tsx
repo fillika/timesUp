@@ -1,6 +1,6 @@
 import React from 'react';
 import { TimeType } from 'Types/tasks';
-import { Task } from './Task';
+import { Task } from './components/Task';
 
 type SubTask = {
   name: string;

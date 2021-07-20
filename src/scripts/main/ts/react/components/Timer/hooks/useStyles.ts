@@ -11,7 +11,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     overflow: 'hidden',
   },
   main: {
-    overflowY: 'scroll',
+    overflowX: 'hidden',
     '&::-webkit-scrollbar': {
       width: 4,
     },

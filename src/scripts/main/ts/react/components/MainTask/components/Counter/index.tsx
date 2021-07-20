@@ -1,6 +1,6 @@
 import React from 'react';
 import { TimeType } from 'Types/tasks';
-import { useStyles } from '../hooks/useStyles';
+import { useStyles } from '../../hooks/useStyles';
 
 type Counter = {
   isActive: boolean;
