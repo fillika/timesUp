@@ -27,7 +27,7 @@ export const useHandlers = (data: TaskType): useHandlers => {
     if (token) return deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
   }, [isTyping]);
 
-  useEffect(() => console.log('Render[MainTask]', data.name));
+  // useEffect(() => console.log('Render[MainTask]', data.name));
 
   return [isActive, isTyping, name, setActive, setTyping, deleteTask];
 };
