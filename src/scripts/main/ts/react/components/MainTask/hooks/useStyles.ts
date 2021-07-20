@@ -60,13 +60,13 @@ export const useStyles = makeStyles(({ palette }: Theme) => ({
   timeRange: {
     fontSize: '0.8em',
     marginRight: 10,
+    padding: 5,
     borderRadius: 20,
-    padding: '0 5px',
     userSelect: 'none',
 
     '&:hover': {
       cursor: 'pointer',
-      backgroundColor: palette.grey[700],
+      backgroundColor: palette.grey[400],
     },
   },
   counter: {
