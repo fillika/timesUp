@@ -26,8 +26,6 @@ const theme = createTheme({
   },
 });
 
-console.log(theme);
-
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>

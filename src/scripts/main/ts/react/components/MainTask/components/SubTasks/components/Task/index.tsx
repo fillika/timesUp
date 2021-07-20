@@ -18,8 +18,7 @@ export const Task: React.FC<Task> = ({ name, start, stop, _id }) => {
   return (
     <div className={classes.taskChild}>
       <input onChange={onChange} onBlur={updateTask} onKeyPress={onKeyPress} type='text' value={value} />
-
-      <TaskPanel isTyping={isTyping} name={name} start={start} stop={stop} deleteTask={deleteTask} />
+      <TaskPanel isTyping={isTyping} name={name} deleteTask={deleteTask} />
     </div>
   );
 };
