@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { TimeType } from 'Types/tasks';
 import { Task } from './components/Task';
 
@@ -7,11 +7,15 @@ type SubTask = {
   data: TimeType[];
 };
 
+export const SubTasksContext = createContext({
+  data: {} as TimeType,
+});
+
 export const SubTasks: React.FC<SubTask> = ({ data, name }) => {
   return (
     <>
-      {data.map(({ start, stop, _id }) => (
-        <Task key={_id} name={name} start={start} stop={stop} _id={_id} />
+      {data.map(timeTypeData => (
+        <Task key={timeTypeData._id} name={name} data={timeTypeData} />
       ))}
     </>
   );

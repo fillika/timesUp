@@ -1,11 +1,19 @@
 import React, { useContext } from 'react';
 import { time } from 'Utils/Time';
 import { useStyles } from 'App/components/MainTask/hooks/useStyles';
-import { MainTaskContext } from 'App/components/MainTask';
+import { TimeType } from 'Types/tasks';
 
-const RangeTime: React.FC = () => {
+type RangeTimeProps = {
+  data: {
+    start: string,
+    stop: string,
+    duration?: number,
+    time?: TimeType[],
+  }
+}
+
+const RangeTime: React.FC<RangeTimeProps> = ({ data }) => {
   const classes = useStyles();
-  const { data } = useContext(MainTaskContext);
 
   // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
   if (data.time !== undefined) {

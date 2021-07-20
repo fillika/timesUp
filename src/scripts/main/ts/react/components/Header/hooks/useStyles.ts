@@ -7,7 +7,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     borderColor: theme.palette.primary.main,
     display: 'flex',
     padding: 0,
-    height: '3.25em',
+    height: '3.5em',
     top: 0,
     backgroundColor: '#fff',
     zIndex: theme.zIndex.appBar,
