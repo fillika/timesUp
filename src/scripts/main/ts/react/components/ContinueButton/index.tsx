@@ -22,7 +22,7 @@ export const ContinueButton = memo<ContinueButton>(({ name }) => {
       color='secondary'
       disabled={isTimeActive}
       title='Продолжить задачу'>
-      <PlayArrowIcon />
+      <PlayArrowIcon className={classes.playIcon} />
     </IconButton>
   );
 });

@@ -3,6 +3,16 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 export const useStyles = makeStyles((theme: Theme) => ({
   root: {
     minHeight: '100vh',
+    fontSize: 16,
+    [theme.breakpoints.up(1440)]: {
+      fontSize: 20
+    },
+    [theme.breakpoints.up(1600)]: {
+      fontSize: 22
+    },
+    [theme.breakpoints.up('xl')]: {
+      fontSize: 24
+    },
   },
   wrapper: {
     display: 'grid',

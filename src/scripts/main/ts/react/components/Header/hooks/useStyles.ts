@@ -7,7 +7,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     borderColor: theme.palette.primary.main,
     display: 'flex',
     padding: 0,
-    height: 60,
+    height: '3.25em',
     top: 0,
     backgroundColor: '#fff',
     zIndex: theme.zIndex.appBar,
@@ -21,7 +21,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     height: '100%',
     display: 'grid',
     alignItems: 'center',
-    gridTemplateColumns: 'repeat(2, 1fr)',
+    gridTemplateColumns: '1fr 50px',
     columnGap: 15,
     backgroundColor: '#fff',
     padding: '0 10px',
@@ -30,7 +30,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     width: '100%',
     height: '100%',
     border: 'none',
-    fontSize: 16,
+    fontSize: '0.9em',
     padding: ' 0 20px',
 
     '&:focus': {

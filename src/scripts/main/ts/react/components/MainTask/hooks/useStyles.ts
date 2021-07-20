@@ -10,9 +10,9 @@ const bottomLine = (lineColor: string) => {
 };
 
 const variables = {
-  paddingLeft: 20,
+  paddingLeft: 30,
   counterMarginRight: 10,
-  counterSides: 30,
+  counterSides: '2em',
 };
 
 const inputStyle = {
@@ -21,6 +21,7 @@ const inputStyle = {
   outline: 'none',
   color: 'inherit',
   width: '100%',
+  fontSize: '0.9em',
 };
 
 export const useStyles = makeStyles(({ palette }: Theme) => ({
@@ -30,7 +31,7 @@ export const useStyles = makeStyles(({ palette }: Theme) => ({
   taskParent: {
     display: 'flex',
     alignItems: 'center',
-    height: 50,
+    height: '3.15em',
     paddingLeft: variables.paddingLeft,
 
     '&:hover': {
@@ -41,18 +42,20 @@ export const useStyles = makeStyles(({ palette }: Theme) => ({
     ...bottomLine(palette.grey[500]),
     display: 'flex',
     alignItems: 'center',
-    height: 50,
-    paddingLeft: variables.counterMarginRight + variables.counterSides + variables.paddingLeft,
-    '& input': inputStyle,
+    height: '3.15em',
+    paddingLeft: `calc(${variables.counterSides} + ${variables.counterMarginRight}px + ${variables.paddingLeft}px)`,
+    backgroundColor: palette.grey[100],
+
+    '& input': { ...inputStyle, fontSize: '0.8em' },
     '&:hover': {
-      backgroundColor: palette.grey[100],
+      backgroundColor: palette.grey[300],
     },
   },
   taskPanel: {
     display: 'flex',
     alignItems: 'center',
-    fontSize: 16,
     lineHeight: '1.25em',
+    paddingRight: 15
   },
   timeTotal: {
     fontSize: '0.8em',

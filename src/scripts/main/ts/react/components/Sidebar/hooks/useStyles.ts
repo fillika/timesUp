@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     padding: 8,
     width: 50,
     height: 50,
-    bottom: 50,
+    bottom: '4vh',
     left: '50%',
     transform: 'translateX(-50%)',
   },
