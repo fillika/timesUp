@@ -1,19 +1,25 @@
 import React, { FC } from 'react';
-
-import './load-more.scss';
+import Button from '@material-ui/core/Button';
 import { usePresenter } from './hooks/usePresenter';
+import { useStyles } from './hooks/useStyles';
 
-export const LoadMore: FC<{ isLoadMore: boolean; page: number }> = ({ isLoadMore, page }) => {
+type LoadMoreFC = {
+  isLoadMore: boolean;
+  page: number;
+};
+
+export const LoadMore: FC<LoadMoreFC> = ({ isLoadMore, page }) => {
   const [statusState, onClickHandler] = usePresenter(page);
+  const classes = useStyles();
 
   if (!isLoadMore) return null;
 
   return (
-    <div className='load-more'>
-      <div className='load-more__wrapper'>
-        <button onClick={onClickHandler} className='button button--primary' disabled={statusState}>
+    <div className={classes.root}>
+      <div>
+        <Button onClick={onClickHandler} color='primary' disabled={statusState} variant='contained'>
           Загрузить еще
-        </button>
+        </Button>
       </div>
     </div>
   );
