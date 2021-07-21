@@ -4,7 +4,7 @@ import { RootState } from 'Redux/reducers/rootReducer';
 import { useGetTasks } from './hooks/useGetTasks';
 import { ActiveTaskContext } from 'Utils/Context';
 import { LoadMore } from './components/LoadMore';
-import { DayList } from './components/DayList/index';
+import { DayList } from './components/DayList';
 
 const Timer: React.FC = () => {
   const { isLoadMore, page, sortedTaskList } = useGetTasks();

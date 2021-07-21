@@ -1,8 +1,9 @@
 import React from 'react';
-import { TaskListInsideOneDay } from '../TaskListInsideOneDay';
+import { TaskListInsideOneDay } from './components/TaskListInsideOneDay';
 import { SortedTask } from 'Types/tasks';
 
 export const DayList: React.FC<{ taskList: SortedTask[] }> = ({ taskList }) => {
+  console.log(taskList);
   return (
     <div>
       {taskList.map(({ dateISO, mainTaskList }) => {
