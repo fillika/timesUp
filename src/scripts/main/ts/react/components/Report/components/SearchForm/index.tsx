@@ -1,19 +1,15 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { SelectComponent } from './components/Select/index';
+import { SelectComponent } from './components/SelectComponent';
+import { InputComponent } from './components/InputComponent';
 
 export const SearchForm = () => {
   return (
     <div>
       <form>
-        <TextField label='Text task name' />
+        <InputComponent />
 
-        <div>
-          <p>По времени</p>
-
+    
           <SelectComponent />
-        </div>
-        <span>Иконка</span>
       </form>
     </div>
   );

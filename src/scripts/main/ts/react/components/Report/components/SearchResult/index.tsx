@@ -1,6 +1,9 @@
 import React from 'react';
+import { useStyles } from './hooks/useStyles';
 
 export const SearchResult = () => {
+  const classes = useStyles();
+
   return (
     <div>
       <div>
@@ -14,6 +17,7 @@ export const SearchResult = () => {
           <li>Таск номер 3</li>
         </ul>
       </div>
+      
       <div>
         <div>
           <div>20 Jul 2021</div>
