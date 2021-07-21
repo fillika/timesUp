@@ -2,8 +2,8 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   iconButton: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     padding: 0,
     border: '2px solid',
     borderColor: theme.palette.secondary.main,

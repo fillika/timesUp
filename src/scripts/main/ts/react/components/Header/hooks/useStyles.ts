@@ -21,7 +21,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     height: '100%',
     display: 'grid',
     alignItems: 'center',
-    gridTemplateColumns: '1fr 50px',
+    gridTemplateColumns: '1fr auto',
     columnGap: 15,
     backgroundColor: '#fff',
     padding: '0 10px',
