@@ -7,6 +7,14 @@ export const useStyles = makeStyles((theme: Theme) => ({
     padding: 0,
     border: '2px solid',
     borderColor: theme.palette.secondary.main,
+    [theme.breakpoints.up(1440)]: {
+      width: 50,
+      height: 50,
+    },
+    [theme.breakpoints.up(1600)]: {
+      width: 55,
+      height: 55,
+    }
   },
   iconButtonActive: {
     borderColor: theme.palette.error.main,
