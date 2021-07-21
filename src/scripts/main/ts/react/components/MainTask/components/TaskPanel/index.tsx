@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { RangeTime } from 'App/components/MainTask/components/TaskPanel/components/RangeTime';
-import { DeleteIcon } from 'App/components/DeleteIcon';
-import { ContinueButton } from 'App/components/ContinueButton';
+import { RangeTime } from './components/RangeTime';
+import { DeleteIcon } from './components/DeleteIcon';
+import { ContinueButton } from './components/ContinueButton';
 import { useStyles } from '../../hooks/useStyles';
 import { TaskType, TimeType } from 'Types/tasks';
 
