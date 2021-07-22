@@ -22,7 +22,7 @@ export const MainTask = memo<TaskData>(
 
     return (
       <li className={classes.task}>
-        <StyledTask delay={(index + 1) * 125}>
+        <StyledTask delay={index * 125}>
           <Collapse in={isMounted} onExited={deleteTask} timeout={650} unmountOnExit>
             <div className={classes.taskParent}>
               <Counter isActive={isActive} time={data.time} onClick={setActive} />

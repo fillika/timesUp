@@ -21,31 +21,28 @@ const toLocalDateString = (dateISO: string): string => {
   return `${date} ${monthsList[month]} ${year}`;
 };
 
-export const TaskListInsideOneDay = memo<{ dateISO: string; taskList: TaskType[] }>(
-  ({ dateISO, taskList }) => {
-    const classes = useStyles();
+export const TaskListInsideOneDay: React.FC<{ dateISO: string; taskList: TaskType[] }> = ({ dateISO, taskList }) => {
+  const classes = useStyles();
+  const dateString = useMemo(() => toLocalDateString(dateISO), [dateISO]);
+  const totalDayTime = useMemo(() => getTotalDayTime(taskList), [taskList]);
 
-    // useEffect(() => console.log('Render[DayList]', dateString));
-    const dateString = useMemo(() => toLocalDateString(dateISO), [dateISO]);
-    const totalDayTime = useMemo(() => getTotalDayTime(taskList), [taskList]);
+  useEffect(() => console.log('Render[DayList]', dateString));
 
-    return (
-      <div className={classes.dayWrapper}>
-        <div className={classes.taskSectionWrapper}>
-          <div>{dateString}</div>
+  return (
+    <div className={classes.dayWrapper}>
+      <div className={classes.taskSectionWrapper}>
+        <div>{dateString}</div>
 
-          <div className={classes.taskSectionPanel}>
-            <div className={classes.totalTime}>{totalDayTime}</div>
-          </div>
+        <div className={classes.taskSectionPanel}>
+          <div className={classes.totalTime}>{totalDayTime}</div>
         </div>
-
-        <ul>
-          {taskList.map((task, index) => (
-            <MainTask key={task._id} data={task} index={index}/>
-          ))}
-        </ul>
       </div>
-    );
-  },
-  (prev, next) => isEqual(prev.taskList, next.taskList)
-);
+
+      <ul>
+        {taskList.map((task, index) => (
+          <MainTask key={task._id} data={task} index={index + 1} />
+        ))}
+      </ul>
+    </div>
+  );
+};

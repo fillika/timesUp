@@ -25,11 +25,10 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const token = useSelector((state: RootState) => state.app.token, shallowEqual);
   const { delTaskByNameErrHadler } = useGlobalError();
 
-  const deleteTask = useCallback(() => {
+  const deleteTask = () => {
     if (isTyping) return;
     if (token) return deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
-  }, [isTyping]);
-
+  };
 
   const deleteHandler = () => setisMounted(false);
   // useEffect(() => console.log('Render[MainTask]', data.name));
