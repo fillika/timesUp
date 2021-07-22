@@ -40,8 +40,8 @@ export const TaskListInsideOneDay = memo<{ dateISO: string; taskList: TaskType[]
         </div>
 
         <ul>
-          {taskList.map(task => (
-            <MainTask key={task._id} data={task} />
+          {taskList.map((task, index) => (
+            <MainTask key={task._id} data={task} index={index}/>
           ))}
         </ul>
       </div>
