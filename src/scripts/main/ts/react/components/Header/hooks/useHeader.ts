@@ -24,6 +24,18 @@ export function useHeader() {
   const { isTimeActive, duration, start, name, totalTime } = activeTask;
   const { activeTaskErrorHandler, createTaskErrorHandler } = useGlobalError();
 
+  const toggleTimer: () => void = useCallback(
+    () => token && taskHandler.toggleTimer(store.getState().activeTask, dispatch, token),
+    []
+  );
+
+  const keyDownHandler = (event: KeyboardEvent) => {
+    // add STOP ShortCut
+    if (isTimeActive && event.ctrlKey && event.shiftKey && event.code === 'KeyS') {
+      toggleTimer();
+    }
+  };
+
   useEffect(() => {
     if (token) {
       getActiveTask(activeTaskErrorHandler, token, dispatch);
@@ -36,6 +48,10 @@ export function useHeader() {
         taskHandler.updateActiveTask(token, activeTask);
       }
     }
+
+    window.addEventListener('keydown', keyDownHandler);
+
+    return () => window.removeEventListener('keydown', keyDownHandler);
   }, [isTimeActive]);
 
   useEffect(() => {
@@ -63,11 +79,6 @@ export function useHeader() {
       clearTimeout(timeoutID);
     };
   }, [isTimeActive, totalTime]);
-
-  const toggleTimer: () => void = useCallback(
-    () => token && taskHandler.toggleTimer(store.getState().activeTask, dispatch, token),
-    []
-  );
 
   // console.log('Render[Header]');
 
