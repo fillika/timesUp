@@ -20,6 +20,7 @@ export const SignUp = () => {
   if (asyncStatus === 'success') {
     return <ConfirmMessage />;
   }
+  
   return (
     <FormikHOC data={data} config={config}>
       <div className='form__policy'>
