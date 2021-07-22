@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyledCounter, StyledParentTask } from './style';
 import { TaskType } from 'Types/tasks';
 import { ChildList } from '../ChildList/index';
+import Collapse from '@material-ui/core/Collapse';
 
 export const ParentTask: React.FC<{ task: TaskType }> = ({ task }) => {
   const [isActive, setActive] = useState(false);
@@ -19,7 +20,9 @@ export const ParentTask: React.FC<{ task: TaskType }> = ({ task }) => {
         </div>
       </StyledParentTask>
 
-      {isActive ? <ChildList name={task.name} time={task.time} /> : null}
+      <Collapse in={isActive} timeout='auto' unmountOnExit>
+        <ChildList name={task.name} time={task.time} />
+      </Collapse>
     </li>
   );
 };

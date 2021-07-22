@@ -7,6 +7,7 @@ import { TaskPanel } from './components/TaskPanel';
 import { TaskType } from 'Types/tasks';
 import { useHandlers } from './hooks/useHandlers';
 import { useStyles } from './hooks/useStyles';
+import Collapse from '@material-ui/core/Collapse';
 
 type TaskData = {
   data: TaskType;
@@ -25,7 +26,9 @@ export const MainTask = memo<TaskData>(
           <TaskPanel data={data} isTyping={isTyping} name={name} deleteTask={deleteTask} />
         </div>
 
-        <SubTasks isActive={isActive} data={data.time} name={data.name} />
+        <Collapse in={isActive} timeout='auto' unmountOnExit>
+          <SubTasks data={data.time} name={data.name} />
+        </Collapse>
       </li>
     );
   },
