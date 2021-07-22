@@ -1,6 +1,15 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    height: '100%',
+    padding: 10,
+    paddingBottom: 0,
+    [theme.breakpoints.up('md')]: {
+      padding: 20,
+      paddingBottom: 0,
+    }
+  },
   inputWrapper: {
     display: 'flex',
     marginBottom: 20,

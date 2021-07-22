@@ -12,6 +12,7 @@ const Timer: React.FC = () => {
 
   // useEffect(() => console.log('Render[Timer]'));
 
+  console.log(sortedTaskList);
   return (
     <ActiveTaskContext.Provider value={{ isTimeActive }}>
       <DayList taskList={sortedTaskList} />

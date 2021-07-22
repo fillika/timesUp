@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
-export const StyledParentTask = styled.div`
-  height: 3.15em;
+export const StyledTask = styled.div`
+  height: 2.9em;
   display: flex;
   align-items: center;
   padding-left: 20px;
   background-size: 100% 1px;
-  background-image: linear-gradient(#282c35, #282c35);
   background-repeat: no-repeat;
   background-position: center bottom;
   padding-right: 20px;
+  font-size: 0.9em;
 
   .name {
     width: 100%;
@@ -21,15 +21,22 @@ export const StyledParentTask = styled.div`
     user-select: none;
     margin-right: 10px;
     border-radius: 20px;
-
-    &:hover {
-      cursor: pointer;
-      background-color: #bdbdbd;
-    }
   }
 
   .totalTime {
     font-size: 0.8em;
+  }
+`;
+
+export const StyledParentTask = styled(StyledTask)`
+  padding-left: 20px;
+  background-image: linear-gradient(#282c35, #282c35);
+
+  .timeRange {
+    &:hover {
+      cursor: pointer;
+      background-color: #bdbdbd;
+    }
   }
 `;
 
