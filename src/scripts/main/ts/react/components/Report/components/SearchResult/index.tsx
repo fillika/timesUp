@@ -1,18 +1,11 @@
 import React from 'react';
 import { useStyles } from './hooks/useStyles';
-import styled from 'styled-components';
-
-const List = styled.div`
-  background-color: red;
-  padding-top: 20px;
-  display: block;
-`
 
 export const SearchResult = () => {
   const classes = useStyles();
 
   return (
-    <List>
+    <div>
       <div>
         <div>
           <div>21 Jul 2021</div>
@@ -36,6 +29,6 @@ export const SearchResult = () => {
           <li>Таск номер 3</li>
         </ul>
       </div>
-    </List>
+    </div>
   );
 };

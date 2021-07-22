@@ -30,13 +30,12 @@ export const TaskListInsideOneDay = memo<{ dateISO: string; taskList: TaskType[]
     const totalDayTime = useMemo(() => getTotalDayTime(taskList), [taskList]);
 
     return (
-      <div>
+      <div className={classes.dayWrapper}>
         <div className={classes.taskSectionWrapper}>
           <div>{dateString}</div>
 
           <div className={classes.taskSectionPanel}>
             <div className={classes.totalTime}>{totalDayTime}</div>
-            <div className={classes.menu}>...</div>
           </div>
         </div>
 

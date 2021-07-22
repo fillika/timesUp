@@ -20,9 +20,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
     transform: 'translateX(-50%)',
   },
   iconLink: {
-    width: 50,
-    height: 50,
     padding: 8,
+    width: '2.5em',
+    height: '2.5em'
+  },
+  icon: {
+    fontSize: '2em',
   },
   title: {
     color: 'silver',

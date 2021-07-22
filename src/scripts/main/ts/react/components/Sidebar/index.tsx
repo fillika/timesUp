@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
       <ul>
         <li>
           <IconButton onClick={() => history.push('/')} className={classes.iconLink} color='primary' title='Timer'>
-            <TimerIcon fontSize='large' />
+            <TimerIcon className={classes.icon} />
           </IconButton>
         </li>
       </ul>
@@ -40,7 +40,7 @@ const Sidebar: React.FC = () => {
             className={classes.iconLink}
             color='primary'
             title='Reports'>
-            <AssessmentIcon fontSize='large' />
+            <AssessmentIcon className={classes.icon} />
           </IconButton>
         </li>
       </ul>
@@ -49,7 +49,7 @@ const Sidebar: React.FC = () => {
       <ul>
         <li>
           <IconButton onClick={() => history.push('/news')} className={classes.iconLink} color='primary' title='News'>
-            <AnnouncementIcon fontSize='large' />
+            <AnnouncementIcon className={classes.icon} />
           </IconButton>
         </li>
         <li>
@@ -58,7 +58,7 @@ const Sidebar: React.FC = () => {
             className={classes.iconLink}
             color='primary'
             title='Profile'>
-            <AccountBoxIcon fontSize='large' />
+            <AccountBoxIcon className={classes.icon} />
           </IconButton>
         </li>
       </ul>
@@ -71,13 +71,13 @@ const Sidebar: React.FC = () => {
             className={classes.iconLink}
             color='primary'
             title='Timer'>
-            <CodeIcon fontSize='large' />
+            <CodeIcon className={classes.icon} />
           </IconButton>
         </li>
       </ul>
 
       <IconButton onClick={logOut} className={classes.exitButton} title='Exit'>
-        <ExitToApp fontSize='large' />
+        <ExitToApp className={classes.icon} />
       </IconButton>
     </aside>
   );

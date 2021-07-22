@@ -1,8 +1,11 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
+  dayWrapper: {
+    marginBottom: '2em',
+  },
   taskSectionWrapper: {
-    padding:'0 10px',
+    padding: '0 10px',
     display: 'flex',
     alignItems: 'center',
     height: 40,
@@ -14,23 +17,10 @@ export const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     height: 20,
-  }, 
+  },
   totalTime: {
     fontSize: '0.8em',
     color: theme.palette.primary.main,
     marginRight: 20,
-  },
-  menu: {
-    width: 20,
-    height: 20,
-    cursor: 'pointer',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    fontSize: 20,
-    linHeight: '0.5em',
-  },
-  taskList: {
   },
 }));

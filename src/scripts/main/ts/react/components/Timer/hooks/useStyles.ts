@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   wrapper: {
     display: 'grid',
-    gridTemplateColumns: '64px 1fr',
+    gridTemplateColumns: 'minmax(70px, 3em) 1fr',
     height: '100vh',
     overflow: 'hidden',
   },
