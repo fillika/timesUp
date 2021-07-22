@@ -30,7 +30,10 @@ export const useHandlers = (data: TaskType): useHandlers => {
     if (token) return deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
   };
 
-  const deleteHandler = () => setIsMounted(false);
+  const deleteHandler = () => {
+    setActive(false);
+    setIsMounted(false);
+  }
   
   // useEffect(() => console.log('Render[MainTask]', data.name));
 

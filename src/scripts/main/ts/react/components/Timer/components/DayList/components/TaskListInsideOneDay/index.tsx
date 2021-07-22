@@ -12,7 +12,7 @@ export const TaskListInsideOneDay: React.FC<{ dateISO: string; taskList: TaskTyp
     const dateString = useMemo(() => toLocalDateString(dateISO), [dateISO]);
     const totalDayTime = useMemo(() => getTotalDayTime(taskList), [taskList]);
 
-    useEffect(() => console.log('Render[DayList]', dateString));
+    // useEffect(() => console.log('Render[TaskListInsideOneDay]', dateString));
 
     return (
       <div className={classes.dayWrapper}>
