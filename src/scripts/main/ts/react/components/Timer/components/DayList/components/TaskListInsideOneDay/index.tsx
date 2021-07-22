@@ -1,48 +1,36 @@
 import React, { useEffect, memo, useMemo } from 'react';
 import isEqual from 'lodash/isEqual';
 
-import { time } from 'Utils/Time';
 import { MainTask } from 'App/components/MainTask';
 import { TaskType } from 'Types/tasks';
 import { useStyles } from './hooks/useStyles';
+import { getTotalDayTime, toLocalDateString } from './utils';
 
-// Utils
-const getTotalDayTime = (tasks: TaskType[]): string => {
-  let result = 0;
-  tasks.forEach(el => (result += el.duration));
-  return time.countTotalTime(result);
-};
+export const TaskListInsideOneDay: React.FC<{ dateISO: string; taskList: TaskType[] }> = memo(
+  ({ dateISO, taskList }) => {
+    const classes = useStyles();
+    const dateString = useMemo(() => toLocalDateString(dateISO), [dateISO]);
+    const totalDayTime = useMemo(() => getTotalDayTime(taskList), [taskList]);
 
-const toLocalDateString = (dateISO: string): string => {
-  const monthsList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const date = new Date(dateISO).getDate();
-  const month = new Date(dateISO).getMonth();
-  const year = new Date(dateISO).getFullYear();
-  return `${date} ${monthsList[month]} ${year}`;
-};
+    useEffect(() => console.log('Render[DayList]', dateString));
 
-export const TaskListInsideOneDay: React.FC<{ dateISO: string; taskList: TaskType[] }> = ({ dateISO, taskList }) => {
-  const classes = useStyles();
-  const dateString = useMemo(() => toLocalDateString(dateISO), [dateISO]);
-  const totalDayTime = useMemo(() => getTotalDayTime(taskList), [taskList]);
+    return (
+      <div className={classes.dayWrapper}>
+        <div className={classes.taskSectionWrapper}>
+          <div>{dateString}</div>
 
-  useEffect(() => console.log('Render[DayList]', dateString));
-
-  return (
-    <div className={classes.dayWrapper}>
-      <div className={classes.taskSectionWrapper}>
-        <div>{dateString}</div>
-
-        <div className={classes.taskSectionPanel}>
-          <div className={classes.totalTime}>{totalDayTime}</div>
+          <div className={classes.taskSectionPanel}>
+            <div className={classes.totalTime}>{totalDayTime}</div>
+          </div>
         </div>
-      </div>
 
-      <ul>
-        {taskList.map((task, index) => (
-          <MainTask key={task._id} data={task} index={index + 1} />
-        ))}
-      </ul>
-    </div>
-  );
-};
+        <ul>
+          {taskList.map((task, index) => (
+            <MainTask key={task._id} data={task} index={index} />
+          ))}
+        </ul>
+      </div>
+    );
+  },
+  (prev, next) => isEqual(prev.taskList, next.taskList)
+);

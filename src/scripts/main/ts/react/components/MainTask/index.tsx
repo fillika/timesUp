@@ -1,5 +1,4 @@
-import React, { memo, useState } from 'react';
-import _isEqual from 'lodash/isEqual';
+import React from 'react';
 import { SubTasks } from './components/SubTasks';
 import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
@@ -15,28 +14,25 @@ type TaskData = {
   index: number;
 };
 
-export const MainTask = memo<TaskData>(
-  ({ data, index }) => {
-    const [isActive, isMounted, isTyping, name, setActive, setTyping, deleteHandler, deleteTask] = useHandlers(data);
-    const classes = useStyles();
+export const MainTask: React.FC<TaskData> = ({ data, index }) => {
+  const [isActive, isMounted, isTyping, name, setActive, setTyping, deleteHandler, deleteTask] = useHandlers(data);
+  const classes = useStyles();
 
-    return (
-      <li className={classes.task}>
-        <StyledTask delay={index * 125}>
-          <Collapse in={isMounted} onExited={deleteTask} timeout={650} unmountOnExit>
-            <div className={classes.taskParent}>
-              <Counter isActive={isActive} time={data.time} onClick={setActive} />
-              <TaskInput data={data} setActive={setActive} setTyping={setTyping} />
-              <TaskPanel data={data} isTyping={isTyping} name={name} deleteTask={deleteHandler} />
-            </div>
-          </Collapse>
+  return (
+    <li className={classes.task}>
+      <StyledTask delay={index * 75}>
+        <Collapse in={isMounted} onExited={deleteTask} timeout={650} unmountOnExit>
+          <div className={classes.taskParent}>
+            <Counter isActive={isActive} time={data.time} onClick={setActive} />
+            <TaskInput data={data} setActive={setActive} setTyping={setTyping} />
+            <TaskPanel data={data} isTyping={isTyping} name={name} deleteTask={deleteHandler} />
+          </div>
+        </Collapse>
 
-          <Collapse in={isActive} timeout={500} unmountOnExit>
-            <SubTasks isActive={isActive} data={data.time} name={data.name} />
-          </Collapse>
-        </StyledTask>
-      </li>
-    );
-  },
-  (prev, next) => _isEqual(prev.data, next.data)
-);
+        <Collapse in={isActive} timeout={500} unmountOnExit>
+          <SubTasks isActive={isActive} data={data.time} name={data.name} />
+        </Collapse>
+      </StyledTask>
+    </li>
+  );
+};

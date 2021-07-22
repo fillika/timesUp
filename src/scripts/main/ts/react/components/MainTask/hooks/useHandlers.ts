@@ -21,7 +21,7 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const [isActive, setActive] = useState(false);
   const [name, setName] = useState(data.name);
   const [isTyping, setTyping] = useState(false);
-  const [isMounted, setisMounted] = useState(true);
+  const [isMounted, setIsMounted] = useState(true);
   const token = useSelector((state: RootState) => state.app.token, shallowEqual);
   const { delTaskByNameErrHadler } = useGlobalError();
 
@@ -30,7 +30,8 @@ export const useHandlers = (data: TaskType): useHandlers => {
     if (token) return deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
   };
 
-  const deleteHandler = () => setisMounted(false);
+  const deleteHandler = () => setIsMounted(false);
+  
   // useEffect(() => console.log('Render[MainTask]', data.name));
 
   return [isActive, isMounted, isTyping, name, setActive, setTyping, deleteHandler, deleteTask];
