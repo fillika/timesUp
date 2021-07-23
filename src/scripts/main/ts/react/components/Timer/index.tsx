@@ -8,9 +8,10 @@ import { StyledIconButton, StyledModal } from './style';
 
 import StopIcon from '@material-ui/icons/Stop';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import IconButton from '@material-ui/core/IconButton';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+
+import { mainTheme } from 'App/index';
 
 export const Timer = () => {
   const { isOpen, isActive } = useSelector((state: RootState) => state.timer);
@@ -26,15 +27,15 @@ export const Timer = () => {
         <TimeList />
 
         <div className={'button-panel'}>
-          <StyledIconButton>
+          <StyledIconButton buttonColor={mainTheme.palette.success.main}>
             {isActive ? <PauseCircleOutlineIcon /> : <PlayArrowIcon />}
           </StyledIconButton>
-          <IconButton>
+          <StyledIconButton buttonColor={mainTheme.palette.error.main}>
             <StopIcon />
-          </IconButton>
-          <IconButton>
+          </StyledIconButton>
+          <StyledIconButton buttonColor={mainTheme.palette.secondary.main}>
             <RotateLeftIcon />
-          </IconButton>
+          </StyledIconButton>
         </div>
       </StyledModal>
     </ModalComponent>

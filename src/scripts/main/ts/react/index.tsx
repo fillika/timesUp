@@ -6,7 +6,7 @@ import { store } from 'Redux/reducers/rootReducer';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 
-const theme = createTheme({
+export const mainTheme = createTheme({
   palette: {
     primary: {
       main: '#282c35',
@@ -27,7 +27,7 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={mainTheme}>
     <Provider store={store}>
       <Router>
         <App />

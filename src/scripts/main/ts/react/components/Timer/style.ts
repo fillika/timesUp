@@ -7,7 +7,7 @@ export const StyledModal = styled.div`
   border-radius: 8px;
   border: 1px solid #282c35;
   width: 95%;
-  max-width: 800px;
+  max-width: 700px;
   position: absolute;
   left: 50%;
   top: 160px;
@@ -58,24 +58,23 @@ export const StyledModal = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    .MuiSvgIcon-root {
-      font-size: 2em;
-    }
   }
 `;
 
-export const StyledIconButton = styled(IconButton)`
-  padding: 0;
-  font-size: 36px;
-  border-radius: 8px;
-  border: 2px solid ${({ color }) => color || '#282c35'};
-
-  @media (min-width: 425px) {
-    margin: 0 15px;
-  }
-
-  .MuiSvgIcon-root {
-    font-size: 2em;
-  }
+export const StyledIconButton = styled(IconButton)<{ buttonColor?: string }>`
+  ${({ theme, buttonColor }) => `
+        padding: 0;
+        font-size: 36px;
+        border-radius: 8px;
+        border: 2px solid ${buttonColor || theme.palette.primary.main};
+        color: ${buttonColor || theme.palette.primary.main};
+      
+        @media (min-width: 425px) {
+          margin: 0 15px;
+        }
+      
+        .MuiSvgIcon-root {
+          font-size: 1.8em;
+        }
+    `}
 `;
