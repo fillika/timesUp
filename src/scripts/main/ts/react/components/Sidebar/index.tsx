@@ -9,13 +9,14 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CodeIcon from '@material-ui/icons/Code';
+import FormatListNumberedRoundedIcon from '@material-ui/icons/FormatListNumberedRounded';
 import { useStyles } from './hooks/useStyles';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
-  
+
   const logOut = () => {
     dispatch({ type: 'APP_LOG_OUT' });
     dispatch({ type: 'SET_DEFAULT_ACTIVE_TASK_PROPS' });
@@ -26,7 +27,12 @@ const Sidebar: React.FC = () => {
       <p className={classes.title}>Track</p>
       <ul>
         <li>
-          <IconButton onClick={() => history.push('/')} className={classes.iconLink} color='primary' title='Timer'>
+          <IconButton onClick={() => history.push('/')} className={classes.iconLink} color='primary' title='Task list'>
+            <FormatListNumberedRoundedIcon className={classes.icon} />
+          </IconButton>
+        </li>
+        <li>
+          <IconButton onClick={() => console.log('Открыть таймер')} className={classes.iconLink} color='primary' title='Timer'>
             <TimerIcon className={classes.icon} />
           </IconButton>
         </li>

@@ -14,8 +14,8 @@ export const getMoreTask = asyncCatcher(async (page: number, token: string, disp
     },
   });
 
-  if (response.status === "success") {
-    return true
+  if (response.status === 'success') {
+    return true;
   }
 
   return false;
