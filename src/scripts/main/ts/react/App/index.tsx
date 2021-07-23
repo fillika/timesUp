@@ -14,7 +14,6 @@ const App: React.FC = () => {
   const [isLoggin, isLoading] = useLoggin();
   const classes = useStyles();
 
-
   useEffect(() => {}, [isLoggin]);
 
   if (isLoading) return <Preloader />;
