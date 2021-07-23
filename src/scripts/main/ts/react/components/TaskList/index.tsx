@@ -10,7 +10,6 @@ export const TaskList: React.FC = () => {
   const { isLoadMore, page, sortedTaskList } = useGetTasks();
   const isTimeActive = useSelector((state: RootState) => state.activeTask.isTimeActive, shallowEqual);
 
-
   // useEffect(() => console.log('Render[Timer]'));
 
   return (

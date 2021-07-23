@@ -1,11 +1,19 @@
 import React from 'react';
-import { ModalComponent } from 'App/components/Modal';
-import { StyledModal } from './style';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { ModalComponent } from 'App/components/Modal';
 import { RootState } from 'Redux/reducers/rootReducer';
+import { TimeList } from './components/TimeList';
+import { StyledIconButton, StyledModal } from './style';
+
+import StopIcon from '@material-ui/icons/Stop';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import IconButton from '@material-ui/core/IconButton';
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 export const Timer = () => {
-  const isOpen = useSelector((state: RootState) => state.timer.isOpen);
+  const { isOpen, isActive } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
 
   const handleClose = () => dispatch({ type: 'TIMER_CLOSE_MODAL' });
@@ -13,8 +21,21 @@ export const Timer = () => {
   return (
     <ModalComponent open={isOpen} handleClose={handleClose}>
       <StyledModal>
-        <h1>Some modal</h1>
-        <p>Some content</p>
+        <div className='time'>00:00:00.00</div>
+
+        <TimeList />
+
+        <div className={'button-panel'}>
+          <StyledIconButton>
+            {isActive ? <PauseCircleOutlineIcon /> : <PlayArrowIcon />}
+          </StyledIconButton>
+          <IconButton>
+            <StopIcon />
+          </IconButton>
+          <IconButton>
+            <RotateLeftIcon />
+          </IconButton>
+        </div>
       </StyledModal>
     </ModalComponent>
   );

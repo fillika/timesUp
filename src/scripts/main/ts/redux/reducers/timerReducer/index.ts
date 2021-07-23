@@ -1,9 +1,11 @@
 export type TimerState = {
   isOpen: boolean;
+  isActive: boolean;
 };
 
 const initialState: TimerState = {
   isOpen: false,
+  isActive: false
 };
 
 const timerReducer = (state = initialState, action: any) => {

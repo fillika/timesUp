@@ -25,12 +25,14 @@ const Sidebar: React.FC = () => {
     dispatch({ type: 'SET_DEFAULT_ACTIVE_TASK_PROPS' });
   };
 
-  const logOut = () => dispatch(logOutHandler());
+  const logOut = () => {
+    document.title = `TimesUp`;
+    dispatch(logOutHandler());
+  };
 
   return (
     <>
       <Timer />
-
       <aside className={classes.root}>
         <p className={classes.title}>Track</p>
         <ul>
