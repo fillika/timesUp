@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from 'App/components/Header';
-import Main from 'Scripts/main/ts/react/components/Timer';
+import { TaskList } from 'App/components/TaskList';
 import Sidebar from 'App/components/Sidebar';
 
 export const Login = () => {
@@ -8,7 +8,7 @@ export const Login = () => {
     <div className='timer__wrapper'>
       <Header />
       <Sidebar />
-      <Main />
+      <TaskList />
     </div>
   );
 };

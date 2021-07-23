@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from 'App/components/Header';
-import Timer from 'Scripts/main/ts/react/components/Timer';
-import Sidebar from 'App/components/Sidebar';
 import { Route } from 'react-router-dom';
-import { useStyles } from 'App/components/Timer/hooks/useStyles';
+import Header from 'App/components/Header';
+import { TaskList } from 'App/components/TaskList';
+import Sidebar from 'App/components/Sidebar';
+import { useStyles } from 'App/components/TaskList/hooks/useStyles';
 import { Report } from 'App/components/Report';
 
 export const Root = () => {
@@ -16,7 +16,7 @@ export const Root = () => {
       <main className={classes.main}>
         <Route exact path='/'>
           <Header />
-          <Timer />
+          <TaskList />
         </Route>
 
         <Route path='/reports'>

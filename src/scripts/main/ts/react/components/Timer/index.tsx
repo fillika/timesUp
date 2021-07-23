@@ -1,23 +1,21 @@
-import React, { useEffect } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import React from 'react';
+import { ModalComponent } from 'App/components/Modal';
+import { StyledModal } from './style';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
-import { useGetTasks } from './hooks/useGetTasks';
-import { ActiveTaskContext } from 'Utils/Context';
-import { LoadMore } from './components/LoadMore';
-import { DayList } from './components/DayList';
 
-const Timer: React.FC = () => {
-  const { isLoadMore, page, sortedTaskList } = useGetTasks();
-  const isTimeActive = useSelector((state: RootState) => state.activeTask.isTimeActive, shallowEqual);
+export const Timer = () => {
+  const isOpen = useSelector((state: RootState) => state.timer.isOpen);
+  const dispatch = useDispatch();
 
-  // useEffect(() => console.log('Render[Timer]'));
+  const handleClose = () => dispatch({ type: 'TIMER_CLOSE_MODAL' });
 
   return (
-    <ActiveTaskContext.Provider value={{ isTimeActive }}>
-      <DayList taskList={sortedTaskList} />
-      <LoadMore isLoadMore={isLoadMore} page={page} />
-    </ActiveTaskContext.Provider>
+    <ModalComponent open={isOpen} handleClose={handleClose}>
+      <StyledModal>
+        <h1>Some modal</h1>
+        <p>Some content</p>
+      </StyledModal>
+    </ModalComponent>
   );
 };
-
-export default Timer;

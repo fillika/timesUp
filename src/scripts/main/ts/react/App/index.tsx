@@ -8,7 +8,7 @@ import { ConfirmRegister } from 'App/components/ConfirmRegister';
 import { useLoggin } from './hooks/useLoggin';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Cookie } from 'App/components/Cookie';
-import { useStyles } from 'App/components/Timer/hooks/useStyles';
+import { useStyles } from 'Scripts/main/ts/react/components/TaskList/hooks/useStyles';
 
 const App: React.FC = () => {
   const [isLoggin, isLoading] = useLoggin();
