@@ -2,8 +2,8 @@ import { Dispatch } from 'react';
 import { taskAPI } from 'Api/tasks';
 import { DispatchProps, GetState } from 'Redux/types/dispatch';
 
-export const getAllTasks = (token: string) => async (dispatch: Dispatch<DispatchProps>, getState: GetState) => {
-  await taskAPI
+export const getAllTasks = (token: string) => (dispatch: Dispatch<DispatchProps>, getState: GetState) => {
+  taskAPI
     .getAllTask(token)
     .then(response =>
       dispatch({
