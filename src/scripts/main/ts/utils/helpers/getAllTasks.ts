@@ -1,16 +1,19 @@
 import { Dispatch } from 'react';
 import { taskAPI } from 'Api/tasks';
-import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
+import { DispatchProps, GetState } from 'Redux/types/dispatch';
 
-export const getAllTasks = asyncCatcher(async (token: string, dispatch: Dispatch<any>) => {
-  const response = await taskAPI.getAllTask(token);
-
-  dispatch({
-    type: 'GET_ALL_TASKS',
-    payload: {
-      databaseTaskList: response.data.tasks,
-      isLoadMore: response.data.isLoadMore
-    },
-  });
-  dispatch({ type: 'APP_LOG_IN', payload: token });
-});
+export const getAllTasks = (token: string) => async (dispatch: Dispatch<DispatchProps>, getState: GetState) => {
+  await taskAPI
+    .getAllTask(token)
+    .then(response =>
+      dispatch({
+        type: 'GET_ALL_TASKS',
+        payload: {
+          databaseTaskList: response.data.tasks,
+          isLoadMore: response.data.isLoadMore,
+        },
+      })
+    )
+    .then(() => dispatch({ type: 'APP_LOG_IN', payload: token }))
+    .catch(() => dispatch({ type: 'APP_LOG_OUT' }));
+};

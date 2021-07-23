@@ -18,7 +18,6 @@ export const useLogInState = (): [
   const dispatch = useDispatch();
   const [status, setStatus] = useStatusState();
   const statusState: boolean = status === 'pending' ? true : false;
-  const { getTasksErrorHandlerErr } = useGlobalError();
 
   const logIn = asyncCatcher(async (values: LogInValues) => {
     const response = await authAPI.logIn(values);
@@ -27,9 +26,8 @@ export const useLogInState = (): [
       return setStatus('success');
     }
 
-    const token = response.data.token;
     createNotify('success', 'Добро пожаловать!', dispatch);
-    getAllTasks(getTasksErrorHandlerErr, token, dispatch);
+    dispatch(getAllTasks(response.data.token));
   });
 
   const authErrorHandler = (err: AppError) => {

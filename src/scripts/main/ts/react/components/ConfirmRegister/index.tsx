@@ -12,13 +12,12 @@ export const ConfirmRegister = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { token } = useParams<{ token: string }>();
-  const { getTasksErrorHandlerErr } = useGlobalError();
 
   const sendConfirmRequest = asyncCatcher(async () => {
     await authAPI.confirmRegister({ token });
 
     createNotify('success', 'Вы успешно прошли регистрацию!', dispatch, 5500);
-    getAllTasks(getTasksErrorHandlerErr, token, dispatch);
+    dispatch(getAllTasks(token));
   });
 
   const sendConfirmErrHandler = (err: AppError) => {
