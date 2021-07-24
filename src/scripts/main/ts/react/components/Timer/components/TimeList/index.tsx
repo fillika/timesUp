@@ -5,7 +5,7 @@ import { setTimeToInput } from 'Redux/reducers/timerReducer/actionCreators';
 export const TimeList = memo(() => {
   const minutesArr = [1, 2, 5, 10, 15, 30, 60, 120];
   const dispatch = useDispatch();
-  useEffect(() => console.log('Render[TimeList]'));
+  // useEffect(() => console.log('Render[TimeList]'));
 
   const handleClick = (el: number) => dispatch(setTimeToInput(el));
 
