@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 import { authAPI } from 'Api/auth';
-import { createNotify } from 'Utils/helpers/createNotify';
+import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import { FormikSignUpValues } from './useFormikSignUp';
 import { useDispatch } from 'react-redux';
 import { AppError } from 'Utils/Error';
@@ -31,7 +31,7 @@ export const useSignUpState = (): [boolean, asyncStatus, (values: FormikSignUpVa
       case 'fail':
         setStatus('error');
         localStorage.removeItem('JWT');
-        createNotify('error', response.message, dispatch);
+        dispatch(createNotify('error', response.message));
         break;
 
       default:
@@ -44,16 +44,17 @@ export const useSignUpState = (): [boolean, asyncStatus, (values: FormikSignUpVa
     let message = '';
     switch (err.statusCode) {
       case 400:
-        createNotify('error', err.message, dispatch, 5000);
+        dispatch(createNotify('error', err.message));
 
         break;
       case 404:
         message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-        createNotify('error', message, dispatch);
+        dispatch(createNotify('error', message));
+
         break;
 
       default:
-        createNotify('error', err.message, dispatch);
+        dispatch(createNotify('error', err.message));
         break;
     }
   };

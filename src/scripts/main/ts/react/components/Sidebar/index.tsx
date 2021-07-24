@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createNotify } from 'Utils/helpers/createNotify';
+import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -11,13 +11,14 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CodeIcon from '@material-ui/icons/Code';
 import FormatListNumberedRoundedIcon from '@material-ui/icons/FormatListNumberedRounded';
 import { useStyles } from './hooks/useStyles';
+import { openTimerModal } from 'Redux/reducers/timerReducer/actionCreators';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
 
-  const handleOpen = () => dispatch({ type: 'TIMER_OPEN_MODAL' });
+  const handleOpen = () => dispatch(openTimerModal());
 
   const logOutHandler = () => (dispatch: Dispatch<{ type: string }>) => {
     dispatch({ type: 'APP_LOG_OUT' });
@@ -28,6 +29,8 @@ const Sidebar: React.FC = () => {
     document.title = `TimesUp`;
     dispatch(logOutHandler());
   };
+
+  const testErr = () => dispatch(createNotify('error', 'Test ERROR', 5000));
 
   return (
     <>
@@ -84,11 +87,7 @@ const Sidebar: React.FC = () => {
         <p className={classes.title}>DevTools</p>
         <ul>
           <li>
-            <IconButton
-              onClick={() => createNotify('error', 'Test ERROR', dispatch, 5000)}
-              className={classes.iconLink}
-              color='primary'
-              title='Timer'>
+            <IconButton onClick={testErr} className={classes.iconLink} color='primary' title='Timer'>
               <CodeIcon className={classes.icon} />
             </IconButton>
           </li>

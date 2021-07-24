@@ -11,6 +11,10 @@ export const TIMER_OPEN_MODAL = 'TIMER_OPEN_MODAL',
   TIMER_SET_TIME = 'TIMER_SET_TIME',
   TIMER_STOP_AND_CLEAR = 'TIMER_STOP_AND_CLEAR';
 
+export const openTimerModal = () => {
+  return { type: TIMER_OPEN_MODAL };
+};
+
 export const setMsToCounter = (counter: number) => {
   return {
     type: TIMER_SET_COUNTER,

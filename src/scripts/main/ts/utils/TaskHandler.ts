@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
 import { activeTaskAPI } from 'Api/activeTask';
-import { createNotify } from 'Utils/helpers/createNotify';
+import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 
 class TaskHandler {
   defaultData: activeTaskState;
@@ -26,7 +26,7 @@ class TaskHandler {
 
   startTimer(activeTask: activeTaskState, dispatch: Dispatch<any>, token: string) {
     if (activeTask.name.trim() === '') {
-      createNotify('warning', 'У задачи должно быть имя :)', dispatch);
+      dispatch(createNotify('warning', 'У задачи должно быть имя :)'));
       return;
     }
 

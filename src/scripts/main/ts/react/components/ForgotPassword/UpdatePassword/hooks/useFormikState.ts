@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
 import { useHistory, useParams } from 'react-router-dom';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
-import { Dispatch, useState, useEffect } from 'react';
+import { Dispatch } from 'react';
 import { useDispatch } from 'react-redux';
 import { authAPI } from 'Api/auth';
 import { AppError } from 'Utils/Error';
-import { createNotify } from 'Utils/helpers/createNotify';
+import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import { useStatusState } from 'App/hooks/useStatusState';
 
 type FormikValues = {
@@ -29,7 +29,7 @@ export const useFormikState = (): HookState => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [status, setStatus] = useStatusState();
-  const statusState: boolean = status === 'pending' || status === 'error' ? true : false 
+  const statusState: boolean = status === 'pending' || status === 'error' ? true : false;
 
   const initialValues: FormikValues = {
     password: '',
@@ -56,11 +56,13 @@ export const useFormikState = (): HookState => {
 
   const updatePassword = asyncCatcher(async (values: FormikValues, dispatch: Dispatch<any>) => {
     setStatus('pending');
+    
     const { password, passwordConfirm } = values;
     const response = await authAPI.updatePassword({ id, password, passwordConfirm });
 
     dispatch({ type: 'APP_LOG_IN', payload: response.data.token });
-    createNotify('success', 'Ваш пароль изменен.\nДобро пожаловать!', dispatch);
+    dispatch(createNotify('success', 'Ваш пароль изменен.\nДобро пожаловать!'));
+
     setStatus('success');
   });
 
@@ -71,12 +73,13 @@ export const useFormikState = (): HookState => {
     switch (err.statusCode) {
       case 401:
         message = 'Время действия ссылки истекло. Попробуйте еще раз!';
-        createNotify('error', message, dispatch, 3000);
+        dispatch(createNotify('error', message, 3000));
+
         setTimeout(() => history.push('/'), 3000);
         break;
 
       default:
-        createNotify('error', err.message, dispatch);
+        dispatch(createNotify('error', err.message, 3000));
         break;
     }
   };

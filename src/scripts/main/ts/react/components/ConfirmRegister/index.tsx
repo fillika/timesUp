@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { authAPI } from 'Api/auth';
 import { useParams, useHistory } from 'react-router-dom';
-import { useGlobalError } from 'App/hooks/useGlobalError';
-import { createNotify } from 'Utils/helpers/createNotify';
+import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import { getAllTasks } from 'Utils/helpers/getAllTasks';
 import { useDispatch } from 'react-redux';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
@@ -16,14 +15,14 @@ export const ConfirmRegister = () => {
   const sendConfirmRequest = asyncCatcher(async () => {
     await authAPI.confirmRegister({ token });
 
-    createNotify('success', 'Вы успешно прошли регистрацию!', dispatch, 5500);
+    dispatch(createNotify('success', 'Вы успешно прошли регистрацию!', 5500))
     dispatch(getAllTasks(token));
   });
 
   const sendConfirmErrHandler = (err: AppError) => {
     switch (err.statusCode) {
       default:
-        createNotify('error', err.message, dispatch);
+        dispatch(createNotify('error', err.message));
         break;
     }
     history.push('/login');
