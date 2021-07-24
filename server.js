@@ -1,10 +1,7 @@
 const app = require("./app");
 
-const server = {
-  port: process.env.PORT,
-  host: process.env.HOST,
-};
+// require('./webSocket');
 
-app.listen(server.port, server.host, () => {
-  console.log(`Server staring at port ${server.port}`);
+app.listen(process.env.PORT, process.env.HOST, () => {
+  console.log(`Server staring at port ${process.env.PORT}`);
 });

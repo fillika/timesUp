@@ -58,7 +58,6 @@ export function useHeader() {
     if (duration > 0 && token) {
       createTask(createTaskErrorHandler, activeTask, dispatch, token);
       dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
-      document.title = `TimesUp`;
     }
   }, [duration]);
 
@@ -68,8 +67,6 @@ export function useHeader() {
         const diff = new Date().getTime() - new Date(start).getTime();
         const totalTime = time.countTotalTime(diff);
         dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: totalTime });
-
-        document.title = `${totalTime} - ${name}`;
       } else {
         clearTimeout(timeoutID);
       }

@@ -3,13 +3,14 @@ require("dotenv").config({ path: `${__dirname}/config.env` });
 const express = require("express");
 const path = require('path');
 const cors = require("cors");
-const app = express();
 const connectionDB = require("./dbConnection");
 const taskRouter = require("./routes/tasks");
 const activeTaskRouter = require("./routes/activeTask");
 const authRouter = require("./routes/authRouter");
 const AppError = require("./utils/Error");
 const globalErrorHandler = require("./controllers/errorController.js");
+
+const app = express();
 
 connectionDB();
 

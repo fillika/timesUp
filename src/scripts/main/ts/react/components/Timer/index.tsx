@@ -16,17 +16,45 @@ export const Timer = () => {
   const handleClose = () => dispatch({ type: 'TIMER_CLOSE_MODAL' });
 
   useEffect(() => {
+    let hidden: string,
+      visibilityChange: string = '';
+
+    if (typeof document.hidden !== 'undefined') {
+      // Opera 12.10 and Firefox 18 and later support
+      hidden = 'hidden';
+      visibilityChange = 'visibilitychange';
+    } else if (typeof (document as any).msHidden !== 'undefined') {
+      hidden = 'msHidden';
+      visibilityChange = 'msvisibilitychange';
+    } else if (typeof (document as any).webkitHidden !== 'undefined') {
+      hidden = 'webkitHidden';
+      visibilityChange = 'webkitvisibilitychange';
+    }
+
+    document.addEventListener(
+      visibilityChange,
+      () => {
+        if ((document as any)[hidden]) {
+          console.log('Не активна', new Date().toLocaleDateString());
+        } else {
+          console.log('Активна');
+        }
+      },
+      false
+    );
+  }, []);
+
+  useEffect(() => {
     let intervalID: any;
 
     if (isActive) {
-      intervalID = setInterval(() => {
-        const newCounter = counter - 100;
-        dispatch(setTimeToInput(newCounter));
-      }, 100);
+      intervalID = setTimeout(() => {
+        dispatch(setTimeToInput(counter - 1000));
+      }, 1000);
     }
 
     return () => {
-      clearInterval(intervalID);
+      clearTimeout(intervalID);
     };
   }, [counter, isActive]);
 

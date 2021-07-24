@@ -13,7 +13,7 @@ const initialState: TimerState = {
   isOpen: false,
   isActive: false,
   counter: 0,
-  time: '00:00:00.00',
+  time: '00:00:00',
 };
 
 export const timerReducer = (state = initialState, action: Action) => {
@@ -44,7 +44,7 @@ export const timerReducer = (state = initialState, action: Action) => {
       if (action.payload) {
         return {
           ...state,
-          time: action.payload.time || '00:00:00.00',
+          time: action.payload.time || '00:00:00',
         };
       }
       return state;
@@ -54,7 +54,7 @@ export const timerReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         counter: 0,
-        time: '00:00:00.00',
+        time: '00:00:00',
         isActive: false,
       };
     }

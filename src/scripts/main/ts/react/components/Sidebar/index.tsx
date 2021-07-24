@@ -12,6 +12,7 @@ import CodeIcon from '@material-ui/icons/Code';
 import FormatListNumberedRoundedIcon from '@material-ui/icons/FormatListNumberedRounded';
 import { useStyles } from './hooks/useStyles';
 import { openTimerModal } from 'Redux/reducers/timerReducer/actionCreators';
+import { setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,12 +24,10 @@ const Sidebar: React.FC = () => {
   const logOutHandler = () => (dispatch: Dispatch<{ type: string }>) => {
     dispatch({ type: 'APP_LOG_OUT' });
     dispatch({ type: 'SET_DEFAULT_ACTIVE_TASK_PROPS' });
+    setDocumentDefaultTitle();
   };
 
-  const logOut = () => {
-    document.title = `TimesUp`;
-    dispatch(logOutHandler());
-  };
+  const logOut = () => dispatch(logOutHandler());
 
   const testErr = () => dispatch(createNotify('error', 'Test ERROR', 5000));
 

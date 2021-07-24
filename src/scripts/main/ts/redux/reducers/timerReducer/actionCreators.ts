@@ -2,6 +2,7 @@ import { RootState } from 'Redux/reducers/rootReducer';
 import { Dispatch } from 'react';
 import { time } from 'Utils/Time';
 import { playAlarm } from 'App/components/Timer/utils/alarm';
+import { setDocumentDefaultTitle, setDocumentTitle } from 'Utils/helpers/setDocumentTitle';
 
 export const TIMER_OPEN_MODAL = 'TIMER_OPEN_MODAL',
   TIMER_CLOSE_MODAL = 'TIMER_CLOSE_MODAL',
@@ -36,11 +37,20 @@ export const setTimeString = (time: string) => {
 export const setTimeToInput = (counter: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
   if (counter <= 0) {
     playAlarm();
+    setDocumentDefaultTitle();
     return dispatch({ type: TIMER_STOP_AND_CLEAR });
   }
 
-  const timeString = time.countTotalTime(counter, 'ms');
+  const timeString = time.countTotalTime(counter);
+  dispatch(setMsToCounter(counter));
+  dispatch(setTimeString(timeString));
+  setDocumentTitle(timeString);
+};
 
+export const addExtraTime = (extraTime: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
+  const counter = getState().timer.counter + extraTime;
+
+  const timeString = time.countTotalTime(counter);
   dispatch(setMsToCounter(counter));
   dispatch(setTimeString(timeString));
 };
