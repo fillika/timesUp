@@ -1,9 +1,6 @@
-export const playAlarm = () => {
-  const sounds = {
-    alarm: '/audio/alarm.mp3',
-    piggy: '/audio/piggy.mp3',
-  };
-
-  const audio = new Audio(sounds.piggy);
-  audio.play();
+const sounds = {
+  alarm: new Audio('/audio/alarm.mp3'),
+  piggy: new Audio('/audio/piggy.mp3'),
 };
+
+export const playAlarm = () => sounds.piggy.play();
