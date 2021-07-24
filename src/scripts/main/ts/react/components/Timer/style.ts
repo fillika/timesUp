@@ -16,7 +16,7 @@ export const StyledModal = styled.div`
   .time {
     font-size: 48px;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     font-size: 2.5em;
 
     @media (min-width: 768px) {
@@ -29,7 +29,7 @@ export const StyledModal = styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
     width: 80%;
-    margin: 0 auto 20px;
+    margin: 0 auto 30px;
 
     @media (min-width: 425px) {
       justify-content: center;

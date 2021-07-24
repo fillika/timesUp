@@ -14,7 +14,6 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import { mainTheme } from 'App/index';
 import { time as timeUtil } from 'Utils/Time';
 
-
 export const Timer = () => {
   const { isOpen, isActive, time, counter } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
@@ -33,7 +32,7 @@ export const Timer = () => {
         const newCounter = counter + 100;
 
         // Todo доработать метод, чтобы выбирать как возвращать время (секунды, милиссекунды и так далее)
-        console.log(timeUtil.countTotalTime(newCounter));
+        console.log(timeUtil.countTotalTime(newCounter, 'ms'));
 
         dispatch({
           type: 'TIMER_INCREASE_TIME',

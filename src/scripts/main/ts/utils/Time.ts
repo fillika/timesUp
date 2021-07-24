@@ -4,13 +4,14 @@ type TimeDataObj = {
   hours: number | string;
   minutes: number | string;
   seconds: number | string;
+  ms: number | string;
 };
 
 class Time {
   constructor() {}
 
-  countTotalTime(result: number): string {
-    return this.convertToStringFormat(this.createTimeObj(result));
+  countTotalTime(result: number, format?: 'sec' | 'ms'): string {
+    return this.convertToStringFormat(this.createTimeObj(result), format);
   }
 
   createTimeObj(result: number): TimeDataObj {
@@ -18,8 +19,10 @@ class Time {
       hours: 0,
       minutes: 0,
       seconds: 0,
+      ms: 0,
     };
 
+    time.ms = (result % 1000) / 10;
     time.seconds = Math.floor(result / 1000) % 60;
     time.minutes = Math.floor(result / 1000 / 60) % 60;
     time.hours = Math.floor(result / 1000 / 60 / 60);
@@ -27,7 +30,11 @@ class Time {
     return time;
   }
 
-  convertToStringFormat(time: TimeDataObj): string {
+  convertToStringFormat(time: TimeDataObj, format?: 'sec' | 'ms'): string {
+    if (time.ms.toString().length === 1) {
+      time.ms = `0${time.ms}`;
+    }
+
     if (time.seconds.toString().length === 1) {
       time.seconds = `0${time.seconds}`;
     }
@@ -38,6 +45,10 @@ class Time {
 
     if (time.hours.toString().length === 1) {
       time.hours = `0${time.hours}`;
+    }
+
+    if (format === 'ms') {
+      return `${time.hours}:${time.minutes}:${time.seconds}.${time.ms}`;
     }
 
     return `${time.hours}:${time.minutes}:${time.seconds}`;
