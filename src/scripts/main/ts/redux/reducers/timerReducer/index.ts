@@ -55,6 +55,7 @@ export const timerReducer = (state = initialState, action: Action) => {
         ...state,
         counter: 0,
         time: '00:00:00.00',
+        isActive: false,
       };
     }
 
