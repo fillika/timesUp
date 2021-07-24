@@ -43,6 +43,7 @@ export const StyledModal = styled.div`
       width: 89px;
       min-width: 89px;
       margin-bottom: 10px;
+      cursor: pointer;
 
       @media (min-width: 425px) {
         margin-right: 10px;

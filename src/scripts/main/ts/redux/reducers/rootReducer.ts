@@ -4,8 +4,9 @@ import { taskReducer, TaskState } from './taskReducer';
 import { activeTaskReducer, activeTaskState } from './activeTaskReducer';
 import { appReducer, AppState } from './appReducer';
 import { notifyReducer, Notify } from './notifyReducer';
-import { timerReducer, TimerState } from './timerReducer';
+import { timerReducer } from './timerReducer';
 import thunk from 'redux-thunk';
+import { TimerState } from './timerReducer/types';
 
 export interface RootState {
   tasks: TaskState;

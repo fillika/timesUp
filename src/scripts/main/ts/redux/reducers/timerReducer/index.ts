@@ -1,17 +1,13 @@
-export type TimerState = {
-  isOpen: boolean;
-  isActive: boolean;
-  counter: number;
-  time: string;
-};
-
-interface Action {
-  type: string;
-  payload?: {
-    time?: string;
-    counter?: number;
-  };
-}
+import { Action, TimerState } from './types';
+import {
+  TIMER_CLOSE_MODAL,
+  TIMER_OPEN_MODAL,
+  TIMER_SET_COUNTER,
+  TIMER_SET_TIME,
+  TIMER_START,
+  TIMER_STOP,
+  TIMER_STOP_AND_CLEAR,
+} from './actionCreators';
 
 const initialState: TimerState = {
   isOpen: false,
@@ -22,40 +18,62 @@ const initialState: TimerState = {
 
 export const timerReducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case 'TIMER_OPEN_MODAL':
+    case TIMER_OPEN_MODAL: {
       return {
         ...state,
         isOpen: true,
       };
-    case 'TIMER_CLOSE_MODAL':
+    }
+    case TIMER_CLOSE_MODAL: {
       return {
         ...state,
         isOpen: false,
       };
-    case 'TIMER_SET_TIME':
-      if (action.payload)
+    }
+
+    case TIMER_SET_COUNTER: {
+      if (action.payload) {
+        return {
+          ...state,
+          counter: action.payload.counter || 0,
+        };
+      }
+      return state;
+    }
+    case TIMER_SET_TIME: {
+      if (action.payload) {
         return {
           ...state,
           time: action.payload.time || '00:00:00.00',
         };
-    case 'TIMER_INCREASE_TIME':
-      if (action.payload)
-        return {
-          ...state,
-          counter: action.payload.counter,
-        };
-    case 'TIMER_START':
+      }
+      return state;
+    }
+
+    case TIMER_STOP_AND_CLEAR: {
+      return {
+        ...state,
+        counter: 0,
+        time: '00:00:00.00',
+      };
+    }
+
+    case TIMER_START: {
       return {
         ...state,
         isActive: true,
       };
-    case 'TIMER_STOP':
+    }
+
+    case TIMER_STOP: {
       return {
         ...state,
         isActive: false,
       };
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 };
