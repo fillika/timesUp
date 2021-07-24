@@ -11,7 +11,6 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CodeIcon from '@material-ui/icons/Code';
 import FormatListNumberedRoundedIcon from '@material-ui/icons/FormatListNumberedRounded';
 import { useStyles } from './hooks/useStyles';
-import { Timer } from 'App/components/Timer';
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,7 +31,6 @@ const Sidebar: React.FC = () => {
 
   return (
     <>
-      <Timer />
       <aside className={classes.root}>
         <p className={classes.title}>Track</p>
         <ul>

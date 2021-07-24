@@ -61,13 +61,13 @@ export const StyledModal = styled.div`
   }
 `;
 
-export const StyledIconButton = styled(IconButton)<{ buttonColor?: string }>`
-  ${({ theme, buttonColor }) => `
+export const StyledIconButton = styled(IconButton)<{ buttoncolor?: string }>`
+  ${({ theme, buttoncolor }) => `
         padding: 0;
         font-size: 36px;
         border-radius: 8px;
-        border: 2px solid ${buttonColor || theme.palette.primary.main};
-        color: ${buttonColor || theme.palette.primary.main};
+        border: 2px solid ${buttoncolor || theme.palette.primary.main};
+        color: ${buttoncolor || theme.palette.primary.main};
       
         @media (min-width: 425px) {
           margin: 0 15px;

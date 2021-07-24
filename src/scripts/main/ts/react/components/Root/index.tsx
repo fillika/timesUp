@@ -5,6 +5,7 @@ import { TaskList } from 'App/components/TaskList';
 import Sidebar from 'App/components/Sidebar';
 import { useStyles } from 'App/components/TaskList/hooks/useStyles';
 import { Report } from 'App/components/Report';
+import { Timer } from 'App/components/Timer';
 
 export const Root = () => {
   const classes = useStyles();
@@ -12,6 +13,7 @@ export const Root = () => {
   return (
     <div className={classes.wrapper}>
       <Sidebar />
+      <Timer />
 
       <main className={classes.main}>
         <Route exact path='/'>
