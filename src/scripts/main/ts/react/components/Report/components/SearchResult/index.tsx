@@ -1,6 +1,4 @@
 import React from 'react';
-import { DayResult } from './components/DayResult/index';
-import { SortedTask } from 'Types/tasks';
 
 const mockSortedTask = [
   {
@@ -422,11 +420,7 @@ export const SearchResult = () => {
         <p>Среднее?</p>
       </div>
 
-      <div>
-        {mockSortedTask.map((task: SortedTask) => (
-          <DayResult sortedTask={task} key={task.dateISO} />
-        ))}
-      </div>
+      <div>Таблица</div>
     </div>
   );
 };
