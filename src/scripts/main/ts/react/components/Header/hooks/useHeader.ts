@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import { createSelector } from 'reselect';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useGlobalError } from 'App/hooks/useGlobalError';
 import { getActiveTask } from '../utils/getActiveTask';
+import { getJWTToken } from 'Utils/helpers/getJWTToken';
 import {
   createTaskFetch,
   toggleHeaderTimer,
@@ -11,17 +11,10 @@ import {
   updateActiveTime,
 } from 'Redux/reducers/taskReducer/actionCreators';
 
-const memoState = createSelector(
-  (state: RootState) => state,
-  ({ activeTask, app }: RootState) => ({ activeTask, app })
-);
-
 export function useHeader() {
   const dispatch = useDispatch();
-  const {
-    activeTask,
-    app: { token },
-  } = useSelector(memoState);
+  const activeTask = useSelector((state: RootState) => state.activeTask);
+  const token = getJWTToken();
 
   const { isTimeActive, duration, name, totalTime } = activeTask;
   const { activeTaskErrorHandler } = useGlobalError();

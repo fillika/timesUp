@@ -1,12 +1,12 @@
 import { useContext } from 'react';
-import { useDispatch, shallowEqual, useSelector } from 'react-redux';
-import { RootState } from 'Redux/reducers/rootReducer';
+import { useDispatch } from 'react-redux';
 import { ActiveTaskContext } from 'Scripts/main/ts/utils/Context';
 import { continueTaskHadnler } from 'Redux/reducers/taskReducer/actionCreators';
+import { getJWTToken } from 'Utils/helpers/getJWTToken';
 
 export function usePresenter(name: string): [() => void, boolean] {
   const dispatch = useDispatch();
-  const { token } = useSelector((state: RootState) => state.app, shallowEqual);
+  const token = getJWTToken();
   const { isTimeActive } = useContext(ActiveTaskContext);
 
   const startTask = () => token && dispatch(continueTaskHadnler(name, token));
