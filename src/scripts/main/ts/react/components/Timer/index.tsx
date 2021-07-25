@@ -7,42 +7,13 @@ import { ButtonPanel } from './components/ButtonPanel/index';
 
 import { RootState } from 'Redux/reducers/rootReducer';
 import { StyledModal } from './style';
-import { recalculateTime, setTimeToInput } from 'Redux/reducers/timerReducer/actionCreators';
+import { closeTimerModal, recalculateTime } from 'Redux/reducers/timerReducer/actionCreators';
 
 export const Timer = () => {
   const { isOpen, isActive, time, counter } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
 
-  const handleClose = () => dispatch({ type: 'TIMER_CLOSE_MODAL' });
-
-  useEffect(() => {
-    let hidden: string,
-      visibilityChange: string = '';
-
-    if (typeof document.hidden !== 'undefined') {
-      // Opera 12.10 and Firefox 18 and later support
-      hidden = 'hidden';
-      visibilityChange = 'visibilitychange';
-    } else if (typeof (document as any).msHidden !== 'undefined') {
-      hidden = 'msHidden';
-      visibilityChange = 'msvisibilitychange';
-    } else if (typeof (document as any).webkitHidden !== 'undefined') {
-      hidden = 'webkitHidden';
-      visibilityChange = 'webkitvisibilitychange';
-    }
-
-    document.addEventListener(
-      visibilityChange,
-      () => {
-        if ((document as any)[hidden]) {
-          console.log('Не активна');
-        } else {
-          console.log('Активна');
-        }
-      },
-      false
-    );
-  }, []);
+  const handleClose = () => dispatch(closeTimerModal());
 
   useEffect(() => {
     const intervalTime = 100;
@@ -52,9 +23,7 @@ export const Timer = () => {
       intervalID = setTimeout(() => dispatch(recalculateTime()), intervalTime);
     }
 
-    return () => {
-      clearTimeout(intervalID);
-    };
+    return () => clearTimeout(intervalID);
   }, [counter, isActive]);
 
   // useEffect(() => console.log('Render[Timer]'));

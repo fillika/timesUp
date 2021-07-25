@@ -2,7 +2,7 @@ import { RootState } from 'Redux/reducers/rootReducer';
 import { Dispatch } from 'react';
 import { time } from 'Utils/Time';
 import { playAlarm } from 'App/components/Timer/utils/alarm';
-import { setDocumentDefaultTitle, setDocumentTitle } from 'Utils/helpers/setDocumentTitle';
+import { setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
 
 export const TIMER_OPEN_MODAL = 'TIMER_OPEN_MODAL',
   TIMER_CLOSE_MODAL = 'TIMER_CLOSE_MODAL',
@@ -13,9 +13,8 @@ export const TIMER_OPEN_MODAL = 'TIMER_OPEN_MODAL',
   TIMER_SET_TIME = 'TIMER_SET_TIME',
   TIMER_STOP_AND_CLEAR = 'TIMER_STOP_AND_CLEAR';
 
-export const openTimerModal = () => {
-  return { type: TIMER_OPEN_MODAL };
-};
+export const openTimerModal = () => ({ type: TIMER_OPEN_MODAL });
+export const closeTimerModal = () => ({ type: TIMER_CLOSE_MODAL });
 
 export const setMsToCounter = (counter: number) => {
   return {
