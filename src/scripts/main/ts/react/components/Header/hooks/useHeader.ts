@@ -13,10 +13,8 @@ import {
 
 export function useHeader() {
   const dispatch = useDispatch();
-  const activeTask = useSelector((state: RootState) => state.activeTask);
   const token = getJWTToken();
-
-  const { isTimeActive, duration, name, totalTime } = activeTask;
+  const { isTimeActive, duration, name, totalTime } = useSelector((state: RootState) => state.activeTask);
   const { activeTaskErrorHandler } = useGlobalError();
 
   const toggleTimer: () => void = () => token && dispatch(toggleHeaderTimer(token));
@@ -45,11 +43,9 @@ export function useHeader() {
   }, [duration]);
 
   useEffect(() => {
-    let timeoutID = setTimeout(() => dispatch(updateActiveTime()), 1000);
+    let timeoutID = setTimeout(() => dispatch(updateActiveTime()), 999);
 
-    return () => {
-      clearTimeout(timeoutID);
-    };
+    return () => clearTimeout(timeoutID);
   }, [isTimeActive, totalTime]);
 
   // console.log('Render[Header]');
