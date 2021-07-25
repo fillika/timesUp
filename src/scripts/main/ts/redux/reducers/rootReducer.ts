@@ -1,12 +1,13 @@
+import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { taskReducer, TaskState } from './taskReducer';
+import { taskReducer } from './taskReducer';
 import { activeTaskReducer, activeTaskState } from './activeTaskReducer';
 import { appReducer, AppState } from './appReducer';
 import { notifyReducer, Notify } from './notifyReducer';
 import { timerReducer } from './timerReducer';
-import thunk from 'redux-thunk';
 import { TimerState } from './timerReducer/types';
+import { TaskState } from './taskReducer/types';
 
 export interface RootState {
   tasks: TaskState;

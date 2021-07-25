@@ -1,5 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+
+import { useStyles } from './hooks/useStyles';
+import { usePresenter } from './hooks/usePresenter';
+
 import IconButton from '@material-ui/core/IconButton';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -8,8 +12,6 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CodeIcon from '@material-ui/icons/Code';
 import FormatListNumberedRoundedIcon from '@material-ui/icons/FormatListNumberedRounded';
-import { useStyles } from './hooks/useStyles';
-import { usePresenter } from './hooks/usePresenter';
 
 const Sidebar: React.FC = () => {
   const classes = useStyles();

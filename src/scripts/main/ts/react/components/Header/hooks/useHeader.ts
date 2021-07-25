@@ -7,6 +7,7 @@ import { taskHandler } from 'Utils/TaskHandler';
 import { time } from 'Utils/Time';
 import { getActiveTask } from '../utils/getActiveTask';
 import { createTask } from '../utils/createTask';
+import { setDocumentTitle, setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
 
 const memoState = createSelector(
   (state: RootState) => state,
@@ -66,11 +67,13 @@ export function useHeader() {
       if (isTimeActive) {
         const diff = new Date().getTime() - new Date(start).getTime();
         const totalTime = time.countTotalTime(diff);
+        setDocumentTitle(`${totalTime}-${name}`);
         dispatch({ type: 'SET_ACTIVE_TASK_TOTAL_TIME', payload: totalTime });
       } else {
+        setDocumentDefaultTitle();
         clearTimeout(timeoutID);
       }
-    }, 1000);
+    }, 950);
 
     return () => {
       clearTimeout(timeoutID);
