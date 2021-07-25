@@ -115,3 +115,10 @@ export const updateActiveTime = () => {
     }
   };
 };
+
+export const continueTaskHadnler = (name: string, token: string) => {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
+    dispatch({ type: 'UPDATE_ACTIVE_TASK_NAME', payload: name });
+    dispatch(toggleHeaderTimer(token));
+  };
+};
