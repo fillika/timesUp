@@ -8,6 +8,7 @@ import { time } from 'Utils/Time';
 import { getActiveTask } from '../utils/getActiveTask';
 import { createTask } from '../utils/createTask';
 import { setDocumentTitle, setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
+import { createTaskFetch } from 'Redux/reducers/taskReducer/actionCreators';
 
 const memoState = createSelector(
   (state: RootState) => state,
@@ -56,10 +57,7 @@ export function useHeader() {
   }, [isTimeActive]);
 
   useEffect(() => {
-    if (duration > 0 && token) {
-      createTask(createTaskErrorHandler, activeTask, dispatch, token);
-      dispatch({ type: 'RESET_ACTIVE_TASK_PROPS', payload: { totalTime: '00:00:00', name: '', duration: 0 } });
-    }
+    if (duration > 0 && token) dispatch(createTaskFetch(token));
   }, [duration]);
 
   useEffect(() => {
