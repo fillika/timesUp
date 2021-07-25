@@ -1,7 +1,5 @@
-import React, { Dispatch } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import IconButton from '@material-ui/core/IconButton';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -11,25 +9,12 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import CodeIcon from '@material-ui/icons/Code';
 import FormatListNumberedRoundedIcon from '@material-ui/icons/FormatListNumberedRounded';
 import { useStyles } from './hooks/useStyles';
-import { openTimerModal } from 'Redux/reducers/timerReducer/actionCreators';
-import { setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
+import { usePresenter } from './hooks/usePresenter';
 
 const Sidebar: React.FC = () => {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
-
-  const handleOpen = () => dispatch(openTimerModal());
-
-  const logOutHandler = () => (dispatch: Dispatch<{ type: string }>) => {
-    dispatch({ type: 'APP_LOG_OUT' });
-    dispatch({ type: 'SET_DEFAULT_ACTIVE_TASK_PROPS' });
-    setDocumentDefaultTitle();
-  };
-
-  const logOut = () => dispatch(logOutHandler());
-
-  const testErr = () => dispatch(createNotify('error', 'Test ERROR', 5000));
+  const [handleOpen, logOut, testErr] = usePresenter();
 
   return (
     <>
