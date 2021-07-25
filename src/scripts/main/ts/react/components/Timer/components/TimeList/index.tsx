@@ -1,14 +1,15 @@
 import React, { memo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setTimeToInput, addExtraTime } from 'Redux/reducers/timerReducer/actionCreators';
+import { addExtraTime, timeToInputHadnler } from 'Redux/reducers/timerReducer/actionCreators';
 
 export const TimeList = memo(() => {
   const minutesArr = [1, 2, 5, 10, 15, 30, 60, 120];
   const dispatch = useDispatch();
-  // useEffect(() => console.log('Render[TimeList]'));
-
-  const handleClick = (el: number) => dispatch(setTimeToInput(el));
+  
+  const handleClick = (el: number) => dispatch(timeToInputHadnler(el));
   const addTime = (extraTime: number) => dispatch(addExtraTime(extraTime));
+  
+  // useEffect(() => console.log('Render[TimeList]'));
 
   return (
     <div>

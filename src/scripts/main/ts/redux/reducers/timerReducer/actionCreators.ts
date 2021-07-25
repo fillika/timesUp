@@ -13,6 +13,10 @@ export const TIMER_OPEN_MODAL = 'TIMER_OPEN_MODAL',
   TIMER_SET_TIME = 'TIMER_SET_TIME',
   TIMER_STOP_AND_CLEAR = 'TIMER_STOP_AND_CLEAR';
 
+const startTimer = (end: number) => ({ type: TIMER_START, payload: { end } });
+const stopTimer = () => ({ type: TIMER_STOP });
+const setTimerEnd = (end: number) => ({ type: TIMER_SET_END, payload: { end } });
+
 export const openTimerModal = () => ({ type: TIMER_OPEN_MODAL });
 export const closeTimerModal = () => ({ type: TIMER_CLOSE_MODAL });
 
@@ -40,6 +44,21 @@ export const setTimeToInput = (ms: number) => (dispatch: Dispatch<any>, getState
   dispatch(setTimeString(timeString));
 };
 
+export const addExtraTime = (extraTime: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
+  const counter = getState().timer.counter + extraTime;
+  const end = getState().timer.end + extraTime;
+
+  dispatch(setTimerEnd(end));
+  dispatch(setTimeToInput(counter));
+};
+
+export const timeToInputHadnler = (ms: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
+  const state = getState().timer;
+
+  if (state.isActive) dispatch(setTimerEnd(new Date().getTime() + ms));
+  else dispatch(setTimeToInput(ms));
+};
+
 export const recalculateTime = () => (dispatch: Dispatch<any>, getState: () => RootState) => {
   const state = getState().timer;
   const newCountedTime = state.end - new Date().getTime();
@@ -53,29 +72,13 @@ export const recalculateTime = () => (dispatch: Dispatch<any>, getState: () => R
   dispatch(setTimeToInput(newCountedTime));
 };
 
-export const addExtraTime = (extraTime: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
-  const counter = getState().timer.counter + extraTime;
-  const end = getState().timer.end + extraTime;
-
-  dispatch({
-    type: TIMER_SET_END,
-    payload: { end },
-  });
-
-  dispatch(setTimeToInput(counter));
-};
-
 export const toggleTimer = () => (dispatch: Dispatch<any>, getState: () => RootState) => {
   const state = getState().timer;
 
   if (!state.isActive && state.counter > 0) {
     const end = state.counter + new Date().getTime();
-
-    dispatch({
-      type: TIMER_START,
-      payload: { end },
-    });
+    dispatch(startTimer(end));
   } else {
-    dispatch({ type: TIMER_STOP });
+    dispatch(stopTimer());
   }
 };
