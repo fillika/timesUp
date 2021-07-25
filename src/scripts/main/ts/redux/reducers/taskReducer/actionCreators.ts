@@ -3,6 +3,8 @@ import { RootState } from 'Redux/reducers/rootReducer';
 import { taskAPI } from 'Api/tasks';
 import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import { activeTaskAPI } from 'Api/activeTask';
+import { setDocumentTitle, setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
+import { time } from 'Utils/Time';
 
 const defaultData = {
   at: 0,
@@ -17,6 +19,7 @@ const defaultData = {
 const CREATE_TASK = 'CREATE_TASK',
   RESET_ACTIVE_TASK_PROPS = 'RESET_ACTIVE_TASK_PROPS',
   UPDATE_ACTIVE_TASK_START = 'UPDATE_ACTIVE_TASK_START',
+  SET_ACTIVE_TASK_TOTAL_TIME = 'SET_ACTIVE_TASK_TOTAL_TIME',
   UPDATE_ACTIVE_TASK_TIME = 'UPDATE_ACTIVE_TASK_TIME';
 
 const createTask = (payload: []) => ({ type: CREATE_TASK, payload: { newTask: payload } });
@@ -36,6 +39,14 @@ const updateActiveTaskTotalTime = (start: number, end: number) => ({
     isTimeActive: false,
   },
 });
+const setActiveTaskTotalTime = (totalTime: string) => ({ type: SET_ACTIVE_TASK_TOTAL_TIME, payload: totalTime });
+
+export const updateActiveTaskFetch = (token: string) => {
+  return async (dispatch: Dispatch<any>, getState: () => RootState) => {
+    const { activeTask } = getState();
+    await activeTaskAPI.updateActiveTask(token, activeTask).catch(err => console.log(`Some err: ${err}`));
+  };
+};
 
 export const createTaskFetch = (token: string) => {
   return async (dispatch: Dispatch<any>, getState: () => RootState) => {
@@ -59,7 +70,7 @@ export const createTaskFetch = (token: string) => {
   };
 };
 
-export const startTimer = () => {
+export const startHeaderTimer = () => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
     const { activeTask } = getState();
 
@@ -67,27 +78,40 @@ export const startTimer = () => {
       return dispatch(createNotify('warning', 'У задачи должно быть имя :)'));
     }
 
+    setDocumentTitle(`${'00:00:00'}-${activeTask.name}`);
     const start = new Date().getTime();
     dispatch(updateActiveTaskStartTime(start));
   };
 };
 
-export const stopTimer = (token: string) => {
+export const stopHeaderTimer = (token: string) => {
   return async (dispatch: Dispatch<any>, getState: () => RootState) => {
     const { activeTask } = getState();
     const endTime = new Date().getTime();
 
+    setDocumentDefaultTitle();
     dispatch(updateActiveTaskTotalTime(activeTask.start, endTime));
     await activeTaskAPI.updateActiveTask(token, defaultData).catch(err => console.log(`Some err: ${err}`));
   };
 };
 
-export const toggleTimer = (token: string) => {
+export const toggleHeaderTimer = (token: string) => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
     const { activeTask } = getState();
 
-    !activeTask.isTimeActive
-      ? dispatch(startTimer())
-      : dispatch(stopTimer(token));
+    !activeTask.isTimeActive ? dispatch(startHeaderTimer()) : dispatch(stopHeaderTimer(token));
+  };
+};
+
+export const updateActiveTime = () => {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
+    const { isTimeActive, start, name } = getState().activeTask;
+
+    if (isTimeActive) {
+      const diff = new Date().getTime() - new Date(start).getTime();
+      const totalTime = time.countTotalTime(diff);
+      setDocumentTitle(`${totalTime}-${name}`);
+      dispatch(setActiveTaskTotalTime(totalTime));
+    }
   };
 };
