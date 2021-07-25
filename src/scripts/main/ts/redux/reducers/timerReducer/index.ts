@@ -4,6 +4,7 @@ import {
   TIMER_OPEN_MODAL,
   TIMER_SET_COUNTER,
   TIMER_SET_TIME,
+  TIMER_SET_END,
   TIMER_START,
   TIMER_STOP,
   TIMER_STOP_AND_CLEAR,
@@ -12,12 +13,35 @@ import {
 const initialState: TimerState = {
   isOpen: false,
   isActive: false,
+  end: 0,
   counter: 0,
-  time: '00:00:00',
+  time: '00:00:00.00',
 };
 
 export const timerReducer = (state = initialState, action: Action) => {
   switch (action.type) {
+    case TIMER_START: {
+      return {
+        ...state,
+        end: action.payload?.end,
+        isActive: true,
+      };
+    }
+    
+    case TIMER_STOP: {
+      return {
+        ...state,
+        isActive: false,
+      };
+    }
+
+    case TIMER_SET_END: {
+      return {
+        ...state,
+        end: action.payload?.end,
+      };
+    }
+
     case TIMER_OPEN_MODAL: {
       return {
         ...state,
@@ -44,7 +68,7 @@ export const timerReducer = (state = initialState, action: Action) => {
       if (action.payload) {
         return {
           ...state,
-          time: action.payload.time || '00:00:00',
+          time: action.payload.time || '00:00:00.00',
         };
       }
       return state;
@@ -54,21 +78,7 @@ export const timerReducer = (state = initialState, action: Action) => {
       return {
         ...state,
         counter: 0,
-        time: '00:00:00',
-        isActive: false,
-      };
-    }
-
-    case TIMER_START: {
-      return {
-        ...state,
-        isActive: true,
-      };
-    }
-
-    case TIMER_STOP: {
-      return {
-        ...state,
+        time: '00:00:00.00',
         isActive: false,
       };
     }

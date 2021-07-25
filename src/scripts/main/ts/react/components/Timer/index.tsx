@@ -7,7 +7,7 @@ import { ButtonPanel } from './components/ButtonPanel/index';
 
 import { RootState } from 'Redux/reducers/rootReducer';
 import { StyledModal } from './style';
-import { setTimeToInput } from 'Redux/reducers/timerReducer/actionCreators';
+import { recalculateTime, setTimeToInput } from 'Redux/reducers/timerReducer/actionCreators';
 
 export const Timer = () => {
   const { isOpen, isActive, time, counter } = useSelector((state: RootState) => state.timer);
@@ -35,7 +35,7 @@ export const Timer = () => {
       visibilityChange,
       () => {
         if ((document as any)[hidden]) {
-          console.log('Не активна', new Date().toLocaleDateString());
+          console.log('Не активна');
         } else {
           console.log('Активна');
         }
@@ -45,12 +45,11 @@ export const Timer = () => {
   }, []);
 
   useEffect(() => {
+    const intervalTime = 100;
     let intervalID: any;
 
     if (isActive) {
-      intervalID = setTimeout(() => {
-        dispatch(setTimeToInput(counter - 1000));
-      }, 1000);
+      intervalID = setTimeout(() => dispatch(recalculateTime()), intervalTime);
     }
 
     return () => {

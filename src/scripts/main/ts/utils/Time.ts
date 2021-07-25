@@ -22,7 +22,7 @@ class Time {
       ms: 0,
     };
 
-    time.ms = (result % 1000) / 10;
+    time.ms = Math.floor((result % 1000) / 10);
     time.seconds = Math.floor(result / 1000) % 60;
     time.minutes = Math.floor(result / 1000 / 60) % 60;
     time.hours = Math.floor(result / 1000 / 60 / 60);

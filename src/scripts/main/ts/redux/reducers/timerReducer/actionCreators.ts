@@ -9,6 +9,7 @@ export const TIMER_OPEN_MODAL = 'TIMER_OPEN_MODAL',
   TIMER_START = 'TIMER_START',
   TIMER_STOP = 'TIMER_STOP',
   TIMER_SET_COUNTER = 'TIMER_SET_COUNTER',
+  TIMER_SET_END = 'TIMER_SET_END',
   TIMER_SET_TIME = 'TIMER_SET_TIME',
   TIMER_STOP_AND_CLEAR = 'TIMER_STOP_AND_CLEAR';
 
@@ -34,33 +35,48 @@ export const setTimeString = (time: string) => {
   };
 };
 
-export const setTimeToInput = (counter: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
-  if (counter <= 0) {
+export const setTimeToInput = (ms: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
+  const timeString = time.countTotalTime(ms, 'ms');
+  dispatch(setMsToCounter(ms));
+  dispatch(setTimeString(timeString));
+};
+
+export const recalculateTime = () => (dispatch: Dispatch<any>, getState: () => RootState) => {
+  const state = getState().timer;
+  const newCountedTime = state.end - new Date().getTime();
+
+  if (state.isActive && (state.counter <= 0 || new Date().getTime() > state.end)) {
     playAlarm();
     setDocumentDefaultTitle();
     return dispatch({ type: TIMER_STOP_AND_CLEAR });
   }
 
-  const timeString = time.countTotalTime(counter);
-  dispatch(setMsToCounter(counter));
-  dispatch(setTimeString(timeString));
-  setDocumentTitle(timeString);
+  dispatch(setTimeToInput(newCountedTime));
 };
 
 export const addExtraTime = (extraTime: number) => (dispatch: Dispatch<any>, getState: () => RootState) => {
   const counter = getState().timer.counter + extraTime;
+  const end = getState().timer.end + extraTime;
 
-  const timeString = time.countTotalTime(counter);
-  dispatch(setMsToCounter(counter));
-  dispatch(setTimeString(timeString));
+  dispatch({
+    type: TIMER_SET_END,
+    payload: { end },
+  });
+
+  dispatch(setTimeToInput(counter));
 };
 
 export const toggleTimer = () => (dispatch: Dispatch<any>, getState: () => RootState) => {
   const state = getState().timer;
 
   if (!state.isActive && state.counter > 0) {
-    dispatch({ type: 'TIMER_START' });
+    const end = state.counter + new Date().getTime();
+
+    dispatch({
+      type: TIMER_START,
+      payload: { end },
+    });
   } else {
-    dispatch({ type: 'TIMER_STOP' });
+    dispatch({ type: TIMER_STOP });
   }
 };
