@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { RootState } from 'Redux/reducers/rootReducer';
-import { deleteTaskByName } from '../utils/deleteTaskByName';
+import { useDispatch } from 'react-redux';
+import { deleteTaskByName } from 'Redux/reducers/taskReducer/middlewares';
 import { TaskType } from 'Types/tasks';
-import { useGlobalError } from 'App/hooks/useGlobalError';
+import { getJWTToken } from 'Utils/helpers/getJWTToken';
 
 type useHandlers = [
   boolean,
@@ -22,19 +21,17 @@ export const useHandlers = (data: TaskType): useHandlers => {
   const [name, setName] = useState(data.name);
   const [isTyping, setTyping] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
-  const token = useSelector((state: RootState) => state.app.token, shallowEqual);
-  const { delTaskByNameErrHadler } = useGlobalError();
+  const token = getJWTToken();
 
   const deleteTask = () => {
-    if (isTyping) return;
-    if (token) return deleteTaskByName(delTaskByNameErrHadler, data, token, dispatch);
+    !isTyping && token && dispatch(deleteTaskByName(token, data));
   };
 
   const deleteHandler = () => {
     setActive(false);
     setIsMounted(false);
-  }
-  
+  };
+
   // useEffect(() => console.log('Render[MainTask]', data.name));
 
   return [isActive, isMounted, isTyping, name, setActive, setTyping, deleteHandler, deleteTask];

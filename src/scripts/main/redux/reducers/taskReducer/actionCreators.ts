@@ -22,3 +22,10 @@ export const updateTaskByIDAC = (id: string, val: string) => ({
   payload: { taskID: id, newName: val },
 });
 export const deleteTaskByIDAC = (id: string) => ({ type: DELETE_TASKS_BY_ID, payload: { taskID: id } });
+export const deleteTaskByNameAC = (currentTask: TaskType) => ({
+  type: DELETE_TASKS_BY_NAME,
+  payload: {
+    date: currentTask.at,
+    name: currentTask.name,
+  },
+});
