@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useGlobalError } from 'App/hooks/useGlobalError';
-import { getActiveTask } from '../utils/getActiveTask';
 import { getJWTToken } from 'Utils/helpers/getJWTToken';
 import {
   createTaskFetch,
@@ -10,12 +9,12 @@ import {
   updateActiveTaskFetch,
   updateActiveTime,
 } from 'Redux/reducers/taskReducer/actionCreators';
+import { getActiveTask } from 'Redux/reducers/activeTaskReducer/actionCreators';
 
 export function useHeader() {
   const dispatch = useDispatch();
   const token = getJWTToken();
   const { isTimeActive, duration, name, totalTime } = useSelector((state: RootState) => state.activeTask);
-  const { activeTaskErrorHandler } = useGlobalError();
 
   const toggleTimer: () => void = () => token && dispatch(toggleHeaderTimer(token));
 
@@ -24,9 +23,7 @@ export function useHeader() {
   };
 
   useEffect(() => {
-    if (token) {
-      getActiveTask(activeTaskErrorHandler, token, dispatch);
-    }
+    if (token) dispatch(getActiveTask(token));
   }, []);
 
   useEffect(() => {

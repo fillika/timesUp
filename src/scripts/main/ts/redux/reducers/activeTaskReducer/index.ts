@@ -1,3 +1,13 @@
+import {
+  RESET_ACTIVE_TASK_PROPS,
+  SET_ACTIVE_TASK,
+  SET_ACTIVE_TASK_TOTAL_TIME,
+  SET_DEFAULT_ACTIVE_TASK_PROPS,
+  UPDATE_ACTIVE_TASK_NAME,
+  UPDATE_ACTIVE_TASK_START,
+  UPDATE_ACTIVE_TASK_TIME,
+} from './actionCreators';
+
 export type activeTaskState = {
   at: number;
   name: string;
@@ -20,7 +30,7 @@ const initialState: activeTaskState = {
 
 export function activeTaskReducer(state: activeTaskState = initialState, action: any) {
   switch (action.type) {
-    case 'SET_ACTIVE_TASK':
+    case SET_ACTIVE_TASK:
       return {
         ...state,
         at: action.payload.at,
@@ -33,26 +43,26 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
         totalTime: action.payload.totalTime,
       };
 
-    case 'SET_ACTIVE_TASK_TOTAL_TIME':
+    case SET_ACTIVE_TASK_TOTAL_TIME:
       return {
         ...state,
         totalTime: action.payload,
       };
 
-    case 'UPDATE_ACTIVE_TASK_NAME':
+    case UPDATE_ACTIVE_TASK_NAME:
       return {
         ...state,
         name: action.payload,
       };
 
-    case 'UPDATE_ACTIVE_TASK_START':
+    case UPDATE_ACTIVE_TASK_START:
       return {
         ...state,
         start: action.payload,
         isTimeActive: true,
       };
 
-    case 'UPDATE_ACTIVE_TASK_TIME':
+    case UPDATE_ACTIVE_TASK_TIME:
       return {
         ...state,
         stop: action.payload.stop,
@@ -61,7 +71,7 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
         isTimeActive: action.payload.isTimeActive,
       };
 
-    case 'RESET_ACTIVE_TASK_PROPS':
+    case RESET_ACTIVE_TASK_PROPS:
       return {
         ...state,
         totalTime: action.payload.totalTime,
@@ -69,7 +79,7 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
         duration: action.payload.duration,
       };
 
-    case 'SET_DEFAULT_ACTIVE_TASK_PROPS':
+    case SET_DEFAULT_ACTIVE_TASK_PROPS:
       return {
         ...state,
         ...initialState,

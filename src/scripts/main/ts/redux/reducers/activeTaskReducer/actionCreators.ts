@@ -1,0 +1,44 @@
+import { activeTaskAPI } from 'Api/activeTask';
+import { Dispatch } from 'react';
+import { RootState } from '../rootReducer';
+import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
+import { AppError } from 'Utils/Error';
+import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+
+export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK',
+  SET_ACTIVE_TASK_TOTAL_TIME = 'SET_ACTIVE_TASK_TOTAL_TIME',
+  UPDATE_ACTIVE_TASK_NAME = 'UPDATE_ACTIVE_TASK_NAME',
+  UPDATE_ACTIVE_TASK_START = 'UPDATE_ACTIVE_TASK_START',
+  UPDATE_ACTIVE_TASK_TIME = 'UPDATE_ACTIVE_TASK_TIME',
+  RESET_ACTIVE_TASK_PROPS = 'RESET_ACTIVE_TASK_PROPS',
+  SET_DEFAULT_ACTIVE_TASK_PROPS = 'SET_DEFAULT_ACTIVE_TASK_PROPS';
+
+const setActiveTask = (activeTask: activeTaskState) => ({ type: SET_ACTIVE_TASK, payload: activeTask });
+
+export const getActiveTask = (token: string) => {
+  return async (dispatch: Dispatch<any>, getState: () => RootState) => {
+    const result = await activeTaskAPI.getActiveTask(token).catch((err: AppError) => {
+      let message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
+
+      switch (err.statusCode) {
+        case 401:
+          message = 'Пожалуйста, залогиньтесь заново';
+          dispatch(createNotify('warning', message));
+          localStorage.removeItem('JWT');
+          break;
+        case 404:
+          dispatch(createNotify('error', message));
+          break;
+        default:
+          dispatch(createNotify('error', err.message));
+          break;
+      }
+    });
+
+    const activeTask: activeTaskState = result.data.activeTask;
+
+    if (activeTask) {
+      if (activeTask.isTimeActive) dispatch(setActiveTask(activeTask));
+    }
+  };
+};
