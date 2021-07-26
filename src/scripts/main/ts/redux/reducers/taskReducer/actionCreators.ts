@@ -8,6 +8,8 @@ import { time } from 'Utils/Time';
 import { defaultData } from './utils';
 import { AppError } from 'Utils/Error';
 import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
+import { TaskResponse, ServerResponse } from 'Types/serverResponse';
+import { DatabaseTask } from 'Types/tasks';
 
 const CREATE_TASK = 'CREATE_TASK',
   RESET_ACTIVE_TASK_PROPS = 'RESET_ACTIVE_TASK_PROPS',
@@ -15,7 +17,7 @@ const CREATE_TASK = 'CREATE_TASK',
   SET_ACTIVE_TASK_TOTAL_TIME = 'SET_ACTIVE_TASK_TOTAL_TIME',
   UPDATE_ACTIVE_TASK_TIME = 'UPDATE_ACTIVE_TASK_TIME';
 
-const createTask = (payload: []) => ({ type: CREATE_TASK, payload: { newTask: payload } });
+const createTask = (payload: DatabaseTask[]) => ({ type: CREATE_TASK, payload: { newTask: payload } });
 
 const resetActiveTask = () => ({
   type: RESET_ACTIVE_TASK_PROPS,
@@ -40,20 +42,14 @@ export const createTaskFetch = (token: string) => {
 
     taskAPI
       .createTask(activeTask, token)
-      .then(result => {
+      .then((result: ServerResponse<TaskResponse>) => {
         let payload;
 
         if (Array.isArray(result.data.task)) payload = result.data.task;
         else payload = [result.data.task];
 
-        switch (result.action) {
-          case 'CREATE':
-            dispatch(createTask(payload));
-            dispatch(resetActiveTask());
-            break;
-          default:
-            break;
-        }
+        dispatch(createTask(payload));
+        dispatch(resetActiveTask());
       })
       .catch((err: AppError) => errSwitchCase(err, dispatch));
   };

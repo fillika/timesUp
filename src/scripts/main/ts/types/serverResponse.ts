@@ -1,4 +1,5 @@
 import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
+import { DatabaseTask } from 'Types/tasks';
 
 export interface ServerResponse<T> {
   status: 'success';
@@ -7,5 +8,9 @@ export interface ServerResponse<T> {
 }
 
 export type ActiveTaskResponse = {
-  activeTask: activeTaskState
-}
+  activeTask: activeTaskState;
+};
+
+export type TaskResponse = {
+  task: DatabaseTask | DatabaseTask[];
+};
