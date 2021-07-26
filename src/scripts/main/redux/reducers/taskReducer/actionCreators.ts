@@ -21,3 +21,4 @@ export const updateTaskByIDAC = (id: string, val: string) => ({
   type: UPDATE_TASK_LIST_BY_ID,
   payload: { taskID: id, newName: val },
 });
+export const deleteTaskByIDAC = (id: string) => ({ type: DELETE_TASKS_BY_ID, payload: { taskID: id } });

@@ -5,7 +5,7 @@ import { AppError } from 'Utils/Error';
 import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 import { TaskResponse, ServerResponse } from 'Types/serverResponse';
 import { resetActiveTask } from 'Redux/reducers/activeTaskReducer/actionCreators';
-import { createTask, updateTaskByIDAC, updateTaskByNameAC } from './actionCreators';
+import { createTask, updateTaskByIDAC, updateTaskByNameAC, deleteTaskByIDAC } from './actionCreators';
 import { TaskType } from 'Types/tasks';
 
 export const createTaskFetch = (token: string) => {
@@ -49,6 +49,14 @@ export const updateTaskByID = (id: string, val: string, token: string) => {
     taskAPI
       .updateTask(id, { name: val }, token)
       .then(() => dispatch(updateTaskByIDAC(id, val)))
+      .catch((err: AppError) => errSwitchCase(err, dispatch));
+  };
+};
+export const deleteTaskByID = (id: string, token: string) => {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
+    taskAPI
+      .deleteTaskByID(id, token)
+      .then(() => dispatch(deleteTaskByIDAC(id)))
       .catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };

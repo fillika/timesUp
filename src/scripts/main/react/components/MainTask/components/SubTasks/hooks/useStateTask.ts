@@ -1,9 +1,7 @@
 import { FocusEvent, useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
-import { useGlobalError } from 'App/hooks/useGlobalError';
-import { deleteTaskByID } from '../utils/deleteTaskByID';
-import { updateTaskByID } from 'Redux/reducers/taskReducer/middlewares';
+import { deleteTaskByID, updateTaskByID } from 'Redux/reducers/taskReducer/middlewares';
 import { getJWTToken } from 'Utils/helpers/getJWTToken';
 
 type useStateTaskType = [
@@ -21,13 +19,11 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
   const token = getJWTToken();
   const [value, setValue] = useState(name);
   const [isTyping, setTyping] = useState(false);
-  const { delTaskByIdErrHadler } = useGlobalError();
 
   useEffect(() => setValue(name), [taskName]);
 
   const deleteTask = () => {
-    if (isTyping) return;
-    deleteTaskByID(delTaskByIdErrHadler, _id, token, dispatch);
+    !isTyping && token && dispatch(deleteTaskByID(_id, token));
   };
 
   const updateTask = (event: FocusEvent<HTMLInputElement>) => {
