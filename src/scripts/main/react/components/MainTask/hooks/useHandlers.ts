@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteTaskByName } from 'Redux/reducers/taskReducer/middlewares';
 import { TaskType } from 'Types/tasks';
-import { getJWTToken } from 'Utils/helpers/getJWTToken';
+import { getJWTToken } from 'Scripts/main/utils/helpers/JWTHadlers';
 
 type useHandlers = [
   boolean,

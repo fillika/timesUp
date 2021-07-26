@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useStyles } from '../../hooks/useStyles';
 import { TaskType } from 'Types/tasks';
 import { updateTaskByName } from 'Redux/reducers/taskReducer/middlewares';
-import { getJWTToken } from 'Utils/helpers/getJWTToken';
+import { getJWTToken } from 'Scripts/main/utils/helpers/JWTHadlers';
 
 type TaskInput = {
   data: TaskType;

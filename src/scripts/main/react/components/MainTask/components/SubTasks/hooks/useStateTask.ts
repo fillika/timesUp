@@ -2,7 +2,7 @@ import { FocusEvent, useState, useEffect, ChangeEvent, KeyboardEvent } from 'rea
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { deleteTaskByID, updateTaskByID } from 'Redux/reducers/taskReducer/middlewares';
-import { getJWTToken } from 'Utils/helpers/getJWTToken';
+import { getJWTToken } from 'Scripts/main/utils/helpers/JWTHadlers';
 
 type useStateTaskType = [
   boolean,

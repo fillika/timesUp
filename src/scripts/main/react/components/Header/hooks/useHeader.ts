@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
-import { getJWTToken } from 'Utils/helpers/getJWTToken';
+import { getJWTToken } from 'Scripts/main/utils/helpers/JWTHadlers';
 import { createTaskFetch } from 'Redux/reducers/taskReducer/middlewares';
 import {
   getActiveTask,
