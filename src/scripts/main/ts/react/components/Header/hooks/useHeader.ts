@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { getJWTToken } from 'Utils/helpers/getJWTToken';
+import { createTaskFetch } from 'Redux/reducers/taskReducer/actionCreators';
 import {
-  createTaskFetch,
+  getActiveTask,
+  updateActiveTaskFetch,
   toggleHeaderTimer,
   updateActiveTime,
-} from 'Redux/reducers/taskReducer/actionCreators';
-import { getActiveTask, updateActiveTaskFetch } from 'Redux/reducers/activeTaskReducer/actionCreators';
+} from 'Redux/reducers/activeTaskReducer/middlewares';
 
 export function useHeader() {
   const dispatch = useDispatch();
@@ -39,7 +40,6 @@ export function useHeader() {
 
   useEffect(() => {
     let timeoutID = setTimeout(() => dispatch(updateActiveTime()), 999);
-
     return () => clearTimeout(timeoutID);
   }, [isTimeActive, totalTime]);
 
