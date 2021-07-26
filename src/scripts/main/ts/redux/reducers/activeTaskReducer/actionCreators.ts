@@ -4,6 +4,7 @@ import { RootState } from '../rootReducer';
 import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
 import { AppError } from 'Utils/Error';
 import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { ActiveTaskResponse, ServerResponse } from 'Types/serverResponse';
 
 export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK',
   SET_ACTIVE_TASK_TOTAL_TIME = 'SET_ACTIVE_TASK_TOTAL_TIME',
@@ -17,7 +18,7 @@ const setActiveTask = (activeTask: activeTaskState) => ({ type: SET_ACTIVE_TASK,
 
 export const getActiveTask = (token: string) => {
   return async (dispatch: Dispatch<any>, getState: () => RootState) => {
-    const getResponse = (response: Response) => {
+    const getResponse = (response: ServerResponse<ActiveTaskResponse>) => {
       const activeTask: activeTaskState = response.data.activeTask;
 
       if (activeTask) {

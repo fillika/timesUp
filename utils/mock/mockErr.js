@@ -1,10 +1,6 @@
 
-module.exports.mockErr = (res, status, result) => {
-  res.status(status).json({
-    status: 'fail',
-    message: `Mock error ${status}`,
-    data: {
-      result
-    },
-  })
+const { AppError } = require('../Error')
+
+module.exports.mockErr = (status, next) => {
+  next(new AppError('Mock error', status))
 }

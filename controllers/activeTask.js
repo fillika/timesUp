@@ -7,7 +7,7 @@ const getActiveTask = async (req, res, next) => {
 
   const result = await ActiveTask.findOne({ userID: id });
 
-  // mockErr(res, 404, result);
+  //return mockErr(404, next);
 
   res.status(200).json({
     status: "success",
