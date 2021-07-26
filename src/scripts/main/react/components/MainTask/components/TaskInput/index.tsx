@@ -1,10 +1,10 @@
 import React, { FC, ChangeEvent, FocusEvent, useState, KeyboardEvent, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useGlobalError } from 'App/hooks/useGlobalError';
-import { updateTaskByName } from '../../utils/updateTaskByName';
 import { useStyles } from '../../hooks/useStyles';
-import { RootState } from 'Redux/reducers/rootReducer';
 import { TaskType } from 'Types/tasks';
+import { updateTaskByName } from 'Redux/reducers/taskReducer/middlewares';
+import { getJWTToken } from 'Utils/helpers/getJWTToken';
 
 type TaskInput = {
   data: TaskType;
@@ -14,16 +14,20 @@ type TaskInput = {
 
 export const TaskInput: FC<TaskInput> = ({ data, setActive, setTyping }) => {
   const dispatch = useDispatch();
-  const { updTaskByNameErrHadler } = useGlobalError();
-  const { token } = useSelector((state: RootState) => state.app, shallowEqual);
+  const token = getJWTToken();
   const [name, setName] = useState(data.name);
   const classes = useStyles();
 
   useEffect(() => setName(data.name), [data.name]);
 
   const updateTask = (event: FocusEvent<HTMLInputElement>) => {
-    updateTaskByName(updTaskByNameErrHadler, event, data, token, dispatch);
-    setTyping(false);
+    const val = event.target.value.trim();
+
+    if (val !== data.name && token) {
+      dispatch(updateTaskByName(val, token, data));
+      setTyping(false);
+      // updateTaskByName(updTaskByNameErrHadler, event, data, token, dispatch);
+    }
   };
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
