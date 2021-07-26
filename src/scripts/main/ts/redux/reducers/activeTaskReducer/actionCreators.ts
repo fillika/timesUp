@@ -3,8 +3,8 @@ import { Dispatch } from 'react';
 import { RootState } from '../rootReducer';
 import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
 import { AppError } from 'Utils/Error';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import { ActiveTaskResponse, ServerResponse } from 'Types/serverResponse';
+import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 
 export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK',
   SET_ACTIVE_TASK_TOTAL_TIME = 'SET_ACTIVE_TASK_TOTAL_TIME',
@@ -15,27 +15,6 @@ export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK',
   SET_DEFAULT_ACTIVE_TASK_PROPS = 'SET_DEFAULT_ACTIVE_TASK_PROPS';
 
 const setActiveTask = (activeTask: activeTaskState) => ({ type: SET_ACTIVE_TASK, payload: activeTask });
-
-const errSwitchCase = (err: AppError, dispatch: Dispatch<any>) => {
-  let message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-
-  switch (err.statusCode) {
-    case 401:
-      message = 'Пожалуйста, залогиньтесь заново';
-      dispatch(createNotify('warning', message));
-      localStorage.removeItem('JWT');
-      break;
-    case 404:
-      dispatch(createNotify('error', message));
-      break;
-    case 500:
-      dispatch(createNotify('error', `Ошибка сервера: ${err.message}`));
-      break;
-    default:
-      dispatch(createNotify('error', err.message));
-      break;
-  }
-};
 
 export const getActiveTask = (token: string) => {
   return async (dispatch: Dispatch<any>, getState: () => RootState) => {

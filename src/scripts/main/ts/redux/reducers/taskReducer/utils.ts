@@ -1,6 +1,16 @@
 import remove from 'lodash/remove';
 import { TaskState } from './types';
 
+export const defaultData = {
+  at: 0,
+  name: '',
+  start: 0,
+  stop: 0,
+  duration: 0,
+  isTimeActive: false,
+  totalTime: '0:00:00',
+};
+
 export const updateTaskByName = (state: TaskState, payload: { name: string; date: string; newName: string }) => {
   const { name, date, newName } = payload;
 

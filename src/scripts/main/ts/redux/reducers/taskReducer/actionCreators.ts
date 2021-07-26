@@ -5,16 +5,9 @@ import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
 import { activeTaskAPI } from 'Api/activeTask';
 import { setDocumentTitle, setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
 import { time } from 'Utils/Time';
-
-const defaultData = {
-  at: 0,
-  name: '',
-  start: 0,
-  stop: 0,
-  duration: 0,
-  isTimeActive: false,
-  totalTime: '0:00:00',
-};
+import { defaultData } from './utils';
+import { AppError } from 'Utils/Error';
+import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 
 const CREATE_TASK = 'CREATE_TASK',
   RESET_ACTIVE_TASK_PROPS = 'RESET_ACTIVE_TASK_PROPS',
@@ -42,24 +35,27 @@ const updateActiveTaskTotalTime = (start: number, end: number) => ({
 const setActiveTaskTotalTime = (totalTime: string) => ({ type: SET_ACTIVE_TASK_TOTAL_TIME, payload: totalTime });
 
 export const createTaskFetch = (token: string) => {
-  return async (dispatch: Dispatch<any>, getState: () => RootState) => {
-    let payload;
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
     const activeTask = getState().activeTask;
-    const result = await taskAPI.createTask(activeTask, token).catch(err => console.log(`Some err: ${err}`));
 
-    if (Array.isArray(result.data.task)) payload = result.data.task;
-    else payload = [result.data.task];
+    taskAPI
+      .createTask(activeTask, token)
+      .then(result => {
+        let payload;
 
-    if (result.status === 'success') {
-      switch (result.action) {
-        case 'CREATE':
-          dispatch(createTask(payload));
-          dispatch(resetActiveTask());
-          break;
-        default:
-          break;
-      }
-    }
+        if (Array.isArray(result.data.task)) payload = result.data.task;
+        else payload = [result.data.task];
+
+        switch (result.action) {
+          case 'CREATE':
+            dispatch(createTask(payload));
+            dispatch(resetActiveTask());
+            break;
+          default:
+            break;
+        }
+      })
+      .catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };
 
@@ -78,13 +74,13 @@ export const startHeaderTimer = () => {
 };
 
 export const stopHeaderTimer = (token: string) => {
-  return async (dispatch: Dispatch<any>, getState: () => RootState) => {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
     const { activeTask } = getState();
     const endTime = new Date().getTime();
 
     setDocumentDefaultTitle();
     dispatch(updateActiveTaskTotalTime(activeTask.start, endTime));
-    await activeTaskAPI.updateActiveTask(token, defaultData).catch(err => console.log(`Some err: ${err}`));
+    activeTaskAPI.updateActiveTask(token, defaultData).catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };
 
