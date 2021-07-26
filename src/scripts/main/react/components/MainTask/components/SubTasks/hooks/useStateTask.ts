@@ -3,12 +3,13 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { useGlobalError } from 'App/hooks/useGlobalError';
 import { deleteTaskByID } from '../utils/deleteTaskByID';
-import { updateTaskByID } from '../utils/updateTask';
+import { updateTaskByID } from 'Redux/reducers/taskReducer/middlewares';
+import { getJWTToken } from 'Utils/helpers/getJWTToken';
 
 type useStateTaskType = [
   boolean,
   string,
-  (event: FocusEvent<HTMLInputElement>) => Promise<void>,
+  (event: FocusEvent<HTMLInputElement>) => void,
   () => void,
   (event: ChangeEvent<HTMLInputElement>) => void,
   (event: KeyboardEvent) => void
@@ -16,13 +17,11 @@ type useStateTaskType = [
 
 export function useStateTask(name: string, _id: string): useStateTaskType {
   const dispatch = useDispatch();
-  const {
-    activeTask: { name: taskName },
-    app: { token },
-  } = useSelector((state: RootState) => state, shallowEqual);
+  const { name: taskName } = useSelector((state: RootState) => state.activeTask, shallowEqual);
+  const token = getJWTToken();
   const [value, setValue] = useState(name);
   const [isTyping, setTyping] = useState(false);
-  const { delTaskByIdErrHadler, updTaskByIdErrHadler } = useGlobalError();
+  const { delTaskByIdErrHadler } = useGlobalError();
 
   useEffect(() => setValue(name), [taskName]);
 
@@ -31,8 +30,10 @@ export function useStateTask(name: string, _id: string): useStateTaskType {
     deleteTaskByID(delTaskByIdErrHadler, _id, token, dispatch);
   };
 
-  const updateTask = (event: FocusEvent<HTMLInputElement>) =>
-    updateTaskByID(updTaskByIdErrHadler, _id, token, name, event, dispatch);
+  const updateTask = (event: FocusEvent<HTMLInputElement>) => {
+    const val = event.target.value.trim();
+    if (val !== name && token) dispatch(updateTaskByID(_id, val, token));
+  };
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value), setTyping(true);

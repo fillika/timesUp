@@ -93,6 +93,8 @@ async function updateTask(req, res, next) {
 async function updateManyTasks(req, res, next) {
   const { name, date, set } = req.body;
 
+  // return next(new AppError("Mock error", 500));
+
   if (name && date && set) {
     const dateStart = new Date(date.slice(0, 10));
     const nextDay = new Date(dateStart).getTime() + 86400000;

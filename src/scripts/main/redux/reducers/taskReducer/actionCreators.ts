@@ -16,4 +16,8 @@ export const updateTaskByNameAC = (val: string, currentTask: TaskType) => ({
     date: currentTask.at,
     newName: val,
   },
-})
+});
+export const updateTaskByIDAC = (id: string, val: string) => ({
+  type: UPDATE_TASK_LIST_BY_ID,
+  payload: { taskID: id, newName: val },
+});

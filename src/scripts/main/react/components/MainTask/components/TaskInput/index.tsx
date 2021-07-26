@@ -1,6 +1,5 @@
 import React, { FC, ChangeEvent, FocusEvent, useState, KeyboardEvent, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { useGlobalError } from 'App/hooks/useGlobalError';
 import { useStyles } from '../../hooks/useStyles';
 import { TaskType } from 'Types/tasks';
 import { updateTaskByName } from 'Redux/reducers/taskReducer/middlewares';
@@ -26,7 +25,6 @@ export const TaskInput: FC<TaskInput> = ({ data, setActive, setTyping }) => {
     if (val !== data.name && token) {
       dispatch(updateTaskByName(val, token, data));
       setTyping(false);
-      // updateTaskByName(updTaskByNameErrHadler, event, data, token, dispatch);
     }
   };
 
