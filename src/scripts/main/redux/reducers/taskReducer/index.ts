@@ -1,4 +1,13 @@
 import { sort } from 'Utils/Sort';
+import {
+  CREATE_TASK,
+  DELETE_TASKS_BY_ID,
+  DELETE_TASKS_BY_NAME,
+  GET_ALL_TASKS,
+  GET_MORE_TASKS,
+  UPDATE_TASK_LIST_BY_ID,
+  UPDATE_TASK_LIST_BY_NAME,
+} from './actionCreators';
 import { TAction, TaskState } from './types';
 import { updateTaskByID, updateTaskByName, deleteTaskByName } from './utils';
 
@@ -12,7 +21,7 @@ const initialState: TaskState = {
 
 export function taskReducer(state: TaskState = initialState, action: TAction): TaskState {
   switch (action.type) {
-    case 'GET_ALL_TASKS': {
+    case GET_ALL_TASKS: {
       const sortedTaskList = sort.sortData(action.payload.databaseTaskList);
 
       return {
@@ -22,7 +31,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         isLoadMore: action.payload.isLoadMore,
       };
     }
-    case 'GET_MORE_TASKS': {
+
+    case GET_MORE_TASKS: {
       const databaseTaskList = [...state.databaseTaskList, ...action.payload.databaseTaskList];
       const sortedTaskList = sort.sortData(databaseTaskList);
 
@@ -34,7 +44,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList,
       };
     }
-    case 'CREATE_TASK': {
+
+    case CREATE_TASK: {
       const databaseTaskList = [...action.payload.newTask, ...state.databaseTaskList];
       const sortedTaskList = sort.sortData(databaseTaskList);
 
@@ -44,7 +55,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList,
       };
     }
-    case 'UPDATE_TASK_LIST_BY_NAME': {
+    
+    case UPDATE_TASK_LIST_BY_NAME: {
       const databaseTaskList = updateTaskByName(state, action.payload);
       const sortedTaskList = sort.sortData(databaseTaskList);
 
@@ -54,7 +66,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList,
       };
     }
-    case 'UPDATE_TASK_LIST_BY_ID': {
+
+    case UPDATE_TASK_LIST_BY_ID: {
       const databaseTaskList = updateTaskByID(state, action.payload);
       const sortedTaskList = sort.sortData(databaseTaskList);
 
@@ -64,7 +77,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList,
       };
     }
-    case 'DELETE_TASKS_BY_ID': {
+
+    case DELETE_TASKS_BY_ID: {
       const databaseTaskList = state.databaseTaskList.filter(task => task._id !== action.payload.taskID);
       const sortedTaskList = sort.sortData(databaseTaskList);
 
@@ -74,7 +88,8 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList,
       };
     }
-    case 'DELETE_TASKS_BY_NAME': {
+
+    case DELETE_TASKS_BY_NAME: {
       const databaseTaskList = deleteTaskByName(state, action.payload);
       const sortedTaskList = sort.sortData(databaseTaskList);
 
