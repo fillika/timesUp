@@ -17,7 +17,15 @@ const setActiveTask = (activeTask: activeTaskState) => ({ type: SET_ACTIVE_TASK,
 
 export const getActiveTask = (token: string) => {
   return async (dispatch: Dispatch<any>, getState: () => RootState) => {
-    const result = await activeTaskAPI.getActiveTask(token).catch((err: AppError) => {
+    const getResponse = (response: Response) => {
+      const activeTask: activeTaskState = response.data.activeTask;
+
+      if (activeTask) {
+        if (activeTask.isTimeActive) dispatch(setActiveTask(activeTask));
+      }
+    };
+
+    const errHadnler = (err: AppError) => {
       let message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
 
       switch (err.statusCode) {
@@ -29,16 +37,17 @@ export const getActiveTask = (token: string) => {
         case 404:
           dispatch(createNotify('error', message));
           break;
+        case 500:
+          dispatch(createNotify('error', `Ошибка сервера: ${err.message}`));
+          break;
         default:
           dispatch(createNotify('error', err.message));
           break;
       }
-    });
 
-    const activeTask: activeTaskState = result.data.activeTask;
+      return err.status;
+    };
 
-    if (activeTask) {
-      if (activeTask.isTimeActive) dispatch(setActiveTask(activeTask));
-    }
+    activeTaskAPI.getActiveTask(token).then(getResponse).catch(errHadnler);
   };
 };

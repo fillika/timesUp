@@ -1,10 +1,13 @@
 const { ActiveTask } = require("../models/activeTask");
 const asyncCatchHandler = require("../utils/asyncCatchHandler");
+const { mockErr} = require("../utils/mock/mockErr");
 
 const getActiveTask = async (req, res, next) => {
   const { id } = req.user;
 
   const result = await ActiveTask.findOne({ userID: id });
+
+  // mockErr(res, 404, result);
 
   res.status(200).json({
     status: "success",

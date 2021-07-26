@@ -43,7 +43,6 @@ export default class API {
       err.response = response;
       err.statusCode = response.status;
       err.status = resJson.status;
-      console.error(message || resJson.message);
       throw err;
     }
     return response;
