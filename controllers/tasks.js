@@ -59,7 +59,6 @@ async function createTask(req, res, next) {
 
     res.status(200).json({
       status: "success",
-      action: "CREATE",
       message: "All tasks have been created",
       data: {
         task: tasks,
@@ -70,9 +69,10 @@ async function createTask(req, res, next) {
     newTask.userID = req.user.id;
     const task = await TaskModel.create(newTask);
 
+    // return next(new AppError('Mock error', 402))
+
     res.status(200).json({
       status: "success",
-      action: "CREATE",
       message: "Task has been created",
       data: {
         task,
