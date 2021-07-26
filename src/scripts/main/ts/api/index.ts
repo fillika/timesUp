@@ -38,7 +38,9 @@ export default class API {
 
   async createErr(response: Response, message?: string) {
     if (!response.ok) {
-      const resJson: { status: string; message: string } = await response.json();
+      const resJson: { status: string; message: string; err: { statusCode: number; message: string } } =
+        await response.json();
+        
       const err: AppError = new AppError(message || resJson.message);
       err.response = response;
       err.statusCode = response.status;

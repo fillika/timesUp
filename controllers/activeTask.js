@@ -1,6 +1,6 @@
 const { ActiveTask } = require("../models/activeTask");
 const asyncCatchHandler = require("../utils/asyncCatchHandler");
-const { mockErr } = require("../utils/mock/mockErr");
+const AppError = require('../utils/Error')
 
 const activeTaskResponseCreator = (message, data) => ({
   status: "success",
@@ -15,7 +15,7 @@ const getActiveTask = async (req, res, next) => {
 
   const result = await ActiveTask.findOne({ userID: id });
 
-  //return mockErr(404, next);
+  // return next(new AppError('Mock error', 501));
   res.status(200).json(activeTaskResponseCreator('Active task successful requested', result));
 };
 
@@ -27,6 +27,8 @@ const updateActiveTask = async (req, res, next) => {
   const result = await ActiveTask.findOneAndUpdate({ userID: id }, newBody, {
     new: true,
   });
+
+  // return next(new AppError('Mock error', 404));
 
   if (result === null) {
     const createdTask = await createNewActiveTask(newBody);

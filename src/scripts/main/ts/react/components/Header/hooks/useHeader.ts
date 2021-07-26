@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
-import { useGlobalError } from 'App/hooks/useGlobalError';
 import { getJWTToken } from 'Utils/helpers/getJWTToken';
 import {
   createTaskFetch,
   toggleHeaderTimer,
-  updateActiveTaskFetch,
   updateActiveTime,
 } from 'Redux/reducers/taskReducer/actionCreators';
-import { getActiveTask } from 'Redux/reducers/activeTaskReducer/actionCreators';
+import { getActiveTask, updateActiveTaskFetch } from 'Redux/reducers/activeTaskReducer/actionCreators';
 
 export function useHeader() {
   const dispatch = useDispatch();

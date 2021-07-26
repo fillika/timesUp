@@ -41,13 +41,6 @@ const updateActiveTaskTotalTime = (start: number, end: number) => ({
 });
 const setActiveTaskTotalTime = (totalTime: string) => ({ type: SET_ACTIVE_TASK_TOTAL_TIME, payload: totalTime });
 
-export const updateActiveTaskFetch = (token: string) => {
-  return async (dispatch: Dispatch<any>, getState: () => RootState) => {
-    const { activeTask } = getState();
-    await activeTaskAPI.updateActiveTask(token, activeTask).catch(err => console.log(`Some err: ${err}`));
-  };
-};
-
 export const createTaskFetch = (token: string) => {
   return async (dispatch: Dispatch<any>, getState: () => RootState) => {
     let payload;

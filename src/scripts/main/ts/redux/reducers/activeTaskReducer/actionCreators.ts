@@ -16,39 +16,45 @@ export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK',
 
 const setActiveTask = (activeTask: activeTaskState) => ({ type: SET_ACTIVE_TASK, payload: activeTask });
 
+const errSwitchCase = (err: AppError, dispatch: Dispatch<any>) => {
+  let message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
+
+  switch (err.statusCode) {
+    case 401:
+      message = 'Пожалуйста, залогиньтесь заново';
+      dispatch(createNotify('warning', message));
+      localStorage.removeItem('JWT');
+      break;
+    case 404:
+      dispatch(createNotify('error', message));
+      break;
+    case 500:
+      dispatch(createNotify('error', `Ошибка сервера: ${err.message}`));
+      break;
+    default:
+      dispatch(createNotify('error', err.message));
+      break;
+  }
+};
+
 export const getActiveTask = (token: string) => {
   return async (dispatch: Dispatch<any>, getState: () => RootState) => {
-    const getResponse = (response: ServerResponse<ActiveTaskResponse>) => {
-      const activeTask: activeTaskState = response.data.activeTask;
+    activeTaskAPI
+      .getActiveTask(token)
+      .then((response: ServerResponse<ActiveTaskResponse>) => {
+        const activeTask: activeTaskState = response.data.activeTask;
 
-      if (activeTask) {
-        if (activeTask.isTimeActive) dispatch(setActiveTask(activeTask));
-      }
-    };
+        if (activeTask) {
+          if (activeTask.isTimeActive) dispatch(setActiveTask(activeTask));
+        }
+      })
+      .catch((err: AppError) => errSwitchCase(err, dispatch));
+  };
+};
 
-    const errHadnler = (err: AppError) => {
-      let message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-
-      switch (err.statusCode) {
-        case 401:
-          message = 'Пожалуйста, залогиньтесь заново';
-          dispatch(createNotify('warning', message));
-          localStorage.removeItem('JWT');
-          break;
-        case 404:
-          dispatch(createNotify('error', message));
-          break;
-        case 500:
-          dispatch(createNotify('error', `Ошибка сервера: ${err.message}`));
-          break;
-        default:
-          dispatch(createNotify('error', err.message));
-          break;
-      }
-
-      return err.status;
-    };
-
-    activeTaskAPI.getActiveTask(token).then(getResponse).catch(errHadnler);
+export const updateActiveTaskFetch = (token: string) => {
+  return async (dispatch: Dispatch<any>, getState: () => RootState) => {
+    const { activeTask } = getState();
+    await activeTaskAPI.updateActiveTask(token, activeTask).catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };
