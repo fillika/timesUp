@@ -2,15 +2,23 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { useStyles } from '../../hooks/useStyles';
+import { FormikProps } from 'formik';
 
-export const InputComponent = () => {
-  const classes = useStyles();
-
+export const InputComponent: React.FC<{
+  formik: FormikProps<{
+    nameOfTask: string;
+    date: string;
+  }>;
+}> = ({ formik }) => {
   return (
-    <div className={classes.inputWrapper}>
-      <TextField label='Text task name' className={classes.searchInput} />
-      <IconButton className={classes.searchIcon}>
+    <div>
+      <TextField
+        name='nameOfTask'
+        value={formik.values.nameOfTask}
+        onChange={formik.handleChange}
+        label='Text task name'
+      />
+      <IconButton type='submit'>
         <SearchIcon />
       </IconButton>
     </div>

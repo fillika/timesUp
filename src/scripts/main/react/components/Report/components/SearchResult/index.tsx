@@ -30,9 +30,6 @@ const BodyRow: React.FC<{ name: string; time: string }> = ({ name, time }) => {
 export const SearchResult = () => {
   return (
     <div>
-      <div>
-      </div>
-
       <TableContainer>
         <Table>
           <TableHead>
