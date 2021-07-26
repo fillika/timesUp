@@ -1,8 +1,23 @@
 import React from 'react';
+import { FormikProps } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { FormikProps } from 'formik';
+import styled from 'styled-components';
+
+const StyledSearchInput = styled.div`
+  display: flex;
+  width: 100%;
+  padding-left: 16px;
+  margin-top: 10px;
+
+  .MuiTextField-root {
+    width: 100%;
+  }
+
+  .MuiInputLabel-root {
+  }
+`;
 
 export const InputComponent: React.FC<{
   formik: FormikProps<{
@@ -11,7 +26,7 @@ export const InputComponent: React.FC<{
   }>;
 }> = ({ formik }) => {
   return (
-    <div>
+    <StyledSearchInput>
       <TextField
         name='nameOfTask'
         value={formik.values.nameOfTask}
@@ -21,6 +36,6 @@ export const InputComponent: React.FC<{
       <IconButton type='submit'>
         <SearchIcon />
       </IconButton>
-    </div>
+    </StyledSearchInput>
   );
 };
