@@ -14,9 +14,9 @@ class ReportsAPI extends API {
     this.reportsURL = this.host + '/api/v1/reports';
   }
 
-  async getReport(token: string, params: ReportParams) {
+  async getReports(token: string, params: ReportParams) {
     const headers = this.createHeaders('GET', {}, null, token);
-    
+
     const queryString = Object.entries(params)
       .map(arr => arr.join('='))
       .join('&');

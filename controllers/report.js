@@ -27,8 +27,7 @@ async function getStats(req, res, next) {
     status: "success",
     message: "getStats",
     data: {
-      queryObj,
-      result
+      task: result
     }
   })
 }

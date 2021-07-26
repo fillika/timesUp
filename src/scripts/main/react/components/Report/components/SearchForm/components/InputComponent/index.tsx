@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
+import { SearchFormikProps } from '../..';
 
 const StyledSearchInput = styled.div`
   display: flex;
@@ -19,17 +20,12 @@ const StyledSearchInput = styled.div`
   }
 `;
 
-export const InputComponent: React.FC<{
-  formik: FormikProps<{
-    nameOfTask: string;
-    date: string;
-  }>;
-}> = ({ formik }) => {
+export const InputComponent: React.FC<SearchFormikProps> = ({ formik }) => {
   return (
     <StyledSearchInput>
       <TextField
-        name='nameOfTask'
-        value={formik.values.nameOfTask}
+        name='name'
+        value={formik.values.name}
         onChange={formik.handleChange}
         label='Text task name'
       />
