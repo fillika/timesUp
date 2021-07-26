@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require("cors");
 const connectionDB = require("./dbConnection");
 const taskRouter = require("./routes/tasks");
+const reportsRouter = require("./routes/reports");
 const activeTaskRouter = require("./routes/activeTask");
 const authRouter = require("./routes/authRouter");
 const AppError = require("./utils/Error");
@@ -32,6 +33,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+app.use("/api/v1/reports", cors(corsOptions), reportsRouter);
 app.use("/api/v1/tasks", cors(corsOptions), taskRouter);
 app.use("/api/v1/activeTask", cors(corsOptions), activeTaskRouter);
 app.use("/api/v1", cors(corsOptions), authRouter);
