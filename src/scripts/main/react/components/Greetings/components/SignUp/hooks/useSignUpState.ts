@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { AppError } from 'Utils/Error';
 import { useStatusState } from 'App/hooks/useStatusState';
 import { asyncStatus } from 'Types/async';
+import { removeJWTToken } from 'Utils/helpers/JWTHadlers';
 
 export const useSignUpState = (): [boolean, asyncStatus, (values: FormikSignUpValues) => void] => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export const useSignUpState = (): [boolean, asyncStatus, (values: FormikSignUpVa
         break;
       case 'fail':
         setStatus('error');
-        localStorage.removeItem('JWT');
+        removeJWTToken();
         dispatch(createNotify('error', response.message));
         break;
 
