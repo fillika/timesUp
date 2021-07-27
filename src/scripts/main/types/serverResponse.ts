@@ -14,3 +14,7 @@ export type ActiveTaskResponse = {
 export type TaskResponse = {
   task: DatabaseTask | DatabaseTask[];
 };
+
+export type ReportResponse = {
+  task: DatabaseTask[];
+};
