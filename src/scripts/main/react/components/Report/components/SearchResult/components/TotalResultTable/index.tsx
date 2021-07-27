@@ -1,31 +1,28 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useRouteMatch, Switch, Route, Link } from 'react-router-dom';
 import { BodyRow } from '../BodyRow/index';
 import { RootState } from 'Redux/reducers/rootReducer';
-
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+import { MoreInfoAboutTask } from './../MoreInfoAboutTask/index';
 
 export const TotalResultTable = () => {
+  let { path } = useRouteMatch();
   const { sortedTaskList } = useSelector((state: RootState) => state.reportReducer);
 
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Name</TableCell>
-          <TableCell align='center'>Total</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {Object.keys(sortedTaskList).map(key => {
-          const { taskList, total } = sortedTaskList[key];
-          return <BodyRow name={key} time={total} taskList={taskList} key={key} />;
-        })}
-      </TableBody>
-    </Table>
+    <div>
+      <Switch>
+        <Route path={path} exact>
+          {Object.keys(sortedTaskList).map(key => {
+            const { total } = sortedTaskList[key];
+            return <BodyRow name={key} time={total} key={key} />;
+          })}
+        </Route>
+
+        <Route path={`${path}/:name`} exact>
+          <MoreInfoAboutTask />
+        </Route>
+      </Switch>
+    </div>
   );
 };
