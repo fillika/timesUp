@@ -5,7 +5,8 @@ import { SelectComponent } from './components/SelectComponent';
 import { InputComponent } from './components/InputComponent';
 import { reportsAPI } from 'Api/reports';
 import { getJWTToken } from 'Utils/helpers/JWTHadlers';
-import { endOfDay, getCurrentWeek, getLastWeek, startOfDay } from 'Utils/Date';
+import { endOfDay, getCurrentWeek, getLastMonth, getLastWeek, startOfDay } from 'Utils/Date';
+import { getCurrentMonth } from '../../../../../utils/Date';
 
 export type SearchFormikProps = {
   formik: FormikProps<{
@@ -35,6 +36,12 @@ const parseDate = (date: DayVariable): { start: number | string; stop: number | 
 
     case 'Last week':
       return getLastWeek(getCurrentWeek());
+
+    case 'This month':
+      return getCurrentMonth();
+
+      case 'Last month':
+      return getLastMonth(getCurrentMonth());
 
     default:
       return {

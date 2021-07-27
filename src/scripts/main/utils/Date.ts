@@ -16,7 +16,23 @@ export const getCurrentWeek = () => {
     stop: sunday,
   };
 };
-export const getLastWeek = ({ start, stop }: { start: number; stop: number }) => ({
+export const getLastWeek = ({ start }: { start: number }) => ({
   start: start - ONE_DAY_LENGTH * 7,
+  stop: start,
+});
+export const getCurrentMonth = () => {
+  const firstDayOfCurrentMonth = new Date(startOfDay(new Date().getTime())).setDate(1);
+  // Найти порядковый номер месяца от текущего дня и увеличить на один
+  const firstDayOfNextMonth = new Date(firstDayOfCurrentMonth).setMonth(
+    new Date(firstDayOfCurrentMonth).getMonth() + 1
+  );
+
+  return {
+    start: firstDayOfCurrentMonth,
+    stop: firstDayOfNextMonth,
+  };
+};
+export const getLastMonth = ({ start }: { start: number }) => ({
+  start: new Date(start).setMonth(new Date(start).getMonth() - 1),
   stop: start,
 });
