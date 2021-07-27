@@ -1,25 +1,22 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
 import { StyledSearchResult } from './style';
-import { TableBodyComponent } from './components/TableBody';
+import { useHistory, useRouteMatch, Switch, Route } from 'react-router-dom';
+import { TotalResultTable } from './components/TotalResultTable/index';
+import { MoreResultTable } from './components/MoreResultTable/index';
 
 export const SearchResult = () => {
+  const history = useHistory();
+  let { path, url } = useRouteMatch();
+
   return (
     <StyledSearchResult>
       <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align='center'>Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBodyComponent />
-        </Table>
+        <Switch>
+          // TODO -Настроить правильное переключение между таблицами, возможно более правильным роутингом внутри
+          <Route path={path} exact component={TotalResultTable} />
+          <Route path={`${path}/:name`} component={MoreResultTable} />
+        </Switch>
       </TableContainer>
     </StyledSearchResult>
   );
