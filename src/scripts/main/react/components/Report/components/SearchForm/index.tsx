@@ -30,6 +30,7 @@ export const SearchForm = () => {
     };
 
     if (token) {
+      // todo диспатч в стейт с данными по поиску
       await reportsAPI
         .getReports(token, params)
         .then(response => console.log(response))

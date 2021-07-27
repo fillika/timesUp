@@ -7,6 +7,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import styled from 'styled-components';
 
+import { mockData } from './mockData';
+import { sort } from 'Utils/Sort';
+
 const StyledCellTime = styled(TableCell)`
   width: 15%;
   min-width: 90px;
@@ -16,7 +19,9 @@ const StyledCellName = styled(TableCell)`
   width: 85%;
 `;
 
-const BodyRow: React.FC<{ name: string; time: string }> = ({ name, time }) => {
+const dataForHTML = sort.sortReports(mockData);
+
+const BodyRow: React.FC<{ name: string; time: string | number }> = ({ name, time }) => {
   return (
     <>
       <TableRow>
@@ -34,15 +39,15 @@ export const SearchResult = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <StyledCellName>Name of task</StyledCellName>
+              <StyledCellName>Name</StyledCellName>
               <StyledCellTime align='center'>Duration</StyledCellTime>
             </TableRow>
           </TableHead>
           <TableBody>
-            <BodyRow name='Task 1' time={'1:15:28'} />
-            <BodyRow name='Task 2' time={'0:18:12'} />
-            <BodyRow name='Task 3' time={'0:47:01'} />
-            <BodyRow name='Task 4' time={'2:47:01'} />
+            {Object.keys(dataForHTML).map(key => {
+              const { taskList, total } = dataForHTML[key];
+              return <BodyRow name={key} time={total} key={key} />;
+            })}
           </TableBody>
         </Table>
       </TableContainer>

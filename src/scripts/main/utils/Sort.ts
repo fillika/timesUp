@@ -1,6 +1,13 @@
 import findIndex from 'lodash/findIndex';
 import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
 
+type SortedReport = {
+  [key: string]: {
+    taskList: DatabaseTask[];
+    total: number;
+  };
+};
+
 class Sort {
   constructor() {}
 
@@ -14,7 +21,7 @@ class Sort {
 
     deepCopy.forEach((el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
-      
+
       // Тут Я создаю самый первый таск
       if (!tasks.length) {
         const sortedTask = this.createFirstSortedTask(el);
@@ -53,7 +60,6 @@ class Sort {
   findDuplicatesAndPush(taskArr: TaskType[], el: TaskType) {
     const index = findIndex(taskArr, ['name', el.name]);
     const task = taskArr[index];
-
 
     if (index !== -1) {
       if (task.time === undefined) {
@@ -99,6 +105,29 @@ class Sort {
       start: el.start,
       stop: el.stop,
     };
+  }
+
+  sortReports(taskList: DatabaseTask[]): SortedReport {
+    // Создать из общего массива массивы с тасками с одинаковыми именами
+    const result: SortedReport = {};
+
+    taskList.forEach(task => {
+      // Найти есть ли подобный таск в массиве с именем
+      if (result[task.name] === undefined) {
+        result[task.name] = {
+          taskList: [],
+          total: 0,
+        };
+        result[task.name].taskList = [];
+        result[task.name].total += task.duration;
+        result[task.name].taskList.push(task);
+      } else {
+        result[task.name].total += task.duration;
+        result[task.name].taskList.push(task);
+      }
+    });
+
+    return result;
   }
 }
 const sort = new Sort();
