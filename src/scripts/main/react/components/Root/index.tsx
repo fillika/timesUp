@@ -21,9 +21,7 @@ export const Root = () => {
           <TaskList />
         </Route>
 
-        <Route path='/reports'>
-          <Report />
-        </Route>
+        <Route path='/reports' component={Report} />
 
         <Route path='/news'>
           <div>News</div>
