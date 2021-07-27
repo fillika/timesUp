@@ -1,7 +1,6 @@
 import React from 'react';
 import { time as timeUtil } from 'Utils/Time';
 import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
 import { DatabaseTask } from 'Types/tasks';
 import { StyledCellName, StyledCellTime } from './style';
 import { useHistory, useRouteMatch, Switch, Route } from 'react-router-dom';
@@ -16,6 +15,8 @@ export const BodyRow: React.FC<{ name: string; time: number; taskList: DatabaseT
 
   console.log(taskList);
 
+  // TODO - Вынести роуты выше, так как нужно будет менять таблицу, её стили и добавлять кнопку "Назад"
+  // TODO - Переключение будет между таблицами
   return (
     <>
       <Switch>
