@@ -9,14 +9,14 @@ import { timerReducer } from './timerReducer';
 import { TimerState } from './timerReducer/types';
 import { TaskState } from './taskReducer/types';
 import { reportReducer } from './reportReducer/index';
-import { SortedReport } from 'Redux/reducers/reportReducer/types';
+import { ReportState } from 'Redux/reducers/reportReducer/types';
 
 export interface RootState {
   tasks: TaskState;
   activeTask: activeTaskState;
   app: AppState;
   notify: Notify;
-  reportReducer: SortedReport;
+  reportReducer: ReportState;
   timer: TimerState;
 }
 

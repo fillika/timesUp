@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'Redux/reducers/rootReducer';
 import { time as timeUtil } from 'Utils/Time';
+import { DatabaseTask } from 'Types/tasks';
 
 const StyledCellTime = styled(TableCell)`
   width: 15%;
@@ -19,7 +20,7 @@ const StyledCellName = styled(TableCell)`
   width: 85%;
 `;
 
-const BodyRow: React.FC<{ name: string; time: number }> = ({ name, time }) => {
+const BodyRow: React.FC<{ name: string; time: number; taskList: DatabaseTask[] }> = ({ name, time }) => {
   return (
     <>
       <TableRow>
@@ -31,7 +32,7 @@ const BodyRow: React.FC<{ name: string; time: number }> = ({ name, time }) => {
 };
 
 export const SearchResult = () => {
-  const reportReducer = useSelector((state: RootState) => state.reportReducer);
+  const { sortedTaskList } = useSelector((state: RootState) => state.reportReducer);
 
   return (
     <div>
@@ -40,13 +41,13 @@ export const SearchResult = () => {
           <TableHead>
             <TableRow>
               <StyledCellName>Name</StyledCellName>
-              <StyledCellTime align='center'>Duration</StyledCellTime>
+              <StyledCellTime align='center'>Total</StyledCellTime>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.keys(reportReducer).map(key => {
-              const { taskList, total } = reportReducer[key];
-              return <BodyRow name={key} time={total} key={key} />;
+            {Object.keys(sortedTaskList).map(key => {
+              const { taskList, total } = sortedTaskList[key];
+              return <BodyRow name={key} time={total} taskList={taskList} key={key} />;
             })}
           </TableBody>
         </Table>

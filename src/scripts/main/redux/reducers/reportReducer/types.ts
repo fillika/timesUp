@@ -7,6 +7,10 @@ export type SortedReport = {
   };
 };
 
+export type ReportState = {
+  sortedTaskList: SortedReport
+}
+
 export type ReportsFetchParams = {
   start: string | number;
   stop: string | number;
