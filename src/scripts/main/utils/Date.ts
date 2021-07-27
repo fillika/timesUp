@@ -5,6 +5,10 @@ export const startOfDay = (date: string | number): number => {
   return new Date(currentDay).getTime();
 };
 export const endOfDay = (date: number) => date + ONE_DAY_LENGTH;
+export const getToday = () => ({
+  start: startOfDay(new Date().getTime()),
+  stop: endOfDay(startOfDay(new Date().getTime())),
+});
 export const getCurrentWeek = () => {
   // Номер понедельника на неделе - 1. Надо найти понедельник, а потом прибавить к нему 7 дней.
   const currentDay = startOfDay(new Date().getTime());
@@ -36,3 +40,21 @@ export const getLastMonth = ({ start }: { start: number }) => ({
   start: new Date(start).setMonth(new Date(start).getMonth() - 1),
   stop: start,
 });
+export const getCurrentYear = () => {
+  const firstDayOfCurrentMonth = new Date(startOfDay(new Date().getTime())).setDate(1);
+  const startOfYear = new Date(firstDayOfCurrentMonth).setMonth(0);
+  const endOfYear = new Date(firstDayOfCurrentMonth).setMonth(12);
+  return {
+    start: startOfYear,
+    stop: endOfYear,
+  };
+};
+export const getLastYear = () => {
+  const firstDayOfCurrentMonth = new Date(startOfDay(new Date().getTime())).setDate(1);
+  const startOfYear = new Date(firstDayOfCurrentMonth).setMonth(0);
+  const endOfYear = new Date(firstDayOfCurrentMonth).setMonth(-12);
+  return {
+    start: startOfYear,
+    stop: endOfYear,
+  };
+};
