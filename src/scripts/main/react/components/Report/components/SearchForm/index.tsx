@@ -39,7 +39,7 @@ export const SearchForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={Yup.object({
-          name: Yup.string().min(3, 'Must be 3 character or more').required(),
+          name: Yup.string().min(3, 'Must be 3 characters or more').required(),
         })}
         onSubmit={submitHadlers}>
         {formik => (
