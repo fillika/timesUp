@@ -5,6 +5,7 @@ import { SelectComponent } from './components/SelectComponent';
 import { InputComponent } from './components/InputComponent';
 import { reportsAPI } from 'Api/reports';
 import { getJWTToken } from 'Utils/helpers/JWTHadlers';
+import { endOfDay, getCurrentWeek, getLastWeek, startOfDay } from 'Utils/Date';
 
 export type SearchFormikProps = {
   formik: FormikProps<{
@@ -17,8 +18,6 @@ export type DayVariable = 'Today' | 'This week' | 'Last week' | 'This month' | '
 
 const parseDate = (date: DayVariable): { start: number | string; stop: number | string } => {
   // 'Today', 'This week', 'Last week', 'This month', 'Last month', 'This year', 'Last year'
-  const [currentDay] = new Date().toISOString().split('T');
-
   const thisWeek = {
     start: '',
     stop: '',
@@ -27,9 +26,15 @@ const parseDate = (date: DayVariable): { start: number | string; stop: number | 
   switch (date) {
     case 'Today':
       return {
-        start: new Date(currentDay).getTime(),
-        stop: new Date(currentDay).getTime() + 86400 * 1000,
+        start: startOfDay(new Date().getTime()),
+        stop: endOfDay(startOfDay(new Date().getTime())),
       };
+
+    case 'This week':
+      return getCurrentWeek();
+
+    case 'Last week':
+      return getLastWeek(getCurrentWeek());
 
     default:
       return {
@@ -56,11 +61,16 @@ export const SearchForm = () => {
       ...parseDate(values.date),
     };
 
+    console.log(params);
+    console.log(`Start: ${new Date(params.start)}`);
+    console.log(`Stop: ${new Date(params.stop)}`);
+
+
     if (token) {
-      await reportsAPI
-        .getReports(token, params)
-        .then(response => console.log(response))
-        .catch(err => console.error(`Some err: ${err}`));
+      // await reportsAPI
+      //   .getReports(token, params)
+      //   .then(response => console.log(response))
+      //   .catch(err => console.error(`Some err: ${err}`));
     }
   };
 
