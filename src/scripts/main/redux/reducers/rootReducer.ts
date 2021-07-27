@@ -8,12 +8,15 @@ import { notifyReducer, Notify } from './notifyReducer';
 import { timerReducer } from './timerReducer';
 import { TimerState } from './timerReducer/types';
 import { TaskState } from './taskReducer/types';
+import { reportReducer } from './reportReducer/index';
+import { SortedReport } from 'Redux/reducers/reportReducer/types';
 
 export interface RootState {
   tasks: TaskState;
   activeTask: activeTaskState;
   app: AppState;
   notify: Notify;
+  reportReducer: SortedReport;
   timer: TimerState;
 }
 
@@ -22,6 +25,7 @@ const rootReducer = combineReducers({
   activeTask: activeTaskReducer,
   app: appReducer,
   notify: notifyReducer,
+  reportReducer: reportReducer,
   timer: timerReducer
 });
 

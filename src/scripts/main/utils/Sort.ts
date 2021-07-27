@@ -1,12 +1,7 @@
 import findIndex from 'lodash/findIndex';
 import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
+import { SortedReport } from 'Redux/reducers/reportReducer/types';
 
-type SortedReport = {
-  [key: string]: {
-    taskList: DatabaseTask[];
-    total: number;
-  };
-};
 
 class Sort {
   constructor() {}

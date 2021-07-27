@@ -1,12 +1,13 @@
 import React from 'react';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import { Formik, FormikProps } from 'formik';
 import { SelectComponent } from './components/SelectComponent';
 import { InputComponent } from './components/InputComponent';
-import { reportsAPI } from 'Api/reports';
 import { getJWTToken } from 'Utils/helpers/JWTHadlers';
 import { parseDate } from './utils';
 import { DayVariable, InitialValues } from './types';
+import { getReportResult } from 'Redux/reducers/reportReducer/middlewares';
 
 export type SearchFormikProps = {
   formik: FormikProps<{
@@ -16,12 +17,13 @@ export type SearchFormikProps = {
 };
 
 export const SearchForm = () => {
+  const token = getJWTToken();
+  const dispatch = useDispatch();
+
   const initialValues: InitialValues = {
     name: '',
     date: 'Today',
   };
-
-  const token = getJWTToken();
 
   const submitHadlers = async (values: typeof initialValues) => {
     const params = {
@@ -29,13 +31,7 @@ export const SearchForm = () => {
       ...parseDate(values.date),
     };
 
-    if (token) {
-      // todo диспатч в стейт с данными по поиску
-      await reportsAPI
-        .getReports(token, params)
-        .then(response => console.log(response))
-        .catch(err => console.error(`Some err: ${err}`));
-    }
+    if (token) dispatch(getReportResult(token, params));
   };
 
   return (
@@ -43,7 +39,7 @@ export const SearchForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={Yup.object({
-          name: Yup.string().min(1, 'Must be 1 character or more').required(),
+          name: Yup.string().min(3, 'Must be 3 character or more').required(),
         })}
         onSubmit={submitHadlers}>
         {formik => (

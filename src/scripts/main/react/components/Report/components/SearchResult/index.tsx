@@ -6,9 +6,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import styled from 'styled-components';
-
-import { mockData } from './mockData';
-import { sort } from 'Utils/Sort';
+import { useSelector } from 'react-redux';
+import { RootState } from 'Redux/reducers/rootReducer';
+import { time as timeUtil } from 'Utils/Time';
 
 const StyledCellTime = styled(TableCell)`
   width: 15%;
@@ -19,20 +19,20 @@ const StyledCellName = styled(TableCell)`
   width: 85%;
 `;
 
-const dataForHTML = sort.sortReports(mockData);
-
-const BodyRow: React.FC<{ name: string; time: string | number }> = ({ name, time }) => {
+const BodyRow: React.FC<{ name: string; time: number }> = ({ name, time }) => {
   return (
     <>
       <TableRow>
         <StyledCellName>{name}</StyledCellName>
-        <StyledCellTime align='center'>{time}</StyledCellTime>
+        <StyledCellTime align='center'>{timeUtil.countTotalTime(time)}</StyledCellTime>
       </TableRow>
     </>
   );
 };
 
 export const SearchResult = () => {
+  const reportReducer = useSelector((state: RootState) => state.reportReducer);
+
   return (
     <div>
       <TableContainer>
@@ -44,8 +44,8 @@ export const SearchResult = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.keys(dataForHTML).map(key => {
-              const { taskList, total } = dataForHTML[key];
+            {Object.keys(reportReducer).map(key => {
+              const { taskList, total } = reportReducer[key];
               return <BodyRow name={key} time={total} key={key} />;
             })}
           </TableBody>
