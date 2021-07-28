@@ -29,7 +29,7 @@ export const StyledDate = styled.div`
 export const StyledTableRow = withTheme(styled('div')`
   width: 100%;
   display: flex;
-  border: 1px solid ${props => props.theme.palette.grey[300]};
+  border-bottom: 1px solid ${props => props.theme.palette.grey[300]};
 
   &:hover {
     background-color: ${props => props.theme.palette.grey[100]};
