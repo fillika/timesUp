@@ -10,6 +10,7 @@ export const MoreInfoAboutTask = () => {
   const { sortedTaskList } = useSelector((state: RootState) => state.reportReducer);
   const { name } = useParams<{ name: string }>();
   const history = useHistory();
+  let totalTime = 0;
 
   if (sortedTaskList[name] === undefined) {
     return <Redirect to='/reports' />;
@@ -17,6 +18,8 @@ export const MoreInfoAboutTask = () => {
 
   const { taskList } = sortedTaskList[name];
   const goBack = () => history.goBack();
+
+  taskList.forEach(task => (totalTime += task.duration));
 
   return (
     <>
@@ -38,6 +41,12 @@ export const MoreInfoAboutTask = () => {
           </StyledTableCell>
         </StyledTableRow>
       ))}
+      <StyledTableRow>
+        <StyledTableCell styleWidth={90}></StyledTableCell>
+        <StyledTableCell styleWidth={10} justifyContent='center'>
+          <strong>{timeUtil.countTotalTime(totalTime)}</strong>
+        </StyledTableCell>
+      </StyledTableRow>
     </>
   );
 };
