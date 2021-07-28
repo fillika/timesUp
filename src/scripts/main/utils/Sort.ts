@@ -13,7 +13,7 @@ class Sort {
    */
   sortData(taskArr: DatabaseTask[]): SortedTask[] {
     const tasks: SortedTask[] = [];
-    const deepCopy: DatabaseTask[] = createDeepCopy(taskArr);
+    const deepCopy = createDeepCopy<DatabaseTask[], DatabaseTask[]>(taskArr);
 
     deepCopy.forEach((el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
