@@ -2,6 +2,7 @@ import findIndex from 'lodash/findIndex';
 import uniqueId from 'lodash/uniqueId';
 import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
 import { ExtendedDBTask, SortedReport } from 'Redux/reducers/reportReducer/types';
+import { compose, createDeepCopy } from 'Utils/helpers/fp';
 
 class Sort {
   constructor() {}
@@ -12,7 +13,7 @@ class Sort {
    */
   sortData(taskArr: DatabaseTask[]): SortedTask[] {
     const tasks: SortedTask[] = [];
-    const deepCopy = JSON.parse(JSON.stringify(taskArr));
+    const deepCopy: DatabaseTask[] = createDeepCopy(taskArr);
 
     deepCopy.forEach((el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
@@ -101,45 +102,52 @@ class Sort {
       stop: el.stop,
     };
   }
-
-  sortReports(taskList: DatabaseTask[]): SortedReport {
-    // Создать из общего массива массивы с тасками с одинаковыми именами
-    const result: SortedReport = {};
-    const deepCopy: ExtendedDBTask[] = JSON.parse(JSON.stringify(taskList));
-    const renamedResult: SortedReport = {};
-
-    // Группирую таски с одинаковым именем
-    deepCopy.forEach(task => {
-      // Найти есть ли подобный таск в массиве с именем
-      if (result[task.name] === undefined) {
-        result[task.name] = {
-          taskList: [],
-          total: 0,
-          // Create uniq name for each group task
-          name: uniqueId('task-name-'),
-        };
-        result[task.name].taskList = [];
-        result[task.name].total += task.duration;
-        result[task.name].taskList.push(task);
-      } else {
-        result[task.name].total += task.duration;
-        result[task.name].taskList.push(task);
-      }
-    });
-
-    // Меняю местами имя таска и его уникальный ключ name, который будет использоваться как часть URL
-    for (const name in result) {
-      if (Object.prototype.hasOwnProperty.call(result, name)) {
-        const element = result[name];
-
-        renamedResult[element.name] = element;
-        renamedResult[element.name].name = name;
-      }
-    }
-
-    return renamedResult;
-  }
 }
-const sort = new Sort();
+export const sort = new Sort();
 
-export { sort };
+// Сгрупировать таски с одинаковым именем
+const groupDatabaseTask = (arr: ExtendedDBTask[]) => {
+  const result: SortedReport = {};
+
+  arr.forEach(task => {
+    // Найти есть ли подобный таск в массиве с именем
+    if (result[task.name] === undefined) {
+      result[task.name] = {
+        taskList: [],
+        total: 0,
+        // Create uniq name for each group task
+        name: uniqueId('task-name-'),
+      };
+      result[task.name].taskList = [];
+      result[task.name].total += task.duration;
+      result[task.name].taskList.push(task);
+    } else {
+      result[task.name].total += task.duration;
+      result[task.name].taskList.push(task);
+    }
+  });
+
+  return result;
+};
+
+// Меняю местами имя таска и его уникальный ключ name, который будет использоваться как часть URL
+const renameTaskObject = (taskObj: SortedReport) => {
+  const renamedResult: SortedReport = {};
+
+  for (const name in taskObj) {
+    if (Object.prototype.hasOwnProperty.call(taskObj, name)) {
+      const element = taskObj[name];
+
+      renamedResult[element.name] = element;
+      renamedResult[element.name].name = name;
+    }
+  }
+
+  return renamedResult;
+};
+
+export const sortReports: (arr: DatabaseTask[]) => SortedReport = compose(
+  renameTaskObject,
+  groupDatabaseTask,
+  createDeepCopy
+);

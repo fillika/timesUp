@@ -2,7 +2,7 @@ import { ReportsFetchParams } from './types';
 import { Dispatch } from 'react';
 import { reportsAPI } from 'Api/reports';
 import { RootState } from '../rootReducer';
-import { sort } from 'Utils/Sort';
+import { sortReports } from 'Utils/Sort';
 import { addReportsResult, clearReportResult } from './actionCreators';
 import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 import { AppError } from 'Utils/Error';
@@ -19,7 +19,7 @@ export const getReportResult = (token: string, params: ReportsFetchParams) => {
         if (response.data.task.length === 0) dispatch(createNotify('warning', notFoundMessage));
 
         dispatch(clearReportResult());
-        dispatch(addReportsResult(sort.sortReports(response.data.task)));
+        dispatch(addReportsResult(sortReports(response.data.task)));
       })
       .catch((err: AppError) => errSwitchCase(err, dispatch));
   };
