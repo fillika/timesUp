@@ -1,7 +1,7 @@
 import findIndex from 'lodash/findIndex';
+import uniqueId from 'lodash/uniqueId';
 import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
-import { SortedReport } from 'Redux/reducers/reportReducer/types';
-
+import { ExtendedDBTask, SortedReport } from 'Redux/reducers/reportReducer/types';
 
 class Sort {
   constructor() {}
@@ -105,13 +105,18 @@ class Sort {
   sortReports(taskList: DatabaseTask[]): SortedReport {
     // Создать из общего массива массивы с тасками с одинаковыми именами
     const result: SortedReport = {};
+    const deepCopy: ExtendedDBTask[] = JSON.parse(JSON.stringify(taskList));
+    const renamedResult: SortedReport = {};
 
-    taskList.forEach(task => {
+    // Группирую таски с одинаковым именем
+    deepCopy.forEach(task => {
       // Найти есть ли подобный таск в массиве с именем
       if (result[task.name] === undefined) {
         result[task.name] = {
           taskList: [],
           total: 0,
+          // Create uniq name for each group task
+          name: uniqueId('task-name-'),
         };
         result[task.name].taskList = [];
         result[task.name].total += task.duration;
@@ -122,7 +127,17 @@ class Sort {
       }
     });
 
-    return result;
+    // Меняю местами имя таска и его уникальный ключ name, который будет использоваться как часть URL
+    for (const name in result) {
+      if (Object.prototype.hasOwnProperty.call(result, name)) {
+        const element = result[name];
+
+        renamedResult[element.name] = element;
+        renamedResult[element.name].name = name;
+      }
+    }
+
+    return renamedResult;
   }
 }
 const sort = new Sort();

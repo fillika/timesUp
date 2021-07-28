@@ -4,6 +4,7 @@ export type SortedReport = {
   [key: string]: {
     taskList: DatabaseTask[];
     total: number;
+    name: string;
   };
 };
 
@@ -16,3 +17,6 @@ export type ReportsFetchParams = {
   stop: string | number;
   name: string;
 };
+export interface ExtendedDBTask extends DatabaseTask {
+  customName: string;
+} 

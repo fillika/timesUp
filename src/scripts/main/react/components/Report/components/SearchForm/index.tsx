@@ -39,10 +39,10 @@ export const SearchForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={Yup.object({
-          name: Yup.string().min(3, 'Must be 3 characters or more').required(),
+          name: Yup.string().min(3, 'Must be 3 characters or more').required('Task name is a required field'),
         })}
         onSubmit={submitHadlers}>
-        {(formik) => (
+        {formik => (
           <form onSubmit={formik.handleSubmit}>
             <InputComponent formik={formik} />
             <SelectComponent formik={formik} />

@@ -14,8 +14,8 @@ export const TotalResultTable = () => {
       <Switch>
         <Route path={path} exact>
           {Object.keys(sortedTaskList).map(key => {
-            const { total } = sortedTaskList[key];
-            return <BodyRow name={key} time={total} key={key} />;
+            const { total, name } = sortedTaskList[key];
+            return <BodyRow pathName={key} name={name} time={total} key={key} />;
           })}
         </Route>
 
