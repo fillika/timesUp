@@ -42,7 +42,7 @@ export const SearchForm = () => {
           name: Yup.string().min(3, 'Must be 3 characters or more').required(),
         })}
         onSubmit={submitHadlers}>
-        {formik => (
+        {(formik) => (
           <form onSubmit={formik.handleSubmit}>
             <InputComponent formik={formik} />
             <SelectComponent formik={formik} />

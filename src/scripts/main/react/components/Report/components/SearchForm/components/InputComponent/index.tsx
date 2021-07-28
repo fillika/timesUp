@@ -9,7 +9,6 @@ import { SearchFormikProps } from '../..';
 const StyledSearchInput = styled.div`
   display: flex;
   width: 100%;
-  padding-left: 16px;
   margin-top: 10px;
 
   .MuiTextField-root {
@@ -21,12 +20,21 @@ const StyledSearchInput = styled.div`
 `;
 
 export const InputComponent: React.FC<SearchFormikProps> = ({ formik }) => {
+  console.log(formik.errors);
+
   return (
     <StyledSearchInput>
       <IconButton type='submit'>
         <SearchIcon />
       </IconButton>
-      <TextField name='name' value={formik.values.name} onChange={formik.handleChange} label='Text task name' />
+      <TextField
+        name='name'
+        value={formik.values.name}
+        onChange={formik.handleChange}
+        error={formik.errors.name ? true : false}
+        label={formik.errors.name ? 'Error' : 'Text task name'}
+        helperText={formik.errors.name ? formik.errors.name : null}
+      />
     </StyledSearchInput>
   );
 };
