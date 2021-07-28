@@ -18,13 +18,18 @@ export const SelectComponent: React.FC<SearchFormikProps> = ({ formik }) => {
     'Last year',
   ];
 
+  const handleChange = (e: React.ChangeEvent<any>) => {
+    formik.handleChange(e);
+    formik.handleSubmit();
+  };
+
   return (
     <StyledSelectField>
       <IconButton>
         <DateRangeIcon />
       </IconButton>
 
-      <Select name='date' value={formik.values.date} onChange={formik.handleChange} className='select'>
+      <Select name='date' value={formik.values.date} onChange={handleChange} className='select'>
         {selectOptions.map((val, index) => (
           <MenuItem value={val} key={index}>
             {val}

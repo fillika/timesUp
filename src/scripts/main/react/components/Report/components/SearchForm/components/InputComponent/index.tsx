@@ -23,15 +23,10 @@ const StyledSearchInput = styled.div`
 export const InputComponent: React.FC<SearchFormikProps> = ({ formik }) => {
   return (
     <StyledSearchInput>
-      <TextField
-        name='name'
-        value={formik.values.name}
-        onChange={formik.handleChange}
-        label='Text task name'
-      />
       <IconButton type='submit'>
         <SearchIcon />
       </IconButton>
+      <TextField name='name' value={formik.values.name} onChange={formik.handleChange} label='Text task name' />
     </StyledSearchInput>
   );
 };
