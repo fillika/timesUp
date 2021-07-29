@@ -6,6 +6,7 @@ import Sidebar from 'App/components/Sidebar';
 import { useStyles } from 'App/components/TaskList/hooks/useStyles';
 import { Report } from 'App/components/Report';
 import { Timer } from 'App/components/Timer';
+import { DatePickerComponent } from 'App/components/DatePickerComponent';
 
 export const Root = () => {
   const classes = useStyles();
@@ -24,7 +25,9 @@ export const Root = () => {
         <Route path='/reports' component={Report} />
 
         <Route path='/news'>
-          <div>News</div>
+          <div>
+            <DatePickerComponent date={new Date(1625148383189)} />
+          </div>
         </Route>
 
         <Route path='/profile'>
