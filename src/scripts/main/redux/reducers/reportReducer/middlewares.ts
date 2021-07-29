@@ -2,7 +2,7 @@ import { ReportsFetchParams } from './types';
 import { Dispatch } from 'react';
 import { reportsAPI } from 'Api/reports';
 import { RootState } from '../rootReducer';
-import { sortReports } from 'Utils/Sort';
+import { sortReports } from 'Utils/Sort/sortReports';
 import { addReportsResult, clearReportResult } from './actionCreators';
 import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 import { AppError } from 'Utils/Error';
