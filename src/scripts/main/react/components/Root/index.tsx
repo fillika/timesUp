@@ -26,7 +26,7 @@ export const Root = () => {
 
         <Route path='/news'>
           <div>
-            <DatePickerComponent date={new Date(1625148383189)} />
+            <DatePickerComponent />
           </div>
         </Route>
 

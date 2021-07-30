@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import ru from 'date-fns/locale/ru';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { TimeInput } from './components/TimeInput';
 
-export const DatePickerComponent: React.FC<{ date?: Date }> = ({ date = new Date() }) => {
-  const [startDate, setStartDate] = useState(date);
+registerLocale('ru', ru);
+interface IDatePicker {
+  start?: Date;
+  stop?: Date;
+}
 
-  return <div>Date picker</div>;
+// https://github.com/Hacker0x01/react-datepicker/
+export const DatePickerComponent: React.FC<IDatePicker> = props => {
+  const { start = new Date(), stop = new Date().getTime() + 1000 } = props;
+  const [startDate, setStartDate] = useState(new Date());
+
+  return (
+    <div style={{ padding: 20 }}>
+      <div>
+        <TimeInput initTime='11:42' />
+        <TimeInput initTime='12:42' />
+      </div>
+      <div>
+        <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} showTimeInput locale='ru' />
+      </div>
+    </div>
+  );
 };
