@@ -1,9 +1,11 @@
 export const isValid = (val: string) => {
-  const regexp = /^\d{0,2}?\:?\d{0,2}$/;
-
+  // const regexp = /^\d{0,2}?\:?\d{0,2}$/;
+  const regExp = new RegExp('([0][0-9]|[1][0-9]|[2][0-3]):?([0-5][0-9]){0,2}', 'gm');
+  // /^\d{0,2}:?\d{0,2}/gm
+  // /([0][0-9]|[1][0-9]|[2][0-3]):?([0-5][0-9]){0,2}/gm
   const [hoursStr, minutesStr] = val.split(':');
 
-  if (!regexp.test(val)) {
+  if (!regExp.test(val)) {
     return false;
   }
 

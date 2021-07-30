@@ -5,7 +5,6 @@ import { isValid } from './isValid';
 interface TTimeInput {
   initTime?: string;
   disabled?: boolean;
-  mountFocus?: any;
   onTimeChange?: any;
   type?: 'text' | 'time';
   onFocusHandler?: any;
@@ -18,9 +17,8 @@ interface TTimeInput {
 export const TimeInput: React.FC<TTimeInput> = ({
   initTime,
   disabled = false,
-  mountFocus,
   onTimeChange,
-  type,
+  type = 'text',
   onFocusHandler,
   placeholder,
   className,
@@ -28,26 +26,10 @@ export const TimeInput: React.FC<TTimeInput> = ({
   onBlurHandler,
 }) => {
   const [time, setTime] = useState(initTime || '');
-
-  const _input = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!disabled && mountFocus) {
-      // Очень спорно
-      setTimeout(() => {
-        if (_input.current instanceof HTMLInputElement) {
-          _input.current.focus();
-        }
-      }, 0);
-    }
-  });
-
-  let lastVal = '';
+  const [lastVal, setLastVal] = useState('')
 
   const onChangeHandler = (val: string) => {
-    if (val === time) {
-      return;
-    }
+    if (val === time) return;
 
     if (isValid(val)) {
       if (val.length === 2 && lastVal.length !== 3 && val.indexOf(':') === -1) {
@@ -62,8 +44,7 @@ export const TimeInput: React.FC<TTimeInput> = ({
         return false;
       }
 
-      lastVal = val;
-
+      setLastVal(val);
       setTime(val);
 
       if (val.length === 5 && onTimeChange !== undefined) {
@@ -72,25 +53,17 @@ export const TimeInput: React.FC<TTimeInput> = ({
     }
   };
 
-  const getType = () => {
-    if (type) {
-      return type;
-    }
-    return 'text';
-  };
-
   return (
     <input
       name={name ? name : undefined}
       className={className}
-      type={getType()}
+      type={type}
       disabled={disabled}
       placeholder={placeholder}
       value={time}
       onChange={e => onChangeHandler(e.target.value)}
       onFocus={onFocusHandler ? e => onFocusHandler(e) : undefined}
       onBlur={onBlurHandler ? e => onBlurHandler(e) : undefined}
-      ref={_input}
     />
   );
 };
