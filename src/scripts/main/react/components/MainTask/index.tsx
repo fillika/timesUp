@@ -18,6 +18,8 @@ export const MainTask: React.FC<TaskData> = ({ data, index }) => {
   const [isActive, isMounted, isTyping, name, setActive, setTyping, deleteHandler, deleteTask] = useHandlers(data);
   const classes = useStyles();
 
+  // console.log(data);
+
   return (
     <li className={classes.task}>
       <StyledTask delay={index * 100}>

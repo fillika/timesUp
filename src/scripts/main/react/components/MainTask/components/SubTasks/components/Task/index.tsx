@@ -13,8 +13,9 @@ type Task = {
 export const Task: React.FC<Task> = ({ name, data }) => {
   const [isTyping, value, updateTask, deleteTask, onChange, onKeyPress] = useStateTask(name, data._id);
   const [isActive, setIsACtive] = useState(true);
-
   const classes = useStyles();
+
+  // console.log(data);
 
   return (
     <Collapse in={isActive} onExited={deleteTask} timeout={isActive ? 0 : 400} unmountOnExit>

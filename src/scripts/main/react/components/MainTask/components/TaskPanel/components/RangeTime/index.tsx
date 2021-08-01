@@ -29,8 +29,15 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
     data.duration = new Date(data.stop).getTime() - new Date(data.start).getTime();
   }
 
+  const onClickHandler = () => {
+    if (data.time === undefined) {
+      // Todo тут вызов модального окна с парметрами
+      console.log('То, что надо', data);
+    }
+  };
+
   return (
-    <StyledRangeTime>
+    <StyledRangeTime onClick={onClickHandler}>
       <span className={'total-time'}>{time.countTotalTime(data.duration)}</span>
       <span className={'range-time'}>
         {time.createTemplateTime(data.start)}&nbsp;-&nbsp;{time.createTemplateTime(data.stop)}
