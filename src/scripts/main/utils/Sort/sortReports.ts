@@ -1,5 +1,6 @@
 import uniqueId from 'lodash/uniqueId';
-import { compose, createDeepCopy } from 'Utils/helpers/fp';
+import { compose } from 'Utils/helpers/fp';
+import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
 import { ExtendedDBTask, SortedReport } from 'Redux/reducers/reportReducer/types';
 import { DatabaseTask } from 'Types/tasks';
 

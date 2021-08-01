@@ -1,6 +1,6 @@
 import findIndex from 'lodash/findIndex';
 import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
-import { createDeepCopy } from 'Utils/helpers/fp';
+import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
 
 class Sort {
   constructor() {}

@@ -14,4 +14,7 @@ export const curry = (fn: any) =>
     return (...args2: any[]) => curried.apply(this, args.concat(args2));
   };
 
-export const createDeepCopy = <T, Y>(data: T): Y => JSON.parse(JSON.stringify(data));
+export const maybe = (x: any) => (fn: any) => {
+  if (x !== null || x !== undefined || (x !== false && fn)) return maybe(fn(x));
+  else maybe(null);
+};

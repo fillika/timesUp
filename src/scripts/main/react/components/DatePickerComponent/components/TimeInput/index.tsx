@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { isValid } from './isValid';
+import { compose } from 'Utils/helpers/fp';
+import { usePresenter } from './hooks/usePresenter';
 
 // https://github.com/dima-bu/react-time-input/blob/master/src/timeInput.jsx
 interface TTimeInput {
@@ -25,32 +27,11 @@ export const TimeInput: React.FC<TTimeInput> = ({
   name,
   onBlurHandler,
 }) => {
-  const [time, setTime] = useState(initTime || '');
-  const [lastVal, setLastVal] = useState('')
+  const [time, onChange] = usePresenter(initTime, onTimeChange);
 
-  const onChangeHandler = (val: string) => {
-    if (val === time) return;
-
-    if (isValid(val)) {
-      if (val.length === 2 && lastVal.length !== 3 && val.indexOf(':') === -1) {
-        val = val + ':';
-      }
-
-      if (val.length === 2 && lastVal.length === 3) {
-        val = val.slice(0, 1);
-      }
-
-      if (val.length > 5) {
-        return false;
-      }
-
-      setLastVal(val);
-      setTime(val);
-
-      if (val.length === 5 && onTimeChange !== undefined) {
-        onTimeChange(val);
-      }
-    }
+  const onChangeHandler = (value: string) => {
+    if (value === time) return;
+    onChange(value);
   };
 
   return (
