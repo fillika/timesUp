@@ -30,7 +30,7 @@ export const MainTask: React.FC<TaskData> = ({ data, index }) => {
         </Collapse>
 
         <Collapse in={isActive} timeout={300} unmountOnExit>
-          <SubTasks isActive={isActive} data={data.time} name={data.name} />
+          <SubTasks data={data.time} name={data.name} />
         </Collapse>
       </StyledTask>
     </li>
