@@ -1,12 +1,11 @@
 const ONE_DAY_LENGTH = 86400000;
 
 export const startOfDay = (date: string | number): number => {
-  // const [currentDay] = new Date(date).toISOString().split('T');
-  // return new Date(currentDay).getTime();
   const dateString = new Date(date).toDateString();
   return new Date(dateString).getTime();
 };
-export const endOfDay = (date: number) => date + ONE_DAY_LENGTH;
+
+export const endOfDay = (startOfDay: number) => startOfDay + ONE_DAY_LENGTH;
 export const getToday = () => ({
   start: startOfDay(new Date().getTime()),
   stop: endOfDay(startOfDay(new Date().getTime())),
@@ -21,8 +20,9 @@ export const getCurrentWeek = () => {
     stop: 0,
   };
 
+  // Если воскресенье, то из него вычитаем неделю
   if (dayNumber === 0) {
-    result.stop = new Date(1627765200000 + 86400000).getTime();
+    result.stop = endOfDay(currentDay);
     result.start = result.stop - ONE_DAY_LENGTH * 7;
   } else {
     result.start = currentDay - (dayNumber - 1) * ONE_DAY_LENGTH;
