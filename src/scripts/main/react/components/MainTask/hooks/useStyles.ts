@@ -57,21 +57,6 @@ export const useStyles = makeStyles(({ palette }: Theme) => ({
     lineHeight: '1.25em',
     paddingRight: 15
   },
-  timeTotal: {
-    fontSize: '0.8em',
-  },
-  timeRange: {
-    fontSize: '0.8em',
-    marginRight: 10,
-    padding: 5,
-    borderRadius: 20,
-    userSelect: 'none',
-
-    '&:hover': {
-      cursor: 'pointer',
-      backgroundColor: palette.grey[400],
-    },
-  },
   counter: {
     display: 'flex',
     justifyContent: 'center',

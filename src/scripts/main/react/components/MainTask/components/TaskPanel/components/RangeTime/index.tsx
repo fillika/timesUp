@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { time } from 'Utils/Time';
 import _isEqual from 'lodash/isEqual';
-import { useStyles } from 'App/components/MainTask/hooks/useStyles';
 import { TimeType } from 'Types/tasks';
+import { StyledRangeTime } from './style';
+import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
 
 type RangeTimeProps = {
-  data: {
-    start: string;
-    stop: string;
-    duration?: number;
-    time?: TimeType[];
-  };
+  data: TFormState;
+};
+
+type TFormState = {
+  start: string;
+  stop: string;
+  duration?: number;
+  time?: TimeType[];
 };
 
 const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
-  const classes = useStyles();
-  const data = JSON.parse(JSON.stringify(fromState));
+  const data = createDeepCopy<TFormState, TFormState>(fromState);
 
   // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
   if (data.time !== undefined) {
@@ -28,12 +30,12 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
   }
 
   return (
-    <div>
-      <span className={classes.timeRange}>
+    <StyledRangeTime>
+      <span className={'total-time'}>{time.countTotalTime(data.duration)}</span>
+      <span className={'range-time'}>
         {time.createTemplateTime(data.start)}&nbsp;-&nbsp;{time.createTemplateTime(data.stop)}
       </span>
-      <span className={classes.timeTotal}>{time.countTotalTime(data.duration)}</span>
-    </div>
+    </StyledRangeTime>
   );
 };
 
