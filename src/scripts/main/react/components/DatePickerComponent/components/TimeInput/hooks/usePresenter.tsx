@@ -8,8 +8,8 @@ type TPresenter = (
   onTimeChange: (value: string) => void
 ) => [string, (arg: string) => void];
 
-export const usePresenter: TPresenter = (initTime, onTimeChange) => {
-  const [time, setTime] = useState(initTime || '');
+export const usePresenter: TPresenter = (initTime = '', onTimeChange) => {
+  const [time, setTime] = useState(isValid(initTime) ? initTime : '');
   const [lastVal, setLastVal] = useState('');
 
   const checkFirstChar = (val: string) => {
@@ -47,5 +47,10 @@ export const usePresenter: TPresenter = (initTime, onTimeChange) => {
 
   const onChange = compose(checkValid, addColon, checkFirstChar, createDeepCopy);
 
-  return [time, onChange];
+  const onChangeHandler = (value: string) => {
+    if (value === time) return;
+    onChange(value);
+  };
+
+  return [time, onChangeHandler];
 };

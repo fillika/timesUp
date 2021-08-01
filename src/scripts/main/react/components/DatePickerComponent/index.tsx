@@ -18,11 +18,11 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
   return (
     <div style={{ padding: 20 }}>
       <div>
-        <TimeInput initTime='11:42' />
-        <TimeInput initTime='12:42' />
+        <TimeInput initTime='24:42' />
+        <TimeInput initTime='23:59' />
       </div>
       <div>
-        <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} showTimeInput locale='ru' />
+        <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} locale='ru' />
       </div>
     </div>
   );

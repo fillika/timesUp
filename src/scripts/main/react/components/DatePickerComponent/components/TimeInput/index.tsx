@@ -1,6 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { isValid } from './isValid';
-import { compose } from 'Utils/helpers/fp';
+import React from 'react';
 import { usePresenter } from './hooks/usePresenter';
 
 // https://github.com/dima-bu/react-time-input/blob/master/src/timeInput.jsx
@@ -27,12 +25,7 @@ export const TimeInput: React.FC<TTimeInput> = ({
   name,
   onBlurHandler,
 }) => {
-  const [time, onChange] = usePresenter(initTime, onTimeChange);
-
-  const onChangeHandler = (value: string) => {
-    if (value === time) return;
-    onChange(value);
-  };
+  const [time, onChangeHandler] = usePresenter(initTime, onTimeChange);
 
   return (
     <input
