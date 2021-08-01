@@ -1,29 +1,47 @@
 import React, { useState } from 'react';
-import ru from 'date-fns/locale/ru';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import ru from 'date-fns/locale/ru';
+import Button from '@material-ui/core/Button';
+
 import { TimeInput } from './components/TimeInput';
+
+import 'react-datepicker/dist/react-datepicker.css';
+import { StyledDatePickerWrapper } from './style';
 
 registerLocale('ru', ru);
 interface IDatePicker {
-  start?: Date;
-  stop?: Date;
+  start?: string;
+  stop?: string;
+  day?: Date;
+  handleClose: () => void;
 }
 
 // https://github.com/Hacker0x01/react-datepicker/
 export const DatePickerComponent: React.FC<IDatePicker> = props => {
-  const { start = new Date(), stop = new Date().getTime() + 1000 } = props;
-  const [startDate, setStartDate] = useState(new Date());
+  const { start, stop, day = new Date(), handleClose } = props;
+  const [startDate, setStartDate] = useState(day);
 
+  const sumbitHadler = (event: React.FormEvent<EventTarget>) => {
+    event.preventDefault();
+    console.log(startDate);
+  };
   return (
-    <div style={{ padding: 20 }}>
-      <div>
-        <TimeInput initTime='24:42' />
-        <TimeInput initTime='23:59' />
-      </div>
-      <div>
-        <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} locale='ru' />
-      </div>
-    </div>
+    <StyledDatePickerWrapper>
+      <form onSubmit={sumbitHadler}>
+        <div className='date-inputs-wrapper'>
+          <TimeInput className='date-picker-input' initTime={start} label={'Start'} />
+          <TimeInput className='date-picker-input' initTime={stop} label={'Stop'} />
+        </div>
+        <div>
+          <DatePicker inline={true} selected={startDate} onChange={(date: Date) => setStartDate(date)} locale='ru' />
+        </div>
+        <div>
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={() => console.log('Data here')} type='submit'>
+            Ok
+          </Button>
+        </div>
+      </form>
+    </StyledDatePickerWrapper>
   );
 };

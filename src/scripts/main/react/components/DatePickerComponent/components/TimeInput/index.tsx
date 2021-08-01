@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePresenter } from './hooks/usePresenter';
+import TextField from '@material-ui/core/TextField';
 
 // https://github.com/dima-bu/react-time-input/blob/master/src/timeInput.jsx
 interface TTimeInput {
@@ -9,9 +10,10 @@ interface TTimeInput {
   type?: 'text' | 'time';
   onFocusHandler?: any;
   placeholder?: any;
-  className?: any;
+  className?: string;
   name?: any;
   onBlurHandler?: any;
+  label?: string;
 }
 
 export const TimeInput: React.FC<TTimeInput> = ({
@@ -19,6 +21,7 @@ export const TimeInput: React.FC<TTimeInput> = ({
   disabled = false,
   onTimeChange,
   type = 'text',
+  label = '',
   onFocusHandler,
   placeholder,
   className,
@@ -28,7 +31,9 @@ export const TimeInput: React.FC<TTimeInput> = ({
   const [time, onChangeHandler] = usePresenter(initTime, onTimeChange);
 
   return (
-    <input
+    <TextField
+      label={label}
+      variant='filled'
       name={name ? name : undefined}
       className={className}
       type={type}
