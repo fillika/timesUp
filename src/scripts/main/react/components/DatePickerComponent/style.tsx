@@ -15,6 +15,22 @@ export const StyledDatePickerWrapper = withTheme(styled('div')`
     justify-content: space-between;
     margin-bottom: 5px;
 
+    label {
+      color: #fff;
+
+      &.Mui-focused {
+        color: #6a5acd;
+      }
+    }
+
+    input {
+      color: #fff;
+
+      :focus {
+        color: #6a5acd;
+      }
+    }
+
     .date-picker-input {
       width: 48%;
     }
@@ -23,6 +39,15 @@ export const StyledDatePickerWrapper = withTheme(styled('div')`
     .MuiFilledInput-root:hover {
       background-color: #fff;
     }
+  }
+
+  .date-picker-wrapper {
+    margin-bottom: 0.3em;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
   }
 
   .react-datepicker__day-name,
