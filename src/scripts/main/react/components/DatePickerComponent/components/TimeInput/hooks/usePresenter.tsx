@@ -17,8 +17,11 @@ export const usePresenter: TPresenter = (initTime = '', onTimeChange) => {
     return val;
   };
 
+  // Проверка на длину
+  const checkLength = (val: string | [], number: number) => (val.length === number ? true : false);
+
   const addColon = (value: string) => {
-    if (value.length === 2 && lastVal.length !== 3 && value.indexOf(':') === -1) {
+    if (checkLength(value, 2) && !checkLength(lastVal, 3) && value.indexOf(':') === -1) {
       value = value + ':';
     }
     return value;
