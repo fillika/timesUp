@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { isValid } from './../isValid';
 import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
 import flow from 'lodash/fp/flow';
+import curry from 'lodash/fp/curry';
 
 type TPresenter = (
   initTime: string | undefined,
@@ -28,21 +29,21 @@ export const usePresenter: TPresenter = (initTime = '', onTimeChange) => {
     return value;
   };
 
-  const checkValid = (value: string) => {
-    if (isValid(value)) {
-      setLastVal(value);
-      setTime(value);
-      onTimeChangeHandler(value);
-    }
+  const changeState = (value: string) => {
+    setLastVal(value);
+    setTime(value);
+    onTimeChangeHandler(value);
   };
 
-  const onTimeChangeHandler = (value: string | undefined) => {
-    if (value && value.length === 5 && onTimeChange !== undefined) {
+  const checkValid = curry((fn: typeof changeState, value: string) => isValid(value) && fn(value));
+
+  const onTimeChangeHandler = (value: string) => {
+    if (value.length === 5 && onTimeChange !== undefined) {
       onTimeChange(value);
     }
   };
 
-  const onChange = flow(createDeepCopy, checkFirstChar, addColon, checkValid);
+  const onChange = flow(createDeepCopy, checkFirstChar, addColon, checkValid(changeState));
 
   const onChangeHandler = (value: string) => {
     if (value === time) return;
