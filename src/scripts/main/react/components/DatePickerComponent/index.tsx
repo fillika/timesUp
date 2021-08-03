@@ -45,12 +45,12 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
             <TimeInput className='date-picker-input' initTime={start} label={'Start'} />
             <TimeInput className='date-picker-input' initTime={stop} label={'Stop'} />
           </div>
-          
-          <div className="date-picker-wrapper">
+
+          <div className='date-picker-wrapper'>
             <DatePicker inline={true} selected={startDate} onChange={(date: Date) => setStartDate(date)} locale='ru' />
           </div>
 
-          <div className="buttons-wrapper">
+          <div className='buttons-wrapper'>
             <Button onClick={handleClose} color='secondary' variant='contained'>
               Закрыть
             </Button>

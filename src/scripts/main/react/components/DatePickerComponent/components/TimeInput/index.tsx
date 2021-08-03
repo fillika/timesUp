@@ -19,7 +19,6 @@ interface TTimeInput {
 export const TimeInput: React.FC<TTimeInput> = ({
   initTime,
   disabled = false,
-  onTimeChange,
   type = 'text',
   label = '',
   onFocusHandler,
@@ -28,7 +27,7 @@ export const TimeInput: React.FC<TTimeInput> = ({
   name,
   onBlurHandler,
 }) => {
-  const [time, onChangeHandler] = usePresenter(initTime, onTimeChange);
+  const [time, onChangeHandler] = usePresenter(initTime);
 
   return (
     <TextField

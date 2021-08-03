@@ -1,16 +1,13 @@
 import { useState } from 'react';
-import { isValid } from './../isValid';
+import { isValid } from '../utils/isValid';
 import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
 import { checkLength } from 'Utils/helpers/checkLength';
 import flow from 'lodash/fp/flow';
 import curry from 'lodash/fp/curry';
 
-type TPresenter = (
-  initTime: string | undefined,
-  onTimeChange: (value: string) => void
-) => [string, (arg: string) => void];
+type TPresenter = (initTime: string | undefined) => [string, (arg: string) => void];
 
-export const usePresenter: TPresenter = (initTime = '', onTimeChange) => {
+export const usePresenter: TPresenter = (initTime = '') => {
   const [time, setTime] = useState(isValid(initTime) ? initTime : '');
   const [lastVal, setLastVal] = useState('');
 
@@ -22,20 +19,9 @@ export const usePresenter: TPresenter = (initTime = '', onTimeChange) => {
     }
     return value;
   };
+  const changeState = (value: string) => (setLastVal(value), setTime(value));
 
-  const changeState = (value: string) => {
-    setLastVal(value);
-    setTime(value);
-    onTimeChangeHandler(value);
-  };
-
-  const checkValid = curry((fn: typeof changeState, value: string) => isValid(value) && fn(value));
-
-  const onTimeChangeHandler = (value: string) => {
-    if (value.length === 5 && onTimeChange !== undefined) {
-      onTimeChange(value);
-    }
-  };
+  const checkValid = curry((setState: typeof changeState, value: string) => isValid(value) && setState(value));
 
   const onChange = flow(createDeepCopy, checkFirstChar, addColon, checkValid(changeState));
 
