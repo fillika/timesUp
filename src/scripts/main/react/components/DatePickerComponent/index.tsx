@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import ru from 'date-fns/locale/ru';
+import DatePicker from 'react-datepicker';
 import Button from '@material-ui/core/Button';
 
 import { TimeInput } from './components/TimeInput';
@@ -20,7 +19,6 @@ export const datePickerTheme = createTheme({
   },
 });
 
-registerLocale('ru', ru);
 interface IDatePicker {
   start?: string;
   stop?: string;
@@ -47,7 +45,7 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
           </div>
 
           <div className='date-picker-wrapper'>
-            <DatePicker inline={true} selected={startDate} onChange={(date: Date) => setStartDate(date)} locale='ru' />
+            <DatePicker inline={true} selected={startDate} onChange={(date: Date) => setStartDate(date)} />
           </div>
 
           <div className='buttons-wrapper'>
