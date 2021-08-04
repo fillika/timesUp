@@ -5,7 +5,7 @@ import { AppError } from 'Utils/Error';
 import { ActiveTaskResponse, ServerResponse } from 'Types/serverResponse';
 import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 import { defaultData } from './utils';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { notifyWarning } from 'Redux/reducers/notifyReducer/actionCreators';
 import { setDocumentTitle, setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
 import { time } from 'Utils/Time';
 import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
@@ -44,7 +44,7 @@ export const startHeaderTimer = () => {
     const { activeTask } = getState();
 
     if (activeTask.name.trim() === '') {
-      return dispatch(createNotify('warning', 'У задачи должно быть имя :)'));
+      return dispatch(notifyWarning('У задачи должно быть имя :)'));
     }
 
     setDocumentTitle(`${'00:00:00'}-${activeTask.name}`);

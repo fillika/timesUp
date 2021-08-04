@@ -1,4 +1,4 @@
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { notifyError, notifySuccess } from 'Redux/reducers/notifyReducer/actionCreators';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 import { authAPI } from 'Scripts/main/api/auth';
 import { useDispatch } from 'react-redux';
@@ -25,7 +25,7 @@ export const useLogInState = (): [
       return setStatus('success');
     }
 
-    dispatch(createNotify('success', 'Добро пожаловать!'));
+    dispatch(notifySuccess('Добро пожаловать!'));
     dispatch(getAllTasks(response.data.token));
   });
 
@@ -36,16 +36,16 @@ export const useLogInState = (): [
     switch (err.statusCode) {
       case 401:
         message = 'Неверный логин или пароль';
-        dispatch(createNotify('error', message));
+        dispatch(notifyError(message));
 
         break;
       case 404:
         message = 'Такой email не существует';
-        dispatch(createNotify('error', err.message));
+        dispatch(notifyError(err.message));
         break;
 
       default:
-        dispatch(createNotify('error', err.message));
+        dispatch(notifyError(err.message));
         break;
     }
   };

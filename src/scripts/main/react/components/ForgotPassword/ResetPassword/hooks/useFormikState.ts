@@ -3,7 +3,7 @@ import { authAPI } from 'Scripts/main/api/auth';
 import { asyncCatcher } from 'Utils/helpers/asyncCatcher';
 import { useDispatch } from 'react-redux';
 import { Dispatch, useState } from 'react';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { notifyError } from 'Redux/reducers/notifyReducer/actionCreators';
 import { AppError } from 'Utils/Error';
 import { useStatusState } from 'App/hooks/useStatusState';
 
@@ -60,11 +60,11 @@ export const useFormikState = (): HookState => {
     switch (err.statusCode) {
       case 404:
         message = 'Такого email не существует';
-        dispatch(createNotify('error', message));
+        dispatch(notifyError(message));
         break;
 
       default:
-        dispatch(createNotify('error', err.message));
+        dispatch(notifyError(err.message));
         break;
     }
   };

@@ -1,6 +1,6 @@
 import { AppError } from 'Utils/Error';
 import { Dispatch } from 'react';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { notifyWarning, notifyError } from 'Redux/reducers/notifyReducer/actionCreators';
 
 export const errSwitchCase = (err: AppError, dispatch: Dispatch<any>) => {
   let message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
@@ -8,17 +8,17 @@ export const errSwitchCase = (err: AppError, dispatch: Dispatch<any>) => {
   switch (err.statusCode) {
     case 401:
       message = 'Пожалуйста, залогиньтесь заново';
-      dispatch(createNotify('warning', message));
+      dispatch(notifyWarning(message));
       localStorage.removeItem('JWT');
       break;
     case 404:
-      dispatch(createNotify('error', message));
+      dispatch(notifyError(message));
       break;
     case 500:
-      dispatch(createNotify('error', `Ошибка сервера: ${err.message}`));
+      dispatch(notifyError(`Ошибка сервера: ${err.message}`));
       break;
     default:
-      dispatch(createNotify('error', err.message));
+      dispatch(notifyError(err.message));
       break;
   }
 };

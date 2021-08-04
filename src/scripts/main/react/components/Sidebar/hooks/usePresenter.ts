@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { useDispatch } from 'react-redux';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { notifyError } from 'Redux/reducers/notifyReducer/actionCreators';
 import { openTimerModal } from 'Redux/reducers/timerReducer/actionCreators';
 import { setDocumentDefaultTitle } from 'Utils/helpers/setDocumentTitle';
 
@@ -19,7 +19,7 @@ export const usePresenter = (): SidebarPresenter => {
 
   const logOut = () => dispatch(logOutHandler());
 
-  const testErr = () => dispatch(createNotify('error', 'Test ERROR', 5000));
-
+  const testErr = () => dispatch(notifyError('Test ERROR', 5500));
+  
   return [handleOpen, logOut, testErr];
 };

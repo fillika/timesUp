@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { AppError } from 'Utils/Error';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { notifyError, notifyWarning } from 'Redux/reducers/notifyReducer/actionCreators';
 
 export function useGlobalError() {
   const dispatch = useDispatch();
@@ -10,17 +10,17 @@ export function useGlobalError() {
     switch (err.statusCode) {
       case 401:
         message = 'Пожалуйста, залогиньтесь заново';
-        dispatch(createNotify('warning', message));
+        dispatch(notifyWarning(message));
 
         localStorage.removeItem('JWT');
         break;
       case 404:
         message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-        dispatch(createNotify('error', message));
+        dispatch(notifyError(message));
         break;
 
       default:
-        dispatch(createNotify('error', err.message));
+        dispatch(notifyError(err.message));
         break;
     }
   };
@@ -41,21 +41,21 @@ export function useGlobalError() {
   const delTaskByNameErrHadler = (err: AppError) => {
     switch (err.statusCode) {
       case 400:
-        dispatch(createNotify('error', err.message));
+        dispatch(notifyError(err.message));
 
         break;
       case 401:
         message = 'Пожалуйста, залогиньтесь заново';
-        dispatch(createNotify('warning', message));
+        dispatch(notifyWarning(message));
         localStorage.removeItem('JWT');
         break;
       case 404:
         message = 'Ошибка подключения к серверу. Приносим свои извинения :(';
-        dispatch(createNotify('error', message));
+        dispatch(notifyError(message));
         break;
 
       default:
-        dispatch(createNotify('error', err.message));
+        dispatch(notifyError(err.message));
         break;
     }
   };

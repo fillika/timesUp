@@ -1,6 +1,6 @@
 export type Notification = {
   id: number | string;
-  type: string;
+  type: 'success' | 'warning' | 'error';
   message: string;
-  time: number
+  time: number;
 };

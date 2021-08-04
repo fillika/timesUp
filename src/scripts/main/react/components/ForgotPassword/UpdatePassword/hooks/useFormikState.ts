@@ -5,7 +5,7 @@ import { Dispatch } from 'react';
 import { useDispatch } from 'react-redux';
 import { authAPI } from 'Scripts/main/api/auth';
 import { AppError } from 'Utils/Error';
-import { createNotify } from 'Redux/reducers/notifyReducer/actionCreators';
+import { notifySuccess, notifyError } from 'Redux/reducers/notifyReducer/actionCreators';
 import { useStatusState } from 'App/hooks/useStatusState';
 
 type FormikValues = {
@@ -61,8 +61,7 @@ export const useFormikState = (): HookState => {
     const response = await authAPI.updatePassword({ id, password, passwordConfirm });
 
     dispatch({ type: 'APP_LOG_IN', payload: response.data.token });
-    dispatch(createNotify('success', 'Ваш пароль изменен.\nДобро пожаловать!'));
-
+    dispatch(notifySuccess('Ваш пароль изменен.\nДобро пожаловать!'));
     setStatus('success');
   });
 
@@ -73,13 +72,13 @@ export const useFormikState = (): HookState => {
     switch (err.statusCode) {
       case 401:
         message = 'Время действия ссылки истекло. Попробуйте еще раз!';
-        dispatch(createNotify('error', message, 3000));
+        dispatch(notifyError(message, 3000));
 
         setTimeout(() => history.push('/'), 3000);
         break;
 
       default:
-        dispatch(createNotify('error', err.message, 3000));
+        dispatch(notifyError(err.message, 3000));
         break;
     }
   };
