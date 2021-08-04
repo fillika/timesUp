@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import curry from 'lodash/fp/curry';
 import compose from 'lodash/fp/compose';
+import clone from 'ramda/src/clone';
 import { isValid } from '../utils/isValid';
 import { checkAndChangeValue } from '../utils/checkAndChangeValue';
 import { checkValueValidation } from '../utils/checkValueValidation';
-import clone from 'ramda/src/clone';
 
 type TPresenter = (initTime: string | undefined) => [string, (arg: string) => void];
 

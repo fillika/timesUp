@@ -3,4 +3,4 @@ import { isValid } from './isValid';
 
 type TSetState = (value: string) => void;
 
-export const checkValueValidation = curry<TSetState, string, void>((setState, value) => isValid(value) && setState(value));
+export const checkValueValidation = curry((setState: TSetState, value: string) => isValid(value) && setState(value));
