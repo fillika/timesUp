@@ -137,7 +137,6 @@ module.exports = {
     mergeDuplicateChunks: true,
     flagIncludedChunks: true,
     removeEmptyChunks: true,
-
     splitChunks,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
   },
