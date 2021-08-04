@@ -13,8 +13,8 @@ export const usePresenter: TPresenter = (initTime = '') => {
   const [lastVal, setLastVal] = useState('');
 
   const changeState = (value: string) => (setLastVal(value), setTime(value));
-  const onChange = compose(checkValueValidation(changeState), checkAndChangeValue(lastVal), createDeepCopy);
-  const onChangeHandler = curry((time: string, value: string) => (value !== time ? onChange(value) : 0));
+  const composedValue = compose(checkValueValidation(changeState), checkAndChangeValue(lastVal), createDeepCopy);
+  const onChangeHandler = curry((time: string, value: string) => (value !== time ? composedValue(value) : 0));
 
   return [time, onChangeHandler(time)];
 };
