@@ -39,13 +39,19 @@ const splitChunks = isDev
         test: /[\\/]node_modules[\\/](lodash)[\\/]/,
         name: 'lodash',
         chunks: 'all',
-        filename: 'libs/lodash.libs.min.js',
+        filename: 'libs/lodash.min.js',
+      }, 
+      ramda: {
+        test: /[\\/]node_modules[\\/](ramda)[\\/]/,
+        name: 'ramda',
+        chunks: 'all',
+        filename: 'libs/ramda.min.js',
       },
       mui: {
         test: /[\\/]node_modules[\\/]((@material-ui).*)[\\/]/,
         name: 'mui',
         chunks: 'all',
-        filename: 'libs/mui.libs.min.js',
+        filename: 'libs/mui.min.js',
       },
     },
   };
