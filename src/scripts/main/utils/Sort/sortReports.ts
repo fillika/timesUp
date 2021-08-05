@@ -1,6 +1,7 @@
 import uniqueId from 'lodash/uniqueId';
-import { compose } from 'Utils/helpers/fp';
-import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
+import clone from 'ramda/src/clone';
+import compose from 'ramda/src/compose';
+import path from 'ramda/src/path';
 import { ExtendedDBTask, SortedReport } from 'Redux/reducers/reportReducer/types';
 import { DatabaseTask } from 'Types/tasks';
 
@@ -8,9 +9,11 @@ import { DatabaseTask } from 'Types/tasks';
 const groupDatabaseTask = (arr: ExtendedDBTask[]) => {
   const result: SortedReport = {};
 
+  
   arr.forEach(task => {
     // Найти есть ли подобный таск в массиве с именем
     if (result[task.name] === undefined) {
+      // path([task.name], result)
       result[task.name] = {
         taskList: [],
         total: 0,
@@ -48,5 +51,5 @@ const renameTaskObject = (taskObj: SortedReport) => {
 export const sortReports: (arr: DatabaseTask[]) => SortedReport = compose(
   renameTaskObject,
   groupDatabaseTask,
-  createDeepCopy
+  clone
 );
