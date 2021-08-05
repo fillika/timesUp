@@ -1,7 +1,9 @@
-import findIndex from 'lodash/findIndex';
 import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
-import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
-
+import clone from 'ramda/src/clone';
+import reduce from 'ramda/src/reduce';
+import compose from 'ramda/src/compose';
+import findIndex from 'ramda/src/findIndex';
+import propEq from 'ramda/src/propEq';
 class Sort {
   constructor() {}
 
@@ -10,30 +12,31 @@ class Sort {
    * сортированный список тасков по убыванию. В этой функции мы создаем массив объектов, которые объеденены по дате
    */
   sortData(taskArr: DatabaseTask[]): SortedTask[] {
-    const tasks: SortedTask[] = [];
-    const deepCopy = createDeepCopy<DatabaseTask[], DatabaseTask[]>(taskArr);
-
-    deepCopy.forEach((el: DatabaseTask) => {
+    const reduceIterator = (result: SortedTask[], el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
 
       // Тут Я создаю самый первый таск
-      if (!tasks.length) {
+      if (!result.length) {
         const sortedTask = this.createFirstSortedTask(el);
-        tasks.push(sortedTask);
+        result.push(sortedTask);
       } else {
         // Ищу таски с одинаковой датой
-        const index = findIndex(tasks, ['date', date]);
+        const index = findIndex(propEq('date', date))(result);
 
         if (index === -1) {
           const sortedTask = this.createFirstSortedTask(el);
-          tasks.push(sortedTask);
+          result.push(sortedTask);
         } else {
-          this.findDuplicatesAndPush(tasks[index].mainTaskList, el);
+          this.findDuplicatesAndPush(result[index].mainTaskList, el);
         }
       }
-    });
 
-    return tasks;
+      return result;
+    };
+
+    const reducedList = reduce(reduceIterator, []);
+
+    return compose(reducedList, clone)(taskArr);
   }
 
   createFirstSortedTask(el: TaskType): SortedTask {
@@ -52,7 +55,8 @@ class Sort {
    * duration, чтобы меньше вычислений делать при рендере
    */
   findDuplicatesAndPush(taskArr: TaskType[], el: TaskType) {
-    const index = findIndex(taskArr, ['name', el.name]);
+    const index = findIndex(propEq('name', el.name))(taskArr);
+
     const task = taskArr[index];
 
     if (index !== -1) {
@@ -73,7 +77,7 @@ class Sort {
   }
 
   findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
-    const index = findIndex(taskArr, ['name', el.name]);
+    const index = findIndex(propEq('name', el.name))(taskArr);
     const task = taskArr[index];
 
     if (index !== -1) {
@@ -102,4 +106,3 @@ class Sort {
   }
 }
 export const sort = new Sort();
-
