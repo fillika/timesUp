@@ -14,10 +14,9 @@ export const usePresenter: TPresenter = (initTime = '') => {
 
   useRamda();
 
+  const checkValidAndChangeState = (setState: typeof changeState, value: string) => isValid(value) && setState(value);
   const changeState = (value: string) => (setLastVal(value), setTime(value));
-  const checkValueValidation = curry(
-    (setState: typeof changeState, value: string) => isValid(value) && setState(value)
-  )(changeState);
+  const checkValueValidation = curry(checkValidAndChangeState)(changeState);
 
   const composedValue = compose<string, string, string, string, string, false | void>(
     checkValueValidation,
@@ -26,7 +25,7 @@ export const usePresenter: TPresenter = (initTime = '') => {
     checkFirstChar,
     clone
   );
-  
+
   const onChangeHandler = curry((time: string, value: string) => (value !== time ? composedValue(value) : 0));
 
   return [time, onChangeHandler(time)];
