@@ -1,6 +1,7 @@
 require("dotenv").config({ path: `${__dirname}/config.env` });
 
 const express = require("express");
+const compression = require('compression');
 const path = require('path');
 const cors = require("cors");
 const connectionDB = require("./dbConnection");
@@ -32,6 +33,7 @@ var corsOptions = {
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+app.use(compression());
 
 app.use("/api/v1/reports", cors(corsOptions), reportsRouter);
 app.use("/api/v1/tasks", cors(corsOptions), taskRouter);
