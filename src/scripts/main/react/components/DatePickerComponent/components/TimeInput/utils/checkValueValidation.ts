@@ -1,4 +1,4 @@
-import curry from 'lodash/fp/curry';
+import curry from 'ramda/src/curry';
 import { isValid } from './isValid';
 
 type TSetState = (value: string) => void;
