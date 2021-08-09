@@ -8,6 +8,7 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 import { mainTheme } from 'App/index';
 import { toggleTimer, TIMER_STOP_AND_CLEAR } from 'Redux/reducers/timerReducer/actionCreators';
+import { stopAlarm } from '../../utils/alarm';
 
 export const ButtonPanel = memo<{ isActive: boolean }>(({ isActive }) => {
   const dispatch = useDispatch();
@@ -15,7 +16,10 @@ export const ButtonPanel = memo<{ isActive: boolean }>(({ isActive }) => {
   // useEffect(() => console.log('Render[ButtonPanel]'));
 
   const toggleHandler = () => dispatch(toggleTimer());
-  const stopAndClearHandler = () => dispatch({ type: TIMER_STOP_AND_CLEAR });
+  const stopAndClearHandler = () => {
+    stopAlarm();
+    dispatch({ type: TIMER_STOP_AND_CLEAR });
+  };
 
   return (
     <div className={'button-panel'}>
