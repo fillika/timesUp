@@ -6,6 +6,7 @@ import { ButtonPanel } from './components/ButtonPanel/index';
 
 import { StyledModal } from './style';
 import { usePresenter } from './hooks/usePresenter';
+import { VolumeSlider } from './components/VolumeSlider/index';
 
 export const Timer = () => {
   const [isOpen, isActive, time, handleClose] = usePresenter();
@@ -16,6 +17,7 @@ export const Timer = () => {
         <div className='time'>{time}</div>
         <TimeList />
         <ButtonPanel isActive={isActive} />
+        <VolumeSlider />
       </StyledModal>
     </ModalComponent>
   );
