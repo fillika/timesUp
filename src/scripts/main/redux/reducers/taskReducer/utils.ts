@@ -1,5 +1,7 @@
-import remove from 'lodash/remove';
+import reject from 'ramda/src/reject';
+import clone from 'ramda/src/clone';
 import { TaskState } from './types';
+import { DatabaseTask } from 'Types/tasks';
 
 export const updateTaskByName = (state: TaskState, payload: { name: string; date: string; newName: string }) => {
   const { name, date, newName } = payload;
@@ -28,12 +30,16 @@ export const updateTaskByID = (state: TaskState, payload: { newName: string; tas
   });
 };
 export const deleteTaskByName = (state: TaskState, payload: { date: string; name: string }) => {
-  const newArr = [...state.databaseTaskList];
+  // Найти все таски по имени и дате. Дата нужна, чтобы одноименные таски не были удалены из других дней
   const { date, name } = payload;
 
-  remove(newArr, task => {
-    return task.name === name && new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
-  });
+  const filterPredicate = (task: DatabaseTask) =>
+    task.name === name && new Date(date).toLocaleDateString() === new Date(task.at).toLocaleDateString();
 
-  return newArr;
+  const result = reject(filterPredicate, clone(state.databaseTaskList));
+
+  console.log(result);
+  console.log(state.databaseTaskList);
+
+  return result;
 };
