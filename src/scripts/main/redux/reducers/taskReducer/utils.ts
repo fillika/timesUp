@@ -38,8 +38,5 @@ export const deleteTaskByName = (state: TaskState, payload: { date: string; name
 
   const result = reject(filterPredicate, clone(state.databaseTaskList));
 
-  console.log(result);
-  console.log(state.databaseTaskList);
-
   return result;
 };
