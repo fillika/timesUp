@@ -22,12 +22,12 @@ export const MainTask: React.FC<TaskData> = ({ data, index }) => {
 
   return (
     <li className={classes.task}>
-      <StyledTask delay={index * 100}>
+      <StyledTask delay={index * 50}>
         <Collapse in={isMounted} onExited={deleteTask} timeout={650} unmountOnExit>
           <div className={classes.taskParent}>
             <Counter isActive={isActive} time={data.time} onClick={setActive} />
             <TaskInput data={data} setActive={setActive} setTyping={setTyping} />
-            <TaskPanel data={data} isTyping={isTyping} name={name} deleteTask={deleteHandler} />
+            <TaskPanel data={data} isTyping={isTyping} name={name} deleteTask={deleteHandler} setActive={setActive}  />
           </div>
         </Collapse>
 

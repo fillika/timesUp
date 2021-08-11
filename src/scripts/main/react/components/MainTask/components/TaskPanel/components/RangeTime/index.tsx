@@ -11,6 +11,7 @@ import { getHoursAndMinutes } from 'Utils/Date';
 
 type RangeTimeProps = {
   data: TFormState;
+  setActive?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type TFormState = {
@@ -20,7 +21,7 @@ type TFormState = {
   time?: TimeType[];
 };
 
-const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
+const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => {
   const data = clone(fromState);
   const [isOpened, setIsOpened] = useState(false);
   const handleOpen = () => setIsOpened(true);
@@ -41,6 +42,8 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
       // Todo тут вызов модального окна с парметрами
       console.log('То, что надо', data);
       handleOpen();
+    } else {
+      if (setActive) setActive(prev => !prev);
     }
   };
 
