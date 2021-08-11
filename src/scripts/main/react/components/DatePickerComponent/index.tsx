@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import Button from '@material-ui/core/Button';
 
 import { TimeInput } from './components/TimeInput';
+import { getHoursAndMinutes } from 'Utils/Date';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import { StyledDatePickerWrapper } from './style';
@@ -20,37 +21,54 @@ export const datePickerTheme = createTheme({
 });
 
 interface IDatePicker {
-  start?: string;
-  stop?: string;
-  day?: Date;
+  data: {
+    _id: string;
+    duration: number;
+    start: string;
+    stop: string;
+  };
   handleClose: () => void;
+  sumbitHadler: (data: any) => void; // TODO data пока что any
 }
 
 // https://github.com/Hacker0x01/react-datepicker/
 export const DatePickerComponent: React.FC<IDatePicker> = props => {
-  const { start, stop, day = new Date(), handleClose } = props;
-  const [startDate, setStartDate] = useState(day);
+  const { data, handleClose, sumbitHadler } = props;
+  const [startDate, setStartDate] = useState(new Date(data.start));
 
   const startInputRef = useRef(null);
   const stopInputRef = useRef(null);
 
-  const sumbitHadler = (event: React.FormEvent<EventTarget>) => {
+  const onSubmitHandler = (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
     // Спорное решение. Создал 2 рефа, которые прокинул в TimeInput. Записываю в них текущее значение даты
-    const data = {
+    const task = {
+      _id: data._id,
       start: startInputRef.current,
       stop: stopInputRef.current,
-      startDate
-    }
-    console.log(data);
+      startDate,
+    };
+    
+    sumbitHadler(task);
   };
+
   return (
     <StyledDatePickerWrapper>
       <ThemeProvider theme={datePickerTheme}>
-        <form onSubmit={sumbitHadler}>
+        <form onSubmit={onSubmitHandler}>
           <div className='date-inputs-wrapper'>
-            <TimeInput className='date-picker-input' initTime={start} label={'Start'} reffer={startInputRef} />
-            <TimeInput className='date-picker-input' initTime={stop} label={'Stop'} reffer={stopInputRef} />
+            <TimeInput
+              className='date-picker-input'
+              initTime={getHoursAndMinutes(data.start)}
+              label={'Start'}
+              reffer={startInputRef}
+            />
+            <TimeInput
+              className='date-picker-input'
+              initTime={getHoursAndMinutes(data.stop)}
+              label={'Stop'}
+              reffer={stopInputRef}
+            />
           </div>
 
           <div className='date-picker-wrapper'>

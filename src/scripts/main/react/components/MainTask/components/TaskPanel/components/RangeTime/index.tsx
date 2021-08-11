@@ -7,7 +7,6 @@ import { DatePickerComponent } from 'App/components/DatePickerComponent';
 import clone from 'ramda/src/clone';
 import { TimeType } from 'Types/tasks';
 import { StyledRangeTime } from './style';
-import { getHoursAndMinutes } from 'Utils/Date';
 
 type RangeTimeProps = {
   data: TFormState;
@@ -15,10 +14,18 @@ type RangeTimeProps = {
 };
 
 type TFormState = {
+  _id: string;
   start: string;
   stop: string;
   duration?: number;
   time?: TimeType[];
+};
+
+type TDatePickerData = {
+  _id: string;
+  start: string;
+  stop: string;
+  duration: number;
 };
 
 const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => {
@@ -40,11 +47,14 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
   const onClickHandler = () => {
     if (data.time === undefined) {
       // Todo тут вызов модального окна с парметрами
-      console.log('То, что надо', data);
       handleOpen();
     } else {
       if (setActive) setActive(prev => !prev);
     }
+  };
+
+  const sumbitHadler = (data: TDatePickerData) => {
+    console.log(data);
   };
 
   return (
@@ -57,10 +67,14 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
       </StyledRangeTime>
       <ModalComponent open={isOpened} handleClose={handleClose}>
         <DatePickerComponent
-          start={getHoursAndMinutes(data.start)}
-          stop={getHoursAndMinutes(data.stop)}
+          data={{
+            _id: data._id,
+            duration: data.duration,
+            start: data.start,
+            stop: data.stop,
+          }}
           handleClose={handleClose}
-          day={new Date(data.start)}
+          sumbitHadler={sumbitHadler}
         />
       </ModalComponent>
     </>
