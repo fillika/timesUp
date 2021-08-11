@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { time } from 'Utils/Time';
-import _isEqual from 'lodash/isEqual';
 import clone from 'ramda/src/clone';
 import curry from 'ramda/src/curry';
 
 import { ModalComponent } from 'App/components/Modal';
 import { DatePickerComponent } from 'App/components/DatePickerComponent';
+import { updateTaskDateByID } from 'Redux/reducers/taskReducer/actionCreators';
 import { TimeType } from 'Types/tasks';
 import { StyledRangeTime } from './style';
 
@@ -34,6 +36,7 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
   const [isOpened, setIsOpened] = useState(false);
   const handleOpen = () => setIsOpened(true);
   const handleClose = () => setIsOpened(false);
+  const dispatch = useDispatch();
 
   // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
   if (data.time !== undefined) {
@@ -70,16 +73,16 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
       const duration = stop - start;
 
       return {
-        start,
-        stop,
-        at,
+        start: toISOString(start),
+        stop: toISOString(stop),
+        at: toISOString(at),
         duration,
       };
     };
 
-    const result = getResult(data);
+    dispatch(updateTaskDateByID(getResult(data)))
 
-    console.log(result);
+    console.log(getResult(data));
   };
 
   return (

@@ -6,6 +6,7 @@ export const GET_ALL_TASKS = 'GET_ALL_TASKS',
   UPDATE_TASK_LIST_BY_NAME = 'UPDATE_TASK_LIST_BY_NAME',
   UPDATE_TASK_LIST_BY_ID = 'UPDATE_TASK_LIST_BY_ID',
   DELETE_TASKS_BY_ID = 'DELETE_TASKS_BY_ID',
+  UPDATE_DATE_TASK_BY_ID = 'UPDATE_DATE_TASK_BY_ID',
   DELETE_TASKS_BY_NAME = 'DELETE_TASKS_BY_NAME';
 
 export const createTask = (payload: DatabaseTask[]) => ({ type: CREATE_TASK, payload: { newTask: payload } });
@@ -28,4 +29,9 @@ export const deleteTaskByNameAC = (currentTask: TaskType) => ({
     date: currentTask.at,
     name: currentTask.name,
   },
+});
+
+export const updateTaskDateByID = (data: { start: string; stop: string; at: string; duration: number }) => ({
+  type: UPDATE_DATE_TASK_BY_ID,
+  payload: data,
 });
