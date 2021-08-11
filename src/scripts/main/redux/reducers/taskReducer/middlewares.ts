@@ -1,12 +1,5 @@
 import { Dispatch } from 'react';
-import { RootState } from 'Redux/reducers/rootReducer';
-import { taskAPI } from 'Scripts/main/api/tasks';
-import { AppError } from 'Utils/Error';
-import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
-import { TaskResponse, ServerResponse } from 'Types/serverResponse';
-import { resetActiveTask } from 'Redux/reducers/activeTaskReducer/actionCreators';
-import { dispatchDateByID } from './utils';
-import { TaskType } from 'Types/tasks';
+import dissoc from 'ramda/src/dissoc';
 
 import {
   createTask,
@@ -14,7 +7,18 @@ import {
   updateTaskByNameAC,
   deleteTaskByIDAC,
   deleteTaskByNameAC,
+  updateTaskDateByID,
 } from './actionCreators';
+
+import { RootState } from 'Redux/reducers/rootReducer';
+import { taskAPI } from 'Api/tasks';
+import { AppError } from 'Utils/Error';
+import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
+import { TaskResponse, ServerResponse } from 'Types/serverResponse';
+import { resetActiveTask } from 'Redux/reducers/activeTaskReducer/actionCreators';
+
+import { getResult } from './utils';
+import { TaskType } from 'Types/tasks';
 
 export const createTaskFetch = (token: string) => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
@@ -80,11 +84,12 @@ export const deleteTaskByName = (token: string, currentTask: TaskType) => {
 
 export const changeTaskDateByID = (token: string, data: any) => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
-    dispatch(dispatchDateByID(data));
+    const dataForDispatch = getResult(data);
+    const dataForFetch = dissoc('_id', dataForDispatch);
 
-    // taskAPI
-    //   .changeTaskDateByID({ name: currentTask.name, date: currentTask.at }, token)
-    //   .then(() => dispatch(dispatchDateByID(data)))
-    //   .catch((err: AppError) => errSwitchCase(err, dispatch));
+    taskAPI
+      .updateTask(dataForDispatch._id, dataForFetch, token)
+      .then(() => dispatch(updateTaskDateByID(dataForDispatch)))
+      .catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };

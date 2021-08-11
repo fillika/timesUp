@@ -1,4 +1,6 @@
 import React from 'react';
+import Collapse from '@material-ui/core/Collapse';
+
 import { SubTasks } from './components/SubTasks';
 import { Counter } from './components/Counter';
 import { TaskInput } from './components/TaskInput';
@@ -6,7 +8,6 @@ import { TaskPanel } from './components/TaskPanel';
 import { TaskType } from 'Types/tasks';
 import { useHandlers } from './hooks/useHandlers';
 import { useStyles } from './hooks/useStyles';
-import Collapse from '@material-ui/core/Collapse';
 import { StyledTask } from './style';
 
 type TaskData = {

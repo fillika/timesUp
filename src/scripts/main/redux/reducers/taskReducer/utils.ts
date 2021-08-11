@@ -1,11 +1,9 @@
 import reject from 'ramda/src/reject';
 import clone from 'ramda/src/clone';
 import curry from 'ramda/src/curry';
-import compose from 'ramda/src/compose';
 
 import { TaskState } from './types';
 import { DatabaseTask } from 'Types/tasks';
-import { updateTaskDateByID } from 'Redux/reducers/taskReducer/actionCreators';
 
 export const updateTaskByName = (state: TaskState, payload: { name: string; date: string; newName: string }) => {
   const { name, date, newName } = payload;
@@ -60,7 +58,7 @@ const calcTimeTemplate = curry((day: string, time: string) =>
   new Date(day).setHours(getHours(time), getMinutes(time), 0, 0)
 );
 
-const getResult = (data: TDatePickerData) => {
+export const getResult = (data: TDatePickerData) => {
   const calcTime = calcTimeTemplate(data.startDate);
 
   const start = calcTime(data.start);
@@ -76,5 +74,3 @@ const getResult = (data: TDatePickerData) => {
     duration,
   };
 };
-
-export const dispatchDateByID = (data: TDatePickerData) => compose(updateTaskDateByID, getResult)(data);
