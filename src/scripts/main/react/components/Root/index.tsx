@@ -25,9 +25,7 @@ export const Root = () => {
         <Route path='/reports' component={Report} />
 
         <Route path='/news'>
-          <div>
-          <DatePickerWrapper/>
-          </div>
+          <DatePickerWrapper />
         </Route>
 
         <Route path='/profile'>

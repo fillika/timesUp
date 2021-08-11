@@ -3,7 +3,10 @@ import { withTheme } from '@material-ui/styles';
 
 export const StyledDatePickerWrapper = withTheme(styled('div')`
   width: 90%;
-  margin: 50px auto 0;
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
   max-width: 286px;
   padding: 5px;
   border-radius: 4px;
