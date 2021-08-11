@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { time } from 'Utils/Time';
 import _isEqual from 'lodash/isEqual';
+
+import { ModalComponent } from 'App/components/Modal';
+import { DatePickerComponent } from 'App/components/DatePickerComponent';
+import clone from 'ramda/src/clone';
 import { TimeType } from 'Types/tasks';
 import { StyledRangeTime } from './style';
-import { createDeepCopy } from 'Utils/helpers/createDeepCopy';
 
 type RangeTimeProps = {
   data: TFormState;
@@ -16,8 +19,20 @@ type TFormState = {
   time?: TimeType[];
 };
 
+// Utils
+const getHoursAndMinutes = (time: string | number): string => {
+  const dateObj = new Date(time);
+  const hours = dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours();
+  const minutes = dateObj.getMinutes() < 10 ? '0' + dateObj.getMinutes() : dateObj.getMinutes();
+  
+  return `${hours}:${minutes}`;
+};
+
 const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
-  const data = createDeepCopy<TFormState, TFormState>(fromState);
+  const data = clone(fromState);
+  const [isOpened, setIsOpened] = useState(false);
+  const handleOpen = () => setIsOpened(true);
+  const handleClose = () => setIsOpened(false);
 
   // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
   if (data.time !== undefined) {
@@ -33,16 +48,27 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
     if (data.time === undefined) {
       // Todo тут вызов модального окна с парметрами
       console.log('То, что надо', data);
+      handleOpen();
     }
   };
 
   return (
-    <StyledRangeTime onClick={onClickHandler}>
-      <span className={'total-time'}>{time.countTotalTime(data.duration)}</span>
-      <span className={'range-time'}>
-        {time.createTemplateTime(data.start)}&nbsp;-&nbsp;{time.createTemplateTime(data.stop)}
-      </span>
-    </StyledRangeTime>
+    <>
+      <StyledRangeTime onClick={onClickHandler}>
+        <span className={'total-time'}>{time.countTotalTime(data.duration)}</span>
+        <span className={'range-time'}>
+          {time.createTemplateTime(data.start)}&nbsp;-&nbsp;{time.createTemplateTime(data.stop)}
+        </span>
+      </StyledRangeTime>
+      <ModalComponent open={isOpened} handleClose={handleClose}>
+        <DatePickerComponent
+          start={getHoursAndMinutes(data.start)}
+          stop={getHoursAndMinutes(data.stop)}
+          handleClose={handleClose}
+          day={new Date(data.start)}
+        />
+      </ModalComponent>
+    </>
   );
 };
 
