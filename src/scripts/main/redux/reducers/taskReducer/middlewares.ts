@@ -5,6 +5,9 @@ import { AppError } from 'Utils/Error';
 import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 import { TaskResponse, ServerResponse } from 'Types/serverResponse';
 import { resetActiveTask } from 'Redux/reducers/activeTaskReducer/actionCreators';
+import { dispatchDateByID } from './utils';
+import { TaskType } from 'Types/tasks';
+
 import {
   createTask,
   updateTaskByIDAC,
@@ -12,7 +15,6 @@ import {
   deleteTaskByIDAC,
   deleteTaskByNameAC,
 } from './actionCreators';
-import { TaskType } from 'Types/tasks';
 
 export const createTaskFetch = (token: string) => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
@@ -66,11 +68,23 @@ export const deleteTaskByID = (id: string, token: string) => {
       .catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };
+
 export const deleteTaskByName = (token: string, currentTask: TaskType) => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
     taskAPI
       .deleteTaskByName({ name: currentTask.name, date: currentTask.at }, token)
       .then(() => dispatch(deleteTaskByNameAC(currentTask)))
       .catch((err: AppError) => errSwitchCase(err, dispatch));
+  };
+};
+
+export const changeTaskDateByID = (token: string, data: any) => {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
+    dispatch(dispatchDateByID(data));
+
+    // taskAPI
+    //   .changeTaskDateByID({ name: currentTask.name, date: currentTask.at }, token)
+    //   .then(() => dispatch(dispatchDateByID(data)))
+    //   .catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };

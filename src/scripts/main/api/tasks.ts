@@ -62,6 +62,11 @@ class TasksAPI extends API {
     const headers = this.createHeaders('DELETE', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
     await fetch(this.tasksUrl, headers).then(response => this.createErr(response));
   }
+
+  async changeTaskDateByID(data = {}, token: string) {
+    const headers = this.createHeaders('PATCH', { 'Content-Type': 'application/json' }, JSON.stringify(data), token);
+    await fetch(this.tasksUrl, headers).then(response => this.createErr(response));
+  }
 }
 
 const taskAPI = new TasksAPI();

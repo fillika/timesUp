@@ -3,14 +3,13 @@ import { useDispatch } from 'react-redux';
 
 import { time } from 'Utils/Time';
 import clone from 'ramda/src/clone';
-import curry from 'ramda/src/curry';
-import compose from 'ramda/src/compose';
 
 import { ModalComponent } from 'App/components/Modal';
 import { DatePickerComponent } from 'App/components/DatePickerComponent';
-import { updateTaskDateByID } from 'Redux/reducers/taskReducer/actionCreators';
+import { changeTaskDateByID } from 'Redux/reducers/taskReducer/middlewares';
 import { TimeType } from 'Types/tasks';
 import { StyledRangeTime } from './style';
+import { getJWTToken } from 'Utils/helpers/JWTHadlers';
 
 type RangeTimeProps = {
   data: TFormState;
@@ -38,6 +37,7 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
   const handleOpen = () => setIsOpened(true);
   const handleClose = () => setIsOpened(false);
   const dispatch = useDispatch();
+  const token = getJWTToken();
 
   // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
   if (data.time !== undefined) {
@@ -59,33 +59,7 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
   };
 
   const sumbitHadler = (data: TDatePickerData) => {
-    const getHours = (time: string) => Number(time.slice(0, 2));
-    const getMinutes = (time: string) => Number(time.slice(3));
-    const toISOString = (time: number) => new Date(time).toISOString();
-
-    const calcTime = curry((day: string, time: string) =>
-      new Date(day).setHours(getHours(time), getMinutes(time), 0, 0)
-    )(data.startDate);
-
-    const getResult = (data: TDatePickerData) => {
-      const start = calcTime(data.start);
-      const stop = calcTime(data.stop) <= start ? start + 1000 : calcTime(data.stop); // TODO Защита от дурака. Убрать позже
-      const at = start + 1000;
-      const duration = stop - start;
-
-      return {
-        _id: data._id,
-        start: toISOString(start),
-        stop: toISOString(stop),
-        at: toISOString(at),
-        duration,
-      };
-    };
-
-    compose(dispatch, updateTaskDateByID, getResult)(data);
-    // dispatch(updateTaskDateByID(getResult(data)));
-
-    // console.log(getResult(data));
+    if (token) dispatch(changeTaskDateByID(token, data));
   };
 
   return (
