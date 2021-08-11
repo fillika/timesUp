@@ -80,7 +80,7 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
             <Button onClick={handleClose} color='secondary' variant='contained'>
               Закрыть
             </Button>
-            <Button color='primary' variant='contained' type='submit'>
+            <Button onClick={handleClose} color='primary' variant='contained' type='submit'>
               Изменить
             </Button>
           </div>

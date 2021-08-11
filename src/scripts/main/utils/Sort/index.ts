@@ -15,8 +15,8 @@ class Sort {
    * сортированный список тасков по убыванию. В этой функции мы создаем массив объектов, которые объеденены по дате
    */
   sortData(taskArr: DatabaseTask[]): SortedTask[] {
-    const propDateISO = prop('dateISO');
-    const sortDESC = sortWith([descend<SortedTask>(propDateISO)]);
+    const propAt = prop('at');
+    const sortDESCByAt = sortWith([descend<DatabaseTask>(propAt)]);
 
     const reduceIterator = (result: SortedTask[], el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
@@ -41,8 +41,9 @@ class Sort {
     };
 
     const reducedList = reduce(reduceIterator, []);
+    const sortList = compose(reducedList, sortDESCByAt, clone);
 
-    return compose(sortDESC, reducedList, clone)(taskArr);
+    return sortList(taskArr);
   }
 
   createFirstSortedTask(el: TaskType): SortedTask {

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { time } from 'Utils/Time';
 import clone from 'ramda/src/clone';
 import curry from 'ramda/src/curry';
+import compose from 'ramda/src/compose';
 
 import { ModalComponent } from 'App/components/Modal';
 import { DatePickerComponent } from 'App/components/DatePickerComponent';
@@ -81,7 +82,8 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
       };
     };
 
-    dispatch(updateTaskDateByID(getResult(data)))
+    compose(dispatch, updateTaskDateByID, getResult)(data);
+    // dispatch(updateTaskDateByID(getResult(data)));
 
     // console.log(getResult(data));
   };
