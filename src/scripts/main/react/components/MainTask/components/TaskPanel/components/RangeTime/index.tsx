@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { time } from 'Utils/Time';
 import _isEqual from 'lodash/isEqual';
+import clone from 'ramda/src/clone';
+import curry from 'ramda/src/curry';
 
 import { ModalComponent } from 'App/components/Modal';
 import { DatePickerComponent } from 'App/components/DatePickerComponent';
-import clone from 'ramda/src/clone';
 import { TimeType } from 'Types/tasks';
 import { StyledRangeTime } from './style';
 
@@ -25,7 +26,7 @@ type TDatePickerData = {
   _id: string;
   start: string;
   stop: string;
-  duration: number;
+  startDate: string;
 };
 
 const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => {
@@ -54,7 +55,31 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
   };
 
   const sumbitHadler = (data: TDatePickerData) => {
-    console.log(data);
+    const getHours = (time: string) => Number(time.slice(0, 2));
+    const getMinutes = (time: string) => Number(time.slice(3));
+    const toISOString = (time: number) => new Date(time).toISOString();
+
+    const calcTime = curry((day: string, time: string) =>
+      new Date(day).setHours(getHours(time), getMinutes(time), 0, 0)
+    )(data.startDate);
+
+    const getResult = (data: TDatePickerData) => {
+      const start = calcTime(data.start);
+      const stop = calcTime(data.stop) <= start ? start + 1000 : calcTime(data.stop); // TODO Защита от дурака. Убрать позже
+      const at = start + 1000;
+      const duration = stop - start;
+
+      return {
+        start,
+        stop,
+        at,
+        duration,
+      };
+    };
+
+    const result = getResult(data);
+
+    console.log(result);
   };
 
   return (
@@ -69,7 +94,6 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
         <DatePickerComponent
           data={{
             _id: data._id,
-            duration: data.duration,
             start: data.start,
             stop: data.stop,
           }}

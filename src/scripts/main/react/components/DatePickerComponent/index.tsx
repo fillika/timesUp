@@ -23,7 +23,6 @@ export const datePickerTheme = createTheme({
 interface IDatePicker {
   data: {
     _id: string;
-    duration: number;
     start: string;
     stop: string;
   };
@@ -48,7 +47,9 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
       stop: stopInputRef.current,
       startDate,
     };
-    
+
+    // TODO проверка на startInputRef < stopInputRef
+
     sumbitHadler(task);
   };
 
