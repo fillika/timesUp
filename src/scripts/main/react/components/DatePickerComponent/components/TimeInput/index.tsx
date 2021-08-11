@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePresenter } from './hooks/usePresenter';
 import TextField from '@material-ui/core/TextField';
 
@@ -14,6 +14,7 @@ interface TTimeInput {
   name?: any;
   onBlurHandler?: any;
   label?: string;
+  reffer?: any
 }
 
 export const TimeInput: React.FC<TTimeInput> = ({
@@ -26,8 +27,13 @@ export const TimeInput: React.FC<TTimeInput> = ({
   className,
   name,
   onBlurHandler,
+  reffer
 }) => {
   const [time, onChangeHandler] = usePresenter(initTime);
+
+  useEffect(() => {
+    reffer.current = time;
+  }, [time])
 
   return (
     <TextField

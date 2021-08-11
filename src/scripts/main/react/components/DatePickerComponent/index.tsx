@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import Button from '@material-ui/core/Button';
 
@@ -31,17 +31,26 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
   const { start, stop, day = new Date(), handleClose } = props;
   const [startDate, setStartDate] = useState(day);
 
+  const startInputRef = useRef(null);
+  const stopInputRef = useRef(null);
+
   const sumbitHadler = (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
-    console.log(startDate);
+    // Спорное решение. Создал 2 рефа, которые прокинул в TimeInput. Записываю в них текущее значение даты
+    const data = {
+      start: startInputRef.current,
+      stop: stopInputRef.current,
+      startDate
+    }
+    console.log(data);
   };
   return (
     <StyledDatePickerWrapper>
       <ThemeProvider theme={datePickerTheme}>
         <form onSubmit={sumbitHadler}>
           <div className='date-inputs-wrapper'>
-            <TimeInput className='date-picker-input' initTime={start} label={'Start'} />
-            <TimeInput className='date-picker-input' initTime={stop} label={'Stop'} />
+            <TimeInput className='date-picker-input' initTime={start} label={'Start'} reffer={startInputRef} />
+            <TimeInput className='date-picker-input' initTime={stop} label={'Stop'} reffer={stopInputRef} />
           </div>
 
           <div className='date-picker-wrapper'>
@@ -52,7 +61,7 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
             <Button onClick={handleClose} color='secondary' variant='contained'>
               Закрыть
             </Button>
-            <Button onClick={() => console.log('Data here')} color='primary' variant='contained' type='submit'>
+            <Button color='primary' variant='contained' type='submit'>
               Изменить
             </Button>
           </div>
