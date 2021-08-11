@@ -73,6 +73,7 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
       const duration = stop - start;
 
       return {
+        _id: data._id,
         start: toISOString(start),
         stop: toISOString(stop),
         at: toISOString(at),
@@ -82,7 +83,7 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
 
     dispatch(updateTaskDateByID(getResult(data)))
 
-    console.log(getResult(data));
+    // console.log(getResult(data));
   };
 
   return (

@@ -3,7 +3,10 @@ import clone from 'ramda/src/clone';
 import reduce from 'ramda/src/reduce';
 import compose from 'ramda/src/compose';
 import findIndex from 'ramda/src/findIndex';
+import prop from 'ramda/src/prop';
 import propEq from 'ramda/src/propEq';
+import sortWith from 'ramda/src/sortWith';
+import descend from 'ramda/src/descend';
 class Sort {
   constructor() {}
 
@@ -12,6 +15,9 @@ class Sort {
    * сортированный список тасков по убыванию. В этой функции мы создаем массив объектов, которые объеденены по дате
    */
   sortData(taskArr: DatabaseTask[]): SortedTask[] {
+    const propDateISO = prop('dateISO');
+    const sortDESC = sortWith([descend<SortedTask>(propDateISO)]);
+
     const reduceIterator = (result: SortedTask[], el: DatabaseTask) => {
       const date = new Date(el.at).toLocaleDateString();
 
@@ -36,7 +42,7 @@ class Sort {
 
     const reducedList = reduce(reduceIterator, []);
 
-    return compose(reducedList, clone)(taskArr);
+    return compose(sortDESC, reducedList, clone)(taskArr);
   }
 
   createFirstSortedTask(el: TaskType): SortedTask {

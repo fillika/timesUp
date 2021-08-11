@@ -1,3 +1,7 @@
+import propEq from 'ramda/src/propEq';
+import find from 'ramda/src/find';
+import merge from 'ramda/src/merge';
+
 import { sort } from 'Utils/Sort';
 import {
   CREATE_TASK,
@@ -6,6 +10,7 @@ import {
   GET_ALL_TASKS,
   GET_MORE_TASKS,
   UPDATE_TASK_LIST_BY_ID,
+  UPDATE_DATE_TASK_BY_ID,
   UPDATE_TASK_LIST_BY_NAME,
 } from './actionCreators';
 import { TAction, TaskState } from './types';
@@ -55,7 +60,7 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList,
       };
     }
-    
+
     case UPDATE_TASK_LIST_BY_NAME: {
       const databaseTaskList = updateTaskByName(state, action.payload);
       const sortedTaskList = sort.sortData(databaseTaskList);
@@ -80,6 +85,24 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
 
     case DELETE_TASKS_BY_ID: {
       const databaseTaskList = state.databaseTaskList.filter(task => task._id !== action.payload.taskID);
+      const sortedTaskList = sort.sortData(databaseTaskList);
+
+      return {
+        ...state,
+        sortedTaskList,
+        databaseTaskList,
+      };
+    }
+    case UPDATE_DATE_TASK_BY_ID: {
+      const databaseTaskList = state.databaseTaskList.map(task => {
+        // 1) find by ID
+        if (task._id === action.payload._id) {
+          // 2) Add new result
+          return merge(task, action.payload);
+        }
+        return task;
+      });
+
       const sortedTaskList = sort.sortData(databaseTaskList);
 
       return {
