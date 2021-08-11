@@ -6,6 +6,7 @@ export const startOfDay = (date: string | number): number => {
 };
 
 export const endOfDay = (startOfDay: number) => startOfDay + ONE_DAY_LENGTH;
+
 export const getToday = () => ({
   start: startOfDay(new Date().getTime()),
   stop: endOfDay(startOfDay(new Date().getTime())),
@@ -68,4 +69,15 @@ export const getLastYear = () => {
     start: startOfYear,
     stop: endOfYear,
   };
+};
+
+export const getHoursAndMinutes = (time: string): string => {
+  const dateObj = new Date(time);
+
+  if (!Date.parse(time)) return '';
+  
+  const hours = dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours();
+  const minutes = dateObj.getMinutes() < 10 ? '0' + dateObj.getMinutes() : dateObj.getMinutes();
+
+  return `${hours}:${minutes}`;
 };

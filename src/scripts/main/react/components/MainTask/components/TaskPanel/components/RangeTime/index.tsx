@@ -7,6 +7,7 @@ import { DatePickerComponent } from 'App/components/DatePickerComponent';
 import clone from 'ramda/src/clone';
 import { TimeType } from 'Types/tasks';
 import { StyledRangeTime } from './style';
+import { getHoursAndMinutes } from 'Utils/Date';
 
 type RangeTimeProps = {
   data: TFormState;
@@ -17,15 +18,6 @@ type TFormState = {
   stop: string;
   duration?: number;
   time?: TimeType[];
-};
-
-// Utils
-const getHoursAndMinutes = (time: string | number): string => {
-  const dateObj = new Date(time);
-  const hours = dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours();
-  const minutes = dateObj.getMinutes() < 10 ? '0' + dateObj.getMinutes() : dateObj.getMinutes();
-  
-  return `${hours}:${minutes}`;
 };
 
 const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState }) => {
