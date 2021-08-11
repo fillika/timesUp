@@ -93,15 +93,11 @@ export function taskReducer(state: TaskState = initialState, action: TAction): T
         databaseTaskList,
       };
     }
+    
     case UPDATE_DATE_TASK_BY_ID: {
-      const databaseTaskList = state.databaseTaskList.map(task => {
-        // 1) find by ID
-        if (task._id === action.payload._id) {
-          // 2) Add new result
-          return merge(task, action.payload);
-        }
-        return task;
-      });
+      const databaseTaskList = state.databaseTaskList.map(task =>
+        task._id === action.payload._id ? merge(task, action.payload) : task
+      );
 
       const sortedTaskList = sort.sortData(databaseTaskList);
 
