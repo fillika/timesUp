@@ -16,6 +16,7 @@ type TaskPanel = {
 
 export const TaskPanel: FC<TaskPanel> = ({ isTyping, name, data, deleteTask, setActive }) => {
   const classes = useStyles();
+  
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -24,7 +25,6 @@ export const TaskPanel: FC<TaskPanel> = ({ isTyping, name, data, deleteTask, set
   return (
     <>
       <div className={classes.taskPanel}>
-        {/* <DeleteIcon isTyping={isTyping} onClickHandler={deleteTask} /> */}
         <DeleteIcon isTyping={isTyping} onClickHandler={handleOpen} />
         <RangeTime data={data} setActive={setActive} />
         <ContinueButton name={name} />

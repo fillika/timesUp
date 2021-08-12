@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { changeTaskDateByID } from 'Redux/reducers/taskReducer/middlewares';
 import { getJWTToken } from 'Utils/helpers/JWTHadlers';
 import { TFormState } from '../types';
-import { TDispatchDatePickerData } from 'App/components/DatePickerComponent';
+import { TDispatchDatePickerData } from 'App/components/DatePickerComponent/types';
 
 type THandlersHook = [boolean, () => void, () => void, (data: TDispatchDatePickerData) => void];
 

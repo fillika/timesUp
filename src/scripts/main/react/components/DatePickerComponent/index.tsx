@@ -6,36 +6,11 @@ import { TimeInput } from './components/TimeInput';
 import { getHoursAndMinutes } from 'Utils/Date';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { StyledDatePickerWrapper } from './style';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { StyledDatePickerWrapper } from './style/style';
+import { datePickerTheme } from './style/theme';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { getResult } from './components/TimeInput/utils/getResult';
-
-export const datePickerTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#6a5acd',
-    },
-    secondary: {
-      main: '#dc3545',
-    },
-  },
-});
-
-export type TDispatchDatePickerData = {
-  _id: string;
-  start: string;
-  stop: string;
-  duration: number;
-};
-interface IDatePicker {
-  data: {
-    _id: string;
-    start: string;
-    stop: string;
-  };
-  handleClose: () => void;
-  sumbitHadler: (data: TDispatchDatePickerData) => void;
-}
+import { IDatePicker } from './types';
 
 // https://github.com/Hacker0x01/react-datepicker/
 export const DatePickerComponent: React.FC<IDatePicker> = props => {
