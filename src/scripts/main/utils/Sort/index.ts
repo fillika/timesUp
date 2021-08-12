@@ -7,6 +7,7 @@ import prop from 'ramda/src/prop';
 import propEq from 'ramda/src/propEq';
 import sortWith from 'ramda/src/sortWith';
 import descend from 'ramda/src/descend';
+import { calcDuration } from 'Utils/Date';
 class Sort {
   constructor() {}
 
@@ -109,6 +110,7 @@ class Sort {
       _id: el._id,
       start: el.start,
       stop: el.stop,
+      duration: calcDuration(el.stop, el.start),
     };
   }
 }

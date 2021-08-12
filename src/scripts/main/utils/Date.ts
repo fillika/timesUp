@@ -75,9 +75,14 @@ export const getHoursAndMinutes = (time: string): string => {
   const dateObj = new Date(time);
 
   if (!Date.parse(time)) return '';
-  
+
   const hours = dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours();
   const minutes = dateObj.getMinutes() < 10 ? '0' + dateObj.getMinutes() : dateObj.getMinutes();
 
   return `${hours}:${minutes}`;
+};
+
+export const calcDuration = (stop: string, start: string): number => {
+  if (!Date.parse(start) || !Date.parse(stop)) return 0;
+  return new Date(stop).getTime() - new Date(start).getTime();
 };
