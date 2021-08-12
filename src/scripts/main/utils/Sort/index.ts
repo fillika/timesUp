@@ -1,4 +1,3 @@
-import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
 import head from 'ramda/src/head';
 import last from 'ramda/src/last';
 import clone from 'ramda/src/clone';
@@ -11,7 +10,9 @@ import propEq from 'ramda/src/propEq';
 import sortBy from 'ramda/src/sortBy';
 import sortWith from 'ramda/src/sortWith';
 import descend from 'ramda/src/descend';
+
 import { calcDuration } from 'Utils/Date';
+import { SortedTask, TaskType, DatabaseTask } from 'Types/tasks';
 class Sort {
   constructor() {}
 
