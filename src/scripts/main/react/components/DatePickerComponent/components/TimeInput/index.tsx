@@ -6,15 +6,13 @@ import TextField from '@material-ui/core/TextField';
 interface TTimeInput {
   initTime?: string;
   disabled?: boolean;
-  onTimeChange?: any;
   type?: 'text' | 'time';
   onFocusHandler?: any;
   placeholder?: any;
   className?: string;
   name?: any;
-  onBlurHandler?: any;
   label?: string;
-  reffer?: any
+  reffer?: any;
 }
 
 export const TimeInput: React.FC<TTimeInput> = ({
@@ -26,14 +24,13 @@ export const TimeInput: React.FC<TTimeInput> = ({
   placeholder,
   className,
   name,
-  onBlurHandler,
-  reffer
+  reffer,
 }) => {
-  const [time, onChangeHandler] = usePresenter(initTime);
+  const [time, onChangeHandler, onBlurHandler] = usePresenter(initTime);
 
   useEffect(() => {
     reffer.current = time;
-  }, [time])
+  }, [time]);
 
   return (
     <TextField
@@ -47,7 +44,7 @@ export const TimeInput: React.FC<TTimeInput> = ({
       value={time}
       onChange={e => onChangeHandler(e.target.value)}
       onFocus={onFocusHandler ? e => onFocusHandler(e) : undefined}
-      onBlur={onBlurHandler ? e => onBlurHandler(e) : undefined}
+      onBlur={e => onBlurHandler(e.target.value)}
     />
   );
 };

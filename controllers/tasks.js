@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const { TaskModel } = require("../models/task");
 const taskManager = require("../utils/Task");
 const AppError = require("../utils/Error");
