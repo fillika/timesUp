@@ -12,7 +12,8 @@ interface TTimeInput {
   className?: string;
   name?: any;
   label?: string;
-  reffer?: any;
+  value?: any;
+  changeHandler?: any;
 }
 
 export const TimeInput: React.FC<TTimeInput> = ({
@@ -24,13 +25,14 @@ export const TimeInput: React.FC<TTimeInput> = ({
   placeholder,
   className,
   name,
-  reffer,
+  value,
+  changeHandler,
 }) => {
-  const [time, onChangeHandler, onBlurHandler] = usePresenter(initTime);
+  const [onBlurHandler, customValue] = usePresenter(value);
 
-  useEffect(() => {
-    reffer.current = time;
-  }, [time]);
+  const change = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    changeHandler(customValue(e));
+  };
 
   return (
     <TextField
@@ -41,8 +43,10 @@ export const TimeInput: React.FC<TTimeInput> = ({
       type={type}
       disabled={disabled}
       placeholder={placeholder}
-      value={time}
-      onChange={e => onChangeHandler(e.target.value)}
+      // value={time}
+      value={value}
+      // onChange={e => onChangeHandler(e.target.value)}
+      onChange={change}
       onFocus={onFocusHandler ? e => onFocusHandler(e) : undefined}
       onBlur={e => onBlurHandler(e.target.value)}
     />

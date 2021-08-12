@@ -1,32 +1,44 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import curry from 'ramda/src/curry';
 import clone from 'ramda/src/clone';
 import compose from 'ramda/src/compose';
 import { isValid } from '../utils/isValid';
 import { lengthIsMoreThan5, addColon, checkFirstChar } from '../utils/checkAndChangeValue';
 
-type TPresenter = (initTime: string | undefined) => [string, (arg: string) => void, (time: string) => void];
+type TPresenter = (initTime: string | undefined) => [(time: string) => void, any];
 
 export const usePresenter: TPresenter = (initTime = '') => {
   const [time, setTime] = useState(isValid(initTime) ? initTime : '');
   const [lastVal, setLastVal] = useState('');
 
-  const checkValidAndChangeState = (setState: typeof changeState, value: string) => isValid(value) && setState(value);
-  const changeState = (value: string) => (setLastVal(value), setTime(value));
-  const checkValueValidation = curry(checkValidAndChangeState)(changeState);
+  const changeValueWithCompose = compose(lengthIsMoreThan5, addColon(lastVal), checkFirstChar);
 
-  const composedValue = compose<string, string, string, string, string, false | void>(
-    checkValueValidation,
-    lengthIsMoreThan5,
-    addColon(lastVal),
-    checkFirstChar,
-    clone
-  );
+  // const onBlurHandler = (time: string) => time.length < 5 && composedValue(time + '0000');
 
-  const onChangeCurried = curry((time: string, value: string) => (value !== time ? composedValue(value) : 0));
-  const onChangeHandler = onChangeCurried(time);
+  const onBlurHandler = (time: string) => {};
+  const eventChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
 
-  const onBlurHandler = (time: string) => time.length < 5 && composedValue(time + '0000');
+    const setStateAndReturnNewValue = (value: string) => {
+      setLastVal(value);
+      setTime(value);
 
-  return [time, onChangeHandler, onBlurHandler];
+      return value;
+    };
+
+    // Сначала проверка на RegExp
+    if (isValid(value)) {
+      const changedValue = changeValueWithCompose(value);
+
+      if (isValid(changedValue)) {
+        e.target.value = setStateAndReturnNewValue(changedValue);
+        return e;
+      }
+    }
+
+    e.target.value = lastVal;
+    return e;
+  };
+
+  return [onBlurHandler, eventChanger];
 };

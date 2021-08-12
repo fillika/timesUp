@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { useFormik } from 'formik';
 
@@ -17,26 +17,45 @@ import { useHandlers } from './hooks/useHandlers';
 // https://github.com/Hacker0x01/react-datepicker/
 export const DatePickerComponent: React.FC<IDatePicker> = props => {
   const { data, handleClose, sumbitHadler } = props;
-  const [startDate, startInputRef, stopInputRef, setStartDate, curriedSubmitHandler] = useHandlers(data);
+  const [startDate, setStartDate, curriedSubmitHandler] = useHandlers(data);
 
   const onSubmitHandler = curriedSubmitHandler(sumbitHadler);
+
+  const formik = useFormik({
+    initialValues: {
+      start: getHoursAndMinutes(data.start),
+      stop: getHoursAndMinutes(data.stop),
+    },
+    onSubmit: onSubmitHandler,
+  });
+
+  // useEffect(() => {
+  //   console.log('Меняю валуе');
+
+  //   formik.setFieldValue('stop', formik.values.start);
+  // }, [formik.values.start]);
 
   return (
     <StyledDatePickerWrapper>
       <ThemeProvider theme={datePickerTheme}>
-        <form onSubmit={onSubmitHandler}>
+        {/* <form onSubmit={onSubmitHandler}> */}
+        <form onSubmit={formik.handleSubmit}>
           <div className='date-inputs-wrapper'>
             <TimeInput
+              name={'start'}
+              value={formik.values.start}
+              changeHandler={formik.handleChange}
               className='date-picker-input'
               initTime={getHoursAndMinutes(data.start)}
               label={'Start'}
-              reffer={startInputRef}
             />
             <TimeInput
+              name={'stop'}
+              value={formik.values.stop}
+              changeHandler={formik.handleChange}
               className='date-picker-input'
               initTime={getHoursAndMinutes(data.stop)}
               label={'Stop'}
-              reffer={stopInputRef}
             />
           </div>
 
