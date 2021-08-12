@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
+import { useFormik } from 'formik';
+
 import Button from '@material-ui/core/Button';
 
 import { TimeInput } from './components/TimeInput';
@@ -9,29 +11,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { StyledDatePickerWrapper } from './style/style';
 import { datePickerTheme } from './style/theme';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { getResult } from './components/TimeInput/utils/getResult';
 import { IDatePicker } from './types';
+import { useHandlers } from './hooks/useHandlers';
 
 // https://github.com/Hacker0x01/react-datepicker/
 export const DatePickerComponent: React.FC<IDatePicker> = props => {
   const { data, handleClose, sumbitHadler } = props;
-  const [startDate, setStartDate] = useState(new Date(data.start));
+  const [startDate, startInputRef, stopInputRef, setStartDate, curriedSubmitHandler] = useHandlers(data);
 
-  const startInputRef = useRef('0');
-  const stopInputRef = useRef('0');
-
-  const onSubmitHandler = (event: React.FormEvent<EventTarget>) => {
-    event.preventDefault();
-    // Спорное решение. Создал 2 рефа, которые прокинул в TimeInput. Записываю в них текущее значение даты
-    const task = {
-      _id: data._id,
-      start: startInputRef.current,
-      stop: stopInputRef.current,
-      startDate: startDate.toISOString(),
-    };
-
-    sumbitHadler(getResult(task));
-  };
+  const onSubmitHandler = curriedSubmitHandler(sumbitHadler);
 
   return (
     <StyledDatePickerWrapper>
