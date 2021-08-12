@@ -83,6 +83,5 @@ export const getHoursAndMinutes = (time: string): string => {
 };
 
 export const calcDuration = (stop: string, start: string): number => {
-  if (!Date.parse(start) || !Date.parse(stop)) return 0;
   return new Date(stop).getTime() - new Date(start).getTime();
 };

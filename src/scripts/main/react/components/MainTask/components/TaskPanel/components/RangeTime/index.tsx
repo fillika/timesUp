@@ -14,16 +14,6 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
   const data = clone(fromState);
   const [isOpened, handleClose, onClickHandler, sumbitHadler] = useHandlers(data, setActive);
 
-  // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
-  if (data.time !== undefined) {
-    data.stop = data.time[0].stop;
-    data.start = data.time[data.time.length - 1].start;
-  }
-
-  if (data.duration === undefined) {
-    data.duration = new Date(data.stop).getTime() - new Date(data.start).getTime();
-  }
-
   return (
     <>
       <StyledRangeTime onClick={onClickHandler}>

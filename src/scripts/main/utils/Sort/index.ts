@@ -58,9 +58,8 @@ class Sort {
   /**
    * Логика функции в том, что когда мы формирует массив объектов с уникальными ключами в виде даты
    * мы можем встретить одинаковые таски внутри одной даты (например пользователь приступал к одной
-   * и той же задаче в течении дня несколько раз)
-   * поэтому, мы добавляем поле time, в котором перечисляем все время для тасков с одинаковыми именами и суммируем
-   * duration, чтобы меньше вычислений делать при рендере
+   * и той же задаче в течении дня несколько раз) поэтому, мы добавляем поле time,
+   * в котором перечисляем все время для тасков с одинаковыми именами и суммируем duration
    */
   findDuplicatesAndPush(taskArr: TaskType[], el: TaskType) {
     const index = findIndex(propEq('name', el.name))(taskArr);
@@ -69,10 +68,10 @@ class Sort {
 
     if (index !== -1) {
       if (task.time === undefined) {
-        task.time = [];
-
-        task.time.push(this.createTask(task));
-        task.time.push(this.createTask(el));
+        task.time = [
+          this.createTask(task),
+          this.createTask(el)
+        ];
 
         task.duration += el.duration;
       } else {
@@ -81,27 +80,6 @@ class Sort {
       }
     } else {
       taskArr.push(el);
-    }
-  }
-
-  findDuplicatesUnshift(taskArr: TaskType[], el: TaskType) {
-    const index = findIndex(propEq('name', el.name))(taskArr);
-    const task = taskArr[index];
-
-    if (index !== -1) {
-      if (task.time === undefined) {
-        task.time = [];
-
-        task.time.unshift(this.createTask(task));
-        task.time.unshift(this.createTask(el));
-
-        task.duration += el.duration;
-      } else {
-        task.time.unshift(this.createTask(el));
-        task.duration += el.duration;
-      }
-    } else {
-      taskArr.unshift(el);
     }
   }
 
