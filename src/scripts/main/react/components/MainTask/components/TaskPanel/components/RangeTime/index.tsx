@@ -1,43 +1,18 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
 
 import { time } from 'Utils/Time';
 import clone from 'ramda/src/clone';
 
 import { ModalComponent } from 'App/components/Modal';
 import { DatePickerComponent } from 'App/components/DatePickerComponent';
-import { changeTaskDateByID } from 'Redux/reducers/taskReducer/middlewares';
-import { TimeType } from 'Types/tasks';
 import { StyledRangeTime } from './style';
-import { getJWTToken } from 'Utils/helpers/JWTHadlers';
+import { RangeTimeProps } from './types';
 
-type RangeTimeProps = {
-  data: TFormState;
-  setActive?: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-type TFormState = {
-  _id: string;
-  start: string;
-  stop: string;
-  duration?: number;
-  time?: TimeType[];
-};
-
-type TDatePickerData = {
-  _id: string;
-  start: string;
-  stop: string;
-  startDate: string;
-};
+import { useHandlers } from './hooks/useHandlers';
 
 const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => {
   const data = clone(fromState);
-  const [isOpened, setIsOpened] = useState(false);
-  const handleOpen = () => setIsOpened(true);
-  const handleClose = () => setIsOpened(false);
-  const dispatch = useDispatch();
-  const token = getJWTToken();
+  const [isOpened, handleClose, onClickHandler, sumbitHadler] = useHandlers(data, setActive);
 
   // * Так как массив всегда отсортирован, то Я могу из него доставать первый и последний элемент
   if (data.time !== undefined) {
@@ -48,19 +23,6 @@ const RangeTime: React.FC<RangeTimeProps> = ({ data: fromState, setActive }) => 
   if (data.duration === undefined) {
     data.duration = new Date(data.stop).getTime() - new Date(data.start).getTime();
   }
-
-  const onClickHandler = () => {
-    if (data.time === undefined) {
-      // Todo тут вызов модального окна с парметрами
-      handleOpen();
-    } else {
-      if (setActive) setActive(prev => !prev);
-    }
-  };
-
-  const sumbitHadler = (data: TDatePickerData) => {
-    if (token) dispatch(changeTaskDateByID(token, data));
-  };
 
   return (
     <>

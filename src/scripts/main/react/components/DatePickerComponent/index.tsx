@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import Button from '@material-ui/core/Button';
 
@@ -8,6 +8,7 @@ import { getHoursAndMinutes } from 'Utils/Date';
 import 'react-datepicker/dist/react-datepicker.css';
 import { StyledDatePickerWrapper } from './style';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { getResult } from './components/TimeInput/utils/getResult';
 
 export const datePickerTheme = createTheme({
   palette: {
@@ -20,6 +21,12 @@ export const datePickerTheme = createTheme({
   },
 });
 
+export type TDispatchDatePickerData = {
+  _id: string;
+  start: string;
+  stop: string;
+  duration: number;
+};
 interface IDatePicker {
   data: {
     _id: string;
@@ -27,7 +34,7 @@ interface IDatePicker {
     stop: string;
   };
   handleClose: () => void;
-  sumbitHadler: (data: any) => void; // TODO data пока что any
+  sumbitHadler: (data: TDispatchDatePickerData) => void;
 }
 
 // https://github.com/Hacker0x01/react-datepicker/
@@ -35,8 +42,8 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
   const { data, handleClose, sumbitHadler } = props;
   const [startDate, setStartDate] = useState(new Date(data.start));
 
-  const startInputRef = useRef(null);
-  const stopInputRef = useRef(null);
+  const startInputRef = useRef('0');
+  const stopInputRef = useRef('0');
 
   const onSubmitHandler = (event: React.FormEvent<EventTarget>) => {
     event.preventDefault();
@@ -45,12 +52,10 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
       _id: data._id,
       start: startInputRef.current,
       stop: stopInputRef.current,
-      startDate,
+      startDate: startDate.toISOString(),
     };
 
-    // TODO проверка на startInputRef < stopInputRef
-
-    sumbitHadler(task);
+    sumbitHadler(getResult(task));
   };
 
   return (

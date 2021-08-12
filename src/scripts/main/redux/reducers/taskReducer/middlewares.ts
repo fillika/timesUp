@@ -17,7 +17,6 @@ import { errSwitchCase } from 'Utils/helpers/errSwitchCase';
 import { TaskResponse, ServerResponse } from 'Types/serverResponse';
 import { resetActiveTask } from 'Redux/reducers/activeTaskReducer/actionCreators';
 
-import { getResult } from './utils';
 import { TaskType } from 'Types/tasks';
 
 export const createTaskFetch = (token: string) => {
@@ -84,12 +83,11 @@ export const deleteTaskByName = (token: string, currentTask: TaskType) => {
 
 export const changeTaskDateByID = (token: string, data: any) => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
-    const dataForDispatch = getResult(data);
-    const dataForFetch = dissoc('_id', dataForDispatch);
+    const dataForFetch = dissoc('_id', data);
 
     taskAPI
-      .updateTask(dataForDispatch._id, dataForFetch, token)
-      .then(() => dispatch(updateTaskDateByID(dataForDispatch)))
+      .updateTask(data._id, dataForFetch, token)
+      .then(() => dispatch(updateTaskDateByID(data)))
       .catch((err: AppError) => errSwitchCase(err, dispatch));
   };
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import curry from 'ramda/src/curry';
 import clone from 'ramda/src/clone';
 import compose from 'ramda/src/compose';

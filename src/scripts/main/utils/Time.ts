@@ -10,7 +10,7 @@ type TimeDataObj = {
 class Time {
   constructor() {}
 
-  countTotalTime(result: number, format?: 'sec' | 'ms'): string {
+  countTotalTime(result: number = 0, format?: 'sec' | 'ms'): string {
     return this.convertToStringFormat(this.createTimeObj(result), format);
   }
 
