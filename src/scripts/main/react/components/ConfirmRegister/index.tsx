@@ -15,7 +15,7 @@ export const ConfirmRegister = () => {
   const sendConfirmRequest = asyncCatcher(async () => {
     await authAPI.confirmRegister({ token });
 
-    dispatch(notifySuccess('Вы успешно прошли регистрацию!', 5500))
+    dispatch(notifySuccess('Вы успешно прошли регистрацию!'))
     dispatch(getAllTasks(token));
   });
 

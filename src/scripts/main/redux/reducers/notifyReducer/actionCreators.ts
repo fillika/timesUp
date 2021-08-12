@@ -1,21 +1,22 @@
 import { Dispatch } from 'react';
 import { notify } from 'Utils/helpers/createNotify';
 import { RootState } from 'Redux/reducers/rootReducer';
-import partial from 'lodash/fp/partial';
+import partial from 'ramda/src/partial';
 
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 
+type TMessage = 'success' | 'warning' | 'error';
+
 type TNotify = (
-  type: 'success' | 'warning' | 'error',
+  type: TMessage,
   message: string,
-  time?: number
 ) => (dispatch: Dispatch<any>, getState: () => RootState) => void;
 
-export const createNotify: TNotify = (type, message, time = 2200) => {
+export const createNotify: TNotify = (type, message) => {
   return (dispatch: Dispatch<any>, getState: () => RootState) => {
     dispatch({
       type: SET_NOTIFICATION,
-      payload: notify(type, message, time),
+      payload: notify(type, message),
     });
   };
 };

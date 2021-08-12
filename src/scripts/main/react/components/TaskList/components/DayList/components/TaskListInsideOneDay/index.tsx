@@ -1,5 +1,5 @@
 import React, { useEffect, memo, useMemo } from 'react';
-import isEqual from 'lodash/isEqual';
+import equals from 'ramda/src/equals';
 
 import { MainTask } from 'App/components/MainTask';
 import { TaskType } from 'Types/tasks';
@@ -32,5 +32,5 @@ export const TaskListInsideOneDay: React.FC<{ dateISO: string; taskList: TaskTyp
       </div>
     );
   },
-  (prev, next) => isEqual(prev.taskList, next.taskList)
+  (prev, next) => equals(prev.taskList, next.taskList)
 );

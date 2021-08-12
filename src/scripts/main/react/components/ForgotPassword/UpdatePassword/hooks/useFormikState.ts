@@ -72,13 +72,13 @@ export const useFormikState = (): HookState => {
     switch (err.statusCode) {
       case 401:
         message = 'Время действия ссылки истекло. Попробуйте еще раз!';
-        dispatch(notifyError(message, 3000));
+        dispatch(notifyError(message));
 
         setTimeout(() => history.push('/'), 3000);
         break;
 
       default:
-        dispatch(notifyError(err.message, 3000));
+        dispatch(notifyError(err.message));
         break;
     }
   };

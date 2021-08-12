@@ -19,7 +19,7 @@ export const usePresenter = (): SidebarPresenter => {
 
   const logOut = () => dispatch(logOutHandler());
 
-  const testErr = () => dispatch(notifyError('Test ERROR', 5500));
+  const testErr = () => dispatch(notifyError('Test ERROR'));
   
   return [handleOpen, logOut, testErr];
 };
