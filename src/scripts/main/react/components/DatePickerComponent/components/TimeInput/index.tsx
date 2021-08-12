@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 
 // https://github.com/dima-bu/react-time-input/blob/master/src/timeInput.jsx
 interface TTimeInput {
-  initTime?: string;
   disabled?: boolean;
   type?: 'text' | 'time';
   onFocusHandler?: any;
@@ -13,11 +12,11 @@ interface TTimeInput {
   name?: any;
   label?: string;
   value?: any;
-  changeHandler?: any;
+  formikChangeHandler?: any;
+  setFieldValue?: any;
 }
 
 export const TimeInput: React.FC<TTimeInput> = ({
-  initTime,
   disabled = false,
   type = 'text',
   label = '',
@@ -26,13 +25,13 @@ export const TimeInput: React.FC<TTimeInput> = ({
   className,
   name,
   value,
-  changeHandler,
+  formikChangeHandler,
+  setFieldValue,
 }) => {
-  const [onBlurHandler, customValue] = usePresenter(value);
+  const [onBlurHandler, onChangeHandler] = usePresenter(name);
 
-  const change = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    changeHandler(customValue(e));
-  };
+  const change = (e: React.ChangeEvent<HTMLInputElement>) => formikChangeHandler(onChangeHandler(e));
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => setFieldValue(name, onBlurHandler(e));
 
   return (
     <TextField
@@ -43,12 +42,10 @@ export const TimeInput: React.FC<TTimeInput> = ({
       type={type}
       disabled={disabled}
       placeholder={placeholder}
-      // value={time}
       value={value}
-      // onChange={e => onChangeHandler(e.target.value)}
       onChange={change}
+      onBlur={onBlur}
       onFocus={onFocusHandler ? e => onFocusHandler(e) : undefined}
-      onBlur={e => onBlurHandler(e.target.value)}
     />
   );
 };

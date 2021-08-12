@@ -38,23 +38,22 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
   return (
     <StyledDatePickerWrapper>
       <ThemeProvider theme={datePickerTheme}>
-        {/* <form onSubmit={onSubmitHandler}> */}
         <form onSubmit={formik.handleSubmit}>
           <div className='date-inputs-wrapper'>
             <TimeInput
               name={'start'}
               value={formik.values.start}
-              changeHandler={formik.handleChange}
+              formikChangeHandler={formik.handleChange}
+              setFieldValue={formik.setFieldValue}
               className='date-picker-input'
-              initTime={getHoursAndMinutes(data.start)}
               label={'Start'}
             />
             <TimeInput
               name={'stop'}
               value={formik.values.stop}
-              changeHandler={formik.handleChange}
+              formikChangeHandler={formik.handleChange}
+              setFieldValue={formik.setFieldValue}
               className='date-picker-input'
-              initTime={getHoursAndMinutes(data.stop)}
               label={'Stop'}
             />
           </div>

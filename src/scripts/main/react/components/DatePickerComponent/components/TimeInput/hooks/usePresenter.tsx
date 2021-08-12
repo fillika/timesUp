@@ -1,30 +1,34 @@
 import { useState } from 'react';
-import curry from 'ramda/src/curry';
-import clone from 'ramda/src/clone';
 import compose from 'ramda/src/compose';
+
 import { isValid } from '../utils/isValid';
 import { lengthIsMoreThan5, addColon, checkFirstChar } from '../utils/checkAndChangeValue';
 
-type TPresenter = (initTime: string | undefined) => [(time: string) => void, any];
+type TPresenter = (name: string) => [
+  (e: React.FocusEvent<HTMLInputElement>) => string,
+  (e: React.ChangeEvent<HTMLInputElement>) => React.ChangeEvent<HTMLInputElement>
+];
 
-export const usePresenter: TPresenter = (initTime = '') => {
-  const [time, setTime] = useState(isValid(initTime) ? initTime : '');
+export const usePresenter: TPresenter = (name) => {
   const [lastVal, setLastVal] = useState('');
 
   const changeValueWithCompose = compose(lengthIsMoreThan5, addColon(lastVal), checkFirstChar);
+  const setStateAndReturnNewValue = (value: string) => {
+    setLastVal(value);
+    return value;
+  };
 
-  // const onBlurHandler = (time: string) => time.length < 5 && composedValue(time + '0000');
+  const blurChanger = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.target.value.length < 5) {
+      const changedValue = changeValueWithCompose(e.target.value + '0000');
+      return setStateAndReturnNewValue(changedValue);
+    }
 
-  const onBlurHandler = (time: string) => {};
+    return e.target.value;
+  };
+
   const eventChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
-    const setStateAndReturnNewValue = (value: string) => {
-      setLastVal(value);
-      setTime(value);
-
-      return value;
-    };
 
     // Сначала проверка на RegExp
     if (isValid(value)) {
@@ -40,5 +44,5 @@ export const usePresenter: TPresenter = (initTime = '') => {
     return e;
   };
 
-  return [onBlurHandler, eventChanger];
+  return [blurChanger, eventChanger];
 };
