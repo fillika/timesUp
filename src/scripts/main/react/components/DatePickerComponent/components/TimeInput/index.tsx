@@ -31,7 +31,7 @@ export const TimeInput: React.FC<TTimeInput> = ({
   const [onBlurHandler, onChangeHandler] = usePresenter(name);
 
   const change = (e: React.ChangeEvent<HTMLInputElement>) => formikChangeHandler(onChangeHandler(e));
-  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => setFieldValue(name, onBlurHandler(e));
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => setFieldValue(onBlurHandler(e));
 
   return (
     <TextField

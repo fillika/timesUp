@@ -14,7 +14,11 @@ export const useHandlers: hadlers = data => {
   const [startDate, setStartDate] = useState(new Date(data.start));
 
   const curriedSubmitHandler = curry(
-    (sumbitHadler: (data: TDispatchDatePickerData) => void, values: { start: string; stop: string }) => {
+    (
+      sumbitHadler: (data: TDispatchDatePickerData) => void,
+      cb: () => void,
+      values: { start: string; stop: string }
+    ) => {
       // Спорное решение. Создал 2 рефа, которые прокинул в TimeInput. Записываю в них текущее значение даты
       const task = {
         _id: data._id,
@@ -22,8 +26,8 @@ export const useHandlers: hadlers = data => {
         stop: values.stop,
         startDate: startDate.toISOString(),
       };
-
       sumbitHadler(getResult(task));
+      cb();
     }
   );
 
