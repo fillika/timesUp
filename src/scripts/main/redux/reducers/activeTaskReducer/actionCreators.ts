@@ -1,4 +1,3 @@
-
 import { activeTaskState } from 'Redux/reducers/activeTaskReducer';
 
 export const SET_ACTIVE_TASK = 'SET_ACTIVE_TASK',
@@ -24,10 +23,12 @@ export const updateActiveTaskTotalTime = (start: number, end: number) => ({
 });
 export const updateActiveTaskName = (name: string) => ({ type: UPDATE_ACTIVE_TASK_NAME, payload: name });
 
-export const setActiveTaskTotalTime = (totalTime: string) => ({ type: SET_ACTIVE_TASK_TOTAL_TIME, payload: totalTime });
+export const setActiveTaskTotalTime = (totalTime: string, diff: number) => ({
+  type: SET_ACTIVE_TASK_TOTAL_TIME,
+  payload: { totalTime, diff },
+});
 
 export const resetActiveTask = () => ({
   type: RESET_ACTIVE_TASK_PROPS,
   payload: { totalTime: '00:00:00', name: '', duration: 0 },
 });
-

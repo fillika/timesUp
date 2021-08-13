@@ -13,6 +13,7 @@ export type activeTaskState = {
   name: string;
   start: number;
   stop: number;
+  diff: number;
   duration: number;
   isTimeActive: boolean;
   totalTime: string;
@@ -23,6 +24,7 @@ const initialState: activeTaskState = {
   name: '',
   start: 0,
   stop: 0,
+  diff: 0,
   duration: 0,
   isTimeActive: false,
   totalTime: '00:00:00',
@@ -46,7 +48,8 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
     case SET_ACTIVE_TASK_TOTAL_TIME:
       return {
         ...state,
-        totalTime: action.payload,
+        totalTime: action.payload.totalTime,
+        diff: action.payload.diff,
       };
 
     case UPDATE_ACTIVE_TASK_NAME:
@@ -77,6 +80,7 @@ export function activeTaskReducer(state: activeTaskState = initialState, action:
         totalTime: action.payload.totalTime,
         name: action.payload.name,
         duration: action.payload.duration,
+        diff: 0
       };
 
     case SET_DEFAULT_ACTIVE_TASK_PROPS:

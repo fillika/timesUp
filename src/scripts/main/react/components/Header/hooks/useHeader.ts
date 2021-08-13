@@ -13,7 +13,7 @@ import {
 export function useHeader() {
   const dispatch = useDispatch();
   const token = getJWTToken();
-  const { isTimeActive, duration, name, totalTime } = useSelector((state: RootState) => state.activeTask);
+  const { isTimeActive, duration, name, totalTime, diff } = useSelector((state: RootState) => state.activeTask);
 
   const toggleTimer: () => void = () => token && dispatch(toggleHeaderTimer(token));
 
@@ -39,9 +39,10 @@ export function useHeader() {
   }, [duration]);
 
   useEffect(() => {
-    let timeoutID = setTimeout(() => dispatch(updateActiveTime()), 999);
+    // Таймер делаю на 995, так как он срабатывает не через сек, а примерно на 5-6 млсек дольше.
+    let timeoutID = setTimeout(() => dispatch(updateActiveTime()), 995);
     return () => clearTimeout(timeoutID);
-  }, [isTimeActive, totalTime]);
+  }, [isTimeActive, diff]);
 
   // console.log('Render[Header]');
 

@@ -77,7 +77,7 @@ export const updateActiveTime = () => {
       const diff = new Date().getTime() - new Date(start).getTime();
       const totalTime = time.countTotalTime(diff);
       setDocumentTitle(`${totalTime}-${name}`);
-      dispatch(setActiveTaskTotalTime(totalTime));
+      dispatch(setActiveTaskTotalTime(totalTime, diff));
     }
   };
 };
