@@ -28,7 +28,7 @@ export const DeleteDialog: React.FC<TDialogDelete> = ({ open, name, closeHandler
           Точно удалить?
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>{name}?</DialogContentText>
+          <DialogContentText id='alert-dialog-description'>{name}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeHandler} color='secondary' variant='contained' autoFocus>
