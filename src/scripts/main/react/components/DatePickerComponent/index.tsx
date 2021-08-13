@@ -61,7 +61,7 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
             <TimeInput
               name={'start'}
               value={formik.values.start}
-              formikChangeHandler={formik.handleChange}
+              onChange={formik.handleChange}
               setFieldValue={setValueToStart}
               className='date-picker-input'
               label={'Start'}
@@ -69,7 +69,7 @@ export const DatePickerComponent: React.FC<IDatePicker> = props => {
             <TimeInput
               name={'stop'}
               value={formik.values.stop}
-              formikChangeHandler={formik.handleChange}
+              onChange={formik.handleChange}
               setFieldValue={setValueToStop}
               className='date-picker-input'
               label={'Stop'}

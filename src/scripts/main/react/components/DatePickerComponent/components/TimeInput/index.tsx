@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ChangeEvent, FC, FocusEvent } from 'react';
 import { usePresenter } from './hooks/usePresenter';
 import TextField from '@material-ui/core/TextField';
 
@@ -6,17 +6,17 @@ import TextField from '@material-ui/core/TextField';
 interface TTimeInput {
   disabled?: boolean;
   type?: 'text' | 'time';
-  onFocusHandler?: any;
-  placeholder?: any;
+  onFocusHandler?: (e: FocusEvent<HTMLInputElement>) => void;
+  placeholder?: string;
   className?: string;
-  name?: any;
+  name?: string;
   label?: string;
-  value?: any;
-  formikChangeHandler?: any;
-  setFieldValue?: any;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  setFieldValue?: (value: string) => void;
 }
 
-export const TimeInput: React.FC<TTimeInput> = ({
+export const TimeInput: FC<TTimeInput> = ({
   disabled = false,
   type = 'text',
   label = '',
@@ -25,13 +25,13 @@ export const TimeInput: React.FC<TTimeInput> = ({
   className,
   name,
   value,
-  formikChangeHandler,
+  onChange,
   setFieldValue,
 }) => {
-  const [onBlurHandler, onChangeHandler] = usePresenter(name);
+  const [onBlurHandler, onChangeHandler] = usePresenter();
 
-  const change = (e: React.ChangeEvent<HTMLInputElement>) => formikChangeHandler(onChangeHandler(e));
-  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => setFieldValue(onBlurHandler(e));
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => onChange && onChange(onChangeHandler(e));
+  const blurHandler = (e: FocusEvent<HTMLInputElement>) => setFieldValue && setFieldValue(onBlurHandler(e));
 
   return (
     <TextField
@@ -43,9 +43,9 @@ export const TimeInput: React.FC<TTimeInput> = ({
       disabled={disabled}
       placeholder={placeholder}
       value={value}
-      onChange={change}
-      onBlur={onBlur}
-      onFocus={onFocusHandler ? e => onFocusHandler(e) : undefined}
+      onChange={changeHandler}
+      onBlur={blurHandler}
+      onFocus={onFocusHandler ? (e: FocusEvent<HTMLInputElement>) => onFocusHandler(e) : undefined}
     />
   );
 };

@@ -4,12 +4,12 @@ import compose from 'ramda/src/compose';
 import { isValid } from '../utils/isValid';
 import { lengthIsMoreThan5, addColon, checkFirstChar } from '../utils/checkAndChangeValue';
 
-type TPresenter = (name: string) => [
+type TPresenter = () => [
   (e: React.FocusEvent<HTMLInputElement>) => string,
   (e: React.ChangeEvent<HTMLInputElement>) => React.ChangeEvent<HTMLInputElement>
 ];
 
-export const usePresenter: TPresenter = (name) => {
+export const usePresenter: TPresenter = () => {
   const [lastVal, setLastVal] = useState('');
 
   const changeValueWithCompose = compose(lengthIsMoreThan5, addColon(lastVal), checkFirstChar);
