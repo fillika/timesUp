@@ -10,7 +10,7 @@ export const StyledModal = styled.div`
   max-width: 700px;
   position: absolute;
   left: 50%;
-  top: 160px;
+  top: 10vh;
   transform: translatex(-50%);
 
   .time {

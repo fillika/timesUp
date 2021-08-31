@@ -9,10 +9,12 @@ export const useCookieState = (): [boolean, () => void] => {
     }
   }, []);
 
-  const onClick = () => {
-    document.cookie = 'cookieAccept=true';
+  const clickHandler = () => {
+    const date = new Date(Date.now() + 86400000 * 100)
+
+    document.cookie = 'cookieAccept=true; expires=' + date;
     setCookieHide(true);
   };
 
-  return [isCookieHide, onClick];
+  return [isCookieHide, clickHandler];
 };

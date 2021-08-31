@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { useStyles } from './hooks/useStyles';
 
 export const Cookie = () => {
-  const [isCookieHide, onClick] = useCookieState();
+  const [isCookieHide, clickHandler] = useCookieState();
   const classes = useStyles();
 
   if (isCookieHide) {
@@ -18,7 +18,7 @@ export const Cookie = () => {
         этими файлами.
       </div>
       <div className={classes.wrapper}>
-        <Button onClick={onClick} variant="contained">Принять и закрыть</Button>
+        <Button onClick={clickHandler} variant="contained">Принять и закрыть</Button>
       </div>
     </div>
   );
